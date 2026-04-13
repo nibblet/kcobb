@@ -38,20 +38,18 @@ export default async function JourneyCompletePage({
   const principles = uniquePrinciplesForJourney(journey.storyIds);
 
   return (
-    <div className="max-w-2xl mx-auto px-4 py-6 md:py-10">
+    <div className="mx-auto max-w-content px-[var(--page-padding-x)] py-6 md:py-10">
       <JourneyCompleteMarker slug={journey.slug} />
 
       <Link
         href="/journeys"
-        className="text-sm text-stone-400 hover:text-stone-600 transition-colors mb-4 inline-block"
+        className="type-ui mb-4 inline-block text-ink-ghost no-underline transition-colors hover:text-ocean"
       >
         &larr; All Journeys
       </Link>
 
-      <h1 className="text-2xl md:text-3xl font-serif font-bold text-stone-800 mb-2">
-        You&apos;ve completed
-      </h1>
-      <p className="text-xl font-serif text-amber-800 mb-6">{journey.title}</p>
+      <h1 className="type-page-title mb-2">You&apos;ve completed</h1>
+      <p className="type-story-title mb-6 text-clay">{journey.title}</p>
 
       <JourneyCompleteSummary
         journeyTitle={journey.title}
@@ -67,19 +65,19 @@ export default async function JourneyCompletePage({
       <div className="flex flex-col gap-3">
         <Link
           href={`/ask?journey=${encodeURIComponent(journey.slug)}`}
-          className="text-center py-2.5 bg-amber-700 text-white text-sm font-medium rounded-lg hover:bg-amber-800 transition-colors"
+          className="type-ui rounded-lg bg-clay py-2.5 text-center font-medium text-warm-white transition-colors hover:bg-clay-mid"
         >
           Ask Keith about this journey
         </Link>
         <Link
           href="/journeys"
-          className="text-center py-2.5 bg-white border border-stone-200 text-stone-700 text-sm font-medium rounded-lg hover:border-amber-300 transition-colors"
+          className="type-ui rounded-lg border border-[var(--color-border)] bg-warm-white py-2.5 text-center font-medium text-ink transition-colors hover:border-clay-border"
         >
           Explore another journey
         </Link>
         <Link
           href="/stories"
-          className="text-center py-2.5 bg-stone-100 text-stone-700 text-sm font-medium rounded-lg hover:bg-stone-200 transition-colors"
+          className="type-ui rounded-lg border border-[var(--color-border)] bg-warm-white-2 py-2.5 text-center font-medium text-ink transition-colors hover:border-clay-border"
         >
           Browse all stories
         </Link>

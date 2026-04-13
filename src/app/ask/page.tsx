@@ -13,7 +13,13 @@ interface Message {
 
 export default function AskPage() {
   return (
-    <Suspense fallback={<div className="max-w-2xl mx-auto px-4 py-8 text-stone-400 text-sm">Loading...</div>}>
+    <Suspense
+      fallback={
+        <div className="mx-auto max-w-content px-[var(--page-padding-x)] py-8 text-sm text-ink-ghost">
+          Loading...
+        </div>
+      }
+    >
       <AskPageContent />
     </Suspense>
   );
@@ -47,7 +53,6 @@ function AskPageContent() {
     const userMessage: Message = { role: "user", content: messageText };
     setMessages((prev) => [...prev, userMessage]);
 
-    // Add placeholder for assistant response
     setMessages((prev) => [...prev, { role: "assistant", content: "" }]);
 
     try {
@@ -125,7 +130,6 @@ function AskPageContent() {
       setError(
         "Ask Keith is temporarily unavailable. Try browsing stories by topic in the meantime."
       );
-      // Remove empty assistant placeholder
       setMessages((prev) => {
         if (prev[prev.length - 1]?.content === "") {
           return prev.slice(0, -1);
@@ -138,19 +142,16 @@ function AskPageContent() {
   }
 
   return (
-    <div className="max-w-2xl mx-auto flex flex-col h-[calc(100vh-8rem)] md:h-[calc(100vh-4rem)]">
-      {/* Header */}
-      <div className="px-4 py-4 border-b border-stone-200">
-        <h1 className="text-xl font-serif font-bold text-stone-800">
-          Ask Keith
-        </h1>
-        <p className="text-xs text-stone-400 mt-0.5">
+    <div className="mx-auto flex h-[calc(100vh-8rem)] max-w-content flex-col px-[var(--page-padding-x)] md:h-[calc(100vh-4rem)]">
+      <div className="border-b border-[var(--color-border)] py-4">
+        <h1 className="type-page-title text-2xl">Ask Keith</h1>
+        <p className="type-ui mt-1 text-ink-ghost">
           Ask questions about Keith&apos;s stories and life lessons
           {storySlug && (
-            <span className="text-amber-700"> &middot; Reading {storySlug}</span>
+            <span className="text-clay"> &middot; Reading {storySlug}</span>
           )}
           {journeySlug && !storySlug && (
-            <span className="text-amber-700">
+            <span className="text-clay">
               {" "}
               &middot; Journey: {journeySlug.replace(/-/g, " ")}
             </span>
@@ -158,11 +159,14 @@ function AskPageContent() {
         </p>
       </div>
 
-      {/* Messages */}
-      <div className="flex-1 overflow-y-auto px-4 py-4 space-y-4">
+      <div
+        className="flex-1 space-y-4 overflow-y-auto py-4"
+        aria-live="polite"
+        aria-relevant="additions"
+      >
         {messages.length === 0 && (
-          <div className="text-center py-12">
-            <p className="text-stone-400 text-sm mb-4">
+          <div className="py-12 text-center">
+            <p className="mb-4 text-sm text-ink-muted">
               What would you like to know about Keith&apos;s stories?
             </p>
             <div className="flex flex-wrap justify-center gap-2">
@@ -174,8 +178,9 @@ function AskPageContent() {
               ].map((suggestion) => (
                 <button
                   key={suggestion}
+                  type="button"
                   onClick={() => sendMessage(suggestion)}
-                  className="px-3 py-1.5 text-xs bg-white border border-stone-200 rounded-full text-stone-600 hover:border-amber-300 hover:text-amber-700 transition-colors"
+                  className="type-ui rounded-full border border-[var(--color-border)] bg-warm-white px-3 py-1.5 text-ink-muted transition-colors hover:border-clay-border hover:text-clay"
                 >
                   {suggestion}
                 </button>
@@ -192,32 +197,38 @@ function AskPageContent() {
             <div
               className={`max-w-[85%] rounded-2xl px-4 py-2.5 text-sm ${
                 msg.role === "user"
-                  ? "bg-amber-700 text-white"
-                  : "bg-white border border-stone-200 text-stone-700"
+                  ? "bg-clay text-warm-white"
+                  : "border border-[var(--color-border)] bg-warm-white text-ink"
               }`}
             >
               {msg.role === "assistant" ? (
-                <div className="prose prose-sm prose-stone max-w-none prose-p:my-1 prose-headings:text-stone-800 prose-headings:text-sm prose-headings:font-semibold prose-headings:mt-3 prose-headings:mb-1 prose-ul:my-1 prose-li:my-0 prose-blockquote:border-amber-300 prose-blockquote:text-stone-600">
+                <div className="prose prose-story prose-sm max-w-none prose-p:my-1 prose-headings:my-2 prose-headings:text-sm prose-headings:font-semibold prose-ul:my-1 prose-li:my-0">
                   <ReactMarkdown>{msg.content}</ReactMarkdown>
                 </div>
               ) : (
-                msg.content.split("\n").map((line, j) =>
-                  line.trim() ? <p key={j} className={j > 0 ? "mt-2" : ""}>{line}</p> : null
-                )
+                msg.content
+                  .split("\n")
+                  .map((line, j) =>
+                    line.trim() ? (
+                      <p key={j} className={j > 0 ? "mt-2" : ""}>
+                        {line}
+                      </p>
+                    ) : null
+                  )
               )}
               {msg.role === "assistant" && msg.content === "" && loading && (
-                <span className="text-stone-400 animate-pulse">Thinking...</span>
+                <span className="text-ink-ghost animate-pulse">Thinking...</span>
               )}
             </div>
           </div>
         ))}
 
         {error && (
-          <div className="bg-red-50 text-red-700 text-sm p-3 rounded-lg border border-red-200">
+          <div className="rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-800">
             {error}
             <Link
               href="/themes"
-              className="block mt-1 text-red-800 underline text-xs"
+              className="mt-1 block text-xs text-red-900 underline"
             >
               Browse stories by topic instead
             </Link>
@@ -227,8 +238,7 @@ function AskPageContent() {
         <div ref={bottomRef} />
       </div>
 
-      {/* Input */}
-      <div className="px-4 py-3 border-t border-stone-200 bg-white">
+      <div className="border-t border-[var(--color-border)] bg-warm-white py-3">
         <form
           onSubmit={(e) => {
             e.preventDefault();
@@ -242,12 +252,12 @@ function AskPageContent() {
             onChange={(e) => setInput(e.target.value)}
             placeholder="Ask about Keith's stories..."
             disabled={loading}
-            className="flex-1 px-3 py-2 border border-stone-300 rounded-lg text-sm text-stone-900 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent disabled:opacity-50"
+            className="type-ui flex-1 rounded-lg border border-[var(--color-border)] bg-warm-white-2 px-3 py-2 text-ink placeholder:text-ink-ghost disabled:opacity-50"
           />
           <button
             type="submit"
             disabled={loading || !input.trim()}
-            className="px-4 py-2 bg-amber-700 text-white text-sm font-medium rounded-lg hover:bg-amber-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="type-ui rounded-lg bg-clay px-4 py-2 font-medium text-warm-white transition-colors hover:bg-clay-mid disabled:cursor-not-allowed disabled:opacity-50"
           >
             Send
           </button>

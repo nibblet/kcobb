@@ -51,7 +51,8 @@ export function useJourneyProgress(slug: string | null) {
 
   useEffect(() => {
     if (!slug) return;
-    setProgress(readJourneyProgressClient(slug));
+    const data = readJourneyProgressClient(slug);
+    queueMicrotask(() => setProgress(data));
   }, [slug]);
 
   const recordVisit = useCallback((s: string, step: number) => {

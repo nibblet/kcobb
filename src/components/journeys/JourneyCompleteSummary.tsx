@@ -15,25 +15,27 @@ export function JourneyCompleteSummary({
 
   return (
     <>
-      <p className="text-stone-600 text-sm leading-relaxed mb-4">
+      <p className="mb-4 font-[family-name:var(--font-lora)] text-sm leading-relaxed text-ink-muted">
         {ageMode === "adult" ? (
           <>
-            You followed <strong>{journeyTitle}</strong> from beginning to end.
-            Here are some through-lines from the principles in these stories —
-            threads you might keep reflecting on or ask Keith about.
+            You followed <strong className="text-ink">{journeyTitle}</strong>{" "}
+            from beginning to end. Here are some through-lines from the
+            principles in these stories — threads you might keep reflecting on
+            or ask Keith about.
           </>
         ) : (
           <>
-            Great job finishing <strong>{journeyTitle}</strong>! Here are a few
-            big ideas from the stories you read.
+            Great job finishing{" "}
+            <strong className="text-ink">{journeyTitle}</strong>! Here are a
+            few big ideas from the stories you read.
           </>
         )}
       </p>
-      <ul className="space-y-2 mb-8">
+      <ul className="mb-8 space-y-2">
         {shown.map((p, i) => (
           <li
             key={i}
-            className="text-sm text-stone-700 flex gap-2 border-l-2 border-amber-300 pl-3"
+            className="flex gap-2 border-l-2 border-clay-mid pl-3 font-[family-name:var(--font-lora)] text-sm text-ink"
           >
             {p}
           </li>

@@ -9,8 +9,8 @@ export function Header() {
   if (pathname === "/login") return null;
 
   return (
-    <header className="md:hidden flex items-center justify-between px-4 py-3 bg-white border-b border-stone-200">
-      <h1 className="font-serif text-lg font-bold text-stone-800">
+    <header className="md:hidden flex items-center justify-between border-b border-[var(--color-border)] bg-warm-white px-4 py-3">
+      <h1 className="font-[family-name:var(--font-playfair)] text-lg font-semibold text-burgundy">
         Keith Cobb
       </h1>
       <AgeModeSwitcher />

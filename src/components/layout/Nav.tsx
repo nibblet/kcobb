@@ -2,16 +2,18 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useEffect, useMemo, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
+import { useAgeMode } from "@/hooks/useAgeMode";
 
-const navItems = [
-  { href: "/", label: "Home", icon: "🏠" },
-  { href: "/stories", label: "Stories", icon: "📖" },
-  { href: "/journeys", label: "Journeys", icon: "🧭" },
-  { href: "/themes", label: "Themes", icon: "💡" },
-  { href: "/timeline", label: "Timeline", icon: "📅" },
-  { href: "/ask", label: "Ask", icon: "💬" },
-];
+const allNavItems = [
+  { href: "/", label: "Home" },
+  { href: "/stories", label: "Stories" },
+  { href: "/journeys", label: "Journeys" },
+  { href: "/themes", label: "Themes" },
+  { href: "/timeline", label: "Timeline" },
+  { href: "/ask", label: "Ask" },
+] as const;
 
 function navActive(pathname: string, href: string): boolean {
   if (href === "/") return pathname === "/";
@@ -20,6 +22,27 @@ function navActive(pathname: string, href: string): boolean {
 
 export function Nav() {
   const pathname = usePathname();
+  const { ageMode } = useAgeMode();
+  const navItems = useMemo(
+    () =>
+      ageMode === "young_reader"
+        ? allNavItems.filter((i) => i.href !== "/themes")
+        : [...allNavItems],
+    [ageMode]
+  );
+  const isHome = pathname === "/";
+  const [navSolid, setNavSolid] = useState(!isHome);
+
+  useEffect(() => {
+    if (!isHome) {
+      queueMicrotask(() => setNavSolid(true));
+      return;
+    }
+    const onScroll = () => setNavSolid(window.scrollY >= 60);
+    queueMicrotask(() => onScroll());
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [isHome]);
 
   async function handleSignOut() {
     const supabase = createClient();
@@ -29,54 +52,73 @@ export function Nav() {
 
   if (pathname === "/login") return null;
 
+  const desktopNavSurface = navSolid
+    ? "border-[var(--color-border)] bg-[rgba(247,243,237,0.92)] backdrop-blur-md shadow-sm"
+    : "border-transparent bg-transparent backdrop-blur-sm";
+
   return (
     <>
-      {/* Desktop nav - top */}
-      <nav className="hidden md:flex items-center justify-between px-6 py-3 bg-white border-b border-stone-200">
-        <Link href="/" className="font-serif text-lg font-bold text-stone-800">
+      <nav
+        aria-label="Main navigation"
+        className={`hidden md:flex sticky top-0 z-[90] h-[60px] shrink-0 items-center justify-between border-b px-[var(--page-padding-x)] transition-[background-color,box-shadow,border-color] duration-[var(--duration-normal)] ${desktopNavSurface}`}
+      >
+        <Link
+          href="/"
+          className="font-[family-name:var(--font-playfair)] text-base font-semibold tracking-tight text-burgundy"
+        >
           Keith Cobb Storybook
         </Link>
-        <div className="flex items-center gap-6">
-          {navItems.slice(1).map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={`text-sm font-medium transition-colors ${
-                navActive(pathname, item.href)
-                  ? "text-amber-700"
-                  : "text-stone-500 hover:text-stone-800"
-              }`}
-            >
-              {item.label}
-            </Link>
-          ))}
+        <div className="flex items-center gap-8">
+          <ul className="flex list-none items-center gap-8">
+            {navItems.slice(1).map((item) => {
+              const active = navActive(pathname, item.href);
+              return (
+                <li key={item.href}>
+                  <Link
+                    href={item.href}
+                    className={`type-ui relative inline-block text-[0.875rem] no-underline transition-colors duration-[var(--duration-fast)] ${
+                      active
+                        ? "text-burgundy after:absolute after:left-0 after:right-0 after:top-full after:mt-0.5 after:h-0.5 after:rounded-sm after:bg-burgundy"
+                        : "text-ink-muted hover:text-ink"
+                    }`}
+                  >
+                    {item.label}
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
           <button
+            type="button"
             onClick={handleSignOut}
-            className="text-sm text-stone-400 hover:text-stone-600 transition-colors"
+            className="type-ui text-ink-ghost transition-colors duration-[var(--duration-fast)] hover:text-ink-muted"
           >
             Sign Out
           </button>
         </div>
       </nav>
 
-      {/* Mobile nav - bottom tab bar */}
-      <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-stone-200 z-50">
-        <div className="flex justify-around items-center py-2">
-          {navItems.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={`flex flex-col items-center gap-0.5 px-3 py-1 ${
-                navActive(pathname, item.href)
-                  ? "text-amber-700"
-                  : "text-stone-400"
-              }`}
-            >
-              <span className="text-lg">{item.icon}</span>
-              <span className="text-[10px] font-medium">{item.label}</span>
-            </Link>
-          ))}
-        </div>
+      <nav
+        aria-label="Main navigation"
+        className="md:hidden fixed bottom-0 left-0 right-0 z-50 border-t border-[var(--color-border)] bg-warm-white/95 backdrop-blur-md"
+      >
+        <ul className="flex list-none justify-around py-2">
+          {navItems.map((item) => {
+            const active = navActive(pathname, item.href);
+            return (
+              <li key={item.href}>
+                <Link
+                  href={item.href}
+                  className={`flex flex-col items-center px-2 py-1 text-[0.625rem] font-medium tracking-wide ${
+                    active ? "text-burgundy" : "text-ink-muted"
+                  }`}
+                >
+                  {item.label}
+                </Link>
+              </li>
+            );
+          })}
+        </ul>
       </nav>
     </>
   );

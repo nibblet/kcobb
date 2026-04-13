@@ -18,7 +18,7 @@ export function JourneyIntroContinue({
 
   useEffect(() => {
     const p = readJourneyProgressClient(slug);
-    setNext(nextStepToContinue(p, totalSteps));
+    queueMicrotask(() => setNext(nextStepToContinue(p, totalSteps)));
   }, [slug, totalSteps]);
 
   if (next === null) return null;
@@ -26,7 +26,7 @@ export function JourneyIntroContinue({
   return (
     <Link
       href={`/journeys/${slug}/${next}`}
-      className="inline-flex items-center gap-2 text-sm font-medium text-amber-800 bg-amber-50 border border-amber-200 px-4 py-2.5 rounded-lg hover:bg-amber-100 transition-colors mb-4"
+      className="type-ui mb-4 inline-flex items-center gap-2 rounded-lg border border-clay-border bg-gold-pale px-4 py-2.5 font-medium text-clay transition-colors hover:bg-gold-pale/80"
     >
       Continue where you left off → Story {next}
     </Link>

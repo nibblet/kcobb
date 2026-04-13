@@ -29,23 +29,19 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-stone-50 px-4">
+    <div className="flex min-h-screen items-center justify-center bg-parchment px-4">
       <div className="w-full max-w-sm">
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-serif font-bold text-stone-800">
-            The Cobb Family
-          </h1>
-          <h2 className="text-3xl font-serif font-bold text-stone-800">
-            Story Library
-          </h2>
-          <p className="mt-3 text-stone-500 text-sm">
+        <div className="mb-8 text-center">
+          <h1 className="type-page-title text-3xl">The Cobb Family</h1>
+          <h2 className="type-page-title mt-1 text-3xl">Story Library</h2>
+          <p className="type-ui mt-3 text-ink-muted">
             Stories and lessons from Keith Cobb&apos;s life
           </p>
         </div>
 
         <form onSubmit={handleLogin} className="space-y-4">
           {error && (
-            <div className="bg-red-50 text-red-700 text-sm p-3 rounded-lg border border-red-200">
+            <div className="rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-800">
               {error}
             </div>
           )}
@@ -53,7 +49,7 @@ export default function LoginPage() {
           <div>
             <label
               htmlFor="email"
-              className="block text-sm font-medium text-stone-700 mb-1"
+              className="type-ui mb-1 block text-ink"
             >
               Email
             </label>
@@ -63,7 +59,7 @@ export default function LoginPage() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="w-full px-3 py-2 border border-stone-300 rounded-lg text-stone-900 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+              className="type-ui w-full rounded-lg border border-[var(--color-border)] bg-warm-white px-3 py-2 text-ink"
               placeholder="you@family.com"
             />
           </div>
@@ -71,7 +67,7 @@ export default function LoginPage() {
           <div>
             <label
               htmlFor="password"
-              className="block text-sm font-medium text-stone-700 mb-1"
+              className="type-ui mb-1 block text-ink"
             >
               Password
             </label>
@@ -81,7 +77,7 @@ export default function LoginPage() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              className="w-full px-3 py-2 border border-stone-300 rounded-lg text-stone-900 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+              className="type-ui w-full rounded-lg border border-[var(--color-border)] bg-warm-white px-3 py-2 text-ink"
               placeholder="Your password"
             />
           </div>
@@ -89,7 +85,7 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-2.5 bg-amber-700 text-white font-medium rounded-lg hover:bg-amber-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="type-ui w-full rounded-lg bg-clay py-2.5 font-medium text-warm-white transition-colors hover:bg-clay-mid disabled:cursor-not-allowed disabled:opacity-50"
           >
             {loading ? "Signing in..." : "Sign In"}
           </button>

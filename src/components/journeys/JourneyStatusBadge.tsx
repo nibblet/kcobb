@@ -17,26 +17,28 @@ export function JourneyStatusBadge({
 
   useEffect(() => {
     const p = readJourneyProgressClient(slug);
-    if (!p) {
-      setLabel(null);
-      return;
-    }
-    if (p.completed) {
-      setLabel("completed");
-      return;
-    }
-    if (furthestVisitedStep(p) > 0) setLabel("in_progress");
-    else setLabel(null);
+    queueMicrotask(() => {
+      if (!p) {
+        setLabel(null);
+        return;
+      }
+      if (p.completed) {
+        setLabel("completed");
+        return;
+      }
+      if (furthestVisitedStep(p) > 0) setLabel("in_progress");
+      else setLabel(null);
+    });
   }, [slug, totalSteps]);
 
   if (!label) return null;
 
   return (
     <span
-      className={`absolute top-3 right-3 text-[10px] font-semibold uppercase tracking-wide px-2 py-0.5 rounded-full ${
+      className={`absolute right-3 top-3 rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide ${
         label === "completed"
-          ? "bg-emerald-100 text-emerald-800"
-          : "bg-amber-100 text-amber-800"
+          ? "bg-green-pale text-green"
+          : "bg-gold-pale text-gold"
       }`}
     >
       {label === "completed" ? "Completed" : "In progress"}

@@ -3,7 +3,9 @@ import { notFound } from "next/navigation";
 import ReactMarkdown from "react-markdown";
 import { getAllJourneys, getJourneyBySlug } from "@/lib/wiki/journeys";
 import { getStoryById } from "@/lib/wiki/parser";
+import { lifeStageToEraAccent } from "@/lib/design/era";
 import { JourneyProgressBar } from "@/components/journeys/JourneyProgressBar";
+import { JourneyConnector } from "@/components/journeys/JourneyConnector";
 import { JourneyReflection } from "@/components/journeys/JourneyReflection";
 import { JourneyVisitRecorder } from "@/components/journeys/JourneyVisitRecorder";
 
@@ -41,14 +43,15 @@ export default async function JourneyStepPage({
 
   const prevStep = step > 1 ? step - 1 : null;
   const nextStep = step < journey.storyIds.length ? step + 1 : null;
+  const era = lifeStageToEraAccent(story.lifeStage);
 
   return (
-    <div className="max-w-2xl mx-auto px-4 py-6 md:py-10 pb-24 md:pb-10">
+    <div className="mx-auto max-w-story px-[var(--page-padding-x)] py-6 pb-24 md:pb-10">
       <JourneyVisitRecorder slug={journey.slug} step={step} />
 
       <Link
         href={`/journeys/${journey.slug}`}
-        className="text-sm text-stone-400 hover:text-stone-600 transition-colors mb-4 inline-block"
+        className="type-ui mb-4 inline-block text-ink-ghost no-underline transition-colors hover:text-ocean"
       >
         &larr; {journey.title}
       </Link>
@@ -59,32 +62,35 @@ export default async function JourneyStepPage({
         journeyTitle={journey.title}
       />
 
-      <h1 className="text-2xl md:text-3xl font-serif font-bold text-stone-800 mb-2">
-        {story.title}
-      </h1>
-      <div className="flex flex-wrap gap-2 mb-4">
-        <span className="px-2.5 py-0.5 text-xs font-medium bg-stone-100 text-stone-600 rounded-full">
+      <h1 className="type-story-title mb-2">{story.title}</h1>
+      <div className="mb-4 flex flex-wrap gap-2">
+        <span
+          className={`rounded-full px-2.5 py-0.5 text-xs font-medium ${era.badgeClass}`}
+        >
           {story.lifeStage}
         </span>
       </div>
 
-      <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 mb-6">
-        <p className="text-sm text-stone-700 italic">{story.summary}</p>
+      <div className="mb-6 rounded-lg border border-clay-border bg-gold-pale/40 p-4">
+        <p className="font-[family-name:var(--font-lora)] text-sm italic leading-relaxed text-ink">
+          {story.summary}
+        </p>
       </div>
 
-      <article className="prose prose-stone prose-sm md:prose-base max-w-none mb-8 leading-relaxed">
+      <article className="story-body prose prose-story prose-lg mb-8 max-w-none">
         <ReactMarkdown>{story.fullText}</ReactMarkdown>
       </article>
 
       {story.principles.length > 0 && (
-        <div className="bg-white border border-stone-200 rounded-xl p-5 mb-6">
-          <h2 className="text-sm font-semibold text-stone-800 uppercase tracking-wide mb-3">
-            What This Story Shows
-          </h2>
+        <div className="mb-6 rounded-xl border border-[var(--color-border)] bg-warm-white p-5">
+          <h2 className="type-meta mb-3 text-ink">What This Story Shows</h2>
           <ul className="space-y-2">
             {story.principles.map((p, i) => (
-              <li key={i} className="text-sm text-stone-600 flex gap-2">
-                <span className="text-amber-600 mt-0.5">&#9679;</span>
+              <li
+                key={i}
+                className="flex gap-2 font-[family-name:var(--font-lora)] text-sm text-ink-muted"
+              >
+                <span className="mt-0.5 text-clay">&#9679;</span>
                 {p}
               </li>
             ))}
@@ -94,11 +100,21 @@ export default async function JourneyStepPage({
 
       <JourneyReflection prompt={reflection} />
 
-      <div className="flex flex-col sm:flex-row gap-3 pt-4 border-t border-stone-200">
+      {nextStep !== null &&
+        (() => {
+          const nextStoryId = journey.storyIds[step];
+          const connectorKey = `${storyId}→${nextStoryId}`;
+          const connectorText = journey.connectors[connectorKey];
+          return connectorText ? (
+            <JourneyConnector text={connectorText} />
+          ) : null;
+        })()}
+
+      <div className="flex flex-col gap-3 border-t border-[var(--color-divider)] pt-4 sm:flex-row">
         {prevStep !== null ? (
           <Link
             href={`/journeys/${journey.slug}/${prevStep}`}
-            className="flex-1 text-center py-2.5 bg-stone-100 text-stone-700 text-sm font-medium rounded-lg hover:bg-stone-200 transition-colors"
+            className="type-ui flex-1 rounded-lg border border-[var(--color-border)] bg-warm-white py-2.5 text-center font-medium text-ink transition-colors hover:border-clay-border"
           >
             ← Previous Story
           </Link>
@@ -108,14 +124,14 @@ export default async function JourneyStepPage({
         {nextStep !== null ? (
           <Link
             href={`/journeys/${journey.slug}/${nextStep}`}
-            className="flex-1 text-center py-2.5 bg-amber-700 text-white text-sm font-medium rounded-lg hover:bg-amber-800 transition-colors"
+            className="type-ui flex-1 rounded-lg bg-clay py-2.5 text-center font-medium text-warm-white transition-colors hover:bg-clay-mid"
           >
             Next Story →
           </Link>
         ) : (
           <Link
             href={`/journeys/${journey.slug}/complete`}
-            className="flex-1 text-center py-2.5 bg-amber-700 text-white text-sm font-medium rounded-lg hover:bg-amber-800 transition-colors"
+            className="type-ui flex-1 rounded-lg bg-clay py-2.5 text-center font-medium text-warm-white transition-colors hover:bg-clay-mid"
           >
             Finish Journey
           </Link>

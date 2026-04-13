@@ -13,36 +13,34 @@ export default async function ThemeDetailPage({
   if (!theme) notFound();
 
   return (
-    <div className="max-w-2xl mx-auto px-4 py-6 md:py-10">
+    <div className="mx-auto max-w-content px-[var(--page-padding-x)] py-6 md:py-10">
       <Link
         href="/themes"
-        className="text-sm text-stone-400 hover:text-stone-600 transition-colors mb-4 inline-block"
+        className="type-ui mb-4 inline-block text-ink-ghost no-underline transition-colors hover:text-ocean"
       >
         &larr; All Themes
       </Link>
 
-      <h1 className="text-2xl md:text-3xl font-serif font-bold text-stone-800 mb-2">
-        {theme.name}
-      </h1>
-      <p className="text-stone-500 text-sm mb-6">
+      <h1 className="type-page-title mb-2">{theme.name}</h1>
+      <p className="type-ui mb-6 text-ink-muted">
         {theme.storyCount} stories explore this theme
       </p>
 
-      {/* Principles */}
       {theme.principles.length > 0 && (
-        <div className="bg-white border border-stone-200 rounded-xl p-5 mb-6">
-          <h2 className="text-sm font-semibold text-stone-800 uppercase tracking-wide mb-3">
-            Key Principles
-          </h2>
+        <div className="mb-6 rounded-xl border border-[var(--color-border)] bg-warm-white p-5">
+          <h2 className="type-meta mb-3 text-ink">Key Principles</h2>
           <ul className="space-y-3">
             {theme.principles.map((p, i) => (
-              <li key={i} className="text-sm text-stone-600">
-                <span className="text-amber-600 mr-2">&#9679;</span>
+              <li
+                key={i}
+                className="font-[family-name:var(--font-lora)] text-sm text-ink-muted"
+              >
+                <span className="mr-2 text-clay">&#9679;</span>
                 {p.text}
                 {p.storyId && (
                   <Link
                     href={`/stories/${p.storyId}`}
-                    className="text-amber-700 hover:underline ml-1 text-xs"
+                    className="ml-1 text-xs text-ocean hover:underline"
                   >
                     ({p.storyId})
                   </Link>
@@ -53,21 +51,18 @@ export default async function ThemeDetailPage({
         </div>
       )}
 
-      {/* Quotes */}
       {theme.quotes.length > 0 && (
         <div className="mb-6">
-          <h2 className="text-sm font-semibold text-stone-800 uppercase tracking-wide mb-3">
-            Selected Quotes
-          </h2>
+          <h2 className="type-meta mb-3 text-ink">Selected Quotes</h2>
           <div className="space-y-3">
             {theme.quotes.map((q, i) => (
               <blockquote
                 key={i}
-                className="border-l-3 border-amber-400 pl-4 text-sm text-stone-600 italic"
+                className="type-pullquote border-l-[3px] border-clay-mid pl-4 text-base not-italic text-ink-muted"
               >
                 &ldquo;{q.text}&rdquo;
                 {q.title && (
-                  <span className="block text-xs text-stone-400 mt-1 not-italic">
+                  <span className="type-ui mt-1 block normal-case not-italic tracking-normal text-ink-ghost">
                     — {q.title}
                   </span>
                 )}
@@ -77,11 +72,8 @@ export default async function ThemeDetailPage({
         </div>
       )}
 
-      {/* Stories */}
       <div>
-        <h2 className="text-sm font-semibold text-stone-800 uppercase tracking-wide mb-3">
-          Stories
-        </h2>
+        <h2 className="type-meta mb-3 text-ink">Stories</h2>
         <div className="space-y-2">
           {theme.storyIds.map((sid) => {
             const story = getStoryById(sid);
@@ -90,12 +82,10 @@ export default async function ThemeDetailPage({
               <Link
                 key={sid}
                 href={`/stories/${sid}`}
-                className="block bg-white border border-stone-200 rounded-lg p-3 hover:border-amber-300 transition-colors"
+                className="block rounded-lg border border-[var(--color-border)] bg-warm-white p-3 transition-colors hover:border-clay-border"
               >
-                <span className="text-sm font-medium text-stone-800">
-                  {story.title}
-                </span>
-                <span className="block text-xs text-stone-500 mt-0.5 line-clamp-1">
+                <span className="type-ui block text-ink">{story.title}</span>
+                <span className="mt-0.5 line-clamp-1 font-[family-name:var(--font-lora)] text-xs text-ink-muted">
                   {story.summary}
                 </span>
               </Link>

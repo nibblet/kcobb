@@ -16,27 +16,26 @@ export function JourneyProgressBar({
 
   return (
     <div className="mb-6">
-      <div className="flex flex-wrap items-center gap-2 justify-between text-sm text-stone-600 mb-2">
+      <div className="type-ui mb-2 flex flex-wrap items-center justify-between gap-2 text-ink-muted">
         {ageMode === "young_reader" && (
-          <span className="flex items-center gap-1.5 font-medium text-stone-700">
-            <span aria-hidden>📖</span>
+          <span className="font-medium text-ink">
             Story {step} of {total}
           </span>
         )}
         {ageMode === "teen" && (
-          <span className="font-medium text-stone-700">
+          <span className="font-medium text-ink">
             Story {step} of {total}{" "}
-            <span className="text-stone-400 font-normal">({pct}%)</span>
+            <span className="font-normal text-ink-ghost">({pct}%)</span>
           </span>
         )}
         {ageMode === "adult" && (
-          <span className="font-medium text-stone-700">
+          <span className="font-medium text-ink">
             Step {step} of {total} — {journeyTitle}
           </span>
         )}
       </div>
       <div
-        className="h-2 bg-stone-200 rounded-full overflow-hidden"
+        className="h-2 overflow-hidden rounded-full bg-[var(--color-divider)]"
         role="progressbar"
         aria-valuenow={step}
         aria-valuemin={1}
@@ -44,7 +43,7 @@ export function JourneyProgressBar({
         aria-label={`Story ${step} of ${total}`}
       >
         <div
-          className="h-full bg-amber-600 rounded-full transition-all duration-300"
+          className="h-full rounded-full bg-clay transition-all duration-300"
           style={{ width: `${pct}%` }}
         />
       </div>

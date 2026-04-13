@@ -1,11 +1,31 @@
 import type { Metadata } from "next";
+import { Playfair_Display, Lora, Inter } from "next/font/google";
 import "./globals.css";
 import { createClient } from "@/lib/supabase/server";
 import { Nav } from "@/components/layout/Nav";
 import { Header } from "@/components/layout/Header";
 import { AgeModeProvider } from "@/hooks/useAgeMode";
+import { BodyModeSync } from "@/components/layout/BodyModeSync";
 import { ageModeFromAge } from "@/lib/utils/age-mode";
 import type { AgeMode } from "@/types";
+
+const playfair = Playfair_Display({
+  subsets: ["latin"],
+  variable: "--font-playfair",
+  display: "swap",
+});
+
+const lora = Lora({
+  subsets: ["latin"],
+  variable: "--font-lora",
+  display: "swap",
+});
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "Keith Cobb Storybook",
@@ -42,14 +62,21 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const initialAgeMode = await getInitialAgeMode();
+  const fontVars = `${playfair.variable} ${lora.variable} ${inter.variable}`;
 
   return (
-    <html lang="en" className="h-full">
-      <body className="min-h-full flex flex-col bg-stone-50 text-stone-800 antialiased">
+    <html lang="en" className={`h-full ${fontVars}`}>
+      <body className="min-h-full flex flex-col antialiased">
         <AgeModeProvider initialMode={initialAgeMode}>
+          <BodyModeSync />
+          <a href="#main-content" className="skip-link">
+            Skip to main content
+          </a>
           <Nav />
           <Header />
-          <main className="flex-1 pb-16 md:pb-0">{children}</main>
+          <main id="main-content" className="flex-1 pb-16 md:pb-0">
+            {children}
+          </main>
         </AgeModeProvider>
       </body>
     </html>

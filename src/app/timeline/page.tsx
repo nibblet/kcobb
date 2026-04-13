@@ -1,10 +1,10 @@
 import Link from "next/link";
 import { getTimeline, getStoryById } from "@/lib/wiki/parser";
+import { yearToEraAccent } from "@/lib/design/era";
 
 export default function TimelinePage() {
   const events = getTimeline();
 
-  // Group by decade
   const decades: Record<string, typeof events> = {};
   for (const evt of events) {
     const decade = `${Math.floor(evt.year / 10) * 10}s`;
@@ -13,48 +13,54 @@ export default function TimelinePage() {
   }
 
   return (
-    <div className="max-w-2xl mx-auto px-4 py-6 md:py-10">
-      <h1 className="text-2xl md:text-3xl font-serif font-bold text-stone-800 mb-2">
-        Life Timeline
-      </h1>
-      <p className="text-stone-500 text-sm mb-6">
+    <div className="mx-auto max-w-content px-[var(--page-padding-x)] py-6 md:py-10">
+      <h1 className="type-page-title mb-2">Life Timeline</h1>
+      <p className="type-ui mb-6 text-ink-muted">
         {`${events.length} events spanning Keith Cobb's life and career`}
       </p>
 
       <div className="relative">
-        {/* Vertical line */}
-        <div className="absolute left-4 top-0 bottom-0 w-px bg-stone-200" />
+        <div className="absolute bottom-0 left-4 top-0 w-px bg-[var(--color-divider)]" />
 
         {Object.entries(decades)
           .sort(([a], [b]) => a.localeCompare(b))
           .map(([decade, decadeEvents]) => (
             <div key={decade} className="mb-8">
-              <h2 className="text-lg font-serif font-bold text-stone-800 ml-10 mb-3">
+              <h2 className="type-story-title mb-3 ml-10 text-burgundy">
                 {decade}
               </h2>
-              <div className="space-y-4">
+              <div className="space-y-4" role="list">
                 {decadeEvents
                   .sort((a, b) => a.year - b.year)
                   .map((evt, i) => {
                     const story = getStoryById(evt.storyRef);
+                    const accent = yearToEraAccent(evt.year);
+                    const label = `Era: ${accent.label}, year ${evt.year}`;
                     return (
-                      <div key={i} className="relative flex items-start gap-4 ml-0">
-                        {/* Dot */}
-                        <div className="flex-shrink-0 w-8 flex justify-center pt-1.5">
-                          <div className="w-2.5 h-2.5 rounded-full bg-amber-600 ring-2 ring-white" />
+                      <div
+                        key={i}
+                        className="relative ml-0 flex items-start gap-4"
+                        role="listitem"
+                        aria-label={label}
+                      >
+                        <div className="flex w-8 shrink-0 justify-center pt-1.5">
+                          <div
+                            className={`h-2.5 w-2.5 rounded-full ring-2 ring-warm-white ${accent.dot}`}
+                          />
                         </div>
-                        {/* Content */}
-                        <div className="flex-1 bg-white border border-stone-200 rounded-lg p-3 min-w-0">
-                          <div className="flex items-baseline gap-2">
-                            <span className="text-xs font-bold text-amber-700">
+                        <div
+                          className={`min-w-0 flex-1 rounded-lg border border-[var(--color-border)] bg-warm-white p-3 ${accent.border}`}
+                        >
+                          <div className="flex flex-wrap items-baseline gap-2">
+                            <span
+                              className={`text-xs font-bold ${accent.yearText}`}
+                            >
                               {evt.year}
                             </span>
-                            <span className="text-sm text-stone-800">
-                              {evt.event}
-                            </span>
+                            <span className="text-sm text-ink">{evt.event}</span>
                           </div>
                           {(evt.organization || evt.location) && (
-                            <p className="text-xs text-stone-400 mt-0.5">
+                            <p className="mt-0.5 text-xs text-ink-ghost">
                               {[evt.organization, evt.location]
                                 .filter(Boolean)
                                 .join(" — ")}
@@ -63,7 +69,7 @@ export default function TimelinePage() {
                           {story && (
                             <Link
                               href={`/stories/${evt.storyRef}`}
-                              className="text-xs text-amber-700 hover:underline mt-1 inline-block"
+                              className="mt-1 inline-block text-xs font-medium text-ocean hover:underline"
                             >
                               Read: {story.title}
                             </Link>

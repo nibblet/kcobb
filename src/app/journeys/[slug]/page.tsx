@@ -24,31 +24,30 @@ export default async function JourneyIntroPage({
   });
 
   return (
-    <div className="max-w-2xl mx-auto px-4 py-6 md:py-10">
+    <div className="mx-auto max-w-content px-[var(--page-padding-x)] py-6 md:py-10">
       <Link
         href="/journeys"
-        className="text-sm text-stone-400 hover:text-stone-600 transition-colors mb-4 inline-block"
+        className="type-ui mb-4 inline-block text-ink-ghost no-underline transition-colors hover:text-ocean"
       >
         &larr; All Journeys
       </Link>
 
-      <h1 className="text-2xl md:text-3xl font-serif font-bold text-stone-800 mb-3">
-        {journey.title}
-      </h1>
-      <p className="text-stone-600 text-sm leading-relaxed mb-6">
+      <h1 className="type-page-title mb-3">{journey.title}</h1>
+      <p className="type-body mb-6 text-pretty text-ink-muted">
         {journey.description}
       </p>
 
-      <JourneyIntroContinue slug={journey.slug} totalSteps={journey.storyIds.length} />
+      <JourneyIntroContinue
+        slug={journey.slug}
+        totalSteps={journey.storyIds.length}
+      />
 
-      <div className="bg-white border border-stone-200 rounded-xl p-5 mb-8">
-        <h2 className="text-sm font-semibold text-stone-800 uppercase tracking-wide mb-3">
-          Stories in this journey
-        </h2>
-        <ol className="list-decimal list-inside space-y-2 text-sm text-stone-700">
+      <div className="mb-8 rounded-xl border border-[var(--color-border)] bg-warm-white p-5">
+        <h2 className="type-meta mb-3 text-ink">Stories in this journey</h2>
+        <ol className="list-inside list-decimal space-y-2 font-[family-name:var(--font-lora)] text-sm text-ink">
           {titles.map(({ id, title }) => (
             <li key={id}>
-              <span className="text-stone-800">{title}</span>
+              <span>{title}</span>
             </li>
           ))}
         </ol>
@@ -56,7 +55,7 @@ export default async function JourneyIntroPage({
 
       <Link
         href={`/journeys/${journey.slug}/1`}
-        className="inline-block w-full sm:w-auto text-center py-3 px-6 bg-amber-700 text-white text-sm font-medium rounded-lg hover:bg-amber-800 transition-colors"
+        className="type-ui inline-block w-full rounded-lg bg-clay py-3 text-center font-medium text-warm-white transition-colors hover:bg-clay-mid sm:w-auto sm:px-6"
       >
         Start Journey
       </Link>

@@ -2,6 +2,8 @@ import { getStoryById } from "@/lib/wiki/parser";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import ReactMarkdown from "react-markdown";
+import { ReadingProgressBar } from "@/components/story/ReadingProgressBar";
+import { lifeStageToEraAccent } from "@/lib/design/era";
 
 export default async function StoryDetailPage({
   params,
@@ -13,142 +15,149 @@ export default async function StoryDetailPage({
 
   if (!story) notFound();
 
+  const era = lifeStageToEraAccent(story.lifeStage);
+
   return (
-    <div className="max-w-2xl mx-auto px-4 py-6 md:py-10">
-      {/* Back link */}
-      <Link
-        href="/stories"
-        className="text-sm text-stone-400 hover:text-stone-600 transition-colors mb-4 inline-block"
-      >
-        &larr; All Stories
-      </Link>
-
-      {/* Header */}
-      <h1 className="text-2xl md:text-3xl font-serif font-bold text-stone-800 mb-2">
-        {story.title}
-      </h1>
-      <div className="flex flex-wrap gap-2 mb-4">
-        <span className="px-2.5 py-0.5 text-xs font-medium bg-stone-100 text-stone-600 rounded-full">
-          {story.lifeStage}
-        </span>
-        {story.themes.map((theme) => (
-          <Link
-            key={theme}
-            href={`/themes/${theme.toLowerCase().replace(/\s+/g, "-")}`}
-            className="px-2.5 py-0.5 text-xs font-medium bg-amber-50 text-amber-700 rounded-full hover:bg-amber-100 transition-colors"
-          >
-            {theme}
-          </Link>
-        ))}
-      </div>
-
-      {/* Summary */}
-      <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 mb-6">
-        <p className="text-sm text-stone-700 italic">{story.summary}</p>
-      </div>
-
-      {/* Full text */}
-      <article className="prose prose-stone prose-sm md:prose-base max-w-none mb-8 leading-relaxed">
-        <ReactMarkdown>{story.fullText}</ReactMarkdown>
-      </article>
-
-      {/* Principles */}
-      {story.principles.length > 0 && (
-        <div className="bg-white border border-stone-200 rounded-xl p-5 mb-4">
-          <h2 className="text-sm font-semibold text-stone-800 uppercase tracking-wide mb-3">
-            What This Story Shows
-          </h2>
-          <ul className="space-y-2">
-            {story.principles.map((p, i) => (
-              <li key={i} className="text-sm text-stone-600 flex gap-2">
-                <span className="text-amber-600 mt-0.5">&#9679;</span>
-                {p}
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
-
-      {/* Heuristics */}
-      {story.heuristics.length > 0 && (
-        <div className="bg-white border border-stone-200 rounded-xl p-5 mb-4">
-          <h2 className="text-sm font-semibold text-stone-800 uppercase tracking-wide mb-3">
-            If You&apos;re Thinking About...
-          </h2>
-          <ul className="space-y-2">
-            {story.heuristics.map((h, i) => (
-              <li key={i} className="text-sm text-stone-600 flex gap-2">
-                <span className="text-amber-600 mt-0.5">&#9679;</span>
-                {h}
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
-
-      {/* Quotes */}
-      {story.quotes.length > 0 && (
-        <div className="mb-6">
-          <h2 className="text-sm font-semibold text-stone-800 uppercase tracking-wide mb-3">
-            Key Quotes
-          </h2>
-          <div className="space-y-3">
-            {story.quotes.map((q, i) => (
-              <blockquote
-                key={i}
-                className="border-l-3 border-amber-400 pl-4 text-sm text-stone-600 italic"
-              >
-                {q}
-              </blockquote>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* Related stories */}
-      {story.relatedStoryIds.length > 0 && (
-        <div className="mb-6">
-          <h2 className="text-sm font-semibold text-stone-800 uppercase tracking-wide mb-3">
-            Related Stories
-          </h2>
-          <div className="space-y-2">
-            {story.relatedStoryIds.map((relId) => {
-              const rel = getStoryById(relId);
-              if (!rel) return null;
-              return (
-                <Link
-                  key={relId}
-                  href={`/stories/${relId}`}
-                  className="block bg-white border border-stone-200 rounded-lg p-3 hover:border-amber-300 transition-colors"
-                >
-                  <span className="text-sm font-medium text-stone-800">
-                    {rel.title}
-                  </span>
-                  <span className="block text-xs text-stone-500 mt-0.5 line-clamp-1">
-                    {rel.summary}
-                  </span>
-                </Link>
-              );
-            })}
-          </div>
-        </div>
-      )}
-
-      {/* CTAs */}
-      <div className="flex flex-col sm:flex-row gap-3 mt-8 pt-6 border-t border-stone-200">
-        <Link
-          href={`/ask?story=${storyId}`}
-          className="flex-1 text-center py-2.5 bg-amber-700 text-white text-sm font-medium rounded-lg hover:bg-amber-800 transition-colors"
-        >
-          Ask about this story
-        </Link>
+    <>
+      <ReadingProgressBar />
+      <div className="mx-auto max-w-story px-[var(--page-padding-x)] py-6 md:py-10">
         <Link
           href="/stories"
-          className="flex-1 text-center py-2.5 bg-stone-100 text-stone-700 text-sm font-medium rounded-lg hover:bg-stone-200 transition-colors"
+          className="type-ui mb-4 inline-block text-ink-ghost no-underline transition-colors hover:text-ocean"
         >
-          Browse more stories
+          &larr; All Stories
         </Link>
+
+        <h1 className="type-story-title mb-2 text-balance">{story.title}</h1>
+        <div className="mb-4 flex flex-wrap gap-2">
+          <span
+            className={`rounded-full px-2.5 py-0.5 text-xs font-medium ${era.badgeClass}`}
+          >
+            {story.lifeStage}
+          </span>
+          {story.themes.map((theme) => {
+            const isLeadership = theme.toLowerCase().includes("leadership");
+            return (
+              <Link
+                key={theme}
+                href={`/themes/${theme.toLowerCase().replace(/\s+/g, "-")}`}
+                className={`rounded-full px-2.5 py-0.5 text-xs font-medium transition-colors ${
+                  isLeadership
+                    ? "bg-ocean-pale text-ocean hover:bg-ocean-pale/80"
+                    : "bg-green-pale text-green hover:bg-green-pale/80"
+                }`}
+              >
+                {theme}
+              </Link>
+            );
+          })}
+        </div>
+
+        <div className="mb-6 rounded-lg border border-clay-border bg-gold-pale/40 p-4">
+          <p className="font-[family-name:var(--font-lora)] text-sm italic leading-relaxed text-ink">
+            {story.summary}
+          </p>
+        </div>
+
+        <article className="story-body prose prose-story prose-lg max-w-none pb-8">
+          <ReactMarkdown>{story.fullText}</ReactMarkdown>
+        </article>
+
+        {story.principles.length > 0 && (
+          <div className="mb-4 rounded-xl border border-[var(--color-border)] bg-warm-white p-5">
+            <h2 className="type-meta mb-3 text-ink">
+              What This Story Shows
+            </h2>
+            <ul className="space-y-2">
+              {story.principles.map((p, i) => (
+                <li
+                  key={i}
+                  className="flex gap-2 font-[family-name:var(--font-lora)] text-sm text-ink-muted"
+                >
+                  <span className="mt-0.5 text-clay">&#9679;</span>
+                  {p}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        {story.heuristics.length > 0 && (
+          <div className="mb-4 rounded-xl border border-[var(--color-border)] bg-warm-white p-5">
+            <h2 className="type-meta mb-3 text-ink">
+              If You&apos;re Thinking About...
+            </h2>
+            <ul className="space-y-2">
+              {story.heuristics.map((h, i) => (
+                <li
+                  key={i}
+                  className="flex gap-2 font-[family-name:var(--font-lora)] text-sm text-ink-muted"
+                >
+                  <span className="mt-0.5 text-clay">&#9679;</span>
+                  {h}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        {story.quotes.length > 0 && (
+          <div className="mb-6">
+            <h2 className="type-meta mb-3 text-ink">Key Quotes</h2>
+            <div className="space-y-3">
+              {story.quotes.map((q, i) => (
+                <blockquote
+                  key={i}
+                  className="type-pullquote border-l-[3px] border-clay-mid pl-4 text-base not-italic text-ink-muted"
+                >
+                  {q}
+                </blockquote>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {story.relatedStoryIds.length > 0 && (
+          <div className="mb-6">
+            <h2 className="type-meta mb-3 text-ink">Related Stories</h2>
+            <div className="space-y-2">
+              {story.relatedStoryIds.map((relId) => {
+                const rel = getStoryById(relId);
+                if (!rel) return null;
+                return (
+                  <Link
+                    key={relId}
+                    href={`/stories/${relId}`}
+                    className="block rounded-lg border border-[var(--color-border)] bg-warm-white p-3 transition-colors hover:border-clay-border"
+                  >
+                    <span className="type-ui block text-ink">
+                      {rel.title}
+                    </span>
+                    <span className="mt-0.5 line-clamp-1 font-[family-name:var(--font-lora)] text-xs text-ink-muted">
+                      {rel.summary}
+                    </span>
+                  </Link>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
+        <div className="mt-8 flex flex-col gap-3 border-t border-[var(--color-divider)] pt-6 sm:flex-row">
+          <Link
+            href={`/ask?story=${storyId}`}
+            className="flex-1 rounded-lg bg-clay py-2.5 text-center text-sm font-medium text-warm-white transition-colors hover:bg-clay-mid"
+          >
+            Ask about this story
+          </Link>
+          <Link
+            href="/stories"
+            className="flex-1 rounded-lg border border-[var(--color-border)] bg-warm-white py-2.5 text-center text-sm font-medium text-ink transition-colors hover:border-clay-border"
+          >
+            Browse more stories
+          </Link>
+        </div>
       </div>
-    </div>
+    </>
   );
 }

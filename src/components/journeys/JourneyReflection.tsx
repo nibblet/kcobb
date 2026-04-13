@@ -14,7 +14,10 @@ function simplifyForYoungReader(text: string): string {
 const ADULT_FOLLOW_UP =
   "How does this connect to a decision you've made in your own life?";
 
-function reflectionCopy(mode: AgeMode, base: string): { lead?: string; main: string; extra?: string } {
+function reflectionCopy(
+  mode: AgeMode,
+  base: string
+): { lead?: string; main: string; extra?: string } {
   switch (mode) {
     case "young_reader":
       return {
@@ -39,19 +42,16 @@ export function JourneyReflection({
   const { lead, main, extra } = reflectionCopy(ageMode, prompt);
 
   return (
-    <div className="bg-amber-50/80 border border-amber-200 rounded-xl p-5 mb-6">
+    <div className="mb-6 rounded-xl border border-clay-border bg-gold-pale/50 p-5">
       {ageMode === "young_reader" && (
-        <p className="text-xs font-semibold text-amber-800 mb-2 flex items-center gap-1.5">
-          <span aria-hidden>⭐</span>
-          {lead}
-        </p>
+        <p className="type-ui mb-2 font-semibold text-clay">{lead}</p>
       )}
-      <h2 className="text-sm font-semibold text-stone-800 uppercase tracking-wide mb-2">
-        Reflection
-      </h2>
-      <p className="text-sm text-stone-700 leading-relaxed">{main}</p>
+      <h2 className="type-meta mb-2 text-ink">Reflection</h2>
+      <p className="font-[family-name:var(--font-lora)] text-sm leading-relaxed text-ink">
+        {main}
+      </p>
       {extra && (
-        <p className="text-sm text-stone-600 leading-relaxed mt-3 pt-3 border-t border-amber-200/80">
+        <p className="mt-3 border-t border-clay-border/60 pt-3 font-[family-name:var(--font-lora)] text-sm leading-relaxed text-ink-muted">
           {extra}
         </p>
       )}

@@ -11,6 +11,8 @@ export interface WikiJourney {
   storyCount: number;
   ageAppropriate: string[];
   reflections: Record<string, string>;
+  /** Keyed as "P1_S01→P1_S02" — pre-generated AI bridge text between adjacent stories */
+  connectors: Record<string, string>;
 }
 
 function readFile(relativePath: string): string {
@@ -51,6 +53,15 @@ function parseJourneyContent(content: string, fallbackSlug: string): WikiJourney
     }
   }
 
+  const connectors: Record<string, string> = {};
+  const connBlock = content.match(/## Connectors\s*\n\n([\s\S]*?)(?=\n## |\n*$)/);
+  if (connBlock) {
+    for (const line of connBlock[1].split("\n")) {
+      const m = line.match(/^-\s*\[\[(\w+)→(\w+)\]\]:\s*(.+)$/);
+      if (m) connectors[`${m[1]}→${m[2]}`] = m[3].trim();
+    }
+  }
+
   if (storyIds.length === 0) return null;
 
   const ageAppropriate = ageRaw
@@ -65,6 +76,7 @@ function parseJourneyContent(content: string, fallbackSlug: string): WikiJourney
     storyCount: Number.isFinite(declaredCount) && declaredCount > 0 ? declaredCount : storyIds.length,
     ageAppropriate,
     reflections,
+    connectors,
   };
 }
 
