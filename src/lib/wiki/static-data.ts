@@ -10,6 +10,7 @@ export interface StoryCard {
   themes: string[];
   wordCount: number;
   principles: string[];
+  volume: string;
 }
 
 export interface ThemeCard {
@@ -30,6 +31,7 @@ export interface TimelineEvent {
 export const storiesData: StoryCard[] = [
   {
     "storyId": "P1_S01",
+    "volume": "P1",
     "slug": "a-towhead-from-the-red-clay-hills",
     "title": "A Towhead from the Red Clay Hills",
     "summary": "A memoirist recalls growing up in Calhoun City, Mississippi in the 1940s–1950s, describing family lineage, small-town community life, and formative experiences that shaped his identity.",
@@ -51,6 +53,7 @@ export const storiesData: StoryCard[] = [
   },
   {
     "storyId": "P1_S02",
+    "volume": "P1",
     "slug": "a-v-ery-busy-teenager",
     "title": "A V ery Busy Teenager",
     "summary": "A former high-school student recounts a busy four years filled with strong academics, extensive extracurricular involvement, health crises, and the choice of a college major influenced by an aptitude test.",
@@ -74,6 +77,7 @@ export const storiesData: StoryCard[] = [
   },
   {
     "storyId": "P1_S03",
+    "volume": "P1",
     "slug": "a-remarkable-teacher-s-legacy",
     "title": "A Remarkable Teacher’s Legacy",
     "summary": "A devoted, intellectually curious high-school English teacher in a rural community demanded rigorous standards and memorization, profoundly shaping students' lives and inspiring alumni to preserve her legacy.",
@@ -97,6 +101,7 @@ export const storiesData: StoryCard[] = [
   },
   {
     "storyId": "P1_S04",
+    "volume": "P1",
     "slug": "on-my-honor",
     "title": "On My Honor",
     "summary": "A personal memoir of Boy Scout experiences emphasizing mentorship, discipline, structured progression, charity, and the lasting influence of Scout values and leaders such as Dr. Carter Dobbs.",
@@ -120,6 +125,7 @@ export const storiesData: StoryCard[] = [
   },
   {
     "storyId": "P1_S05",
+    "volume": "P1",
     "slug": "a-would-be-music-man",
     "title": "A Would-be Music Man",
     "summary": "An individual with clear musical talent but limited discipline recounts childhood and high-school musical experiences, mentors, missed opportunities, and lifelong love of music despite not pursuing mastery.",
@@ -145,6 +151,7 @@ export const storiesData: StoryCard[] = [
   },
   {
     "storyId": "P1_S06",
+    "volume": "P1",
     "slug": "bayne-cobb-exemplar-of-a-dad",
     "title": "Bayne Cobb, Exemplar of a Dad",
     "summary": "A son reflects on his father's quiet, steady leadership across family, work, and adversity, highlighting lessons learned by observation over decades.",
@@ -170,6 +177,7 @@ export const storiesData: StoryCard[] = [
   },
   {
     "storyId": "P1_S07",
+    "volume": "P1",
     "slug": "frances-cobb-a-spool-of-blue-thread",
     "title": "Frances Cobb—A Spool of Blue Thread",
     "summary": "A memoir sketch of Frances Cobb, a hardworking seamstress and mother whose ambition, exacting standards, and health struggles shaped her family's economic life and her children's upbringing.",
@@ -192,6 +200,7 @@ export const storiesData: StoryCard[] = [
   },
   {
     "storyId": "P1_S08",
+    "volume": "P1",
     "slug": "blue-and-ruby-cole",
     "title": "Blue and Ruby Cole",
     "summary": "Neighbors Blue and Ruby Cole acted as surrogate parents, offering time, protection, and practical help across decades; their long devotion culminated in Ruby leaving her estate to Sandy and Daddy, a surprising reward for years of care.",
@@ -215,6 +224,7 @@ export const storiesData: StoryCard[] = [
   },
   {
     "storyId": "P1_S09",
+    "volume": "P1",
     "slug": "a-work-ethic-develops",
     "title": "A Work Ethic Develops",
     "summary": "Narrator describes growing up with early assigned chores, family small-business work, and successive summer jobs that developed entrepreneurship, skills, and savings habits.",
@@ -239,6 +249,7 @@ export const storiesData: StoryCard[] = [
   },
   {
     "storyId": "P1_S10",
+    "volume": "P1",
     "slug": "roominations",
     "title": "Roominations",
     "summary": "A teenager describes how a small private bedroom, books, radio and music fostered curiosity and reflection, leading him to seize a university opportunity and leave his insular hometown.",
@@ -261,6 +272,7 @@ export const storiesData: StoryCard[] = [
   },
   {
     "storyId": "P1_S11",
+    "volume": "P1",
     "slug": "early-wanderlust",
     "title": "Early Wanderlust",
     "summary": "A narrator recounts formative travel experiences from childhood through college that sparked curiosity, personal growth, and a lifelong passion for exploring beyond a small hometown.",
@@ -285,6 +297,7 @@ export const storiesData: StoryCard[] = [
   },
   {
     "storyId": "P1_S12",
+    "volume": "P1",
     "slug": "by-the-light-of-the-silvery-moon",
     "title": "By the Light of the Silvery Moon",
     "summary": "A first-person account of two neighbors who moved from casual acquaintances in high school to lifelong partners, built on shared values, sustained communication during separations, and a deliberate engagement.",
@@ -311,6 +324,7 @@ export const storiesData: StoryCard[] = [
   },
   {
     "storyId": "P1_S13",
+    "volume": "P1",
     "slug": "the-power-of-momentum",
     "title": "The Power of Momentum",
     "summary": "A student from a small town leverages early academic advantages to build momentum in college, helps teammates, confronts perceived unfairness, and makes pragmatic career choices aided by mentors.",
@@ -332,6 +346,7 @@ export const storiesData: StoryCard[] = [
   },
   {
     "storyId": "P1_S14",
+    "volume": "P1",
     "slug": "togetherness-on-saturday",
     "title": "Togetherness on Saturday",
     "summary": "A 1959 freshman is assigned to a notoriously strict, silent English professor and must decide whether to drop the required course or stay and figure out how to earn a passing grade; through pattern analysis and experimentation the student improves from an F to an A.",
@@ -349,6 +364,7 @@ export const storiesData: StoryCard[] = [
   },
   {
     "storyId": "P1_S15",
+    "volume": "P1",
     "slug": "public-service-101",
     "title": "Public Service 101",
     "summary": "A college student's rise to Student Government Association president, accomplishments (election reform, campus campaigns), ethical lapses (press interference, celebratory arson), and a concluding resolve to avoid politics.",
@@ -371,6 +387,7 @@ export const storiesData: StoryCard[] = [
   },
   {
     "storyId": "P1_S16",
+    "volume": "P1",
     "slug": "launching-a-career",
     "title": "Launching a Career",
     "summary": "A graduating senior in late 1962 evaluates multiple job offers (Big Eight accounting firms, IBM, others), uses deliberate research and visits to choose Peat Marwick in Jackson, prioritizing cultural fit and long-term advancement over short-term pay.",
@@ -391,6 +408,7 @@ export const storiesData: StoryCard[] = [
   },
   {
     "storyId": "P1_S17",
+    "volume": "P1",
     "slug": "chronology-of-a-career",
     "title": "Chronology of a Career",
     "summary": "A reflective chronology of a forty-plus-year business career emphasizing lifelong learning, mentorship, serendipity, and a fluid view of retirement.",
@@ -412,6 +430,7 @@ export const storiesData: StoryCard[] = [
   },
   {
     "storyId": "P1_S18",
+    "volume": "P1",
     "slug": "early-years-at-peat-marwick",
     "title": "Early Years at Peat Marwick",
     "summary": "A newly minted accountant joins Peat Marwick in 1963, rapidly advances through demanding audit work, assumes responsibility during crises, and becomes the firm's youngest partner by 1970.",
@@ -435,6 +454,7 @@ export const storiesData: StoryCard[] = [
   },
   {
     "storyId": "P1_S19",
+    "volume": "P1",
     "slug": "on-the-move-as-a-peat",
     "title": "On the Move as a Peat",
     "summary": "A newly made partner at Peat Marwick asserts ownership by pushing for the removal of a negligent partner and later accepts an invitation to establish a new office in Orlando after securing a visit with his wife.",
@@ -457,6 +477,7 @@ export const storiesData: StoryCard[] = [
   },
   {
     "storyId": "P1_S20",
+    "volume": "P1",
     "slug": "the-florida-frontier",
     "title": "The Florida Frontier",
     "summary": "A young Peat Marwick partner relocates to Orlando in 1971 to establish a new office with little local research or resources, builds a small team and client base, then recommends closing the office when local market fundamentals prove weak.",
@@ -482,6 +503,7 @@ export const storiesData: StoryCard[] = [
   },
   {
     "storyId": "P1_S21",
+    "volume": "P1",
     "slug": "new-roots-in-fort-lauderdale",
     "title": "New Roots in Fort Lauderdale",
     "summary": "A managing partner relocates to Fort Lauderdale (1975), builds a successful audit practice by recruiting talent and cultivating relationships, navigates major client work, fraud investigations, and a disruptive firm merger, then accepts a transfer to Baltimore in 1989.",
@@ -505,6 +527,7 @@ export const storiesData: StoryCard[] = [
   },
   {
     "storyId": "P1_S22",
+    "volume": "P1",
     "slug": "kpmg-baltimore",
     "title": "KPMG—Baltimore",
     "summary": "An external managing partner is brought into an insular, stagnating KPMG Baltimore office (1989–1991), uses aggressive external networking and decisive personnel actions to reposition the office and broaden client relationships before being reassigned to Philadelphia.",
@@ -526,6 +549,7 @@ export const storiesData: StoryCard[] = [
   },
   {
     "storyId": "P1_S23",
+    "volume": "P1",
     "slug": "kpmg-philadelphia",
     "title": "KPMG—Philadelphia",
     "summary": "A KPMG leader arrives in Philadelphia (1991), confronts a resistant partner culture and weak client relationships, uses external assessment and direct relationship-building to turn the office around while managing firm-wide compensation reform and personal family health challenges.",
@@ -549,6 +573,7 @@ export const storiesData: StoryCard[] = [
   },
   {
     "storyId": "P1_S24",
+    "volume": "P1",
     "slug": "kpmg-financial-services",
     "title": "KPMG Financial Services",
     "summary": "Keith Cobb was appointed to lead KPMG's newly reorganized Financial Services unit, faced partner skepticism due to his non-specialist background, mounted a highly prepared, consultant-backed presentation at a national meeting to establish credibility and drive adoption of a five-point strategy, and later accepted an external CEO offer from Alamo.",
@@ -573,6 +598,7 @@ export const storiesData: StoryCard[] = [
   },
   {
     "storyId": "P1_S25",
+    "volume": "P1",
     "slug": "alamo-rent-a-car",
     "title": "Alamo Rent A Car",
     "summary": "The narrator becomes CEO of Alamo Rent A Car in 1995, implements rapid strategic, operational, financial and cultural changes to turn the company from large losses to profitability, and ultimately sells it to AutoNation. He emphasizes clear agreements, decisive leadership, and rebuilding key relationships.",
@@ -597,6 +623,7 @@ export const storiesData: StoryCard[] = [
   },
   {
     "storyId": "P1_S26",
+    "volume": "P1",
     "slug": "corporate-boards-and-consulting",
     "title": "Corporate Boards and Consulting",
     "summary": "After leaving his executive role in 1997, the narrator built a third career as a corporate board member, consultant and adjunct professor, through a sequence of board appointments, entrepreneurial investments, consulting engagements and teaching. He experienced notable successes (Alliance Data, Fed board, consulting retainers) and failures (Laundromax), and learned governance, risk and professional lessons.",
@@ -620,6 +647,7 @@ export const storiesData: StoryCard[] = [
   },
   {
     "storyId": "P1_S27",
+    "volume": "P1",
     "slug": "lessons-on-business-ethics",
     "title": "Lessons on Business Ethics",
     "summary": "A career auditor recounts multiple instances of fraud and ethical breaches encountered over decades, describing investigative actions, escalation choices, and reflections on professional values.",
@@ -642,6 +670,7 @@ export const storiesData: StoryCard[] = [
   },
   {
     "storyId": "P1_S28",
+    "volume": "P1",
     "slug": "career-summary",
     "title": "Career Summary",
     "summary": "A former KPMG partner reflects on a long career, gratitude to the firm, and his transition to lead a major company where he swiftly addressed inherited problems and succeeded.",
@@ -666,6 +695,7 @@ export const storiesData: StoryCard[] = [
   },
   {
     "storyId": "P1_S29",
+    "volume": "P1",
     "slug": "what-a-wonderful-world",
     "title": "What a Wonderful World",
     "summary": "A first-person travelogue reflecting on decades of domestic and international travel, arguing that first-hand observation yields deeper understanding than second-hand accounts and recounting diverse travel experiences and a humanitarian trip.",
@@ -687,6 +717,7 @@ export const storiesData: StoryCard[] = [
   },
   {
     "storyId": "P1_S30",
+    "volume": "P1",
     "slug": "famous-people-i-ve-met-none-of-whom-would-ever-remember-me",
     "title": "Famous People I’ve Met (None of Whom Would Ever Remember Me)",
     "summary": "The narrator recounts brief encounters with various famous people across decades and the practical, personal lessons gleaned from those meetings.",
@@ -713,6 +744,7 @@ export const storiesData: StoryCard[] = [
   },
   {
     "storyId": "P1_S31",
+    "volume": "P1",
     "slug": "these-are-a-few-of-my-favorite-things",
     "title": "These Are a Few of My Favorite Things",
     "summary": "The narrator recounts how moments of music in a monotonous school setting sparked a lifelong love of music and lists favorite compositions that shaped emotions and memories.",
@@ -732,6 +764,7 @@ export const storiesData: StoryCard[] = [
   },
   {
     "storyId": "P1_S32",
+    "volume": "P1",
     "slug": "for-the-love-of-words",
     "title": "For the Love of Words",
     "summary": "A reflective first-person account of a lifelong passion for vocabulary: influences, habits (collections, subscriptions, games), and the pleasure derived from words and their clarity.",
@@ -758,6 +791,7 @@ export const storiesData: StoryCard[] = [
   },
   {
     "storyId": "P1_S33",
+    "volume": "P1",
     "slug": "houses-cars-and-boats",
     "title": "Houses, Cars and Boats",
     "summary": "A personal memoir tracing decades of the narrator's choices about homes, automobiles, and boats, showing how material desires, research, advice, and learning from mistakes shaped family life and investments.",
@@ -783,6 +817,7 @@ export const storiesData: StoryCard[] = [
   },
   {
     "storyId": "P1_S34",
+    "volume": "P1",
     "slug": "my-three-sons",
     "title": "My Three Sons",
     "summary": "A father reflects on raising his three sons, describing their personalities, education, milestones, and the values and choices that shaped their development and families.",
@@ -801,6 +836,7 @@ export const storiesData: StoryCard[] = [
   },
   {
     "storyId": "P1_S35",
+    "volume": "P1",
     "slug": "the-gift-of-family",
     "title": "The Gift of Family",
     "summary": "A narrator reflects on family as the bedrock of life, describing children, spouses, grandchildren, and how love and regular contact have sustained close relationships despite geographic distance.",
@@ -822,6 +858,7 @@ export const storiesData: StoryCard[] = [
   },
   {
     "storyId": "P1_S36",
+    "volume": "P1",
     "slug": "charles-t-brumfield",
     "title": "Charles T. Brumfield",
     "summary": "A reflection on a fifty-year friendship between the narrator and Charles Brumfield, tracing their college collaboration, long correspondence, pranks, and Brumfield’s adventurous, cosmopolitan life.",
@@ -843,6 +880,7 @@ export const storiesData: StoryCard[] = [
   },
   {
     "storyId": "P1_S37",
+    "volume": "P1",
     "slug": "to-god-be-the-glory",
     "title": "To God Be The Glory",
     "summary": "A personal testimony recounting lifelong Christian formation beginning with childhood VBS, a pivotal conversion at age eleven, sustained service in church leadership, exploration of other faiths, and a conviction of stewardship and gratitude.",
@@ -864,6 +902,7 @@ export const storiesData: StoryCard[] = [
   },
   {
     "storyId": "P1_S38",
+    "volume": "P1",
     "slug": "for-good-for-ever",
     "title": "For Good. For Ever.",
     "summary": "A personal account of lifelong commitment to community service through sustained financial giving, board leadership, volunteer work, and the ethic of \"paying it forward.\"",
@@ -889,6 +928,7 @@ export const storiesData: StoryCard[] = [
   },
   {
     "storyId": "P1_S39",
+    "volume": "P1",
     "slug": "moments-to-remember",
     "title": "Moments to Remember",
     "summary": "A memoirist reflects on a series of memorable personal moments across his life—marriage, education, family vacations, births and losses—and describes a late-life turn to retrospection, gratitude, and sense-making.",

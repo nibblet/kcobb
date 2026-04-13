@@ -62,10 +62,15 @@ school, work, friendships, and decisions they might face. Use relatable examples
 heuristics, quotes, and timeline events. Provide deeper interpretation and nuanced application.`,
 };
 
+/**
+ * Optional: call with published Supabase stories to include them in the prompt.
+ * Pass an empty array if you don't want to include them.
+ */
 export function buildSystemPrompt(
   ageMode: AgeMode,
   storySlug?: string,
-  journeySlug?: string
+  journeySlug?: string,
+  publishedStorySummaries?: string
 ): string {
   const voice = getVoiceGuide();
   const wikiIndex = getWikiSummaries();
@@ -114,6 +119,8 @@ ${voice.slice(0, 2000)}
 
 ## Wiki Index (All Available Content)
 ${wikiIndex}
+
+${publishedStorySummaries ? `## Additional Stories (Family Contributions)\n${publishedStorySummaries}` : ""}
 
 ${journeyContext ? `## Guided Journey Context\n${journeyContext}\n` : ""}
 ${storyContext ? `## Currently Reading\nThe user is reading this story:\n\n${storyContext.slice(0, 3000)}` : ""}`;

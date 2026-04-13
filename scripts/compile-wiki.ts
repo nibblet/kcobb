@@ -97,7 +97,7 @@ function parseStoryIndex(indexPath: string): {
 
   // Parse theme directory
   const themeSection = text.split("# THEME DIRECTORY")[1]?.split("# STORIES")[0] || "";
-  const themeRegex = /\*\*(.+?)\*\*\n((?:P1_S\d+[\s]*)+)/g;
+  const themeRegex = /\*\*(.+?)\*\*\n((?:P\d+_S\d+[\s]*)+)/g;
   let match;
   while ((match = themeRegex.exec(themeSection)) !== null) {
     const themeName = match[1].trim();
@@ -274,7 +274,7 @@ function main() {
   const storyMdDir = path.join(RAW, "stories_md");
   const storyMdFiles: Record<string, string> = {};
   for (const file of fs.readdirSync(storyMdDir).filter(f => f.endsWith(".md"))) {
-    const storyId = file.match(/^(P1_S\d+)/)?.[1];
+    const storyId = file.match(/^(P\d+_S\d+)/)?.[1];
     if (storyId) {
       storyMdFiles[storyId] = fs.readFileSync(path.join(storyMdDir, file), "utf-8");
     }

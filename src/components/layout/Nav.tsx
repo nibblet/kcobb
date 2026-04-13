@@ -12,6 +12,7 @@ const allNavItems = [
   { href: "/themes", label: "Themes" },
   { href: "/timeline", label: "Timeline" },
   { href: "/ask", label: "Ask" },
+  { href: "/tell", label: "Tell" },
   { href: "/profile", label: "Profile" },
 ] as const;
 

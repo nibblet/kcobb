@@ -5,6 +5,7 @@ const WIKI_DIR = path.join(process.cwd(), "content/wiki");
 
 export interface WikiStory {
   storyId: string;
+  volume: string;
   slug: string;
   title: string;
   summary: string;
@@ -78,7 +79,7 @@ function getStoryFromFile(filename: string): WikiStory | null {
   const content = readWikiFile(`stories/${filename}`);
   if (!content) return null;
 
-  const storyIdMatch = content.match(/\*\*Story ID:\*\*\s*(P1_S\d+)/);
+  const storyIdMatch = content.match(/\*\*Story ID:\*\*\s*(P\d+_S\d+)/);
   if (!storyIdMatch) return null;
 
   const titleMatch = content.match(/^# (.+)/m);
@@ -86,10 +87,13 @@ function getStoryFromFile(filename: string): WikiStory | null {
 
   const fullTextMatch = content.match(/## Full Text\n\n([\s\S]*?)(?=\n## )/);
 
-  const slug = filename.replace(/\.md$/, "").replace(/^P1_S\d+-/, "");
+  const slug = filename.replace(/\.md$/, "").replace(/^P\d+_S\d+-/, "");
+
+  const volume = storyIdMatch[1].match(/^(P\d+)/)?.[1] || "P1";
 
   return {
     storyId: storyIdMatch[1],
+    volume,
     slug,
     title: titleMatch?.[1] || "",
     summary: summaryMatch?.[1] || "",
@@ -104,7 +108,7 @@ function getStoryFromFile(filename: string): WikiStory | null {
     heuristics: extractSection(content, "If You're Thinking About\\.\\.\\."),
     quotes: extractSection(content, "Key Quotes"),
     relatedStoryIds: extractSection(content, "Related Stories").map(
-      (l) => l.match(/\[\[(P1_S\d+)\]\]/)?.[1] || ""
+      (l) => l.match(/\[\[(P\d+_S\d+)\]\]/)?.[1] || ""
     ).filter(Boolean),
     bestUsedWhen: extractSection(content, "Best Used When Someone Asks About"),
     timelineEvents: extractSection(content, "Timeline"),
@@ -156,7 +160,7 @@ function getThemeFromFile(filename: string): WikiTheme | null {
   // Parse stories section
   const storiesRaw = extractSection(content, "Stories");
   const stories = storiesRaw.map((line) => {
-    const idMatch = line.match(/\[\[(P1_S\d+)\]\]\s*(.+?)(?:\s*—\s*(.+))?$/);
+    const idMatch = line.match(/\[\[(P\d+_S\d+)\]\]\s*(.+?)(?:\s*—\s*(.+))?$/);
     return {
       storyId: idMatch?.[1] || "",
       title: idMatch?.[2] || "",
@@ -167,7 +171,7 @@ function getThemeFromFile(filename: string): WikiTheme | null {
   // Parse principles
   const principlesRaw = extractSection(content, "Principles");
   const principles = principlesRaw.map((line) => {
-    const match = line.match(/(.+?)\s*_\((P1_S\d+)\)_/);
+    const match = line.match(/(.+?)\s*_\((P\d+_S\d+)\)_/);
     return { text: match?.[1]?.trim() || line, storyId: match?.[2] || "" };
   });
 
@@ -205,7 +209,7 @@ export function getTimeline(): WikiTimelineEvent[] {
 
   for (const line of lines) {
     const match = line.match(
-      /- \*\*(\d{4})\*\* — (.+?)(?:\s*\((.+?)\))?(?:,\s*(.+?))?\s*—\s*\[\[(P1_S\d+)\]\]/
+      /- \*\*(\d{4})\*\* — (.+?)(?:\s*\((.+?)\))?(?:,\s*(.+?))?\s*—\s*\[\[(P\d+_S\d+)\]\]/
     );
     if (match) {
       events.push({

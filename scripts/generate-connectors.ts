@@ -113,7 +113,7 @@ function parseStoryIds(content: string): string[] {
   if (!block) return [];
   const ids: string[] = [];
   for (const line of block[1].split("\n")) {
-    const m = line.match(/\[\[(P1_S\d+)\]\]/);
+    const m = line.match(/\[\[(P\d+_S\d+)\]\]/);
     if (m) ids.push(m[1]);
   }
   return ids;
