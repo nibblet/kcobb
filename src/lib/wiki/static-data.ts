@@ -57,8 +57,12 @@ export const storiesData: StoryCard[] = [
     "lifeStage": "Education",
     "themes": [
       "Adversity",
+      "Career Choices",
+      "Gratitude",
+      "Identity",
       "Leadership",
-      "Mentorship"
+      "Mentorship",
+      "Work Ethic"
     ],
     "wordCount": 2456,
     "principles": [
@@ -75,7 +79,13 @@ export const storiesData: StoryCard[] = [
     "summary": "A devoted, intellectually curious high-school English teacher in a rural community demanded rigorous standards and memorization, profoundly shaping students' lives and inspiring alumni to preserve her legacy.",
     "lifeStage": "Education",
     "themes": [
-      "Curiosity"
+      "Career Choices",
+      "Community",
+      "Curiosity",
+      "Gratitude",
+      "Identity",
+      "Mentorship",
+      "Work Ethic"
     ],
     "wordCount": 970,
     "principles": [
@@ -92,7 +102,12 @@ export const storiesData: StoryCard[] = [
     "summary": "A personal memoir of Boy Scout experiences emphasizing mentorship, discipline, structured progression, charity, and the lasting influence of Scout values and leaders such as Dr. Carter Dobbs.",
     "lifeStage": "Childhood",
     "themes": [
-      "**Word Count:** 2129"
+      "Career Choices",
+      "Curiosity",
+      "Gratitude",
+      "Identity",
+      "Leadership",
+      "Work Ethic"
     ],
     "wordCount": 2129,
     "principles": [
@@ -110,7 +125,15 @@ export const storiesData: StoryCard[] = [
     "summary": "An individual with clear musical talent but limited discipline recounts childhood and high-school musical experiences, mentors, missed opportunities, and lifelong love of music despite not pursuing mastery.",
     "lifeStage": "Childhood",
     "themes": [
-      "Financial Responsibility"
+      "Adversity",
+      "Career Choices",
+      "Community",
+      "Curiosity",
+      "Financial Responsibility",
+      "Gratitude",
+      "Identity",
+      "Leadership",
+      "Work Ethic"
     ],
     "wordCount": 2116,
     "principles": [
@@ -127,7 +150,14 @@ export const storiesData: StoryCard[] = [
     "summary": "A son reflects on his father's quiet, steady leadership across family, work, and adversity, highlighting lessons learned by observation over decades.",
     "lifeStage": "Childhood",
     "themes": [
-      "Integrity"
+      "Adversity",
+      "Community",
+      "Curiosity",
+      "Financial Responsibility",
+      "Identity",
+      "Integrity",
+      "Leadership",
+      "Mentorship"
     ],
     "wordCount": 2843,
     "principles": [
@@ -145,7 +175,12 @@ export const storiesData: StoryCard[] = [
     "summary": "A memoir sketch of Frances Cobb, a hardworking seamstress and mother whose ambition, exacting standards, and health struggles shaped her family's economic life and her children's upbringing.",
     "lifeStage": "Childhood",
     "themes": [
-      "**Word Count:** 2474"
+      "Adversity",
+      "Career Choices",
+      "Curiosity",
+      "Integrity",
+      "Leadership",
+      "Work Ethic"
     ],
     "wordCount": 2474,
     "principles": [
@@ -162,7 +197,13 @@ export const storiesData: StoryCard[] = [
     "summary": "Neighbors Blue and Ruby Cole acted as surrogate parents, offering time, protection, and practical help across decades; their long devotion culminated in Ruby leaving her estate to Sandy and Daddy, a surprising reward for years of care.",
     "lifeStage": "Childhood",
     "themes": [
-      "Family"
+      "Career Choices",
+      "Community",
+      "Family",
+      "Financial Responsibility",
+      "Gratitude",
+      "Identity",
+      "Work Ethic"
     ],
     "wordCount": 1546,
     "principles": [
@@ -179,7 +220,13 @@ export const storiesData: StoryCard[] = [
     "summary": "Narrator describes growing up with early assigned chores, family small-business work, and successive summer jobs that developed entrepreneurship, skills, and savings habits.",
     "lifeStage": "Childhood",
     "themes": [
-      "**Word Count:** 2495"
+      "Adversity",
+      "Career Choices",
+      "Curiosity",
+      "Financial Responsibility",
+      "Integrity",
+      "Leadership",
+      "Work Ethic"
     ],
     "wordCount": 2495,
     "principles": [
@@ -197,7 +244,12 @@ export const storiesData: StoryCard[] = [
     "summary": "A teenager describes how a small private bedroom, books, radio and music fostered curiosity and reflection, leading him to seize a university opportunity and leave his insular hometown.",
     "lifeStage": "Education",
     "themes": [
-      "**Word Count:** 1762"
+      "Career Choices",
+      "Community",
+      "Curiosity",
+      "Gratitude",
+      "Identity",
+      "Work Ethic"
     ],
     "wordCount": 1762,
     "principles": [
@@ -214,7 +266,13 @@ export const storiesData: StoryCard[] = [
     "summary": "A narrator recounts formative travel experiences from childhood through college that sparked curiosity, personal growth, and a lifelong passion for exploring beyond a small hometown.",
     "lifeStage": "Education",
     "themes": [
-      "**Word Count:** 2080"
+      "Career Choices",
+      "Community",
+      "Curiosity",
+      "Financial Responsibility",
+      "Gratitude",
+      "Identity",
+      "Work Ethic"
     ],
     "wordCount": 2080,
     "principles": [
@@ -232,7 +290,15 @@ export const storiesData: StoryCard[] = [
     "summary": "A first-person account of two neighbors who moved from casual acquaintances in high school to lifelong partners, built on shared values, sustained communication during separations, and a deliberate engagement.",
     "lifeStage": "Education",
     "themes": [
-      "**Word Count:** 1447"
+      "Career Choices",
+      "Community",
+      "Curiosity",
+      "Family",
+      "Financial Responsibility",
+      "Gratitude",
+      "Identity",
+      "Leadership",
+      "Work Ethic"
     ],
     "wordCount": 1447,
     "principles": [
@@ -250,7 +316,10 @@ export const storiesData: StoryCard[] = [
     "summary": "A student from a small town leverages early academic advantages to build momentum in college, helps teammates, confronts perceived unfairness, and makes pragmatic career choices aided by mentors.",
     "lifeStage": "Education",
     "themes": [
-      "**Word Count:** 2810"
+      "Career Choices",
+      "Curiosity",
+      "Financial Responsibility",
+      "Integrity"
     ],
     "wordCount": 2810,
     "principles": [
@@ -268,7 +337,8 @@ export const storiesData: StoryCard[] = [
     "summary": "A 1959 freshman is assigned to a notoriously strict, silent English professor and must decide whether to drop the required course or stay and figure out how to earn a passing grade; through pattern analysis and experimentation the student improves from an F to an A.",
     "lifeStage": "Education",
     "themes": [
-      "**Word Count:** 1024"
+      "Financial Responsibility",
+      "Leadership"
     ],
     "wordCount": 1024,
     "principles": [
@@ -284,7 +354,11 @@ export const storiesData: StoryCard[] = [
     "summary": "A college student's rise to Student Government Association president, accomplishments (election reform, campus campaigns), ethical lapses (press interference, celebratory arson), and a concluding resolve to avoid politics.",
     "lifeStage": "Education",
     "themes": [
-      "**Word Count:** 2368"
+      "Adversity",
+      "Community",
+      "Financial Responsibility",
+      "Integrity",
+      "Leadership"
     ],
     "wordCount": 2368,
     "principles": [
@@ -302,7 +376,9 @@ export const storiesData: StoryCard[] = [
     "summary": "A graduating senior in late 1962 evaluates multiple job offers (Big Eight accounting firms, IBM, others), uses deliberate research and visits to choose Peat Marwick in Jackson, prioritizing cultural fit and long-term advancement over short-term pay.",
     "lifeStage": "Early Career",
     "themes": [
-      "**Word Count:** 2061"
+      "Career Choices",
+      "Curiosity",
+      "Leadership"
     ],
     "wordCount": 2061,
     "principles": [
@@ -320,7 +396,11 @@ export const storiesData: StoryCard[] = [
     "summary": "A reflective chronology of a forty-plus-year business career emphasizing lifelong learning, mentorship, serendipity, and a fluid view of retirement.",
     "lifeStage": "Reflection",
     "themes": [
-      "**Word Count:** 286"
+      "Career Choices",
+      "Gratitude",
+      "Identity",
+      "Mentorship",
+      "Work Ethic"
     ],
     "wordCount": 286,
     "principles": [
@@ -337,7 +417,13 @@ export const storiesData: StoryCard[] = [
     "summary": "A newly minted accountant joins Peat Marwick in 1963, rapidly advances through demanding audit work, assumes responsibility during crises, and becomes the firm's youngest partner by 1970.",
     "lifeStage": "Early Career",
     "themes": [
-      "**Word Count:** 3749"
+      "Career Choices",
+      "Curiosity",
+      "Gratitude",
+      "Identity",
+      "Integrity",
+      "Leadership",
+      "Work Ethic"
     ],
     "wordCount": 3749,
     "principles": [
@@ -354,7 +440,12 @@ export const storiesData: StoryCard[] = [
     "summary": "A newly made partner at Peat Marwick asserts ownership by pushing for the removal of a negligent partner and later accepts an invitation to establish a new office in Orlando after securing a visit with his wife.",
     "lifeStage": "Early Career",
     "themes": [
-      "**Word Count:** 825"
+      "Career Choices",
+      "Gratitude",
+      "Identity",
+      "Integrity",
+      "Leadership",
+      "Work Ethic"
     ],
     "wordCount": 825,
     "principles": [
@@ -371,7 +462,14 @@ export const storiesData: StoryCard[] = [
     "summary": "A young Peat Marwick partner relocates to Orlando in 1971 to establish a new office with little local research or resources, builds a small team and client base, then recommends closing the office when local market fundamentals prove weak.",
     "lifeStage": "Early Career",
     "themes": [
-      "**Word Count:** 1956"
+      "Adversity",
+      "Career Choices",
+      "Curiosity",
+      "Gratitude",
+      "Identity",
+      "Integrity",
+      "Leadership",
+      "Work Ethic"
     ],
     "wordCount": 1956,
     "principles": [
@@ -389,7 +487,12 @@ export const storiesData: StoryCard[] = [
     "summary": "A managing partner relocates to Fort Lauderdale (1975), builds a successful audit practice by recruiting talent and cultivating relationships, navigates major client work, fraud investigations, and a disruptive firm merger, then accepts a transfer to Baltimore in 1989.",
     "lifeStage": "Early Career",
     "themes": [
-      "**Word Count:** 4030"
+      "Adversity",
+      "Community",
+      "Curiosity",
+      "Financial Responsibility",
+      "Identity",
+      "Leadership"
     ],
     "wordCount": 4030,
     "principles": [
@@ -407,7 +510,10 @@ export const storiesData: StoryCard[] = [
     "summary": "An external managing partner is brought into an insular, stagnating KPMG Baltimore office (1989–1991), uses aggressive external networking and decisive personnel actions to reposition the office and broaden client relationships before being reassigned to Philadelphia.",
     "lifeStage": "Leadership",
     "themes": [
-      "**Word Count:** 2713"
+      "Curiosity",
+      "Financial Responsibility",
+      "Integrity",
+      "Leadership"
     ],
     "wordCount": 2713,
     "principles": [
@@ -425,7 +531,12 @@ export const storiesData: StoryCard[] = [
     "summary": "A KPMG leader arrives in Philadelphia (1991), confronts a resistant partner culture and weak client relationships, uses external assessment and direct relationship-building to turn the office around while managing firm-wide compensation reform and personal family health challenges.",
     "lifeStage": "Leadership",
     "themes": [
-      "**Word Count:** 2521"
+      "Career Choices",
+      "Curiosity",
+      "Financial Responsibility",
+      "Gratitude",
+      "Identity",
+      "Work Ethic"
     ],
     "wordCount": 2521,
     "principles": [
@@ -443,7 +554,13 @@ export const storiesData: StoryCard[] = [
     "summary": "Keith Cobb was appointed to lead KPMG's newly reorganized Financial Services unit, faced partner skepticism due to his non-specialist background, mounted a highly prepared, consultant-backed presentation at a national meeting to establish credibility and drive adoption of a five-point strategy, and later accepted an external CEO offer from Alamo.",
     "lifeStage": "Leadership",
     "themes": [
-      "**Word Count:** 3085"
+      "Career Choices",
+      "Community",
+      "Financial Responsibility",
+      "Gratitude",
+      "Identity",
+      "Leadership",
+      "Work Ethic"
     ],
     "wordCount": 3085,
     "principles": [
@@ -461,7 +578,12 @@ export const storiesData: StoryCard[] = [
     "summary": "The narrator becomes CEO of Alamo Rent A Car in 1995, implements rapid strategic, operational, financial and cultural changes to turn the company from large losses to profitability, and ultimately sells it to AutoNation. He emphasizes clear agreements, decisive leadership, and rebuilding key relationships.",
     "lifeStage": "Leadership",
     "themes": [
-      "**Word Count:** 4476"
+      "Adversity",
+      "Career Choices",
+      "Curiosity",
+      "Financial Responsibility",
+      "Gratitude",
+      "Leadership"
     ],
     "wordCount": 4476,
     "principles": [
@@ -480,7 +602,12 @@ export const storiesData: StoryCard[] = [
     "summary": "After leaving his executive role in 1997, the narrator built a third career as a corporate board member, consultant and adjunct professor, through a sequence of board appointments, entrepreneurial investments, consulting engagements and teaching. He experienced notable successes (Alliance Data, Fed board, consulting retainers) and failures (Laundromax), and learned governance, risk and professional lessons.",
     "lifeStage": "Leadership",
     "themes": [
-      "**Word Count:** 3464"
+      "Adversity",
+      "Career Choices",
+      "Curiosity",
+      "Gratitude",
+      "Leadership",
+      "Work Ethic"
     ],
     "wordCount": 3464,
     "principles": [
@@ -498,7 +625,11 @@ export const storiesData: StoryCard[] = [
     "summary": "A career auditor recounts multiple instances of fraud and ethical breaches encountered over decades, describing investigative actions, escalation choices, and reflections on professional values.",
     "lifeStage": "Leadership",
     "themes": [
-      "**Word Count:** 2833"
+      "Career Choices",
+      "Gratitude",
+      "Identity",
+      "Integrity",
+      "Work Ethic"
     ],
     "wordCount": 2833,
     "principles": [
@@ -516,7 +647,13 @@ export const storiesData: StoryCard[] = [
     "summary": "A former KPMG partner reflects on a long career, gratitude to the firm, and his transition to lead a major company where he swiftly addressed inherited problems and succeeded.",
     "lifeStage": "Reflection",
     "themes": [
-      "**Word Count:** 512"
+      "Adversity",
+      "Career Choices",
+      "Gratitude",
+      "Identity",
+      "Integrity",
+      "Leadership",
+      "Work Ethic"
     ],
     "wordCount": 512,
     "principles": [
@@ -534,7 +671,11 @@ export const storiesData: StoryCard[] = [
     "summary": "A first-person travelogue reflecting on decades of domestic and international travel, arguing that first-hand observation yields deeper understanding than second-hand accounts and recounting diverse travel experiences and a humanitarian trip.",
     "lifeStage": "Reflection",
     "themes": [
-      "**Word Count:** 3598"
+      "Career Choices",
+      "Community",
+      "Gratitude",
+      "Identity",
+      "Work Ethic"
     ],
     "wordCount": 3598,
     "principles": [
@@ -551,7 +692,14 @@ export const storiesData: StoryCard[] = [
     "summary": "The narrator recounts brief encounters with various famous people across decades and the practical, personal lessons gleaned from those meetings.",
     "lifeStage": "Reflection",
     "themes": [
-      "**Word Count:** 1992"
+      "Adversity",
+      "Career Choices",
+      "Community",
+      "Curiosity",
+      "Gratitude",
+      "Identity",
+      "Leadership",
+      "Work Ethic"
     ],
     "wordCount": 1992,
     "principles": [
@@ -570,7 +718,9 @@ export const storiesData: StoryCard[] = [
     "summary": "The narrator recounts how moments of music in a monotonous school setting sparked a lifelong love of music and lists favorite compositions that shaped emotions and memories.",
     "lifeStage": "Reflection",
     "themes": [
-      "**Word Count:** 1901"
+      "Curiosity",
+      "Gratitude",
+      "Integrity"
     ],
     "wordCount": 1901,
     "principles": [
@@ -587,7 +737,15 @@ export const storiesData: StoryCard[] = [
     "summary": "A reflective first-person account of a lifelong passion for vocabulary: influences, habits (collections, subscriptions, games), and the pleasure derived from words and their clarity.",
     "lifeStage": "Reflection",
     "themes": [
-      "**Word Count:** 1100"
+      "Adversity",
+      "Career Choices",
+      "Community",
+      "Curiosity",
+      "Financial Responsibility",
+      "Gratitude",
+      "Identity",
+      "Integrity",
+      "Work Ethic"
     ],
     "wordCount": 1100,
     "principles": [
@@ -605,7 +763,14 @@ export const storiesData: StoryCard[] = [
     "summary": "A personal memoir tracing decades of the narrator's choices about homes, automobiles, and boats, showing how material desires, research, advice, and learning from mistakes shaped family life and investments.",
     "lifeStage": "Reflection",
     "themes": [
-      "**Word Count:** 2946"
+      "Career Choices",
+      "Community",
+      "Curiosity",
+      "Financial Responsibility",
+      "Gratitude",
+      "Identity",
+      "Leadership",
+      "Work Ethic"
     ],
     "wordCount": 2946,
     "principles": [
@@ -623,7 +788,7 @@ export const storiesData: StoryCard[] = [
     "summary": "A father reflects on raising his three sons, describing their personalities, education, milestones, and the values and choices that shaped their development and families.",
     "lifeStage": "Reflection",
     "themes": [
-      "**Word Count:** 2260"
+      "Financial Responsibility"
     ],
     "wordCount": 2260,
     "principles": [
@@ -641,7 +806,9 @@ export const storiesData: StoryCard[] = [
     "summary": "A narrator reflects on family as the bedrock of life, describing children, spouses, grandchildren, and how love and regular contact have sustained close relationships despite geographic distance.",
     "lifeStage": "Reflection",
     "themes": [
-      "**Word Count:** 1567"
+      "Career Choices",
+      "Family",
+      "Financial Responsibility"
     ],
     "wordCount": 1567,
     "principles": [
@@ -660,7 +827,10 @@ export const storiesData: StoryCard[] = [
     "summary": "A reflection on a fifty-year friendship between the narrator and Charles Brumfield, tracing their college collaboration, long correspondence, pranks, and Brumfield’s adventurous, cosmopolitan life.",
     "lifeStage": "Reflection",
     "themes": [
-      "**Word Count:** 1945"
+      "Career Choices",
+      "Community",
+      "Family",
+      "Financial Responsibility"
     ],
     "wordCount": 1945,
     "principles": [
@@ -678,7 +848,10 @@ export const storiesData: StoryCard[] = [
     "summary": "A personal testimony recounting lifelong Christian formation beginning with childhood VBS, a pivotal conversion at age eleven, sustained service in church leadership, exploration of other faiths, and a conviction of stewardship and gratitude.",
     "lifeStage": "Reflection",
     "themes": [
-      "**Word Count:** 2114"
+      "Adversity",
+      "Community",
+      "Financial Responsibility",
+      "Identity"
     ],
     "wordCount": 2114,
     "principles": [
@@ -696,7 +869,15 @@ export const storiesData: StoryCard[] = [
     "summary": "A personal account of lifelong commitment to community service through sustained financial giving, board leadership, volunteer work, and the ethic of \"paying it forward.\"",
     "lifeStage": "Reflection",
     "themes": [
-      "**Word Count:** 1385"
+      "Adversity",
+      "Career Choices",
+      "Community",
+      "Curiosity",
+      "Financial Responsibility",
+      "Gratitude",
+      "Identity",
+      "Leadership",
+      "Work Ethic"
     ],
     "wordCount": 1385,
     "principles": [
@@ -713,7 +894,12 @@ export const storiesData: StoryCard[] = [
     "summary": "A memoirist reflects on a series of memorable personal moments across his life—marriage, education, family vacations, births and losses—and describes a late-life turn to retrospection, gratitude, and sense-making.",
     "lifeStage": "Reflection",
     "themes": [
-      "**Word Count:** 2198"
+      "Adversity",
+      "Career Choices",
+      "Gratitude",
+      "Identity",
+      "Leadership",
+      "Work Ethic"
     ],
     "wordCount": 2198,
     "principles": [
@@ -728,99 +914,318 @@ export const storiesData: StoryCard[] = [
 
 export const themesData: ThemeCard[] = [
   {
-    "slug": "adversity",
-    "name": "Adversity",
-    "storyCount": 1,
-    "storyIds": [
-      "P1_S02"
-    ]
-  },
-  {
     "slug": "career-choices",
     "name": "Career Choices",
-    "storyCount": 1,
+    "storyCount": 31,
     "storyIds": [
-      "P1_S01"
-    ]
-  },
-  {
-    "slug": "community",
-    "name": "Community",
-    "storyCount": 1,
-    "storyIds": [
-      "P1_S01"
-    ]
-  },
-  {
-    "slug": "curiosity",
-    "name": "Curiosity",
-    "storyCount": 1,
-    "storyIds": [
-      "P1_S03"
-    ]
-  },
-  {
-    "slug": "family",
-    "name": "Family",
-    "storyCount": 1,
-    "storyIds": [
-      "P1_S08"
-    ]
-  },
-  {
-    "slug": "financial-responsibility",
-    "name": "Financial Responsibility",
-    "storyCount": 1,
-    "storyIds": [
-      "P1_S05"
+      "P1_S01",
+      "P1_S02",
+      "P1_S03",
+      "P1_S04",
+      "P1_S05",
+      "P1_S07",
+      "P1_S08",
+      "P1_S09",
+      "P1_S10",
+      "P1_S11",
+      "P1_S12",
+      "P1_S13",
+      "P1_S16",
+      "P1_S17",
+      "P1_S18",
+      "P1_S19",
+      "P1_S20",
+      "P1_S23",
+      "P1_S24",
+      "P1_S25",
+      "P1_S26",
+      "P1_S27",
+      "P1_S28",
+      "P1_S29",
+      "P1_S30",
+      "P1_S32",
+      "P1_S33",
+      "P1_S35",
+      "P1_S36",
+      "P1_S38",
+      "P1_S39"
     ]
   },
   {
     "slug": "gratitude",
     "name": "Gratitude",
-    "storyCount": 1,
+    "storyCount": 26,
     "storyIds": [
-      "P1_S01"
+      "P1_S01",
+      "P1_S02",
+      "P1_S03",
+      "P1_S04",
+      "P1_S05",
+      "P1_S08",
+      "P1_S10",
+      "P1_S11",
+      "P1_S12",
+      "P1_S17",
+      "P1_S18",
+      "P1_S19",
+      "P1_S20",
+      "P1_S23",
+      "P1_S24",
+      "P1_S25",
+      "P1_S26",
+      "P1_S27",
+      "P1_S28",
+      "P1_S29",
+      "P1_S30",
+      "P1_S31",
+      "P1_S32",
+      "P1_S33",
+      "P1_S38",
+      "P1_S39"
     ]
   },
   {
     "slug": "identity",
     "name": "Identity",
-    "storyCount": 1,
+    "storyCount": 26,
     "storyIds": [
-      "P1_S01"
-    ]
-  },
-  {
-    "slug": "integrity",
-    "name": "Integrity",
-    "storyCount": 1,
-    "storyIds": [
-      "P1_S06"
-    ]
-  },
-  {
-    "slug": "leadership",
-    "name": "Leadership",
-    "storyCount": 1,
-    "storyIds": [
-      "P1_S02"
-    ]
-  },
-  {
-    "slug": "mentorship",
-    "name": "Mentorship",
-    "storyCount": 1,
-    "storyIds": [
-      "P1_S02"
+      "P1_S01",
+      "P1_S02",
+      "P1_S03",
+      "P1_S04",
+      "P1_S05",
+      "P1_S06",
+      "P1_S08",
+      "P1_S10",
+      "P1_S11",
+      "P1_S12",
+      "P1_S17",
+      "P1_S18",
+      "P1_S19",
+      "P1_S20",
+      "P1_S21",
+      "P1_S23",
+      "P1_S24",
+      "P1_S27",
+      "P1_S28",
+      "P1_S29",
+      "P1_S30",
+      "P1_S32",
+      "P1_S33",
+      "P1_S37",
+      "P1_S38",
+      "P1_S39"
     ]
   },
   {
     "slug": "work-ethic",
     "name": "Work Ethic",
-    "storyCount": 1,
+    "storyCount": 26,
     "storyIds": [
-      "P1_S01"
+      "P1_S01",
+      "P1_S02",
+      "P1_S03",
+      "P1_S04",
+      "P1_S05",
+      "P1_S07",
+      "P1_S08",
+      "P1_S09",
+      "P1_S10",
+      "P1_S11",
+      "P1_S12",
+      "P1_S17",
+      "P1_S18",
+      "P1_S19",
+      "P1_S20",
+      "P1_S23",
+      "P1_S24",
+      "P1_S26",
+      "P1_S27",
+      "P1_S28",
+      "P1_S29",
+      "P1_S30",
+      "P1_S32",
+      "P1_S33",
+      "P1_S38",
+      "P1_S39"
+    ]
+  },
+  {
+    "slug": "curiosity",
+    "name": "Curiosity",
+    "storyCount": 23,
+    "storyIds": [
+      "P1_S03",
+      "P1_S04",
+      "P1_S05",
+      "P1_S06",
+      "P1_S07",
+      "P1_S09",
+      "P1_S10",
+      "P1_S11",
+      "P1_S12",
+      "P1_S13",
+      "P1_S16",
+      "P1_S18",
+      "P1_S20",
+      "P1_S21",
+      "P1_S22",
+      "P1_S23",
+      "P1_S25",
+      "P1_S26",
+      "P1_S30",
+      "P1_S31",
+      "P1_S32",
+      "P1_S33",
+      "P1_S38"
+    ]
+  },
+  {
+    "slug": "leadership",
+    "name": "Leadership",
+    "storyCount": 23,
+    "storyIds": [
+      "P1_S02",
+      "P1_S04",
+      "P1_S05",
+      "P1_S06",
+      "P1_S07",
+      "P1_S09",
+      "P1_S12",
+      "P1_S14",
+      "P1_S15",
+      "P1_S16",
+      "P1_S18",
+      "P1_S19",
+      "P1_S20",
+      "P1_S21",
+      "P1_S22",
+      "P1_S24",
+      "P1_S25",
+      "P1_S26",
+      "P1_S28",
+      "P1_S30",
+      "P1_S33",
+      "P1_S38",
+      "P1_S39"
+    ]
+  },
+  {
+    "slug": "financial-responsibility",
+    "name": "Financial Responsibility",
+    "storyCount": 21,
+    "storyIds": [
+      "P1_S05",
+      "P1_S06",
+      "P1_S08",
+      "P1_S09",
+      "P1_S11",
+      "P1_S12",
+      "P1_S13",
+      "P1_S14",
+      "P1_S15",
+      "P1_S21",
+      "P1_S22",
+      "P1_S23",
+      "P1_S24",
+      "P1_S25",
+      "P1_S32",
+      "P1_S33",
+      "P1_S34",
+      "P1_S35",
+      "P1_S36",
+      "P1_S37",
+      "P1_S38"
+    ]
+  },
+  {
+    "slug": "community",
+    "name": "Community",
+    "storyCount": 18,
+    "storyIds": [
+      "P1_S01",
+      "P1_S03",
+      "P1_S05",
+      "P1_S06",
+      "P1_S08",
+      "P1_S10",
+      "P1_S11",
+      "P1_S12",
+      "P1_S15",
+      "P1_S21",
+      "P1_S24",
+      "P1_S29",
+      "P1_S30",
+      "P1_S32",
+      "P1_S33",
+      "P1_S36",
+      "P1_S37",
+      "P1_S38"
+    ]
+  },
+  {
+    "slug": "adversity",
+    "name": "Adversity",
+    "storyCount": 16,
+    "storyIds": [
+      "P1_S02",
+      "P1_S05",
+      "P1_S06",
+      "P1_S07",
+      "P1_S09",
+      "P1_S15",
+      "P1_S20",
+      "P1_S21",
+      "P1_S25",
+      "P1_S26",
+      "P1_S28",
+      "P1_S30",
+      "P1_S32",
+      "P1_S37",
+      "P1_S38",
+      "P1_S39"
+    ]
+  },
+  {
+    "slug": "integrity",
+    "name": "Integrity",
+    "storyCount": 13,
+    "storyIds": [
+      "P1_S06",
+      "P1_S07",
+      "P1_S09",
+      "P1_S13",
+      "P1_S15",
+      "P1_S18",
+      "P1_S19",
+      "P1_S20",
+      "P1_S22",
+      "P1_S27",
+      "P1_S28",
+      "P1_S31",
+      "P1_S32"
+    ]
+  },
+  {
+    "slug": "family",
+    "name": "Family",
+    "storyCount": 4,
+    "storyIds": [
+      "P1_S08",
+      "P1_S12",
+      "P1_S35",
+      "P1_S36"
+    ]
+  },
+  {
+    "slug": "mentorship",
+    "name": "Mentorship",
+    "storyCount": 4,
+    "storyIds": [
+      "P1_S02",
+      "P1_S03",
+      "P1_S06",
+      "P1_S17"
     ]
   }
 ];

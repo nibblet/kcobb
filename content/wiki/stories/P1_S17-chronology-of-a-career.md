@@ -4,7 +4,7 @@
 
 **Story ID:** P1_S17
 **Life Stage:** Reflection
-**Themes:** 
+**Themes:** Career Choices, Gratitude, Identity, Mentorship, Work Ethic
 **Word Count:** 286
 
 ## Full Text
@@ -64,6 +64,13 @@ As I re flect on my career, my focus is trans fixed by the numerous personalitie
 ## Timeline
 
 - **1963** — Graduated from University of Southern Mississippi (University of Southern Mississippi)
+
+## Related Stories
+
+- [[P1_S02]] A V ery Busy Teenager — A former high-school student recounts a busy four years filled with strong academics, extensive extr...
+- [[P1_S03]] A Remarkable Teacher’s Legacy — A devoted, intellectually curious high-school English teacher in a rural community demanded rigorous...
+- [[P1_S01]] A Towhead from the Red Clay Hills — A memoirist recalls growing up in Calhoun City, Mississippi in the 1940s–1950s, describing family li...
+- [[P1_S04]] On My Honor — A personal memoir of Boy Scout experiences emphasizing mentorship, discipline, structured progressio...
 
 ## Best Used When Someone Asks About
 

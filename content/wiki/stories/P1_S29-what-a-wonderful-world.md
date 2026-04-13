@@ -4,7 +4,7 @@
 
 **Story ID:** P1_S29
 **Life Stage:** Reflection
-**Themes:** 
+**Themes:** Career Choices, Community, Gratitude, Identity, Work Ethic
 **Word Count:** 3598
 
 ## Full Text
@@ -168,6 +168,13 @@ Sunset at the South Pole
 ## Timeline
 
 - **2014** — Antarctica expedition; rounded out seven continents
+
+## Related Stories
+
+- [[P1_S01]] A Towhead from the Red Clay Hills — A memoirist recalls growing up in Calhoun City, Mississippi in the 1940s–1950s, describing family li...
+- [[P1_S03]] A Remarkable Teacher’s Legacy — A devoted, intellectually curious high-school English teacher in a rural community demanded rigorous...
+- [[P1_S05]] A Would-be Music Man — An individual with clear musical talent but limited discipline recounts childhood and high-school mu...
+- [[P1_S08]] Blue and Ruby Cole — Neighbors Blue and Ruby Cole acted as surrogate parents, offering time, protection, and practical he...
 
 ## Best Used When Someone Asks About
 

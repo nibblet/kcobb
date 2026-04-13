@@ -4,7 +4,7 @@
 
 **Story ID:** P1_S34
 **Life Stage:** Reflection
-**Themes:** 
+**Themes:** Financial Responsibility
 **Word Count:** 2260
 
 ## Full Text
@@ -113,6 +113,13 @@ each of them will easily eclipse anything I have ever done.
 - **1968** — First son Paul born (St. Dominic Hospital)
 - **1971** — Second son John born (Orange Memorial Hospital)
 - **1977** — Third son Mark born (Holy Cross Hospital)
+
+## Related Stories
+
+- [[P1_S05]] A Would-be Music Man — An individual with clear musical talent but limited discipline recounts childhood and high-school mu...
+- [[P1_S06]] Bayne Cobb, Exemplar of a Dad — A son reflects on his father's quiet, steady leadership across family, work, and adversity, highligh...
+- [[P1_S08]] Blue and Ruby Cole — Neighbors Blue and Ruby Cole acted as surrogate parents, offering time, protection, and practical he...
+- [[P1_S09]] A Work Ethic Develops — Narrator describes growing up with early assigned chores, family small-business work, and successive...
 
 ## Best Used When Someone Asks About
 

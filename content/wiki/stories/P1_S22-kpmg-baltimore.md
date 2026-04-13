@@ -4,7 +4,7 @@
 
 **Story ID:** P1_S22
 **Life Stage:** Leadership
-**Themes:** 
+**Themes:** Curiosity, Financial Responsibility, Integrity, Leadership
 **Word Count:** 2713
 
 ## Full Text
@@ -136,6 +136,13 @@ Goodbye Friendly Baltimore!
 ## Timeline
 
 - **1989** — Asked to move to Baltimore; became managing partner (KPMG)
+
+## Related Stories
+
+- [[P1_S06]] Bayne Cobb, Exemplar of a Dad — A son reflects on his father's quiet, steady leadership across family, work, and adversity, highligh...
+- [[P1_S09]] A Work Ethic Develops — Narrator describes growing up with early assigned chores, family small-business work, and successive...
+- [[P1_S05]] A Would-be Music Man — An individual with clear musical talent but limited discipline recounts childhood and high-school mu...
+- [[P1_S07]] Frances Cobb—A Spool of Blue Thread — A memoir sketch of Frances Cobb, a hardworking seamstress and mother whose ambition, exacting standa...
 
 ## Best Used When Someone Asks About
 

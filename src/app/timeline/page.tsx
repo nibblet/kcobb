@@ -18,7 +18,7 @@ export default function TimelinePage() {
         Life Timeline
       </h1>
       <p className="text-stone-500 text-sm mb-6">
-        {events.length} events spanning Keith Cobb&apos;s life and career
+        {`${events.length} events spanning Keith Cobb's life and career`}
       </p>
 
       <div className="relative">

@@ -4,7 +4,7 @@
 
 **Story ID:** P1_S07
 **Life Stage:** Childhood
-**Themes:** 
+**Themes:** Adversity, Career Choices, Curiosity, Integrity, Leadership, Work Ethic
 **Word Count:** 2474
 
 ## Full Text
@@ -111,6 +111,13 @@ Mother’s casket and commented to each other that she looked peaceful for the f
 > "She taught me how to do everything and then supervised me to be sure I did them perfectly."
 
 > "I shall be forever grateful for all of this."
+
+## Related Stories
+
+- [[P1_S09]] A Work Ethic Develops — Narrator describes growing up with early assigned chores, family small-business work, and successive...
+- [[P1_S20]] The Florida Frontier — A young Peat Marwick partner relocates to Orlando in 1971 to establish a new office with little loca...
+- [[P1_S05]] A Would-be Music Man — An individual with clear musical talent but limited discipline recounts childhood and high-school mu...
+- [[P1_S26]] Corporate Boards and Consulting — After leaving his executive role in 1997, the narrator built a third career as a corporate board mem...
 
 ## Best Used When Someone Asks About
 

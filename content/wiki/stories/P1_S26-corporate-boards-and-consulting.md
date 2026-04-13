@@ -4,7 +4,7 @@
 
 **Story ID:** P1_S26
 **Life Stage:** Leadership
-**Themes:** 
+**Themes:** Adversity, Career Choices, Curiosity, Gratitude, Leadership, Work Ethic
 **Word Count:** 3464
 
 ## Full Text
@@ -153,6 +153,13 @@ participated in such programs.
 - **2003** — Began teaching as adjunct at Nova Southeastern University (Nova Southeastern University)
 - **2012** — BankAtlantic sold to BB&T (BankAtlantic Bancorp)
 - **2013** — Resigned from BFC Financial / BankAtlantic boards; Oklahoma City tornado cleanup
+
+## Related Stories
+
+- [[P1_S05]] A Would-be Music Man — An individual with clear musical talent but limited discipline recounts childhood and high-school mu...
+- [[P1_S20]] The Florida Frontier — A young Peat Marwick partner relocates to Orlando in 1971 to establish a new office with little loca...
+- [[P1_S30]] Famous People I’ve Met (None of Whom Would Ever Remember Me) — The narrator recounts brief encounters with various famous people across decades and the practical, ...
+- [[P1_S38]] For Good. For Ever. — A personal account of lifelong commitment to community service through sustained financial giving, b...
 
 ## Best Used When Someone Asks About
 

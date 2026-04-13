@@ -4,6 +4,7 @@ import { Suspense, useState, useRef, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import { useAgeMode } from "@/hooks/useAgeMode";
 import Link from "next/link";
+import ReactMarkdown from "react-markdown";
 
 interface Message {
   role: "user" | "assistant";
@@ -21,6 +22,7 @@ export default function AskPage() {
 function AskPageContent() {
   const searchParams = useSearchParams();
   const storySlug = searchParams.get("story") || undefined;
+  const journeySlug = searchParams.get("journey") || undefined;
   const { ageMode } = useAgeMode();
 
   const [messages, setMessages] = useState<Message[]>([]);
@@ -56,11 +58,17 @@ function AskPageContent() {
           message: messageText,
           conversationId,
           storySlug,
+          journeySlug,
           ageMode,
         }),
       });
 
       if (!res.ok) {
+        if (res.status === 429) {
+          throw new Error(
+            "Too many questions! Please wait a moment before asking again."
+          );
+        }
         throw new Error("Failed to get response");
       }
 
@@ -69,36 +77,49 @@ function AskPageContent() {
 
       if (!reader) throw new Error("No stream available");
 
+      let buffer = "";
       while (true) {
         const { done, value } = await reader.read();
-        if (done) break;
+        if (value) {
+          buffer += decoder.decode(value, { stream: true });
+        }
+        if (done) {
+          buffer += decoder.decode();
+        }
 
-        const chunk = decoder.decode(value);
-        const lines = chunk.split("\n").filter((l) => l.startsWith("data: "));
+        const lines = buffer.split("\n");
+        buffer = done ? "" : (lines.pop() ?? "");
 
         for (const line of lines) {
-          const data = JSON.parse(line.slice(6));
+          if (!line.startsWith("data: ")) continue;
+          try {
+            const data = JSON.parse(line.slice(6));
 
-          if (data.error) {
-            setError(data.error);
-            break;
-          }
+            if (data.error) {
+              setError(data.error);
+              break;
+            }
 
-          if (data.conversationId && !conversationId) {
-            setConversationId(data.conversationId);
-          }
+            if (data.conversationId && !conversationId) {
+              setConversationId(data.conversationId);
+            }
 
-          if (data.text) {
-            setMessages((prev) => {
-              const updated = [...prev];
-              const last = updated[updated.length - 1];
-              if (last.role === "assistant") {
-                last.content += data.text;
-              }
-              return updated;
-            });
+            if (data.text) {
+              setMessages((prev) => {
+                const updated = [...prev];
+                const last = updated[updated.length - 1];
+                if (last.role === "assistant") {
+                  last.content += data.text;
+                }
+                return updated;
+              });
+            }
+          } catch {
+            // Malformed SSE line — skip
           }
         }
+
+        if (done) break;
       }
     } catch {
       setError(
@@ -127,6 +148,12 @@ function AskPageContent() {
           Ask questions about Keith&apos;s stories and life lessons
           {storySlug && (
             <span className="text-amber-700"> &middot; Reading {storySlug}</span>
+          )}
+          {journeySlug && !storySlug && (
+            <span className="text-amber-700">
+              {" "}
+              &middot; Journey: {journeySlug.replace(/-/g, " ")}
+            </span>
           )}
         </p>
       </div>
@@ -169,8 +196,14 @@ function AskPageContent() {
                   : "bg-white border border-stone-200 text-stone-700"
               }`}
             >
-              {msg.content.split("\n").map((line, j) =>
-                line.trim() ? <p key={j} className={j > 0 ? "mt-2" : ""}>{line}</p> : null
+              {msg.role === "assistant" ? (
+                <div className="prose prose-sm prose-stone max-w-none prose-p:my-1 prose-headings:text-stone-800 prose-headings:text-sm prose-headings:font-semibold prose-headings:mt-3 prose-headings:mb-1 prose-ul:my-1 prose-li:my-0 prose-blockquote:border-amber-300 prose-blockquote:text-stone-600">
+                  <ReactMarkdown>{msg.content}</ReactMarkdown>
+                </div>
+              ) : (
+                msg.content.split("\n").map((line, j) =>
+                  line.trim() ? <p key={j} className={j > 0 ? "mt-2" : ""}>{line}</p> : null
+                )
               )}
               {msg.role === "assistant" && msg.content === "" && loading && (
                 <span className="text-stone-400 animate-pulse">Thinking...</span>

@@ -4,7 +4,7 @@
 
 **Story ID:** P1_S33
 **Life Stage:** Reflection
-**Themes:** 
+**Themes:** Career Choices, Community, Curiosity, Financial Responsibility, Gratitude, Identity, Leadership, Work Ethic
 **Word Count:** 2946
 
 ## Full Text
@@ -149,6 +149,13 @@ finally decided to bite the bullet and become “boatless” for the first time 
 ## Timeline
 
 - **1996** — Ordered ten GM experimental electric cars for Alamo rental testing (Alamo Rent A Car)
+
+## Related Stories
+
+- [[P1_S05]] A Would-be Music Man — An individual with clear musical talent but limited discipline recounts childhood and high-school mu...
+- [[P1_S12]] By the Light of the Silvery Moon — A first-person account of two neighbors who moved from casual acquaintances in high school to lifelo...
+- [[P1_S38]] For Good. For Ever. — A personal account of lifelong commitment to community service through sustained financial giving, b...
+- [[P1_S11]] Early Wanderlust — A narrator recounts formative travel experiences from childhood through college that sparked curiosi...
 
 ## Best Used When Someone Asks About
 

@@ -13,15 +13,18 @@ In Next.js 16.2.3, the `middleware.ts` file convention at the app root has been 
 
 ## Steps
 1. Open `src/middleware.ts` — read the full file to confirm contents
-2. Create `src/proxy.ts` with **identical content** to `src/middleware.ts`
+2. Create `src/proxy.ts`: same imports and `config` as before, but rename the exported handler from `middleware` to **`proxy`** (Next.js requires `export async function proxy` or a default export for `proxy.ts`).
 3. Delete `src/middleware.ts`
 4. Verify the `config` export in `src/proxy.ts` still has the correct `matcher` — it should remain unchanged
 5. Run `npm run build` — confirm the deprecation warning is gone
 6. Run `npm run lint` — confirm no new errors
 
+## Implementation notes (2026-04-13)
+- Applied as above; `next build` reports route line `ƒ Proxy (Middleware)` and no “middleware file convention is deprecated” warning.
+
 ## Files Modified
 - `src/middleware.ts` — **deleted**
-- `src/proxy.ts` — **new file, identical content to old middleware.ts**
+- `src/proxy.ts` — **new file** (`proxy` handler + same `config` as former middleware)
 
 ## New Files
 - `src/proxy.ts` — Next.js 16 proxy convention for Supabase session refresh and auth-guard redirect
@@ -30,7 +33,7 @@ In Next.js 16.2.3, the `middleware.ts` file convention at the app root has been 
 None
 
 ## Verify
-- [ ] Build passes with no deprecation warning about middleware
-- [ ] Accessing `/stories` while logged out redirects to `/login`
-- [ ] Accessing `/login` while logged in redirects to `/`
-- [ ] Auth callback at `/auth/callback` still works
+- [x] Build passes with no deprecation warning about middleware
+- [ ] Accessing `/stories` while logged out redirects to `/login` *(manual)*
+- [ ] Accessing `/login` while logged in redirects to `/` *(manual)*
+- [ ] Auth callback at `/auth/callback` still works *(manual)*

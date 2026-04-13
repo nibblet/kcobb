@@ -4,7 +4,7 @@
 
 **Story ID:** P1_S30
 **Life Stage:** Reflection
-**Themes:** 
+**Themes:** Adversity, Career Choices, Community, Curiosity, Gratitude, Identity, Leadership, Work Ethic
 **Word Count:** 1992
 
 ## Full Text
@@ -112,6 +112,13 @@ I have tried to parse out some of the characteristics that make celebrities spec
 > "His grit inspired me."
 
 > "there is no good reason to be intimidated by anyone."
+
+## Related Stories
+
+- [[P1_S05]] A Would-be Music Man — An individual with clear musical talent but limited discipline recounts childhood and high-school mu...
+- [[P1_S38]] For Good. For Ever. — A personal account of lifelong commitment to community service through sustained financial giving, b...
+- [[P1_S20]] The Florida Frontier — A young Peat Marwick partner relocates to Orlando in 1971 to establish a new office with little loca...
+- [[P1_S32]] For the Love of Words — A reflective first-person account of a lifelong passion for vocabulary: influences, habits (collecti...
 
 ## Best Used When Someone Asks About
 

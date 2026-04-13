@@ -4,7 +4,7 @@
 
 **Story ID:** P1_S13
 **Life Stage:** Education
-**Themes:** 
+**Themes:** Career Choices, Curiosity, Financial Responsibility, Integrity
 **Word Count:** 2810
 
 ## Full Text
@@ -132,6 +132,13 @@ I am a great believer in the value of momentum. My three sons can probably recit
 > "I learned that it pays to investigate actions and circumstances that appear questionable"
 
 > "I am a great believer in the value of momentum."
+
+## Related Stories
+
+- [[P1_S09]] A Work Ethic Develops — Narrator describes growing up with early assigned chores, family small-business work, and successive...
+- [[P1_S32]] For the Love of Words — A reflective first-person account of a lifelong passion for vocabulary: influences, habits (collecti...
+- [[P1_S05]] A Would-be Music Man — An individual with clear musical talent but limited discipline recounts childhood and high-school mu...
+- [[P1_S07]] Frances Cobb—A Spool of Blue Thread — A memoir sketch of Frances Cobb, a hardworking seamstress and mother whose ambition, exacting standa...
 
 ## Best Used When Someone Asks About
 

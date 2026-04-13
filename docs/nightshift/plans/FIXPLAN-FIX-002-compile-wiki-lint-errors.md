@@ -58,6 +58,8 @@ Add the `ParsedStory` interface definition near the top of the file, alongside t
 4. Run `npm run lint` — confirm 0 errors, 0 warnings from this file
 5. Run `npx tsx scripts/compile-wiki.ts` (in a safe test context) — confirm the script still runs without runtime errors
 
+**Done 2026-04-13:** `ParsedStory` added; manifest rows built as `ManifestRow`; unused `getLifeStage`, `LIFE_STAGE_ORDER`, and `quotesData` removed.
+
 ## Files Modified
 - `scripts/compile-wiki.ts` — type annotations tightened, unused declarations removed
 
@@ -68,6 +70,6 @@ None
 None
 
 ## Verify
-- [ ] `npm run lint` exits 0 with no errors from compile-wiki.ts
-- [ ] `npm run build` still passes
-- [ ] Running `npx tsx scripts/compile-wiki.ts` completes without runtime errors
+- [x] `npm run lint` exits 0 with no errors from compile-wiki.ts
+- [x] `npm run build` still passes
+- [x] Running `npx tsx scripts/compile-wiki.ts` completes without runtime errors

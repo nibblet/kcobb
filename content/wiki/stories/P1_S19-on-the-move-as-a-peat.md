@@ -4,7 +4,7 @@
 
 **Story ID:** P1_S19
 **Life Stage:** Early Career
-**Themes:** 
+**Themes:** Career Choices, Gratitude, Identity, Integrity, Leadership, Work Ethic
 **Word Count:** 825
 
 ## Full Text
@@ -77,6 +77,13 @@ So it would be off to Orlando in August 1971.
 ## Timeline
 
 - **1970** — Became partner at Peat Marwick (Peat Marwick)
+
+## Related Stories
+
+- [[P1_S18]] Early Years at Peat Marwick — A newly minted accountant joins Peat Marwick in 1963, rapidly advances through demanding audit work,...
+- [[P1_S20]] The Florida Frontier — A young Peat Marwick partner relocates to Orlando in 1971 to establish a new office with little loca...
+- [[P1_S28]] Career Summary — A former KPMG partner reflects on a long career, gratitude to the firm, and his transition to lead a...
+- [[P1_S02]] A V ery Busy Teenager — A former high-school student recounts a busy four years filled with strong academics, extensive extr...
 
 ## Best Used When Someone Asks About
 

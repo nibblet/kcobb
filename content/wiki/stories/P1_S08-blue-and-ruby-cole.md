@@ -4,7 +4,7 @@
 
 **Story ID:** P1_S08
 **Life Stage:** Childhood
-**Themes:** Family
+**Themes:** Career Choices, Community, Family, Financial Responsibility, Gratitude, Identity, Work Ethic
 **Word Count:** 1546
 
 ## Full Text
@@ -90,6 +90,13 @@ These are all terri fic memories. I am grateful for having known this wonderful 
 > "Sandy and Daddy looked after her every need."
 
 > "When her will was read, it came to light that she had left her entire estate to be divided equally between Sandy and Daddy."
+
+## Related Stories
+
+- [[P1_S12]] By the Light of the Silvery Moon — A first-person account of two neighbors who moved from casual acquaintances in high school to lifelo...
+- [[P1_S05]] A Would-be Music Man — An individual with clear musical talent but limited discipline recounts childhood and high-school mu...
+- [[P1_S11]] Early Wanderlust — A narrator recounts formative travel experiences from childhood through college that sparked curiosi...
+- [[P1_S24]] KPMG Financial Services — Keith Cobb was appointed to lead KPMG's newly reorganized Financial Services unit, faced partner ske...
 
 ## Best Used When Someone Asks About
 

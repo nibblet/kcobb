@@ -4,7 +4,7 @@
 
 **Story ID:** P1_S16
 **Life Stage:** Early Career
-**Themes:** 
+**Themes:** Career Choices, Curiosity, Leadership
 **Word Count:** 2061
 
 ## Full Text
@@ -121,6 +121,13 @@ PART T WO
 
 - **1962** — Job search and office visits to accounting firms (USM)
 - **1962** — Chose Peat Marwick, Jackson office (Peat Marwick Mitchell & Co.)
+
+## Related Stories
+
+- [[P1_S04]] On My Honor — A personal memoir of Boy Scout experiences emphasizing mentorship, discipline, structured progressio...
+- [[P1_S05]] A Would-be Music Man — An individual with clear musical talent but limited discipline recounts childhood and high-school mu...
+- [[P1_S07]] Frances Cobb—A Spool of Blue Thread — A memoir sketch of Frances Cobb, a hardworking seamstress and mother whose ambition, exacting standa...
+- [[P1_S09]] A Work Ethic Develops — Narrator describes growing up with early assigned chores, family small-business work, and successive...
 
 ## Best Used When Someone Asks About
 

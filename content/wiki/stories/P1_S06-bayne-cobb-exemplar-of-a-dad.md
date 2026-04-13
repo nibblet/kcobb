@@ -4,7 +4,7 @@
 
 **Story ID:** P1_S06
 **Life Stage:** Childhood
-**Themes:** Integrity
+**Themes:** Adversity, Community, Curiosity, Financial Responsibility, Identity, Integrity, Leadership, Mentorship
 **Word Count:** 2843
 
 ## Full Text
@@ -121,6 +121,13 @@ Keith and Dad
 > "He treated us both like real people, not as little children, pets or inferior subordinates."
 
 > "he never skipped a beat—not even a day of work —and was employed there for the next ten years."
+
+## Related Stories
+
+- [[P1_S05]] A Would-be Music Man — An individual with clear musical talent but limited discipline recounts childhood and high-school mu...
+- [[P1_S21]] New Roots in Fort Lauderdale — A managing partner relocates to Fort Lauderdale (1975), builds a successful audit practice by recrui...
+- [[P1_S32]] For the Love of Words — A reflective first-person account of a lifelong passion for vocabulary: influences, habits (collecti...
+- [[P1_S38]] For Good. For Ever. — A personal account of lifelong commitment to community service through sustained financial giving, b...
 
 ## Best Used When Someone Asks About
 

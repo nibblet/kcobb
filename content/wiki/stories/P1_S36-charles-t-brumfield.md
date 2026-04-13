@@ -4,7 +4,7 @@
 
 **Story ID:** P1_S36
 **Life Stage:** Reflection
-**Themes:** 
+**Themes:** Career Choices, Community, Family, Financial Responsibility
 **Word Count:** 1945
 
 ## Full Text
@@ -113,6 +113,13 @@ Charlie Brum field, after fifty years of adventure
 
 - **1959** — Entered college (Mississippi Southern College (USM))
 - **1959** — Elected president of Student Government Association (University of Southern Mississippi)
+
+## Related Stories
+
+- [[P1_S08]] Blue and Ruby Cole — Neighbors Blue and Ruby Cole acted as surrogate parents, offering time, protection, and practical he...
+- [[P1_S12]] By the Light of the Silvery Moon — A first-person account of two neighbors who moved from casual acquaintances in high school to lifelo...
+- [[P1_S05]] A Would-be Music Man — An individual with clear musical talent but limited discipline recounts childhood and high-school mu...
+- [[P1_S11]] Early Wanderlust — A narrator recounts formative travel experiences from childhood through college that sparked curiosi...
 
 ## Best Used When Someone Asks About
 

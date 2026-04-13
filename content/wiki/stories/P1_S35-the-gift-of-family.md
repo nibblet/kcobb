@@ -4,7 +4,7 @@
 
 **Story ID:** P1_S35
 **Life Stage:** Reflection
-**Themes:** 
+**Themes:** Career Choices, Family, Financial Responsibility
 **Word Count:** 1567
 
 ## Full Text
@@ -109,6 +109,13 @@ I recently saw a Desmond Tutu quote that resonated with me:
 ## Timeline
 
 - **2012** — Grandson Ethan Keith Cobb born
+
+## Related Stories
+
+- [[P1_S08]] Blue and Ruby Cole — Neighbors Blue and Ruby Cole acted as surrogate parents, offering time, protection, and practical he...
+- [[P1_S12]] By the Light of the Silvery Moon — A first-person account of two neighbors who moved from casual acquaintances in high school to lifelo...
+- [[P1_S36]] Charles T. Brumfield — A reflection on a fifty-year friendship between the narrator and Charles Brumfield, tracing their co...
+- [[P1_S05]] A Would-be Music Man — An individual with clear musical talent but limited discipline recounts childhood and high-school mu...
 
 ## Best Used When Someone Asks About
 

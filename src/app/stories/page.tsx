@@ -37,7 +37,7 @@ export default function StoriesPage() {
         Story Library
       </h1>
       <p className="text-stone-500 text-sm mb-6">
-        {storiesData.length} stories from Keith Cobb&apos;s life
+        {`${storiesData.length} stories from Keith Cobb's life`}
       </p>
 
       {/* Filters */}

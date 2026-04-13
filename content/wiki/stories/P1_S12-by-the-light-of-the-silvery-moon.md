@@ -4,7 +4,7 @@
 
 **Story ID:** P1_S12
 **Life Stage:** Education
-**Themes:** 
+**Themes:** Career Choices, Community, Curiosity, Family, Financial Responsibility, Gratitude, Identity, Leadership, Work Ethic
 **Word Count:** 1447
 
 ## Full Text
@@ -91,6 +91,13 @@ The most wonderful wife!
 > "I saved most of the money earned that summer"
 
 > "We have been strong supporters for each other"
+
+## Related Stories
+
+- [[P1_S05]] A Would-be Music Man — An individual with clear musical talent but limited discipline recounts childhood and high-school mu...
+- [[P1_S33]] Houses, Cars and Boats — A personal memoir tracing decades of the narrator's choices about homes, automobiles, and boats, sho...
+- [[P1_S38]] For Good. For Ever. — A personal account of lifelong commitment to community service through sustained financial giving, b...
+- [[P1_S08]] Blue and Ruby Cole — Neighbors Blue and Ruby Cole acted as surrogate parents, offering time, protection, and practical he...
 
 ## Best Used When Someone Asks About
 

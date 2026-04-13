@@ -4,7 +4,7 @@
 
 **Story ID:** P1_S09
 **Life Stage:** Childhood
-**Themes:** 
+**Themes:** Adversity, Career Choices, Curiosity, Financial Responsibility, Integrity, Leadership, Work Ethic
 **Word Count:** 2495
 
 ## Full Text
@@ -113,6 +113,13 @@ I hit the ground running in college, bu ttressed with an outstanding public scho
 > "He was treating me like a partner!"
 
 > "By the end of the summer, we had sold the entire lot at $1 apiece"
+
+## Related Stories
+
+- [[P1_S05]] A Would-be Music Man — An individual with clear musical talent but limited discipline recounts childhood and high-school mu...
+- [[P1_S07]] Frances Cobb—A Spool of Blue Thread — A memoir sketch of Frances Cobb, a hardworking seamstress and mother whose ambition, exacting standa...
+- [[P1_S20]] The Florida Frontier — A young Peat Marwick partner relocates to Orlando in 1971 to establish a new office with little loca...
+- [[P1_S32]] For the Love of Words — A reflective first-person account of a lifelong passion for vocabulary: influences, habits (collecti...
 
 ## Best Used When Someone Asks About
 

@@ -4,7 +4,7 @@
 
 **Story ID:** P1_S25
 **Life Stage:** Leadership
-**Themes:** 
+**Themes:** Adversity, Career Choices, Curiosity, Financial Responsibility, Gratitude, Leadership
 **Word Count:** 4476
 
 ## Full Text
@@ -168,6 +168,13 @@ I walked away from Alamo with my head high. I knew I had accomplished a remarkab
 ## Timeline
 
 - **1995** — Became CEO of Alamo Rent A Car (Alamo Rent A Car)
+
+## Related Stories
+
+- [[P1_S05]] A Would-be Music Man — An individual with clear musical talent but limited discipline recounts childhood and high-school mu...
+- [[P1_S38]] For Good. For Ever. — A personal account of lifelong commitment to community service through sustained financial giving, b...
+- [[P1_S09]] A Work Ethic Develops — Narrator describes growing up with early assigned chores, family small-business work, and successive...
+- [[P1_S20]] The Florida Frontier — A young Peat Marwick partner relocates to Orlando in 1971 to establish a new office with little loca...
 
 ## Best Used When Someone Asks About
 

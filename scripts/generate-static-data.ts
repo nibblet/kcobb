@@ -40,7 +40,7 @@ interface TimelineEvent {
 }
 
 function extractMetadata(content: string, key: string): string {
-  const regex = new RegExp(`\\*\\*${key}:\\*\\*\\s*(.+)`);
+  const regex = new RegExp(`\\*\\*${key}:\\*\\*[ \\t]*(.+)`);
   return content.match(regex)?.[1]?.trim() || "";
 }
 

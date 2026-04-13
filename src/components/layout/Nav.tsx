@@ -7,10 +7,16 @@ import { createClient } from "@/lib/supabase/client";
 const navItems = [
   { href: "/", label: "Home", icon: "🏠" },
   { href: "/stories", label: "Stories", icon: "📖" },
+  { href: "/journeys", label: "Journeys", icon: "🧭" },
   { href: "/themes", label: "Themes", icon: "💡" },
   { href: "/timeline", label: "Timeline", icon: "📅" },
   { href: "/ask", label: "Ask", icon: "💬" },
 ];
+
+function navActive(pathname: string, href: string): boolean {
+  if (href === "/") return pathname === "/";
+  return pathname === href || pathname.startsWith(`${href}/`);
+}
 
 export function Nav() {
   const pathname = usePathname();
@@ -20,6 +26,8 @@ export function Nav() {
     await supabase.auth.signOut();
     window.location.href = "/login";
   }
+
+  if (pathname === "/login") return null;
 
   return (
     <>
@@ -34,7 +42,7 @@ export function Nav() {
               key={item.href}
               href={item.href}
               className={`text-sm font-medium transition-colors ${
-                pathname === item.href
+                navActive(pathname, item.href)
                   ? "text-amber-700"
                   : "text-stone-500 hover:text-stone-800"
               }`}
@@ -59,7 +67,7 @@ export function Nav() {
               key={item.href}
               href={item.href}
               className={`flex flex-col items-center gap-0.5 px-3 py-1 ${
-                pathname === item.href
+                navActive(pathname, item.href)
                   ? "text-amber-700"
                   : "text-stone-400"
               }`}

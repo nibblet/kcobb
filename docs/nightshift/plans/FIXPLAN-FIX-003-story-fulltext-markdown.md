@@ -44,6 +44,8 @@ This strips any inline markdown formatting (bold, italic, blockquotes, lists) th
 
 6. Run `npm run lint` — confirm no new lint issues
 
+**Done 2026-04-13:** `ReactMarkdown` import and `<ReactMarkdown>{story.fullText}</ReactMarkdown>` in the story article; `generateStaticParams` removed per FIX-006 (same edit pass).
+
 ## Files Modified
 - `src/app/stories/[storyId]/page.tsx` — replace manual paragraph split with ReactMarkdown
 
@@ -54,7 +56,7 @@ None
 None
 
 ## Verify
-- [ ] Build passes
-- [ ] Story detail page renders story text visually (headings, bold, lists if present in fullText)
-- [ ] Plain paragraph text still renders correctly (no regression for simple stories)
-- [ ] No raw markdown syntax visible (e.g., `**word**` should render as **bold**)
+- [x] Build passes
+- [ ] Story detail page renders story text visually (headings, bold, lists if present in fullText) *(manual)*
+- [ ] Plain paragraph text still renders correctly (no regression for simple stories) *(manual)*
+- [ ] No raw markdown syntax visible (e.g., `**word**` should render as **bold**) *(manual)*

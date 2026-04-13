@@ -4,7 +4,7 @@
 
 **Story ID:** P1_S15
 **Life Stage:** Education
-**Themes:** 
+**Themes:** Adversity, Community, Financial Responsibility, Integrity, Leadership
 **Word Count:** 2368
 
 ## Full Text
@@ -111,6 +111,13 @@ The experiences of my senior year in college are among the most important ones o
 > "Then and there I resolved to never again seek a political office."
 
 > "My worst memory is an abject interference on my part with the freedom of the press."
+
+## Related Stories
+
+- [[P1_S06]] Bayne Cobb, Exemplar of a Dad — A son reflects on his father's quiet, steady leadership across family, work, and adversity, highligh...
+- [[P1_S05]] A Would-be Music Man — An individual with clear musical talent but limited discipline recounts childhood and high-school mu...
+- [[P1_S09]] A Work Ethic Develops — Narrator describes growing up with early assigned chores, family small-business work, and successive...
+- [[P1_S21]] New Roots in Fort Lauderdale — A managing partner relocates to Fort Lauderdale (1975), builds a successful audit practice by recrui...
 
 ## Best Used When Someone Asks About
 

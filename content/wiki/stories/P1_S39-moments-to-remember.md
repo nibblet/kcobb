@@ -4,7 +4,7 @@
 
 **Story ID:** P1_S39
 **Life Stage:** Reflection
-**Themes:** 
+**Themes:** Adversity, Career Choices, Gratitude, Identity, Leadership, Work Ethic
 **Word Count:** 2198
 
 ## Full Text
@@ -117,6 +117,13 @@ Green Seal Certified acid-free and 30 percent post-consumer waste.
 
 - **1963** — Married Dot at First Baptist Church (First Baptist Church)
 - **1990** — Invited to dinner at Governor's mansion, Maryland
+
+## Related Stories
+
+- [[P1_S02]] A V ery Busy Teenager — A former high-school student recounts a busy four years filled with strong academics, extensive extr...
+- [[P1_S05]] A Would-be Music Man — An individual with clear musical talent but limited discipline recounts childhood and high-school mu...
+- [[P1_S20]] The Florida Frontier — A young Peat Marwick partner relocates to Orlando in 1971 to establish a new office with little loca...
+- [[P1_S28]] Career Summary — A former KPMG partner reflects on a long career, gratitude to the firm, and his transition to lead a...
 
 ## Best Used When Someone Asks About
 

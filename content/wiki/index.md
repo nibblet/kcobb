@@ -48,18 +48,18 @@
 
 ## Themes
 
-- [[themes/adversity.md]] — Adversity: 1 stories
-- [[themes/career-choices.md]] — Career Choices: 1 stories
-- [[themes/community.md]] — Community: 1 stories
-- [[themes/curiosity.md]] — Curiosity: 1 stories
-- [[themes/family.md]] — Family: 1 stories
-- [[themes/financial-responsibility.md]] — Financial Responsibility: 1 stories
-- [[themes/gratitude.md]] — Gratitude: 1 stories
-- [[themes/identity.md]] — Identity: 1 stories
-- [[themes/integrity.md]] — Integrity: 1 stories
-- [[themes/leadership.md]] — Leadership: 1 stories
-- [[themes/mentorship.md]] — Mentorship: 1 stories
-- [[themes/work-ethic.md]] — Work Ethic: 1 stories
+- [[themes/adversity.md]] — Adversity: 16 stories
+- [[themes/career-choices.md]] — Career Choices: 31 stories
+- [[themes/community.md]] — Community: 18 stories
+- [[themes/curiosity.md]] — Curiosity: 23 stories
+- [[themes/family.md]] — Family: 4 stories
+- [[themes/financial-responsibility.md]] — Financial Responsibility: 21 stories
+- [[themes/gratitude.md]] — Gratitude: 26 stories
+- [[themes/identity.md]] — Identity: 26 stories
+- [[themes/integrity.md]] — Integrity: 13 stories
+- [[themes/leadership.md]] — Leadership: 23 stories
+- [[themes/mentorship.md]] — Mentorship: 4 stories
+- [[themes/work-ethic.md]] — Work Ethic: 26 stories
 
 ## Timeline
 

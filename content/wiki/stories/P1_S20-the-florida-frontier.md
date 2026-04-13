@@ -4,7 +4,7 @@
 
 **Story ID:** P1_S20
 **Life Stage:** Early Career
-**Themes:** 
+**Themes:** Adversity, Career Choices, Curiosity, Gratitude, Identity, Integrity, Leadership, Work Ethic
 **Word Count:** 1956
 
 ## Full Text
@@ -106,6 +106,13 @@ Switzerland. So, off we were to Fort Lauderdale and a new adventure in our odyss
 ## Timeline
 
 - **1971** — Moved to Orlando to establish new Peat Marwick office (Peat Marwick)
+
+## Related Stories
+
+- [[P1_S05]] A Would-be Music Man — An individual with clear musical talent but limited discipline recounts childhood and high-school mu...
+- [[P1_S28]] Career Summary — A former KPMG partner reflects on a long career, gratitude to the firm, and his transition to lead a...
+- [[P1_S30]] Famous People I’ve Met (None of Whom Would Ever Remember Me) — The narrator recounts brief encounters with various famous people across decades and the practical, ...
+- [[P1_S32]] For the Love of Words — A reflective first-person account of a lifelong passion for vocabulary: influences, habits (collecti...
 
 ## Best Used When Someone Asks About
 

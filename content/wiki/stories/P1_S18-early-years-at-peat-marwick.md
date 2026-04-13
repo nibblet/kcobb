@@ -4,7 +4,7 @@
 
 **Story ID:** P1_S18
 **Life Stage:** Early Career
-**Themes:** 
+**Themes:** Career Choices, Curiosity, Gratitude, Identity, Integrity, Leadership, Work Ethic
 **Word Count:** 3749
 
 ## Full Text
@@ -148,6 +148,13 @@ Dot, the star headliner of the movie, who loved me and supported me through thos
 > "I was stunned."
 
 > "He had an unflagging confidence in my ability"
+
+## Related Stories
+
+- [[P1_S20]] The Florida Frontier — A young Peat Marwick partner relocates to Orlando in 1971 to establish a new office with little loca...
+- [[P1_S04]] On My Honor — A personal memoir of Boy Scout experiences emphasizing mentorship, discipline, structured progressio...
+- [[P1_S05]] A Would-be Music Man — An individual with clear musical talent but limited discipline recounts childhood and high-school mu...
+- [[P1_S12]] By the Light of the Silvery Moon — A first-person account of two neighbors who moved from casual acquaintances in high school to lifelo...
 
 ## Best Used When Someone Asks About
 

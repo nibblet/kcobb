@@ -2,7 +2,7 @@
 
 > Stories and principles related to family.
 
-**1 stories** explore this theme.
+**4 stories** explore this theme.
 
 ## Principles
 
@@ -10,10 +10,19 @@
 - Long-term devotion and caregiving can lead to unexpected tangible rewards. _(P1_S08)_
 - Protecting a child may justify shielding them from consequences, even by bending the truth. _(P1_S08)_
 - Small, everyday behaviors contribute to enduring legacies—both emotional and material. _(P1_S08)_
+- Shared core values are foundational for durable partnerships. _(P1_S12)_
+- Honesty, integrity, and work ethic are central selection criteria for a life partner. _(P1_S12)_
+- Consistent communication sustains relationships across distance. _(P1_S12)_
+- Deliberate saving and preparation enable committed steps despite financial constraints. _(P1_S12)_
+- Mutual support and aligned fundamental values reduce conflict and strengthen long-term bonds. _(P1_S12)_
+- Sustain emotional closeness despite physical distance. _(P1_S35)_
 
 ## Stories
 
 - [[P1_S08]] Blue and Ruby Cole — Neighbors Blue and Ruby Cole acted as surrogate parents, offering time, protecti...
+- [[P1_S12]] By the Light of the Silvery Moon — A first-person account of two neighbors who moved from casual acquaintances in h...
+- [[P1_S35]] The Gift of Family — A narrator reflects on family as the bedrock of life, describing children, spous...
+- [[P1_S36]] Charles T. Brumfield — A reflection on a fifty-year friendship between the narrator and Charles Brumfie...
 
 ## Selected Quotes
 

@@ -4,7 +4,7 @@
 
 **Story ID:** P1_S23
 **Life Stage:** Leadership
-**Themes:** 
+**Themes:** Career Choices, Curiosity, Financial Responsibility, Gratitude, Identity, Work Ethic
 **Word Count:** 2521
 
 ## Full Text
@@ -129,6 +129,13 @@ Copies had normally been reserved for high-level dignitaries visiting the city �
 ## Timeline
 
 - **1991** — Arrived in Philadelphia as managing partner (KPMG)
+
+## Related Stories
+
+- [[P1_S05]] A Would-be Music Man — An individual with clear musical talent but limited discipline recounts childhood and high-school mu...
+- [[P1_S11]] Early Wanderlust — A narrator recounts formative travel experiences from childhood through college that sparked curiosi...
+- [[P1_S12]] By the Light of the Silvery Moon — A first-person account of two neighbors who moved from casual acquaintances in high school to lifelo...
+- [[P1_S32]] For the Love of Words — A reflective first-person account of a lifelong passion for vocabulary: influences, habits (collecti...
 
 ## Best Used When Someone Asks About
 

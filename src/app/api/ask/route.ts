@@ -1,6 +1,7 @@
 import Anthropic from "@anthropic-ai/sdk";
 import { createClient } from "@/lib/supabase/server";
 import { buildSystemPrompt } from "@/lib/ai/prompts";
+import { checkRateLimit } from "@/lib/rate-limit";
 import type { AgeMode } from "@/types";
 
 const anthropic = new Anthropic({
@@ -18,11 +19,34 @@ export async function POST(request: Request) {
     return Response.json({ error: "Unauthorized" }, { status: 401 });
   }
 
+  const rateLimit = checkRateLimit(user.id, 20, 60_000);
+  if (!rateLimit.allowed) {
+    return Response.json(
+      {
+        error:
+          "Too many questions! Take a breath and try again in a moment.",
+      },
+      {
+        status: 429,
+        headers: {
+          "Retry-After": String(Math.ceil(rateLimit.retryAfterMs / 1000)),
+        },
+      }
+    );
+  }
+
   const body = await request.json();
-  const { message, conversationId, storySlug, ageMode = "adult" } = body as {
+  const {
+    message,
+    conversationId,
+    storySlug,
+    journeySlug,
+    ageMode = "adult",
+  } = body as {
     message: string;
     conversationId?: string;
     storySlug?: string;
+    journeySlug?: string;
     ageMode?: AgeMode;
   };
 
@@ -49,12 +73,24 @@ export async function POST(request: Request) {
     convId = conv.id;
   }
 
-  // Save user message
-  await supabase.from("sb_messages").insert({
-    conversation_id: convId,
-    role: "user",
-    content: message,
-  });
+  const { data: savedUserMsg, error: userMsgError } = await supabase
+    .from("sb_messages")
+    .insert({
+      conversation_id: convId,
+      role: "user",
+      content: message,
+    })
+    .select("id")
+    .single();
+
+  if (userMsgError || !savedUserMsg) {
+    return Response.json(
+      { error: "Failed to save message" },
+      { status: 500 }
+    );
+  }
+
+  const userMessageId = savedUserMsg.id;
 
   // Load conversation history
   const { data: history } = await supabase
@@ -73,7 +109,11 @@ export async function POST(request: Request) {
   }));
 
   // Build system prompt
-  const systemPrompt = buildSystemPrompt(ageMode as AgeMode, storySlug);
+  const systemPrompt = buildSystemPrompt(
+    ageMode as AgeMode,
+    storySlug,
+    journeySlug
+  );
 
   // Stream response from Claude
   const stream = anthropic.messages.stream({
@@ -115,6 +155,9 @@ export async function POST(request: Request) {
         );
         controller.close();
       } catch (err) {
+        if (!fullResponse) {
+          await supabase.from("sb_messages").delete().eq("id", userMessageId);
+        }
         const errorMessage =
           err instanceof Error ? err.message : "Unknown error";
         controller.enqueue(

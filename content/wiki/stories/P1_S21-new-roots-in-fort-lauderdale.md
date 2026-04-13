@@ -4,7 +4,7 @@
 
 **Story ID:** P1_S21
 **Life Stage:** Early Career
-**Themes:** 
+**Themes:** Adversity, Community, Curiosity, Financial Responsibility, Identity, Leadership
 **Word Count:** 4030
 
 ## Full Text
@@ -159,6 +159,13 @@ Baltimore as managing partner of the office. Having been favorably impressed wit
 ## Timeline
 
 - **1975** — Relocated to Fort Lauderdale as managing partner (Peat Marwick)
+
+## Related Stories
+
+- [[P1_S05]] A Would-be Music Man — An individual with clear musical talent but limited discipline recounts childhood and high-school mu...
+- [[P1_S06]] Bayne Cobb, Exemplar of a Dad — A son reflects on his father's quiet, steady leadership across family, work, and adversity, highligh...
+- [[P1_S38]] For Good. For Ever. — A personal account of lifelong commitment to community service through sustained financial giving, b...
+- [[P1_S30]] Famous People I’ve Met (None of Whom Would Ever Remember Me) — The narrator recounts brief encounters with various famous people across decades and the practical, ...
 
 ## Best Used When Someone Asks About
 

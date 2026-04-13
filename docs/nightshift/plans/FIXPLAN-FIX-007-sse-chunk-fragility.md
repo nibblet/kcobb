@@ -105,6 +105,8 @@ The fix is to maintain a text buffer across chunks and only parse complete lines
 5. Test: open Ask Keith and send a message — it should stream normally
 6. To simulate fragility: not easily done without network throttling, but the logic is simple enough to review manually
 
+**Done 2026-04-13:** Buffered lines + `decode(value, { stream: true })`, flush with `decode()` when `done`, per-line try/catch.
+
 ## Files Modified
 - `src/app/ask/page.tsx` — Add buffer accumulation + per-line try/catch in stream reader
 
@@ -115,7 +117,7 @@ None.
 None.
 
 ## Verify
-- [ ] Build passes
-- [ ] Ask Keith streams responses correctly on a normal connection
-- [ ] Ask Keith handles a failed stream gracefully (placeholder removed, error shown)
-- [ ] No console errors during normal streaming
+- [x] Build passes
+- [ ] Ask Keith streams responses correctly on a normal connection *(manual)*
+- [ ] Ask Keith handles a failed stream gracefully (placeholder removed, error shown) *(manual)*
+- [ ] No console errors during normal streaming *(manual)*

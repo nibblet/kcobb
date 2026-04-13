@@ -90,6 +90,8 @@ Inside the `ReadableStream start()` callback, in the `catch(err)` block, add a c
 4. Run `npm run build` to confirm no type errors
 5. Run `npm run lint`
 
+**Done 2026-04-13:** Option B — `.select("id").single()` on user insert; `delete().eq("id", userMessageId)` in stream `catch` when `!fullResponse`. Failed insert returns 500 before streaming.
+
 ## Files Modified
 - `src/app/api/ask/route.ts` — capture user message ID; delete on stream failure with no response
 
@@ -100,6 +102,6 @@ None
 None — uses existing RLS; the server-side Supabase client has permission to delete messages in conversations owned by the requesting user.
 
 ## Verify
-- [ ] Build passes
-- [ ] Normal conversation flow still saves both user and assistant messages
-- [ ] Simulating an API error (temporarily invalid ANTHROPIC_API_KEY in .env.local) results in no orphaned user message in the DB
+- [x] Build passes
+- [ ] Normal conversation flow still saves both user and assistant messages *(manual)*
+- [ ] Simulating an API error (temporarily invalid ANTHROPIC_API_KEY in .env.local) results in no orphaned user message in the DB *(manual)*

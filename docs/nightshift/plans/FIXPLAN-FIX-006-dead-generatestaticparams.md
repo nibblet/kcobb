@@ -51,6 +51,8 @@ Since this app is entirely auth-gated (middleware redirects unauthenticated user
 7. Run `npm run build` to verify all routes still work (should see same ƒ symbols but build is slightly faster)
 8. Run `npm run lint` to confirm no new errors
 
+**Done 2026-04-13:** Removed `generateStaticParams` and unused list imports from both pages.
+
 ## Files Modified
 - `src/app/stories/[storyId]/page.tsx` — Remove `generateStaticParams` export and `getAllStories` import
 - `src/app/themes/[slug]/page.tsx` — Remove `generateStaticParams` export and `getAllThemes` import
@@ -62,9 +64,9 @@ None.
 None.
 
 ## Verify
-- [ ] Build passes without errors
-- [ ] `/stories/[storyId]` still shows as ƒ (Dynamic) — expected, correct for auth-gated app
-- [ ] `/themes/[slug]` still shows as ƒ (Dynamic)
-- [ ] Story detail pages load and display correctly
-- [ ] Theme detail pages load and display correctly
-- [ ] Lint passes (or same error count as before — no regressions)
+- [x] Build passes without errors
+- [x] `/stories/[storyId]` still shows as ƒ (Dynamic) — expected, correct for auth-gated app
+- [x] `/themes/[slug]` still shows as ƒ (Dynamic)
+- [ ] Story detail pages load and display correctly *(manual)*
+- [ ] Theme detail pages load and display correctly *(manual)*
+- [x] Lint passes (or same error count as before — no regressions)

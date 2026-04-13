@@ -4,7 +4,7 @@
 
 **Story ID:** P1_S31
 **Life Stage:** Reflection
-**Themes:** 
+**Themes:** Curiosity, Gratitude, Integrity
 **Word Count:** 1901
 
 ## Full Text
@@ -110,6 +110,13 @@ I don’t feel so bad. ”
 > "Music has incredible power. It has brightened my bleakest days."
 
 > "I simply remember my favorite things, and then I don’t feel so bad."
+
+## Related Stories
+
+- [[P1_S18]] Early Years at Peat Marwick — A newly minted accountant joins Peat Marwick in 1963, rapidly advances through demanding audit work,...
+- [[P1_S20]] The Florida Frontier — A young Peat Marwick partner relocates to Orlando in 1971 to establish a new office with little loca...
+- [[P1_S32]] For the Love of Words — A reflective first-person account of a lifelong passion for vocabulary: influences, habits (collecti...
+- [[P1_S03]] A Remarkable Teacher’s Legacy — A devoted, intellectually curious high-school English teacher in a rural community demanded rigorous...
 
 ## Best Used When Someone Asks About
 

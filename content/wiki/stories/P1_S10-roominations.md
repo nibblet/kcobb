@@ -4,7 +4,7 @@
 
 **Story ID:** P1_S10
 **Life Stage:** Education
-**Themes:** 
+**Themes:** Career Choices, Community, Curiosity, Gratitude, Identity, Work Ethic
 **Word Count:** 1762
 
 ## Full Text
@@ -98,6 +98,13 @@ feet room on South Madison Street —a truly emotional place for me. Fi fty year
 > "I seized this opportunity, much as an animal seizes its prey."
 
 > "They represented my personal portal to the rest of the world."
+
+## Related Stories
+
+- [[P1_S03]] A Remarkable Teacher’s Legacy — A devoted, intellectually curious high-school English teacher in a rural community demanded rigorous...
+- [[P1_S05]] A Would-be Music Man — An individual with clear musical talent but limited discipline recounts childhood and high-school mu...
+- [[P1_S11]] Early Wanderlust — A narrator recounts formative travel experiences from childhood through college that sparked curiosi...
+- [[P1_S12]] By the Light of the Silvery Moon — A first-person account of two neighbors who moved from casual acquaintances in high school to lifelo...
 
 ## Best Used When Someone Asks About
 

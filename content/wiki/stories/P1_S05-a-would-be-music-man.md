@@ -4,7 +4,7 @@
 
 **Story ID:** P1_S05
 **Life Stage:** Childhood
-**Themes:** Financial Responsibility
+**Themes:** Adversity, Career Choices, Community, Curiosity, Financial Responsibility, Gratitude, Identity, Leadership, Work Ethic
 **Word Count:** 2116
 
 ## Full Text
@@ -113,6 +113,13 @@ slapping his legs, pa tting his feet and laughing. I won’t ever forget that he
 > "That's it. No more piano lessons."
 
 > "I can do that."
+
+## Related Stories
+
+- [[P1_S38]] For Good. For Ever. — A personal account of lifelong commitment to community service through sustained financial giving, b...
+- [[P1_S30]] Famous People I’ve Met (None of Whom Would Ever Remember Me) — The narrator recounts brief encounters with various famous people across decades and the practical, ...
+- [[P1_S32]] For the Love of Words — A reflective first-person account of a lifelong passion for vocabulary: influences, habits (collecti...
+- [[P1_S12]] By the Light of the Silvery Moon — A first-person account of two neighbors who moved from casual acquaintances in high school to lifelo...
 
 ## Best Used When Someone Asks About
 

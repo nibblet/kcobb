@@ -90,6 +90,8 @@ if (!res.ok) {
 4. Run `npm run build` — confirm no type errors
 5. Run `npm run lint` — confirm clean
 
+**Done 2026-04-13:** `src/lib/rate-limit.ts` added; rate check after auth in `route.ts`; Ask page handles 429.
+
 ## Files Modified
 - `src/app/api/ask/route.ts` — rate limit check added after auth check
 - `src/app/ask/page.tsx` — 429 status handled gracefully in UI
@@ -101,8 +103,8 @@ if (!res.ok) {
 None
 
 ## Verify
-- [ ] Build passes
-- [ ] Sending 20 messages in rapid succession is allowed
-- [ ] 21st message in the same minute returns a friendly error message
-- [ ] After the window resets, messages work again
-- [ ] Normal conversational use (1 message every few seconds) is never blocked
+- [x] Build passes
+- [ ] Sending 20 messages in rapid succession is allowed *(manual)*
+- [ ] 21st message in the same minute returns a friendly error message *(manual)*
+- [ ] After the window resets, messages work again *(manual)*
+- [ ] Normal conversational use (1 message every few seconds) is never blocked *(manual)*

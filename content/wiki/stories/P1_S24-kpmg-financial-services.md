@@ -4,7 +4,7 @@
 
 **Story ID:** P1_S24
 **Life Stage:** Leadership
-**Themes:** 
+**Themes:** Career Choices, Community, Financial Responsibility, Gratitude, Identity, Leadership, Work Ethic
 **Word Count:** 3085
 
 ## Full Text
@@ -140,6 +140,13 @@ KPMG and our strategy, I really don’t see how you can turn this down. It’s a
 > "A Whole New World"
 
 > "Seat 4B"
+
+## Related Stories
+
+- [[P1_S05]] A Would-be Music Man — An individual with clear musical talent but limited discipline recounts childhood and high-school mu...
+- [[P1_S12]] By the Light of the Silvery Moon — A first-person account of two neighbors who moved from casual acquaintances in high school to lifelo...
+- [[P1_S33]] Houses, Cars and Boats — A personal memoir tracing decades of the narrator's choices about homes, automobiles, and boats, sho...
+- [[P1_S38]] For Good. For Ever. — A personal account of lifelong commitment to community service through sustained financial giving, b...
 
 ## Best Used When Someone Asks About
 

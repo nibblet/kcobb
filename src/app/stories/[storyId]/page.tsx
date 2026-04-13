@@ -1,11 +1,7 @@
-import { getAllStories, getStoryById } from "@/lib/wiki/parser";
+import { getStoryById } from "@/lib/wiki/parser";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-
-export async function generateStaticParams() {
-  const stories = getAllStories();
-  return stories.map((s) => ({ storyId: s.storyId }));
-}
+import ReactMarkdown from "react-markdown";
 
 export default async function StoryDetailPage({
   params,
@@ -53,11 +49,7 @@ export default async function StoryDetailPage({
 
       {/* Full text */}
       <article className="prose prose-stone prose-sm md:prose-base max-w-none mb-8 leading-relaxed">
-        {story.fullText.split("\n").map((paragraph, i) =>
-          paragraph.trim() ? (
-            <p key={i}>{paragraph.trim()}</p>
-          ) : null
-        )}
+        <ReactMarkdown>{story.fullText}</ReactMarkdown>
       </article>
 
       {/* Principles */}

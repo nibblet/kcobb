@@ -1,6 +1,8 @@
 import * as fs from "fs";
 import * as path from "path";
 import type { AgeMode } from "@/types";
+import { getJourneyBySlug } from "@/lib/wiki/journeys";
+import { getStoryById } from "@/lib/wiki/parser";
 
 const WIKI_DIR = path.join(process.cwd(), "content/wiki");
 const RAW_DIR = path.join(process.cwd(), "content/raw");
@@ -34,6 +36,23 @@ function getStoryContext(storyId: string): string {
   return fs.readFileSync(path.join(dir, file), "utf-8");
 }
 
+function getJourneyContextForPrompt(journeySlug: string): string {
+  const journey = getJourneyBySlug(journeySlug);
+  if (!journey) return "";
+  const lines = [
+    `The user is asking in the context of the guided journey "${journey.title}".`,
+    journey.description,
+    "",
+    "Stories in this journey (in order):",
+  ];
+  for (const id of journey.storyIds) {
+    const s = getStoryById(id);
+    if (s) lines.push(`- ${s.title} (${id}): ${s.summary}`);
+    else lines.push(`- ${id}`);
+  }
+  return lines.join("\n");
+}
+
 const AGE_MODE_INSTRUCTIONS: Record<AgeMode, string> = {
   young_reader: `The user is a young reader (ages 3-10). Use very simple language. Give short answers.
 Focus on one story and one clear lesson. Avoid complex vocabulary. Be warm and encouraging.`,
@@ -43,10 +62,17 @@ school, work, friendships, and decisions they might face. Use relatable examples
 heuristics, quotes, and timeline events. Provide deeper interpretation and nuanced application.`,
 };
 
-export function buildSystemPrompt(ageMode: AgeMode, storySlug?: string): string {
+export function buildSystemPrompt(
+  ageMode: AgeMode,
+  storySlug?: string,
+  journeySlug?: string
+): string {
   const voice = getVoiceGuide();
   const wikiIndex = getWikiSummaries();
   const storyContext = storySlug ? getStoryContext(storySlug) : "";
+  const journeyContext = journeySlug
+    ? getJourneyContextForPrompt(journeySlug)
+    : "";
 
   return `You are a guide to Keith Cobb's stories and life lessons. You help family members — especially grandchildren and great-grandchildren — explore the experiences, values, and lessons described in Keith's memoir.
 
@@ -89,5 +115,6 @@ ${voice.slice(0, 2000)}
 ## Wiki Index (All Available Content)
 ${wikiIndex}
 
+${journeyContext ? `## Guided Journey Context\n${journeyContext}\n` : ""}
 ${storyContext ? `## Currently Reading\nThe user is reading this story:\n\n${storyContext.slice(0, 3000)}` : ""}`;
 }

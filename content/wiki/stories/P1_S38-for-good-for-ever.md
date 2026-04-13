@@ -4,7 +4,7 @@
 
 **Story ID:** P1_S38
 **Life Stage:** Reflection
-**Themes:** 
+**Themes:** Adversity, Career Choices, Community, Curiosity, Financial Responsibility, Gratitude, Identity, Leadership, Work Ethic
 **Word Count:** 1385
 
 ## Full Text
@@ -96,6 +96,13 @@ The Community Foundation of Broward has a catchy slogan that they use in all the
 
 - **1963** — Joined Peat Marwick; first paycheck; United Way payroll deduction began (Peat Marwick)
 - **2013** — Volunteer cleanup trip to Moore, Oklahoma after tornado (Church group)
+
+## Related Stories
+
+- [[P1_S05]] A Would-be Music Man — An individual with clear musical talent but limited discipline recounts childhood and high-school mu...
+- [[P1_S30]] Famous People I’ve Met (None of Whom Would Ever Remember Me) — The narrator recounts brief encounters with various famous people across decades and the practical, ...
+- [[P1_S32]] For the Love of Words — A reflective first-person account of a lifelong passion for vocabulary: influences, habits (collecti...
+- [[P1_S12]] By the Light of the Silvery Moon — A first-person account of two neighbors who moved from casual acquaintances in high school to lifelo...
 
 ## Best Used When Someone Asks About
 

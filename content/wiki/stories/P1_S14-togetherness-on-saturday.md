@@ -4,7 +4,7 @@
 
 **Story ID:** P1_S14
 **Life Stage:** Education
-**Themes:** 
+**Themes:** Financial Responsibility, Leadership
 **Word Count:** 1024
 
 ## Full Text
@@ -68,6 +68,13 @@ learned to critically analyze, parse out patterns and develop and test solutions
 > "The class was a laboratory for problem solving."
 
 > "I bowed my back and refused to be intimidated by this character."
+
+## Related Stories
+
+- [[P1_S05]] A Would-be Music Man — An individual with clear musical talent but limited discipline recounts childhood and high-school mu...
+- [[P1_S06]] Bayne Cobb, Exemplar of a Dad — A son reflects on his father's quiet, steady leadership across family, work, and adversity, highligh...
+- [[P1_S09]] A Work Ethic Develops — Narrator describes growing up with early assigned chores, family small-business work, and successive...
+- [[P1_S12]] By the Light of the Silvery Moon — A first-person account of two neighbors who moved from casual acquaintances in high school to lifelo...
 
 ## Best Used When Someone Asks About
 

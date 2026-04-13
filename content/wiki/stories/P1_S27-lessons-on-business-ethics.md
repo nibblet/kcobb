@@ -4,7 +4,7 @@
 
 **Story ID:** P1_S27
 **Life Stage:** Leadership
-**Themes:** 
+**Themes:** Career Choices, Gratitude, Identity, Integrity, Work Ethic
 **Word Count:** 2833
 
 ## Full Text
@@ -117,6 +117,13 @@ suppose I’ll keep pondering about business ethics, while keeping eyes open and
 > "We have opted to believe Peat Marwick."
 
 > "no good deed goes unpunished."
+
+## Related Stories
+
+- [[P1_S18]] Early Years at Peat Marwick — A newly minted accountant joins Peat Marwick in 1963, rapidly advances through demanding audit work,...
+- [[P1_S19]] On the Move as a Peat — A newly made partner at Peat Marwick asserts ownership by pushing for the removal of a negligent par...
+- [[P1_S20]] The Florida Frontier — A young Peat Marwick partner relocates to Orlando in 1971 to establish a new office with little loca...
+- [[P1_S28]] Career Summary — A former KPMG partner reflects on a long career, gratitude to the firm, and his transition to lead a...
 
 ## Best Used When Someone Asks About
 

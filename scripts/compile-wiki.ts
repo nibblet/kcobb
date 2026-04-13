@@ -51,6 +51,16 @@ interface TimelineEvent {
   confidence: string;
 }
 
+interface ParsedStory {
+  title: string;
+  life_stage: string;
+  themes: string[];
+  summary: string;
+  best_used_when: string[];
+  principles: string[];
+  heuristics: string[];
+}
+
 // --- Helpers ---
 
 function cleanTitle(title: string): string {
@@ -75,31 +85,19 @@ function slugify(title: string): string {
     .replace(/^-|-$/g, "");
 }
 
-function getLifeStage(storyId: string, storyIndex: Record<string, { life_stage: string }>): string {
-  return storyIndex[storyId]?.life_stage || "Unknown";
-}
-
 // --- Parse story index from the 00_STORY_INDEX.md ---
 
 function parseStoryIndex(indexPath: string): {
   themes: Record<string, string[]>;
-  stories: Record<string, {
-    title: string;
-    life_stage: string;
-    themes: string[];
-    summary: string;
-    best_used_when: string[];
-    principles: string[];
-    heuristics: string[];
-  }>;
+  stories: Record<string, ParsedStory>;
 } {
   const text = fs.readFileSync(indexPath, "utf-8");
   const themes: Record<string, string[]> = {};
-  const stories: Record<string, any> = {};
+  const stories: Record<string, ParsedStory> = {};
 
   // Parse theme directory
   const themeSection = text.split("# THEME DIRECTORY")[1]?.split("# STORIES")[0] || "";
-  const themeRegex = /\*\*(.+?)\*\*\n(P1_S[\d\s]+)/g;
+  const themeRegex = /\*\*(.+?)\*\*\n((?:P1_S\d+[\s]*)+)/g;
   let match;
   while ((match = themeRegex.exec(themeSection)) !== null) {
     const themeName = match[1].trim();
@@ -193,9 +191,18 @@ function parseManifest(csvPath: string): Record<string, ManifestRow> {
     }
     fields.push(current);
 
-    const row: any = {};
-    headers.forEach((h, i) => { row[h.trim()] = (fields[i] || "").trim(); });
-    rows[row.story_id] = row;
+    const row: Record<string, string> = {};
+    headers.forEach((h, i) => {
+      row[h.trim()] = (fields[i] || "").trim();
+    });
+    const storyId = row.story_id;
+    if (!storyId) continue;
+    rows[storyId] = {
+      story_id: storyId,
+      title: row.title ?? "",
+      slug: row.slug ?? "",
+      word_count: row.word_count ?? "",
+    };
   }
   return rows;
 }
@@ -225,17 +232,6 @@ function findRelatedStories(
 
 // --- Map life stages ---
 
-const LIFE_STAGE_ORDER = [
-  "Childhood",
-  "Education",
-  "Early Career",
-  "Mid Career",
-  "Leadership",
-  "Retirement",
-  "Reflection",
-  "Legacy",
-];
-
 function normalizeLifeStage(stage: string): string {
   const lower = stage.toLowerCase();
   if (lower.includes("child")) return "Childhood";
@@ -264,9 +260,6 @@ function main() {
   const manifest = parseManifest(path.join(RAW, "manifest.csv"));
   const timeline: TimelineEvent[] = JSON.parse(
     fs.readFileSync(path.join(RAW, "library/career_timeline.json"), "utf-8")
-  );
-  const quotesData = JSON.parse(
-    fs.readFileSync(path.join(RAW, "quotes/quotes.json"), "utf-8")
   );
 
   // Load all story JSONs

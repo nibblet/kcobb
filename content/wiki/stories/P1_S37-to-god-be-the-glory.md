@@ -4,7 +4,7 @@
 
 **Story ID:** P1_S37
 **Life Stage:** Reflection
-**Themes:** 
+**Themes:** Adversity, Community, Financial Responsibility, Identity
 **Word Count:** 2114
 
 ## Full Text
@@ -105,6 +105,13 @@ Church more than sixty years ago. The message is the same. The fundamentals have
 ## Timeline
 
 - **1993** — Traveled to Baltimore for Father Sellinger's funeral (Loyola University / church)
+
+## Related Stories
+
+- [[P1_S05]] A Would-be Music Man — An individual with clear musical talent but limited discipline recounts childhood and high-school mu...
+- [[P1_S06]] Bayne Cobb, Exemplar of a Dad — A son reflects on his father's quiet, steady leadership across family, work, and adversity, highligh...
+- [[P1_S21]] New Roots in Fort Lauderdale — A managing partner relocates to Fort Lauderdale (1975), builds a successful audit practice by recrui...
+- [[P1_S32]] For the Love of Words — A reflective first-person account of a lifelong passion for vocabulary: influences, habits (collecti...
 
 ## Best Used When Someone Asks About
 

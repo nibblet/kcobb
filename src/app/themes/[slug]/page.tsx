@@ -1,11 +1,6 @@
-import { getAllThemes, getThemeBySlug, getStoryById } from "@/lib/wiki/parser";
+import { getThemeBySlug, getStoryById } from "@/lib/wiki/parser";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-
-export async function generateStaticParams() {
-  const themes = getAllThemes();
-  return themes.map((t) => ({ slug: t.slug }));
-}
 
 export default async function ThemeDetailPage({
   params,

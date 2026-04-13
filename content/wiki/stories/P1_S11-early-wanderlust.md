@@ -4,7 +4,7 @@
 
 **Story ID:** P1_S11
 **Life Stage:** Education
-**Themes:** 
+**Themes:** Career Choices, Community, Curiosity, Financial Responsibility, Gratitude, Identity, Work Ethic
 **Word Count:** 2080
 
 ## Full Text
@@ -111,6 +111,13 @@ The Places I Have Been.
 > "I resolved then and there to be more careful with my hard-earned money."
 
 > "They were lessons I would never have learned if I had stayed at home."
+
+## Related Stories
+
+- [[P1_S05]] A Would-be Music Man — An individual with clear musical talent but limited discipline recounts childhood and high-school mu...
+- [[P1_S12]] By the Light of the Silvery Moon — A first-person account of two neighbors who moved from casual acquaintances in high school to lifelo...
+- [[P1_S32]] For the Love of Words — A reflective first-person account of a lifelong passion for vocabulary: influences, habits (collecti...
+- [[P1_S33]] Houses, Cars and Boats — A personal memoir tracing decades of the narrator's choices about homes, automobiles, and boats, sho...
 
 ## Best Used When Someone Asks About
 
