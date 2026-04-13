@@ -1,0 +1,13 @@
+# User-provided book (large binary)
+book.pdf
+
+# Generated outputs (regenerate with make split / make cluster)
+out/pdf/
+out/txt/
+
+# Optionally keep out/extracted/ versioned to track your dataset
+# out/extracted/
+
+# Optionally ignore clusters and doctrine if you prefer to regenerate only
+# out/clusters/
+# doctrine/
