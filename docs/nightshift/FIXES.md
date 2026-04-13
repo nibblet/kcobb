@@ -56,6 +56,26 @@
 
 ---
 
+---
+
+### [FIX-006] Dead `generateStaticParams` in Story/Theme Detail Pages
+- **Status:** planned
+- **Severity:** Low — dead code at build time, no runtime impact
+- **Found:** 2026-04-13
+- **Plan:** `docs/nightshift/plans/FIXPLAN-FIX-006-dead-generatestaticparams.md`
+- **Summary:** Both `/stories/[storyId]` and `/themes/[slug]` define `generateStaticParams` but render as Dynamic (ƒ) because the root layout reads cookies (Supabase SSR auth). In Next.js 16 App Router, any layout that reads cookies forces all children to be dynamic, making `generateStaticParams` a no-op. For an auth-gated app this is actually correct behavior, but the unused exports add noise and build time. Fix: remove `generateStaticParams` from both pages and clean up the now-unused `getAllStories` / `getAllThemes` imports.
+
+---
+
+### [FIX-007] SSE Stream Chunk Parsing Fragility in Ask Page
+- **Status:** planned
+- **Severity:** Medium — causes intermittent chat failures on slow/mobile connections
+- **Found:** 2026-04-13
+- **Plan:** `docs/nightshift/plans/FIXPLAN-FIX-007-sse-chunk-fragility.md`
+- **Summary:** `src/app/ask/page.tsx` splits incoming stream chunks on `\n` and JSON-parses each `data:` line without buffering. TCP packets can split an SSE line mid-way, causing `JSON.parse()` to throw a `SyntaxError`. This error propagates to the outer catch block, which removes the assistant placeholder and shows a generic error — even if Claude was mid-response. Fix: accumulate a text buffer across chunks, only parse complete lines (those followed by `\n`), and wrap each line parse in a try/catch so a single bad line doesn't abort the whole stream.
+
+---
+
 ## Resolved Issues
 
 *(None yet)*

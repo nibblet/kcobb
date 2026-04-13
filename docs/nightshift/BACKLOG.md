@@ -28,15 +28,29 @@
 ---
 
 ### [IDEA-003] Age-Aware Ask Keith Suggestion Chips
-- **Status:** seed
+- **Status:** ready
 - **Category:** enhance
 - **Seeded:** 2026-04-12
-- **Last Updated:** 2026-04-12
+- **Last Updated:** 2026-04-13
 - **Priority:** P2
-- **Plan:** *(not yet written)*
+- **Plan:** `docs/nightshift/plans/DEVPLAN-IDEA-003-age-aware-suggestion-chips.md`
 - **Summary:** The 4 suggestion chips on the Ask Keith empty state ("What shaped Keith's leadership style?", etc.) are hardcoded for adult readers. They should dynamically reflect the active age mode — simpler, more relatable questions for young_reader and teen modes.
 - **Night Notes:**
   - 2026-04-12: Seeded by Nightshift. In `src/app/ask/page.tsx` the suggestion array is a hardcoded static list. The `useAgeMode()` hook is already imported — the fix is just replacing the static array with an `ageModeContext`-aware one. Very small change, big UX impact for young family members.
+  - 2026-04-13: Advanced to `ready`. Dev plan written. Single-file change — replace hardcoded array with `Record<AgeMode, string[]>` lookup. Question sets written for all three modes grounded in actual story content. Estimated 20 minutes. No dependencies.
+
+---
+
+### [IDEA-005] Reading Time Estimate on Story Cards
+- **Status:** seed
+- **Category:** enhance
+- **Seeded:** 2026-04-13
+- **Last Updated:** 2026-04-13
+- **Priority:** P3
+- **Plan:** *(not yet written)*
+- **Summary:** Show estimated reading time on story cards in the library and on the story detail header. The `wordCount` field already exists on `WikiStory` — just display `Math.ceil(wordCount / 200)` minutes. Helps family members plan ("I've got 5 minutes — show me shorter stories") and sets expectations for longer stories.
+- **Night Notes:**
+  - 2026-04-13: Seeded by Nightshift. `wordCount` is already in `WikiStory` interface and populated by the parser. UI change only — no content or DB work. Could add a filter on the stories page ("under 5 min", "5-10 min", "10+ min") as a natural extension.
 
 ---
 
@@ -66,6 +80,19 @@
 - **Summary:** Let family members bookmark stories they want to re-read, share, or reference. Bookmarks persist to Supabase so they're available across devices. A "My Bookmarks" section appears on the home page or profile page for quick access.
 - **Night Notes:**
   - 2026-04-12: Seeded by Nightshift. Would need a new `sb_bookmarks` table (`user_id`, `story_id`, `created_at`) with RLS matching `sb_conversations`. UI is a single heart/bookmark icon on story cards and story detail pages. Medium lift — mostly plumbing. Could also use localStorage for a zero-DB version first.
+
+---
+
+### [IDEA-006] Featured Story of the Week on Home Page
+- **Status:** seed
+- **Category:** new
+- **Seeded:** 2026-04-13
+- **Last Updated:** 2026-04-13
+- **Priority:** P2
+- **Plan:** *(not yet written)*
+- **Summary:** A highlighted "Story of the Week" card on the home page, curated by Paul from the 39 stories. Shows the story title, summary, and a "Read now" button. Rotates weekly (or whenever Paul updates it) via a simple `content/wiki/featured.json` file — no DB changes, no automation required. Makes the home page feel alive and gives family members a shared reading experience.
+- **Night Notes:**
+  - 2026-04-13: Seeded by Nightshift. Implementation: add `content/wiki/featured.json` (`{ "storyId": "P1_S06", "featuredDate": "2026-04-13", "featuredNote": "Start here — the story of Bayne Cobb" }`). Home page reads this file at render time using `fs.readFileSync`. The existing story parser can fetch the full story object. No DB needed — fully wiki-first. Very low complexity.
 
 ---
 

@@ -1,6 +1,6 @@
 # STATUS — Keith Cobb Interactive Storybook
 
-> Last updated: 2026-04-12 (Nightshift Run 1 — first full scan)
+> Last updated: 2026-04-13 (Nightshift Run 2)
 
 ## App Summary
 
@@ -94,16 +94,21 @@
 - No error monitoring or analytics
 
 ## Known Issues (See FIXES.md)
-- FIX-001: middleware.ts deprecation
-- FIX-002: lint errors in compile-wiki.ts
-- FIX-003: story full text not using ReactMarkdown
-- FIX-004: no rate limiting on /api/ask
-- FIX-005: orphaned user messages on stream failure
+- FIX-001: middleware.ts deprecation (planned)
+- FIX-002: lint errors in compile-wiki.ts (planned)
+- FIX-003: story full text not using ReactMarkdown (planned)
+- FIX-004: no rate limiting on /api/ask (planned)
+- FIX-005: orphaned user messages on stream failure (planned)
+- FIX-006: dead `generateStaticParams` in story/theme detail pages (planned, low severity)
+- FIX-007: SSE stream chunk parsing fragility in Ask page (planned, medium severity)
 
 ## Next Actions (Priority Order)
 1. **FIX-001** — Rename middleware to proxy (5 min, eliminates build warning)
 2. **FIX-003** — Markdown rendering in story detail (10 min, visible UX improvement)
-3. **FIX-004** — Rate limiting on /api/ask (30 min, financial safety)
-4. **IDEA-001** — Guided Journeys (4-6 hours, biggest family UX value)
-5. **FIX-002** — Lint errors in compile-wiki (20 min, CI hygiene)
-6. **FIX-005** — Orphaned message cleanup (20 min, future-proofing)
+3. **IDEA-003** — Age-aware suggestion chips (20 min, no deps, big UX value for young family members)
+4. **FIX-007** — SSE chunk buffering fix (30 min, prevents intermittent chat failures)
+5. **FIX-004** — Rate limiting on /api/ask (30 min, financial safety)
+6. **IDEA-001** — Guided Journeys (4-6 hours, biggest family UX value — do FIX-003 first)
+7. **FIX-002** — Lint errors in compile-wiki (20 min, CI hygiene)
+8. **FIX-005** — Orphaned message cleanup (20 min, future-proofing)
+9. **FIX-006** — Remove dead generateStaticParams (5 min, code hygiene)
