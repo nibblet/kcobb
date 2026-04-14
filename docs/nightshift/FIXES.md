@@ -11,7 +11,48 @@
 
 ## Open Issues
 
-*(None)*
+### [FIX-008] submitDraft Ignores User Edits to Title/Body
+- **Status:** planned
+- **Severity:** High — user edits are silently discarded; contributor never knows
+- **Found:** 2026-04-14
+- **Plan:** `docs/nightshift/plans/FIXPLAN-FIX-008-submit-draft-ignores-edits.md`
+- **Summary:** `submitDraft()` in `tell/page.tsx` sets `submitted: true` but never sends the edited `editTitle`/`editBody` back to Supabase. A new PATCH endpoint (`/api/tell/draft/update`) is needed, plus wiring in `submitDraft()`.
+
+---
+
+### [FIX-009] No Rate Limiting on /api/tell/draft + Raw Response Leak
+- **Status:** planned
+- **Severity:** Medium — financial risk (4096 token Claude call, unguarded); minor privacy issue
+- **Found:** 2026-04-14
+- **Plan:** `docs/nightshift/plans/FIXPLAN-FIX-009-tell-draft-rate-limiting.md`
+- **Summary:** `/api/tell/draft` calls Claude with max_tokens 4096 and has no `checkRateLimit()`. Also: on JSON parse failure, returns `{ raw: rawText }` which leaks Claude's response in an API error.
+
+---
+
+### [FIX-010] getWikiSummaries() in parser.ts Has No Cache
+- **Status:** planned
+- **Severity:** Low-Medium — disk read on every /api/tell request; immutable file at runtime
+- **Found:** 2026-04-14
+- **Plan:** `docs/nightshift/plans/FIXPLAN-FIX-010-tell-prompts-wiki-cache.md`
+- **Summary:** `parser.ts`'s exported `getWikiSummaries()` reads `index.md` from disk each call. `tell-prompts.ts` calls it on every chat message. The Ask system already caches this in `prompts.ts`; the Tell system bypasses that cache.
+
+---
+
+### [FIX-011] Dead `generateStaticParams` in Journey Routes
+- **Status:** planned
+- **Severity:** Low — dead code, same issue as FIX-006 (resolved for stories/themes but reintroduced for journeys)
+- **Found:** 2026-04-14
+- **Plan:** `docs/nightshift/plans/FIXPLAN-FIX-011-dead-generatestaticparams-journeys.md`
+- **Summary:** `journeys/[slug]/page.tsx` and `journeys/[slug]/[step]/page.tsx` both export `generateStaticParams`. Because the auth layout reads cookies, all routes render dynamically — these exports are ignored by Next.js 16.
+
+---
+
+### [FIX-012] Unused `_node` Lint Warning in Ask Page
+- **Status:** planned
+- **Severity:** Very Low — 1 ESLint warning, no runtime impact
+- **Found:** 2026-04-14
+- **Plan:** `docs/nightshift/plans/FIXPLAN-FIX-012-unused-node-lint-warning.md`
+- **Summary:** `ask/page.tsx` line 10: `node: _node` in the markdown `a` component produces `'_node' is defined but never used`. Rename to `node: _` or add eslint-disable-next-line.
 
 ---
 
