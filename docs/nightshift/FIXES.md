@@ -9,50 +9,55 @@
 
 ---
 
-## Open Issues
+## Recently Resolved
 
 ### [FIX-008] submitDraft Ignores User Edits to Title/Body
-- **Status:** planned
+- **Status:** resolved
 - **Severity:** High — user edits are silently discarded; contributor never knows
 - **Found:** 2026-04-14
+- **Resolved:** 2026-04-14
 - **Plan:** `docs/nightshift/plans/FIXPLAN-FIX-008-submit-draft-ignores-edits.md`
-- **Summary:** `submitDraft()` in `tell/page.tsx` sets `submitted: true` but never sends the edited `editTitle`/`editBody` back to Supabase. A new PATCH endpoint (`/api/tell/draft/update`) is needed, plus wiring in `submitDraft()`.
+- **Summary:** Added `src/app/api/tell/draft/update/route.ts` and updated `submitDraft()` in `tell/page.tsx` to PATCH edited `title`/`body` before final submit.
 
 ---
 
 ### [FIX-009] No Rate Limiting on /api/tell/draft + Raw Response Leak
-- **Status:** planned
+- **Status:** resolved
 - **Severity:** Medium — financial risk (4096 token Claude call, unguarded); minor privacy issue
 - **Found:** 2026-04-14
+- **Resolved:** 2026-04-14
 - **Plan:** `docs/nightshift/plans/FIXPLAN-FIX-009-tell-draft-rate-limiting.md`
-- **Summary:** `/api/tell/draft` calls Claude with max_tokens 4096 and has no `checkRateLimit()`. Also: on JSON parse failure, returns `{ raw: rawText }` which leaks Claude's response in an API error.
+- **Summary:** Added rate limiting to `/api/tell/draft` (`5/min` per user with `Retry-After`) and removed raw Claude response leakage from parse-failure API errors.
 
 ---
 
 ### [FIX-010] getWikiSummaries() in parser.ts Has No Cache
-- **Status:** planned
+- **Status:** resolved
 - **Severity:** Low-Medium — disk read on every /api/tell request; immutable file at runtime
 - **Found:** 2026-04-14
+- **Resolved:** 2026-04-14
 - **Plan:** `docs/nightshift/plans/FIXPLAN-FIX-010-tell-prompts-wiki-cache.md`
-- **Summary:** `parser.ts`'s exported `getWikiSummaries()` reads `index.md` from disk each call. `tell-prompts.ts` calls it on every chat message. The Ask system already caches this in `prompts.ts`; the Tell system bypasses that cache.
+- **Summary:** Added module-level wiki summary caching in `tell-prompts.ts` so Tell prompt builds reuse cached `index.md` content instead of re-reading every request.
 
 ---
 
 ### [FIX-011] Dead `generateStaticParams` in Journey Routes
-- **Status:** planned
+- **Status:** resolved
 - **Severity:** Low — dead code, same issue as FIX-006 (resolved for stories/themes but reintroduced for journeys)
 - **Found:** 2026-04-14
+- **Resolved:** 2026-04-14
 - **Plan:** `docs/nightshift/plans/FIXPLAN-FIX-011-dead-generatestaticparams-journeys.md`
-- **Summary:** `journeys/[slug]/page.tsx` and `journeys/[slug]/[step]/page.tsx` both export `generateStaticParams`. Because the auth layout reads cookies, all routes render dynamically — these exports are ignored by Next.js 16.
+- **Summary:** Removed dead `generateStaticParams` exports and now-unused journey list imports from `journeys/[slug]/page.tsx` and `journeys/[slug]/[step]/page.tsx`.
 
 ---
 
 ### [FIX-012] Unused `_node` Lint Warning in Ask Page
-- **Status:** planned
+- **Status:** resolved
 - **Severity:** Very Low — 1 ESLint warning, no runtime impact
 - **Found:** 2026-04-14
+- **Resolved:** 2026-04-14
 - **Plan:** `docs/nightshift/plans/FIXPLAN-FIX-012-unused-node-lint-warning.md`
-- **Summary:** `ask/page.tsx` line 10: `node: _node` in the markdown `a` component produces `'_node' is defined but never used`. Rename to `node: _` or add eslint-disable-next-line.
+- **Summary:** Updated markdown link renderer arg destructuring from `node: _node` to `node: _`, clearing the lint warning while still excluding `node` from spread props.
 
 ---
 

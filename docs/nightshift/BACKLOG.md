@@ -125,6 +125,45 @@
 
 ---
 
+### [IDEA-009] Story Voice Playback — Audio Narration for Young Readers
+- **Status:** seed
+- **Category:** enhance
+- **Seeded:** 2026-04-14
+- **Last Updated:** 2026-04-14
+- **Priority:** P1
+- **Plan:** *(not yet written)*
+- **Summary:** Add a "Listen" button to story pages that reads the story aloud using browser-native Text-to-Speech (Web Speech API) — no server, no cost, no audio files to host. Especially valuable for young_reader mode (ages 3-10) who can't read long text. Controls: play/pause, speed (0.8x for kids), sentence-level highlight tracking so children can follow along visually. Could optionally use an ElevenLabs voice for richer audio if a Keith-like voice is trained.
+- **Night Notes:**
+  - 2026-04-14: Seeded by Paul. Web Speech API (`speechSynthesis`) is built into all modern browsers and requires zero infrastructure. The story `fullText` is already on the page. For young_reader mode, this could be the primary way children "read" — auto-play on page load with a friendly UI. ElevenLabs voice cloning is a future enhancement once basic TTS works.
+
+---
+
+### [IDEA-010] Public Media Integration — Podcasts, Videos, and Public Sources
+- **Status:** seed
+- **Category:** new
+- **Seeded:** 2026-04-14
+- **Last Updated:** 2026-04-14
+- **Priority:** P2
+- **Plan:** *(not yet written)*
+- **Summary:** A curated "Keith in the World" section that surfaces public content featuring Keith Cobb — podcasts, YouTube interviews, press coverage, and professional profiles. Family members (especially grandchildren) can see and hear Keith speak in his own voice on topics the stories cover. Content is wiki-curated (a `content/wiki/media.md` file listing URLs + descriptions) so Paul controls what appears; no scraping or automation needed.
+- **Night Notes:**
+  - 2026-04-14: Seeded by Paul (podcasts and YouTube videos to add). Approach: a `content/wiki/media/` directory with a file per media item (title, type: podcast|video|article, url, description, related_story_ids, year). A `/media` route renders these as an embedded or linked gallery. YouTube embeds via iframe; podcast links open externally. Cross-link from story pages: "Hear Keith speak about this →". No backend needed — fully wiki-first.
+
+---
+
+### [IDEA-011] Story Photos — Images That Surface During Reading
+- **Status:** seed
+- **Category:** enhance
+- **Seeded:** 2026-04-14
+- **Last Updated:** 2026-04-14
+- **Priority:** P1
+- **Plan:** *(not yet written)*
+- **Summary:** For stories that have associated photos, surface those images inline during reading — fade-in as the reader scrolls to the relevant passage, or as clickable thumbnails in the story margin. Especially powerful in young_reader mode where visual context makes stories come alive. Photo metadata lives in the wiki (story markdown frontmatter or a companion `.photos.json`) so Paul can associate specific photos with specific paragraphs or just with the story as a whole.
+- **Night Notes:**
+  - 2026-04-14: Seeded by Paul. The timeline already has 14 photos in `public/timeline/`. Stories don't yet have associated photos. Approach: (1) a `public/stories/` directory for story photos, (2) story markdown frontmatter adds `photos: [{ src, caption, paragraph }]` — the `paragraph` index controls which prose section triggers the reveal. In young_reader mode, photos could auto-reveal with a CSS fade-in on scroll; in adult mode, they could be tasteful thumbnails that expand on click. ReadingProgressBar component already exists and could be extended to trigger photo reveals at scroll thresholds.
+
+---
+
 ## Parked
 
 *(Ideas demoted after 3+ days without action)*
