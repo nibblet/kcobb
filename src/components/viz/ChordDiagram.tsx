@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
 import type { ChordMatrix } from "@/lib/wiki/graph";
 
@@ -89,6 +90,7 @@ interface ThemeArc {
 }
 
 export function ChordDiagram({ data }: Props) {
+  const router = useRouter();
   const [hovered, setHovered] = useState<string | null>(null);
 
   const themeArcs: ThemeArc[] = useMemo(() => {
@@ -214,12 +216,25 @@ export function ChordDiagram({ data }: Props) {
             {themeArcs.map((arc) => {
               const isHover = hovered === arc.slug;
               const dim = hovered && !isHover;
+              const href = `/themes/${arc.slug}`;
               return (
                 <g
                   key={arc.slug}
+                  role="link"
+                  aria-label={`Open ${arc.name} theme`}
+                  tabIndex={0}
                   onMouseEnter={() => setHovered(arc.slug)}
                   onMouseLeave={() => setHovered(null)}
-                  className="cursor-pointer"
+                  onFocus={() => setHovered(arc.slug)}
+                  onBlur={() => setHovered(null)}
+                  onClick={() => router.push(href)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault();
+                      router.push(href);
+                    }
+                  }}
+                  className="cursor-pointer focus:outline-none"
                   opacity={dim ? 0.5 : 1}
                 >
                   <path
