@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { ProfileHero } from "@/components/profile/ProfileHero";
 import { KeithProfileHero } from "@/components/profile/KeithProfileHero";
 import { getAuthenticatedProfileContext } from "@/lib/auth/profile-context";
+import { createClient } from "@/lib/supabase/server";
 
 export const metadata: Metadata = {
   title: "Profile",
@@ -37,8 +38,18 @@ export default async function ProfilePage() {
   );
 
   if (isKeithSpecialAccess) {
+    const supabase = await createClient();
+    const { count } = await supabase
+      .from("sb_chapter_questions")
+      .select("id", { count: "exact", head: true })
+      .eq("status", "pending");
+
     return (
-      <KeithProfileHero displayName={displayName} email={user.email ?? ""} />
+      <KeithProfileHero
+        displayName={displayName}
+        email={user.email ?? ""}
+        pendingQuestionCount={count ?? 0}
+      />
     );
   }
 

@@ -6,33 +6,47 @@ import { createClient } from "@/lib/supabase/client";
 type KeithProfileHeroProps = {
   displayName: string;
   email: string;
+  pendingQuestionCount?: number;
 };
 
-const quickLinks = [
-  {
-    href: "/beyond",
-    label: "Enter Beyond",
-    description:
-      "Capture untold stories in Keith's voice and continue the archive.",
-  },
-  {
-    href: "/stories",
-    label: "Read the Library",
-    description:
-      "Move between the memoir and newly added stories as one living collection.",
-  },
-  {
-    href: "/timeline",
-    label: "Walk the Timeline",
-    description:
-      "Use the chronology to surface memories, eras, and moments worth expanding.",
-  },
-];
+type QuickLink = {
+  href: string;
+  label: string;
+  description: string;
+  badge?: string;
+};
 
 export function KeithProfileHero({
   displayName,
   email,
+  pendingQuestionCount = 0,
 }: KeithProfileHeroProps) {
+  const quickLinks: QuickLink[] = [
+    {
+      href: "/beyond",
+      label: "Enter Beyond",
+      description:
+        "Capture untold stories in Keith's voice and continue the archive.",
+      badge:
+        pendingQuestionCount > 0
+          ? `${pendingQuestionCount} reader question${
+              pendingQuestionCount === 1 ? "" : "s"
+            }`
+          : undefined,
+    },
+    {
+      href: "/stories",
+      label: "Read the Library",
+      description:
+        "Move between the memoir and newly added stories as one living collection.",
+    },
+    {
+      href: "/timeline",
+      label: "Walk the Timeline",
+      description:
+        "Use the chronology to surface memories, eras, and moments worth expanding.",
+    },
+  ];
   async function handleSignOut() {
     const supabase = createClient();
     await supabase.auth.signOut();
@@ -113,9 +127,16 @@ export function KeithProfileHero({
               href={link.href}
               className="group rounded-[24px] border border-[rgba(247,243,237,0.14)] bg-[rgba(247,243,237,0.04)] p-5 transition-[transform,border-color,background-color] duration-[var(--duration-normal)] hover:-translate-y-1 hover:border-[rgba(247,243,237,0.3)] hover:bg-[rgba(247,243,237,0.08)]"
             >
-              <p className="type-ui text-sm font-semibold text-[#f7f3ed]">
-                {link.label}
-              </p>
+              <div className="flex items-center justify-between gap-2">
+                <p className="type-ui text-sm font-semibold text-[#f7f3ed]">
+                  {link.label}
+                </p>
+                {link.badge && (
+                  <span className="type-ui rounded-full bg-gold px-2.5 py-0.5 text-xs font-semibold text-[#2c1c10]">
+                    {link.badge}
+                  </span>
+                )}
+              </div>
               <p className="mt-2 font-[family-name:var(--font-lora)] text-sm leading-relaxed text-[rgba(247,243,237,0.7)]">
                 {link.description}
               </p>
