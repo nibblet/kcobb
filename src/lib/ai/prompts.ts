@@ -2,13 +2,22 @@ import * as fs from "fs";
 import * as path from "path";
 import type { AgeMode } from "@/types";
 import { getJourneyBySlug } from "@/lib/wiki/journeys";
-import { getStoryById } from "@/lib/wiki/parser";
+import { getAllStories, getStoryById } from "@/lib/wiki/parser";
 
 const WIKI_DIR = path.join(process.cwd(), "content/wiki");
 const RAW_DIR = path.join(process.cwd(), "content/raw");
 
 let cachedWikiSummaries: string | null = null;
 let cachedVoiceGuide: string | null = null;
+let cachedStoryLinkCatalog: string | null = null;
+
+function getStoryLinkCatalog(): string {
+  if (cachedStoryLinkCatalog) return cachedStoryLinkCatalog;
+  cachedStoryLinkCatalog = getAllStories()
+    .map((s) => `- ${s.storyId} — ${s.title}`)
+    .join("\n");
+  return cachedStoryLinkCatalog;
+}
 
 function getWikiSummaries(): string {
   if (cachedWikiSummaries) return cachedWikiSummaries;
@@ -62,10 +71,15 @@ school, work, friendships, and decisions they might face. Use relatable examples
 heuristics, quotes, and timeline events. Provide deeper interpretation and nuanced application.`,
 };
 
+/**
+ * Optional: call with published Supabase stories to include them in the prompt.
+ * Pass an empty array if you don't want to include them.
+ */
 export function buildSystemPrompt(
   ageMode: AgeMode,
   storySlug?: string,
-  journeySlug?: string
+  journeySlug?: string,
+  publishedStorySummaries?: string
 ): string {
   const voice = getVoiceGuide();
   const wikiIndex = getWikiSummaries();
@@ -105,15 +119,20 @@ For LISTS ("what stories involve…"), return a curated list with brief summarie
 ## Rules
 - ALWAYS ground responses in actual stories and principles from the wiki
 - NEVER invent stories, quotes, or events
-- Cite story titles when referencing them
+- When you name a specific story, make the title a **markdown link** to that story's page: \`[Exact title from catalog](/stories/STORY_ID)\` (example: \`[A Work Ethic Develops](/stories/P1_S09)\`). Use the Story ID from the catalog below — path must be \`/stories/P1_SXX\` only. Link the first clear mention of each story you discuss in depth.
 - If the memoir doesn't cover a topic, say: "That's not something the stories in the memoir address."
 - Be warm, reflective, grounded — not a motivational speaker
+
+## Story ID catalog (for links)
+${getStoryLinkCatalog()}
 
 ## Voice Guide
 ${voice.slice(0, 2000)}
 
 ## Wiki Index (All Available Content)
 ${wikiIndex}
+
+${publishedStorySummaries ? `## Additional Stories (Family Contributions)\n${publishedStorySummaries}` : ""}
 
 ${journeyContext ? `## Guided Journey Context\n${journeyContext}\n` : ""}
 ${storyContext ? `## Currently Reading\nThe user is reading this story:\n\n${storyContext.slice(0, 3000)}` : ""}`;

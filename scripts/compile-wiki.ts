@@ -49,6 +49,8 @@ interface TimelineEvent {
   story_reference: string;
   source_excerpt?: string;
   confidence: string;
+  /** Optional path under public/, e.g. /timeline/usm.jpg */
+  illustration?: string;
 }
 
 interface ParsedStory {
@@ -97,7 +99,7 @@ function parseStoryIndex(indexPath: string): {
 
   // Parse theme directory
   const themeSection = text.split("# THEME DIRECTORY")[1]?.split("# STORIES")[0] || "";
-  const themeRegex = /\*\*(.+?)\*\*\n((?:P1_S\d+[\s]*)+)/g;
+  const themeRegex = /\*\*(.+?)\*\*\n((?:P\d+_S\d+[\s]*)+)/g;
   let match;
   while ((match = themeRegex.exec(themeSection)) !== null) {
     const themeName = match[1].trim();
@@ -274,7 +276,7 @@ function main() {
   const storyMdDir = path.join(RAW, "stories_md");
   const storyMdFiles: Record<string, string> = {};
   for (const file of fs.readdirSync(storyMdDir).filter(f => f.endsWith(".md"))) {
-    const storyId = file.match(/^(P1_S\d+)/)?.[1];
+    const storyId = file.match(/^(P\d+_S\d+)/)?.[1];
     if (storyId) {
       storyMdFiles[storyId] = fs.readFileSync(path.join(storyMdDir, file), "utf-8");
     }
@@ -484,14 +486,23 @@ function main() {
       const storyRef = storyJsons[evt.story_reference]
         ? `[[${evt.story_reference}]]`
         : evt.story_reference;
+      const ill = evt.illustration ? ` | ${evt.illustration}` : "";
       timelinePage.push(
-        `- **${evt.year}** — ${evt.event}${evt.organization ? ` (${evt.organization})` : ""}${evt.location ? `, ${evt.location}` : ""} — ${storyRef}`
+        `- **${evt.year}** — ${evt.event}${evt.organization ? ` (${evt.organization})` : ""}${evt.location ? `, ${evt.location}` : ""} — ${storyRef}${ill}`
       );
     }
     timelinePage.push("");
   }
 
-  timelinePage.push("---", "*Compiled from career_timeline.json*");
+  timelinePage.push(
+    "",
+    "## Illustration sources",
+    "",
+    "Representative photos for key timeline entries live in `public/timeline/`. They are downloaded from [Wikimedia Commons](https://commons.wikimedia.org/) under various Creative Commons licenses. They are meant as **place-and-era context**, not corporate branding: e.g. the BankAtlantic image is the namesake arena; the vintage Burroughs machine evokes public-accounting firm work (Peat Marwick / KPMG era).",
+    "",
+    "---",
+    "*Compiled from career_timeline.json*"
+  );
   fs.writeFileSync(path.join(WIKI, "timeline", "career-timeline.md"), timelinePage.join("\n"));
   indexEntries.push(`- [[timeline/career-timeline.md]] — Full career timeline: ${timeline.length} events`);
 

@@ -2,6 +2,12 @@ import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
 export async function updateSession(request: NextRequest) {
+  const pkceUrl = request.nextUrl.clone();
+  if (pkceUrl.pathname === "/" && pkceUrl.searchParams.has("code")) {
+    pkceUrl.pathname = "/auth/callback";
+    return NextResponse.redirect(pkceUrl);
+  }
+
   let supabaseResponse = NextResponse.next({
     request,
   });

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
+import { getAuthRedirectOrigin } from "@/lib/app-url";
 import { ageModeFromAge } from "@/lib/utils/age-mode";
 
 export default function SignupPage() {
@@ -35,7 +36,7 @@ export default function SignupPage() {
     }
 
     const supabase = createClient();
-    const origin = window.location.origin;
+    const origin = getAuthRedirectOrigin();
 
     const { data, error: signUpError } = await supabase.auth.signUp({
       email,

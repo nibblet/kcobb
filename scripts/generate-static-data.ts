@@ -37,6 +37,7 @@ interface TimelineEvent {
   organization: string;
   location: string;
   storyRef: string;
+  illustration?: string;
 }
 
 function extractMetadata(content: string, key: string): string {
@@ -63,12 +64,12 @@ function main() {
     .filter((f) => f.endsWith(".md"))
     .map((f) => {
       const content = fs.readFileSync(path.join(storiesDir, f), "utf-8");
-      const storyIdMatch = content.match(/\*\*Story ID:\*\*\s*(P1_S\d+)/);
+      const storyIdMatch = content.match(/\*\*Story ID:\*\*\s*(P\d+_S\d+)/);
       if (!storyIdMatch) return null;
 
       const titleMatch = content.match(/^# (.+)/m);
       const summaryMatch = content.match(/^> (.+)/m);
-      const slug = f.replace(/\.md$/, "").replace(/^P1_S\d+-/, "");
+      const slug = f.replace(/\.md$/, "").replace(/^P\d+_S\d+-/, "");
 
       return {
         storyId: storyIdMatch[1],
@@ -79,6 +80,7 @@ function main() {
         themes: extractMetadata(content, "Themes").split(",").map((t) => t.trim()).filter(Boolean),
         wordCount: parseInt(extractMetadata(content, "Word Count")) || 0,
         principles: extractSection(content, "What This Story Shows"),
+        volume: storyIdMatch[1].match(/^(P\d+)/)?.[1] || "P1",
       };
     })
     .filter(Boolean)
@@ -97,7 +99,7 @@ function main() {
 
       const storiesSection = extractSection(content, "Stories");
       const storyIds = storiesSection
-        .map((l) => l.match(/\[\[(P1_S\d+)\]\]/)?.[1])
+        .map((l) => l.match(/\[\[(P\d+_S\d+)\]\]/)?.[1])
         .filter(Boolean) as string[];
 
       return {
@@ -114,7 +116,7 @@ function main() {
   const timelineEvents: TimelineEvent[] = [];
   for (const line of timelineContent.split("\n")) {
     const match = line.match(
-      /- \*\*(\d{4})\*\* — (.+?)(?:\s*\((.+?)\))?(?:,\s*(.+?))?\s*—\s*\[\[(P1_S\d+)\]\]/
+      /- \*\*(\d{4})\*\* — (.+?)(?:\s*\((.+?)\))?(?:,\s*(.+?))?\s*—\s*\[\[(P\d+_S\d+)\]\]\s*(?:\|\s*(.+))?/
     );
     if (match) {
       timelineEvents.push({
@@ -123,6 +125,7 @@ function main() {
         organization: match[3] || "",
         location: match[4]?.trim() || "",
         storyRef: match[5],
+        illustration: match[6]?.trim() || undefined,
       });
     }
   }
@@ -140,6 +143,7 @@ export interface StoryCard {
   themes: string[];
   wordCount: number;
   principles: string[];
+  volume?: string;
 }
 
 export interface ThemeCard {
@@ -155,6 +159,7 @@ export interface TimelineEvent {
   organization: string;
   location: string;
   storyRef: string;
+  illustration?: string;
 }
 
 export const storiesData: StoryCard[] = ${JSON.stringify(stories, null, 2)};

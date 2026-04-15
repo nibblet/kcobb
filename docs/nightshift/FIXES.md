@@ -11,7 +11,121 @@
 
 ## Open Issues
 
-*(None)*
+### [FIX-013] Uncaught Exception in /api/tell/draft When Fenced JSON is Malformed
+- **Status:** planned
+- **Severity:** Low — Claude rarely returns fenced-but-invalid JSON; contributor sees a broken spinner with no user-friendly message if it occurs
+- **Found:** 2026-04-15
+- **Plan:** `docs/nightshift/plans/FIXPLAN-FIX-013-tell-draft-fenced-json-throw.md`
+- **Summary:** The secondary `JSON.parse(fenced[1])` call in the catch block of `/api/tell/draft/route.ts` is not wrapped in its own try/catch. If the fenced content is also malformed, the exception propagates uncaught. Fix: wrap the secondary parse in a try/catch with the same error logging and response pattern as the outer fallback.
+
+---
+
+### [FIX-014] ageMode Not Validated at Runtime in /api/ask
+- **Status:** planned
+- **Severity:** Low — family-only app; trusted users. If any client sends a non-enum ageMode value, `AGE_MODE_INSTRUCTIONS[ageMode]` silently returns `undefined`, which is interpolated as the string `"undefined"` in the system prompt.
+- **Found:** 2026-04-15
+- **Plan:** `docs/nightshift/plans/FIXPLAN-FIX-014-agemode-not-validated.md`
+- **Summary:** Add a runtime validation guard after destructuring `ageMode` from the request body. If the value is not one of `["young_reader", "teen", "adult"]`, default to `"adult"`. One-line fix.
+
+---
+
+### [FIX-016] Tell Page SSE State Mutation (Strict Mode Double-Append Risk)
+- **Status:** planned
+- **Severity:** Low-Medium — in React Strict Mode (Next.js dev), SSE text chunks may double-append since the state updater mutates the object in-place; violates React immutability contract
+- **Found:** 2026-04-15
+- **Plan:** `docs/nightshift/plans/FIXPLAN-FIX-016-tell-sse-mutation.md`
+- **Summary:** `tell/page.tsx` `sendMessage()` mutates `last.content += data.text` inside `setMessages`. `ask/page.tsx` already uses the correct immutable batch pattern (introduced in the SSE improvements). Port that pattern to `tell/page.tsx`.
+
+---
+
+### [FIX-017] Multiple Draft Rows Created for One Tell Session
+- **Status:** planned
+- **Severity:** Low — produces orphaned draft rows in `sb_story_drafts`; session status stuck at `drafting` when user goes back to chat
+- **Found:** 2026-04-15
+- **Plan:** `docs/nightshift/plans/FIXPLAN-FIX-017-multiple-drafts-per-session.md`
+- **Summary:** Composing a draft, going back to chat, then composing again creates a second `sb_story_drafts` row. Fix: upsert in draft API (update if draft exists for session). Also reset session status to `gathering` via PATCH when user clicks "Keep Talking".
+
+---
+
+## Recently Resolved
+
+### [FIX-013] Uncommitted Auth Redirect Changes (app-url.ts + signup/middleware)
+- **Status:** resolved
+- **Severity:** Medium — working code existed locally but was untracked; a fresh clone or Vercel deploy could silently lose auth redirect behavior
+- **Found:** 2026-04-15
+- **Resolved:** 2026-04-15
+- **Plan:** `docs/nightshift/plans/FIXPLAN-FIX-013-uncommitted-signup-changes.md`
+- **Summary:** Verified the auth redirect changes are present in `src/lib/app-url.ts`, `signup/page.tsx`, `supabase/middleware.ts`, and `.env.local.example`, preserving `NEXT_PUBLIC_SITE_URL` support for signup email redirects.
+
+---
+
+### [FIX-014] Tell Page Missing sendInFlightRef Double-Submit Guard
+- **Status:** resolved
+- **Severity:** Low — intermittent duplicate sends on slow connections or double-click
+- **Found:** 2026-04-15
+- **Resolved:** 2026-04-15
+- **Plan:** `docs/nightshift/plans/FIXPLAN-FIX-014-tell-double-submit.md`
+- **Summary:** Added a synchronous `sendInFlightRef` guard in `src/app/tell/page.tsx` so rapid double submits cannot fire overlapping `/api/tell` sends before React state re-renders.
+
+---
+
+### [FIX-015] submitDraft() Has No In-Progress Guard
+- **Status:** resolved
+- **Severity:** Low — double-click on Submit Story fired duplicate PATCH requests
+- **Found:** 2026-04-15
+- **Resolved:** 2026-04-15
+- **Plan:** `docs/nightshift/plans/FIXPLAN-FIX-015-submit-draft-no-guard.md`
+- **Summary:** Added `submitting` state to `submitDraft()` in `src/app/tell/page.tsx`, prevented re-entry while in flight, disabled the submit button, and added a "Submitting..." label during the request.
+
+---
+
+### [FIX-008] submitDraft Ignores User Edits to Title/Body
+- **Status:** resolved
+- **Severity:** High — user edits are silently discarded; contributor never knows
+- **Found:** 2026-04-14
+- **Resolved:** 2026-04-14
+- **Plan:** `docs/nightshift/plans/FIXPLAN-FIX-008-submit-draft-ignores-edits.md`
+- **Summary:** Added `src/app/api/tell/draft/update/route.ts` and updated `submitDraft()` in `tell/page.tsx` to PATCH edited `title`/`body` before final submit.
+
+---
+
+### [FIX-009] No Rate Limiting on /api/tell/draft + Raw Response Leak
+- **Status:** resolved
+- **Severity:** Medium — financial risk (4096 token Claude call, unguarded); minor privacy issue
+- **Found:** 2026-04-14
+- **Resolved:** 2026-04-14
+- **Plan:** `docs/nightshift/plans/FIXPLAN-FIX-009-tell-draft-rate-limiting.md`
+- **Summary:** Added rate limiting to `/api/tell/draft` (`5/min` per user with `Retry-After`) and removed raw Claude response leakage from parse-failure API errors.
+
+---
+
+### [FIX-010] getWikiSummaries() in parser.ts Has No Cache
+- **Status:** resolved
+- **Severity:** Low-Medium — disk read on every /api/tell request; immutable file at runtime
+- **Found:** 2026-04-14
+- **Resolved:** 2026-04-14
+- **Plan:** `docs/nightshift/plans/FIXPLAN-FIX-010-tell-prompts-wiki-cache.md`
+- **Summary:** Added module-level wiki summary caching in `tell-prompts.ts` so Tell prompt builds reuse cached `index.md` content instead of re-reading every request.
+
+---
+
+### [FIX-011] Dead `generateStaticParams` in Journey Routes
+- **Status:** resolved
+- **Severity:** Low — dead code, same issue as FIX-006 (resolved for stories/themes but reintroduced for journeys)
+- **Found:** 2026-04-14
+- **Resolved:** 2026-04-14
+- **Plan:** `docs/nightshift/plans/FIXPLAN-FIX-011-dead-generatestaticparams-journeys.md`
+- **Summary:** Removed dead `generateStaticParams` exports and now-unused journey list imports from `journeys/[slug]/page.tsx` and `journeys/[slug]/[step]/page.tsx`.
+
+---
+
+### [FIX-012] Unused `_node` Lint Warning in Ask Page
+- **Status:** resolved
+- **Severity:** Very Low — 1 ESLint warning, no runtime impact
+- **Found:** 2026-04-14
+- **Resolved:** 2026-04-14
+- **Plan:** `docs/nightshift/plans/FIXPLAN-FIX-012-unused-node-lint-warning.md`
+- **Summary:** Updated markdown link renderer arg destructuring from `node: _node` to `node: _`, clearing the lint warning while still excluding `node` from spread props.
 
 ---
 

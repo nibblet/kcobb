@@ -39,7 +39,7 @@ function parseJourneyContent(content: string, fallbackSlug: string): WikiJourney
   const storyIds: string[] = [];
   if (storiesBlock) {
     for (const line of storiesBlock[1].split("\n")) {
-      const m = line.match(/\[\[(P1_S\d+)\]\]/);
+      const m = line.match(/\[\[(P\d+_S\d+)\]\]/);
       if (m) storyIds.push(m[1]);
     }
   }
@@ -48,7 +48,7 @@ function parseJourneyContent(content: string, fallbackSlug: string): WikiJourney
   const refBlock = content.match(/## Reflections\s*\n\n([\s\S]*?)(?=\n## |\n*$)/);
   if (refBlock) {
     for (const line of refBlock[1].split("\n")) {
-      const m = line.match(/^-\s*\[\[(P1_S\d+)\]\]:\s*(.+)$/);
+      const m = line.match(/^-\s*\[\[(P\d+_S\d+)\]\]:\s*(.+)$/);
       if (m) reflections[m[1]] = m[2].trim();
     }
   }

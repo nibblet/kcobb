@@ -10,6 +10,7 @@ export interface StoryCard {
   themes: string[];
   wordCount: number;
   principles: string[];
+  volume?: string;
 }
 
 export interface ThemeCard {
@@ -25,6 +26,7 @@ export interface TimelineEvent {
   organization: string;
   location: string;
   storyRef: string;
+  illustration?: string;
 }
 
 export const storiesData: StoryCard[] = [
@@ -47,12 +49,13 @@ export const storiesData: StoryCard[] = [
       "Early influences (home, school, church) are foundational to character development.",
       "Remembering origins helps explain later choices and identity.",
       "Hands-on community activities and local institutions provide practical learning opportunities."
-    ]
+    ],
+    "volume": "P1"
   },
   {
     "storyId": "P1_S02",
     "slug": "a-v-ery-busy-teenager",
-    "title": "A V ery Busy Teenager",
+    "title": "A Very Busy Teenager",
     "summary": "A former high-school student recounts a busy four years filled with strong academics, extensive extracurricular involvement, health crises, and the choice of a college major influenced by an aptitude test.",
     "lifeStage": "Education",
     "themes": [
@@ -70,7 +73,32 @@ export const storiesData: StoryCard[] = [
       "Extracurricular activities build skills, confidence, and social bonds.",
       "Leaders must develop delegation skills rather than assuming excessive responsibility.",
       "Adversity can be an opportunity to learn durable skills."
-    ]
+    ],
+    "volume": "P1"
+  },
+  {
+    "storyId": "P1_S02",
+    "slug": "a-very-busy-teenager",
+    "title": "A Very Busy Teenager",
+    "summary": "A former high-school student recounts a busy four years filled with strong academics, extensive extracurricular involvement, health crises, and the choice of a college major influenced by an aptitude test.",
+    "lifeStage": "Education",
+    "themes": [
+      "Adversity",
+      "Career Choices",
+      "Gratitude",
+      "Identity",
+      "Leadership",
+      "Mentorship",
+      "Work Ethic"
+    ],
+    "wordCount": 2456,
+    "principles": [
+      "High-quality teaching produces lasting advantage and prepares for future success.",
+      "Extracurricular activities build skills, confidence, and social bonds.",
+      "Leaders must develop delegation skills rather than assuming excessive responsibility.",
+      "Adversity can be an opportunity to learn durable skills."
+    ],
+    "volume": "P1"
   },
   {
     "storyId": "P1_S03",
@@ -93,7 +121,8 @@ export const storiesData: StoryCard[] = [
       "Private, firm encouragement motivates improvement more effectively than public scolding.",
       "Consistent intellectual curiosity and exposure to literature expand students' horizons in limited-opportunity settings.",
       "Communities can preserve and extend a leader's legacy through collective action (memorials and scholarships)."
-    ]
+    ],
+    "volume": "P1"
   },
   {
     "storyId": "P1_S04",
@@ -116,7 +145,8 @@ export const storiesData: StoryCard[] = [
       "Consistent mentorship during formative years shapes long-term character and choices.",
       "Use structured milestones and visible recognition to motivate progress and learning.",
       "Embed charity and service as routine practices to reinforce citizenship."
-    ]
+    ],
+    "volume": "P1"
   },
   {
     "storyId": "P1_S05",
@@ -141,7 +171,8 @@ export const storiesData: StoryCard[] = [
       "Mentor demonstration and support can compensate for formal-skill gaps and create opportunities.",
       "Be honest with yourself about willingness to invest time; declining commitments may be preferable to half-hearted participation.",
       "Regret follows neglected natural gifts when discipline is lacking."
-    ]
+    ],
+    "volume": "P1"
   },
   {
     "storyId": "P1_S06",
@@ -166,7 +197,8 @@ export const storiesData: StoryCard[] = [
       "Prioritize financial responsibility and avoid debt.",
       "Respect and trust others; assume positive regard.",
       "Diligent work ethic and consistent service define leadership."
-    ]
+    ],
+    "volume": "P1"
   },
   {
     "storyId": "P1_S07",
@@ -188,7 +220,8 @@ export const storiesData: StoryCard[] = [
       "When constrained, pursue practical compromises rather than ideal solutions to make progress.",
       "Teach practical skills through hands-on instruction and close supervision to build competence.",
       "Maintain very high standards and enforce them consistently to instill discipline."
-    ]
+    ],
+    "volume": "P1"
   },
   {
     "storyId": "P1_S08",
@@ -211,7 +244,8 @@ export const storiesData: StoryCard[] = [
       "Long-term devotion and caregiving can lead to unexpected tangible rewards.",
       "Protecting a child may justify shielding them from consequences, even by bending the truth.",
       "Small, everyday behaviors contribute to enduring legacies—both emotional and material."
-    ]
+    ],
+    "volume": "P1"
   },
   {
     "storyId": "P1_S09",
@@ -235,7 +269,8 @@ export const storiesData: StoryCard[] = [
       "Fairly share proceeds when others provide capital or resources.",
       "Maintain confidentiality in business matters.",
       "Trust and responsibility accelerate learning and leadership development."
-    ]
+    ],
+    "volume": "P1"
   },
   {
     "storyId": "P1_S10",
@@ -257,7 +292,8 @@ export const storiesData: StoryCard[] = [
       "Sustained curiosity is a primary driver of learning and life-direction.",
       "Assemble and use information resources and media to access the wider world and expand perspective.",
       "When opportunity appears, act decisively rather than hesitating."
-    ]
+    ],
+    "volume": "P1"
   },
   {
     "storyId": "P1_S11",
@@ -281,7 +317,8 @@ export const storiesData: StoryCard[] = [
       "Firsthand exposure to broader peers reveals true skill levels and drives improvement.",
       "Treat small losses or mistakes as lessons and adjust future behavior accordingly.",
       "Spontaneous, low-resource ventures can create lasting, formative memories."
-    ]
+    ],
+    "volume": "P1"
   },
   {
     "storyId": "P1_S12",
@@ -307,7 +344,8 @@ export const storiesData: StoryCard[] = [
       "Consistent communication sustains relationships across distance.",
       "Deliberate saving and preparation enable committed steps despite financial constraints.",
       "Mutual support and aligned fundamental values reduce conflict and strengthen long-term bonds."
-    ]
+    ],
+    "volume": "P1"
   },
   {
     "storyId": "P1_S13",
@@ -328,7 +366,8 @@ export const storiesData: StoryCard[] = [
       "Leverage mentor relationships; mentors can open opportunities and provide lasting support.",
       "Listening and understanding in the moment can substitute for exhaustive outside study.",
       "Accept practical compensations that address immediate needs and align incentives."
-    ]
+    ],
+    "volume": "P1"
   },
   {
     "storyId": "P1_S14",
@@ -345,7 +384,8 @@ export const storiesData: StoryCard[] = [
       "Treat difficult situations as laboratories for problem solving.",
       "Analyze patterns in outcomes and iteratively test solutions.",
       "Trust your intuition and sharpen the ability to think on your feet."
-    ]
+    ],
+    "volume": "P1"
   },
   {
     "storyId": "P1_S15",
@@ -367,7 +407,8 @@ export const storiesData: StoryCard[] = [
       "Stand against discrimination publicly, even when confronted by powerful figures.",
       "Power can lead to ethical compromise; self-awareness and corrective action matter.",
       "Accept reprimand and learn when mistakes endanger others or break rules."
-    ]
+    ],
+    "volume": "P1"
   },
   {
     "storyId": "P1_S16",
@@ -387,7 +428,8 @@ export const storiesData: StoryCard[] = [
       "Prioritize long-term fit and advancement over short-term salary.",
       "Use in-person visits to assess organizations and people.",
       "Seek and weigh counsel from trusted advisors and family when making major career decisions."
-    ]
+    ],
+    "volume": "P1"
   },
   {
     "storyId": "P1_S17",
@@ -408,7 +450,8 @@ export const storiesData: StoryCard[] = [
       "Cultivate and value mentorship and tutelage.",
       "Treat career as a lifelong learning process to hone skills and shape character.",
       "Remain adaptable about phases of involvement, including retirement."
-    ]
+    ],
+    "volume": "P1"
   },
   {
     "storyId": "P1_S18",
@@ -431,7 +474,8 @@ export const storiesData: StoryCard[] = [
       "Cultivate and rely on mentors and sponsors to champion advancement.",
       "Seek technical expertise and formal review when operating at the edge of regulatory complexity.",
       "Embrace intense, challenging assignments as accelerants for learning and career momentum."
-    ]
+    ],
+    "volume": "P1"
   },
   {
     "storyId": "P1_S19",
@@ -453,7 +497,8 @@ export const storiesData: StoryCard[] = [
       "Raise concerns about professional negligence when it endangers clients and the firm.",
       "Leverage formal position to make previously withheld views known.",
       "Include family considerations in major relocation decisions."
-    ]
+    ],
+    "volume": "P1"
   },
   {
     "storyId": "P1_S20",
@@ -478,7 +523,8 @@ export const storiesData: StoryCard[] = [
       "Build local networks and leverage introductions to generate early clients when starting from scratch.",
       "Start small and iterate: use temporary arrangements to establish presence before scaling.",
       "Accept responsibility for firm resources and act to prevent prolonged unprofitability."
-    ]
+    ],
+    "volume": "P1"
   },
   {
     "storyId": "P1_S21",
@@ -501,7 +547,8 @@ export const storiesData: StoryCard[] = [
       "Recruit and retain top talent as the foundation of a successful professional practice.",
       "When you don't understand a prospective client's business, decline the engagement to protect integrity.",
       "Act on ethical intuition promptly, even if it risks discomfort with peers."
-    ]
+    ],
+    "volume": "P1"
   },
   {
     "storyId": "P1_S22",
@@ -522,7 +569,8 @@ export const storiesData: StoryCard[] = [
       "Engage clients at senior executive levels to protect and grow major relationships.",
       "Make difficult personnel decisions when objective performance and client needs demand it.",
       "Verify internal narratives by asking clients directly before changing operations tied to perceived image."
-    ]
+    ],
+    "volume": "P1"
   },
   {
     "storyId": "P1_S23",
@@ -545,7 +593,8 @@ export const storiesData: StoryCard[] = [
       "Move decisively and rapidly when leading a turnaround; bold, timely action can accelerate change.",
       "Leverage civic and philanthropic engagement to build networks and open doors in a new community.",
       "Address systemic unfairness with iterative, data-driven redesigns to gain credible, implementable solutions."
-    ]
+    ],
+    "volume": "P1"
   },
   {
     "storyId": "P1_S24",
@@ -569,7 +618,8 @@ export const storiesData: StoryCard[] = [
       "Create systems and incentives to overcome provincialism and enable firm-wide expertise sharing.",
       "Use exhaustive preparation and effective communications to alter organizational momentum.",
       "Build internal knowledge management to harness firm resources."
-    ]
+    ],
+    "volume": "P1"
   },
   {
     "storyId": "P1_S25",
@@ -593,7 +643,8 @@ export const storiesData: StoryCard[] = [
       "Signal seriousness about strategic priorities by changing leadership when execution stalls.",
       "Invest in data and technology to change industry economics where conventional approaches fail.",
       "Engage front-line employees directly to surface operational problems and improve communication."
-    ]
+    ],
+    "volume": "P1"
   },
   {
     "storyId": "P1_S26",
@@ -616,7 +667,8 @@ export const storiesData: StoryCard[] = [
       "Maintain professional conduct when disagreeing or exiting roles.",
       "Use failures as teaching tools and case studies to pass lessons to others.",
       "Leverage personal and professional networks to create opportunities and solutions."
-    ]
+    ],
+    "volume": "P1"
   },
   {
     "storyId": "P1_S27",
@@ -638,7 +690,8 @@ export const storiesData: StoryCard[] = [
       "Escalate material misstatements to appropriate authority when management resists correction.",
       "Value confidentiality when counseling individuals facing sensitive disclosures.",
       "Question the fairness of punitive actions and consider proportionality."
-    ]
+    ],
+    "volume": "P1"
   },
   {
     "storyId": "P1_S28",
@@ -662,7 +715,8 @@ export const storiesData: StoryCard[] = [
       "Act decisively and swiftly when circumstances demand urgency.",
       "Leverage broad institutional experience and knowledge when stepping into leadership roles.",
       "Value the career-wide accumulation of experiences and give back via boards, consulting, and teaching."
-    ]
+    ],
+    "volume": "P1"
   },
   {
     "storyId": "P1_S29",
@@ -683,7 +737,8 @@ export const storiesData: StoryCard[] = [
       "Independent, flexible exploration yields more authentic experiences than rigid tours.",
       "Hands-on participation, even if small, is valuable in humanitarian response.",
       "Physical mementos and local craftsmanship connect travelers to places and people."
-    ]
+    ],
+    "volume": "P1"
   },
   {
     "storyId": "P1_S30",
@@ -709,7 +764,8 @@ export const storiesData: StoryCard[] = [
       "Observe others' grit and sacrifice as motivation to persist in your ambitions.",
       "Humility and selflessness are powerful leadership virtues regardless of fame.",
       "Family devotion informs leadership priorities and commitment."
-    ]
+    ],
+    "volume": "P1"
   },
   {
     "storyId": "P1_S31",
@@ -728,7 +784,8 @@ export const storiesData: StoryCard[] = [
       "Use music as a tool for emotional regulation and memory triggers.",
       "Preserve meaningful artifacts to maintain connection to formative experiences.",
       "Internalize beloved works by learning and practicing them."
-    ]
+    ],
+    "volume": "P1"
   },
   {
     "storyId": "P1_S32",
@@ -754,7 +811,8 @@ export const storiesData: StoryCard[] = [
       "Learning driven by intrinsic enjoyment sustains long-term practice.",
       "Use playful competition to reinforce learning and maintain engagement.",
       "Sharing work publicly can create durability and useful feedback."
-    ]
+    ],
+    "volume": "P1"
   },
   {
     "storyId": "P1_S33",
@@ -779,7 +837,8 @@ export const storiesData: StoryCard[] = [
       "Use major assets (homes, boats) to create family experiences and social value.",
       "Seek trusted counsel before making large expenditures.",
       "Mitigate operational risk by hiring expertise and acquiring skills when entering a new domain."
-    ]
+    ],
+    "volume": "P1"
   },
   {
     "storyId": "P1_S34",
@@ -797,7 +856,8 @@ export const storiesData: StoryCard[] = [
       "Be consistent in parenting and dealings with children.",
       "Support independence by stepping back when a child requests ownership of a decision.",
       "Act promptly on credible external observations about a child's needs (e.g., teacher concerns)."
-    ]
+    ],
+    "volume": "P1"
   },
   {
     "storyId": "P1_S35",
@@ -818,7 +878,8 @@ export const storiesData: StoryCard[] = [
       "Use periodic family gatherings and celebrations to reinforce connections.",
       "Leverage modern communication technology to maintain regular contact.",
       "Express gratitude and regard family as a precious gift."
-    ]
+    ],
+    "volume": "P1"
   },
   {
     "storyId": "P1_S36",
@@ -839,7 +900,8 @@ export const storiesData: StoryCard[] = [
       "Place trusted people in roles of responsibility.",
       "Respect divergent viewpoints while holding to shared ethical foundations.",
       "Prioritize experience and independence over material accumulation."
-    ]
+    ],
+    "volume": "P1"
   },
   {
     "storyId": "P1_S37",
@@ -860,7 +922,8 @@ export const storiesData: StoryCard[] = [
       "Stewardship entails both time and money as obligations to community and faith.",
       "Active participation in religious programs deepens faith and personal growth.",
       "Gratitude frames lifelong spiritual perspective."
-    ]
+    ],
+    "volume": "P1"
   },
   {
     "storyId": "P1_S38",
@@ -885,7 +948,8 @@ export const storiesData: StoryCard[] = [
       "Volunteer leadership roles are opportunities to apply professional skills and to learn leadership.",
       "Combine monetary support with time and leadership for greater impact.",
       "Adopt an ethic of reciprocity—'pay it forward'—as a guiding motive for service."
-    ]
+    ],
+    "volume": "P1"
   },
   {
     "storyId": "P1_S39",
@@ -908,7 +972,8 @@ export const storiesData: StoryCard[] = [
       "Use retrospection in later life to clarify meaning and legacy.",
       "Accept serendipity as a meaningful factor in life outcomes.",
       "Treat major commitments with seriousness and intentionality."
-    ]
+    ],
+    "volume": "P1"
   }
 ];
 
@@ -1236,7 +1301,8 @@ export const timelineData: TimelineEvent[] = [
     "event": "Entered college",
     "organization": "Mississippi Southern College (USM)",
     "location": "Hattiesburg, Mississippi",
-    "storyRef": "P1_S36"
+    "storyRef": "P1_S36",
+    "illustration": "/timeline/usm.jpg"
   },
   {
     "year": 1959,
@@ -1257,7 +1323,8 @@ export const timelineData: TimelineEvent[] = [
     "event": "Chose Peat Marwick",
     "organization": "",
     "location": "Jackson office (Peat Marwick Mitchell & Co.), Jackson, Mississippi",
-    "storyRef": "P1_S16"
+    "storyRef": "P1_S16",
+    "illustration": "/timeline/accounting-machine.jpg"
   },
   {
     "year": 1963,
@@ -1278,7 +1345,8 @@ export const timelineData: TimelineEvent[] = [
     "event": "Joined Peat Marwick; first paycheck; United Way payroll deduction began",
     "organization": "Peat Marwick",
     "location": "Jackson, Mississippi",
-    "storyRef": "P1_S38"
+    "storyRef": "P1_S38",
+    "illustration": "/timeline/mississippi-jackson.jpg"
   },
   {
     "year": 1968,
@@ -1299,7 +1367,8 @@ export const timelineData: TimelineEvent[] = [
     "event": "Moved to Orlando to establish new Peat Marwick office",
     "organization": "Peat Marwick",
     "location": "Orlando, Florida",
-    "storyRef": "P1_S20"
+    "storyRef": "P1_S20",
+    "illustration": "/timeline/florida-orlando.jpg"
   },
   {
     "year": 1971,
@@ -1313,7 +1382,8 @@ export const timelineData: TimelineEvent[] = [
     "event": "Relocated to Fort Lauderdale as managing partner",
     "organization": "Peat Marwick",
     "location": "Fort Lauderdale, Florida",
-    "storyRef": "P1_S21"
+    "storyRef": "P1_S21",
+    "illustration": "/timeline/florida-fort-lauderdale.jpg"
   },
   {
     "year": 1977,
@@ -1327,21 +1397,24 @@ export const timelineData: TimelineEvent[] = [
     "event": "Asked to move to Baltimore; became managing partner",
     "organization": "KPMG",
     "location": "Baltimore, Maryland",
-    "storyRef": "P1_S22"
+    "storyRef": "P1_S22",
+    "illustration": "/timeline/maryland-baltimore.jpg"
   },
   {
     "year": 1990,
     "event": "Invited to dinner at Governor's mansion",
     "organization": "",
     "location": "Maryland, Annapolis, Maryland",
-    "storyRef": "P1_S39"
+    "storyRef": "P1_S39",
+    "illustration": "/timeline/maryland-annapolis.jpg"
   },
   {
     "year": 1991,
     "event": "Arrived in Philadelphia as managing partner",
     "organization": "KPMG",
     "location": "Philadelphia, Pennsylvania",
-    "storyRef": "P1_S23"
+    "storyRef": "P1_S23",
+    "illustration": "/timeline/pennsylvania-philadelphia.jpg"
   },
   {
     "year": 1993,
@@ -1362,7 +1435,8 @@ export const timelineData: TimelineEvent[] = [
     "event": "Became CEO of Alamo Rent A Car",
     "organization": "Alamo Rent A Car",
     "location": "Fort Lauderdale, Florida",
-    "storyRef": "P1_S25"
+    "storyRef": "P1_S25",
+    "illustration": "/timeline/alamo-cars.jpg"
   },
   {
     "year": 1996,
@@ -1383,7 +1457,8 @@ export const timelineData: TimelineEvent[] = [
     "event": "Joined board of Federal Reserve Bank of Miami",
     "organization": "Federal Reserve Bank of Miami",
     "location": "Miami, Florida",
-    "storyRef": "P1_S26"
+    "storyRef": "P1_S26",
+    "illustration": "/timeline/florida-miami.jpg"
   },
   {
     "year": 1998,
@@ -1404,21 +1479,24 @@ export const timelineData: TimelineEvent[] = [
     "event": "Laundromax failed; capital markets dried up",
     "organization": "Laundromax",
     "location": "",
-    "storyRef": "P1_S26"
+    "storyRef": "P1_S26",
+    "illustration": "/timeline/laundromat.jpg"
   },
   {
     "year": 2002,
     "event": "Invited to join BankAtlantic Bancorp board",
     "organization": "BankAtlantic Bancorp",
     "location": "Florida",
-    "storyRef": "P1_S26"
+    "storyRef": "P1_S26",
+    "illustration": "/timeline/bankatlantic.jpg"
   },
   {
     "year": 2003,
     "event": "Began teaching as adjunct at Nova Southeastern University",
     "organization": "Nova Southeastern University",
     "location": "Florida",
-    "storyRef": "P1_S26"
+    "storyRef": "P1_S26",
+    "illustration": "/timeline/nova-southeastern.jpg"
   },
   {
     "year": 2012,
@@ -1453,6 +1531,7 @@ export const timelineData: TimelineEvent[] = [
     "event": "Antarctica expedition; rounded out seven continents",
     "organization": "",
     "location": "Antarctica",
-    "storyRef": "P1_S29"
+    "storyRef": "P1_S29",
+    "illustration": "/timeline/antarctica.jpg"
   }
 ];

@@ -1,0 +1,97 @@
+import { createClient } from "@/lib/supabase/server";
+
+export async function POST(request: Request) {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    return Response.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  // Check admin role
+  const { data: profile } = await supabase
+    .from("sb_profiles")
+    .select("role")
+    .eq("id", user.id)
+    .single();
+
+  if (profile?.role !== "admin") {
+    return Response.json({ error: "Admin access required" }, { status: 403 });
+  }
+
+  const { draftId } = (await request.json()) as { draftId: string };
+  if (!draftId) {
+    return Response.json({ error: "draftId required" }, { status: 400 });
+  }
+
+  // Get the draft
+  const { data: draft } = await supabase
+    .from("sb_story_drafts")
+    .select("id, status, session_id")
+    .eq("id", draftId)
+    .single();
+
+  if (!draft) {
+    return Response.json({ error: "Draft not found" }, { status: 404 });
+  }
+
+  if (draft.status === "published") {
+    return Response.json(
+      { error: "Already published" },
+      { status: 400 }
+    );
+  }
+
+  // Get the session to determine volume
+  const { data: session } = await supabase
+    .from("sb_story_sessions")
+    .select("volume")
+    .eq("id", draft.session_id)
+    .single();
+
+  const volume = session?.volume || "P2";
+
+  // Find next available story ID for this volume
+  const { data: existing } = await supabase
+    .from("sb_story_drafts")
+    .select("story_id")
+    .like("story_id", `${volume}_%`)
+    .not("story_id", "is", null);
+
+  const usedNumbers = (existing || [])
+    .map((d) => {
+      const match = d.story_id?.match(/_S(\d+)$/);
+      return match ? parseInt(match[1]) : 0;
+    })
+    .filter((n) => n > 0);
+
+  const nextNumber = usedNumbers.length > 0 ? Math.max(...usedNumbers) + 1 : 1;
+  const storyId = `${volume}_S${String(nextNumber).padStart(2, "0")}`;
+
+  // Update draft as published with assigned story ID
+  const { error: updateError } = await supabase
+    .from("sb_story_drafts")
+    .update({
+      status: "published",
+      story_id: storyId,
+      updated_at: new Date().toISOString(),
+    })
+    .eq("id", draftId);
+
+  if (updateError) {
+    return Response.json(
+      { error: "Failed to publish" },
+      { status: 500 }
+    );
+  }
+
+  // Update session status
+  await supabase
+    .from("sb_story_sessions")
+    .update({ status: "published", updated_at: new Date().toISOString() })
+    .eq("id", draft.session_id);
+
+  return Response.json({ storyId, status: "published" });
+}

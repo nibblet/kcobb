@@ -1,15 +1,67 @@
 "use client";
 
-import { Suspense, useState, useRef, useEffect } from "react";
+import { Suspense, useState, useRef, useEffect, useCallback } from "react";
 import { useSearchParams } from "next/navigation";
 import { useAgeMode } from "@/hooks/useAgeMode";
+import type { AgeMode } from "@/types";
 import Link from "next/link";
-import ReactMarkdown from "react-markdown";
+import ReactMarkdown, { type Components } from "react-markdown";
+
+const ASSISTANT_MARKDOWN_COMPONENTS: Components = {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  a({ href, children, node: _, ...props }) {
+    if (href?.startsWith("/")) {
+      return (
+        <Link
+          href={href}
+          className="font-medium text-clay underline underline-offset-2 hover:text-clay-mid"
+        >
+          {children}
+        </Link>
+      );
+    }
+    if (href) {
+      return (
+        <a
+          href={href}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="font-medium text-clay underline underline-offset-2 hover:text-clay-mid"
+          {...props}
+        >
+          {children}
+        </a>
+      );
+    }
+    return <span>{children}</span>;
+  },
+};
 
 interface Message {
   role: "user" | "assistant";
   content: string;
 }
+
+const SUGGESTIONS_BY_AGE_MODE: Record<AgeMode, string[]> = {
+  young_reader: [
+    "What was Keith like as a boy?",
+    "Did Keith have any pets growing up?",
+    "What games did Keith play when he was little?",
+    "What was Keith's favorite thing about school?",
+  ],
+  teen: [
+    "How did Keith decide what to do with his life?",
+    "What was Keith's first job like?",
+    "How did Keith handle making mistakes?",
+    "What advice would Keith give about choosing a career?",
+  ],
+  adult: [
+    "What shaped Keith's leadership style?",
+    "Tell me about Keith's early career",
+    "What did Keith learn from his father?",
+    "What are the most important lessons?",
+  ],
+};
 
 export default function AskPage() {
   return (
@@ -37,14 +89,17 @@ function AskPageContent() {
   const [conversationId, setConversationId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
+  /** Synchronous guard — `loading` state is stale until re-render, so double-submit can otherwise run two streams into one assistant bubble. */
+  const sendInFlightRef = useRef(false);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  async function sendMessage(text?: string) {
-    const messageText = text || input.trim();
-    if (!messageText || loading) return;
+  const sendMessage = useCallback(async (text?: string) => {
+    const messageText = text ?? input.trim();
+    if (!messageText || sendInFlightRef.current) return;
+    sendInFlightRef.current = true;
 
     setInput("");
     setError(null);
@@ -95,6 +150,7 @@ function AskPageContent() {
         const lines = buffer.split("\n");
         buffer = done ? "" : (lines.pop() ?? "");
 
+        let sseTextBatch = "";
         for (const line of lines) {
           if (!line.startsWith("data: ")) continue;
           try {
@@ -109,19 +165,25 @@ function AskPageContent() {
               setConversationId(data.conversationId);
             }
 
-            if (data.text) {
-              setMessages((prev) => {
-                const updated = [...prev];
-                const last = updated[updated.length - 1];
-                if (last.role === "assistant") {
-                  last.content += data.text;
-                }
-                return updated;
-              });
+            if (typeof data.text === "string" && data.text.length > 0) {
+              sseTextBatch += data.text;
             }
           } catch {
             // Malformed SSE line — skip
           }
+        }
+
+        if (sseTextBatch) {
+          // Must be immutable: React Strict Mode (Next.js dev) may invoke this updater twice
+          // with the same `prev`; in-place mutation would append the chunk twice ("InIn…").
+          setMessages((prev) => {
+            const last = prev[prev.length - 1];
+            if (!last || last.role !== "assistant") return prev;
+            return [
+              ...prev.slice(0, -1),
+              { ...last, content: last.content + sseTextBatch },
+            ];
+          });
         }
 
         if (done) break;
@@ -137,9 +199,10 @@ function AskPageContent() {
         return prev;
       });
     } finally {
+      sendInFlightRef.current = false;
       setLoading(false);
     }
-  }
+  }, [input, conversationId, storySlug, journeySlug, ageMode]);
 
   return (
     <div className="mx-auto flex h-[calc(100vh-8rem)] max-w-content flex-col px-[var(--page-padding-x)] md:h-[calc(100vh-4rem)]">
@@ -170,12 +233,7 @@ function AskPageContent() {
               What would you like to know about Keith&apos;s stories?
             </p>
             <div className="flex flex-wrap justify-center gap-2">
-              {[
-                "What shaped Keith's leadership style?",
-                "Tell me about Keith's early career",
-                "What did Keith learn from his father?",
-                "What are the most important lessons?",
-              ].map((suggestion) => (
+              {SUGGESTIONS_BY_AGE_MODE[ageMode].map((suggestion) => (
                 <button
                   key={suggestion}
                   type="button"
@@ -203,7 +261,9 @@ function AskPageContent() {
             >
               {msg.role === "assistant" ? (
                 <div className="prose prose-story prose-sm max-w-none prose-p:my-1 prose-headings:my-2 prose-headings:text-sm prose-headings:font-semibold prose-ul:my-1 prose-li:my-0">
-                  <ReactMarkdown>{msg.content}</ReactMarkdown>
+                  <ReactMarkdown components={ASSISTANT_MARKDOWN_COMPONENTS}>
+                    {msg.content}
+                  </ReactMarkdown>
                 </div>
               ) : (
                 msg.content

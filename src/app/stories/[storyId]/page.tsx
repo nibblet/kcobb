@@ -1,4 +1,5 @@
 import { getStoryById } from "@/lib/wiki/parser";
+import { getPublishedStoryById } from "@/lib/wiki/supabase-stories";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import ReactMarkdown from "react-markdown";
@@ -11,7 +12,8 @@ export default async function StoryDetailPage({
   params: Promise<{ storyId: string }>;
 }) {
   const { storyId } = await params;
-  const story = getStoryById(storyId);
+  // Try filesystem first (Volume 1), then Supabase (Volume 2+)
+  const story = getStoryById(storyId) || (await getPublishedStoryById(storyId));
 
   if (!story) notFound();
 
