@@ -10,6 +10,7 @@ const allNavItems = [
   { href: "/stories", label: "Stories" },
   { href: "/journeys", label: "Journeys" },
   { href: "/themes", label: "Themes" },
+  { href: "/explore", label: "Explore" },
   { href: "/timeline", label: "Timeline" },
   { href: "/ask", label: "Ask" },
   { href: "/tell", label: "Tell" },
@@ -27,7 +28,7 @@ export function Nav() {
   const navItems = useMemo(
     () =>
       ageMode === "young_reader"
-        ? allNavItems.filter((i) => i.href !== "/themes")
+        ? allNavItems.filter((i) => i.href !== "/themes" && i.href !== "/explore")
         : [...allNavItems],
     [ageMode]
   );

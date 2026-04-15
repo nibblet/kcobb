@@ -7,9 +7,15 @@ export default function ThemesPage() {
   return (
     <div className="mx-auto max-w-content px-[var(--page-padding-x)] py-6 md:py-10">
       <h1 className="type-page-title mb-2">Themes &amp; Principles</h1>
-      <p className="type-ui mb-6 text-ink-muted">
+      <p className="type-ui mb-3 text-ink-muted">
         The values and principles that shaped Keith&apos;s decisions
       </p>
+      <Link
+        href="/explore"
+        className="type-ui mb-6 inline-block text-ocean hover:text-ocean-light"
+      >
+        See how they intermingle →
+      </Link>
 
       <div className="grid gap-3 sm:grid-cols-2">
         {themes.map((theme) => (
