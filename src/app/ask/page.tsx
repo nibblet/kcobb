@@ -3,6 +3,7 @@
 import { Suspense, useState, useRef, useEffect, useCallback } from "react";
 import { useSearchParams } from "next/navigation";
 import { useAgeMode } from "@/hooks/useAgeMode";
+import type { AgeMode } from "@/types";
 import Link from "next/link";
 import ReactMarkdown, { type Components } from "react-markdown";
 
@@ -40,6 +41,27 @@ interface Message {
   role: "user" | "assistant";
   content: string;
 }
+
+const SUGGESTIONS_BY_AGE_MODE: Record<AgeMode, string[]> = {
+  young_reader: [
+    "What was Keith like as a boy?",
+    "Did Keith have any pets growing up?",
+    "What games did Keith play when he was little?",
+    "What was Keith's favorite thing about school?",
+  ],
+  teen: [
+    "How did Keith decide what to do with his life?",
+    "What was Keith's first job like?",
+    "How did Keith handle making mistakes?",
+    "What advice would Keith give about choosing a career?",
+  ],
+  adult: [
+    "What shaped Keith's leadership style?",
+    "Tell me about Keith's early career",
+    "What did Keith learn from his father?",
+    "What are the most important lessons?",
+  ],
+};
 
 export default function AskPage() {
   return (
@@ -211,12 +233,7 @@ function AskPageContent() {
               What would you like to know about Keith&apos;s stories?
             </p>
             <div className="flex flex-wrap justify-center gap-2">
-              {[
-                "What shaped Keith's leadership style?",
-                "Tell me about Keith's early career",
-                "What did Keith learn from his father?",
-                "What are the most important lessons?",
-              ].map((suggestion) => (
+              {SUGGESTIONS_BY_AGE_MODE[ageMode].map((suggestion) => (
                 <button
                   key={suggestion}
                   type="button"

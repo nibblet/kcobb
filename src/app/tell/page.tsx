@@ -8,6 +8,12 @@ interface Message {
   content: string;
 }
 
+interface PendingSession {
+  id: string;
+  preview: string;
+  updatedAt: string;
+}
+
 interface StoryDraft {
   draftId: string;
   title: string;
@@ -34,15 +40,39 @@ export default function TellPage() {
   const [editTitle, setEditTitle] = useState("");
   const [editBody, setEditBody] = useState("");
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [pendingSessions, setPendingSessions] = useState<PendingSession[]>([]);
+  const [sessionsChecked, setSessionsChecked] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
+  const sendInFlightRef = useRef(false);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
+  useEffect(() => {
+    async function checkSessions() {
+      try {
+        const res = await fetch("/api/tell/sessions");
+        if (!res.ok) return;
+        const data = (await res.json()) as {
+          sessions?: PendingSession[];
+        };
+        setPendingSessions(data.sessions || []);
+      } catch {
+        // Keep normal empty state on fetch failures.
+      } finally {
+        setSessionsChecked(true);
+      }
+    }
+
+    checkSessions();
+  }, []);
+
   async function sendMessage(text?: string) {
     const messageText = text || input.trim();
-    if (!messageText || loading) return;
+    if (!messageText || sendInFlightRef.current) return;
+    sendInFlightRef.current = true;
 
     setInput("");
     setError(null);
@@ -120,6 +150,7 @@ export default function TellPage() {
         return prev;
       });
     } finally {
+      sendInFlightRef.current = false;
       setLoading(false);
     }
   }
@@ -154,32 +185,50 @@ export default function TellPage() {
     }
   }
 
+  async function resumeSession(id: string) {
+    setError(null);
+    const res = await fetch(`/api/tell/sessions/${id}`);
+    if (!res.ok) {
+      setError("Could not resume that story. Please start a new one.");
+      return;
+    }
+
+    const data = (await res.json()) as { messages?: Message[] };
+    setSessionId(id);
+    setMessages(data.messages || []);
+    setPendingSessions([]);
+  }
+
   function backToChat() {
     setViewMode("chat");
     setDraft(null);
   }
 
   async function submitDraft() {
-    if (!draft) return;
-    const hasEdits = editTitle !== draft.title || editBody !== draft.body;
-    if (hasEdits) {
-      const res = await fetch("/api/tell/draft/update", {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          draftId: draft.draftId,
-          title: editTitle,
-          body: editBody,
-        }),
-      });
+    if (!draft || submitting) return;
+    setSubmitting(true);
+    try {
+      const hasEdits = editTitle !== draft.title || editBody !== draft.body;
+      if (hasEdits) {
+        const res = await fetch("/api/tell/draft/update", {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            draftId: draft.draftId,
+            title: editTitle,
+            body: editBody,
+          }),
+        });
 
-      if (!res.ok) {
-        setError("Failed to save your edits. Please try again.");
-        return;
+        if (!res.ok) {
+          setError("Failed to save your edits. Please try again.");
+          return;
+        }
       }
+      setSubmitted(true);
+    } finally {
+      setSubmitting(false);
     }
-
-    setSubmitted(true);
   }
 
   function startNew() {
@@ -318,9 +367,10 @@ export default function TellPage() {
           <div className="flex gap-3 pt-2">
             <button
               onClick={submitDraft}
-              className="type-ui rounded-lg bg-clay px-6 py-2.5 font-medium text-warm-white transition-colors hover:bg-clay-mid"
+              disabled={submitting}
+              className="type-ui rounded-lg bg-clay px-6 py-2.5 font-medium text-warm-white transition-colors hover:bg-clay-mid disabled:cursor-not-allowed disabled:opacity-50"
             >
-              Submit Story
+              {submitting ? "Submitting..." : "Submit Story"}
             </button>
             <button
               onClick={backToChat}
@@ -351,6 +401,39 @@ export default function TellPage() {
       >
         {messages.length === 0 && (
           <div className="py-12 text-center">
+            {sessionsChecked && pendingSessions.length > 0 && (
+              <div className="mx-auto mb-6 max-w-xl rounded-lg border border-clay-border bg-gold-pale/40 p-4 text-left">
+                <p className="type-ui mb-2 text-sm font-medium text-ink">
+                  Continue your story
+                </p>
+                <div className="space-y-2">
+                  {pendingSessions.map((s) => (
+                    <div
+                      key={s.id}
+                      className="flex items-center justify-between gap-3"
+                    >
+                      <p className="type-ui flex-1 truncate text-sm text-ink-muted">
+                        &ldquo;{s.preview}&rdquo;
+                      </p>
+                      <button
+                        type="button"
+                        onClick={() => resumeSession(s.id)}
+                        className="type-ui shrink-0 rounded-lg bg-clay px-3 py-1.5 text-sm font-medium text-warm-white transition-colors hover:bg-clay-mid"
+                      >
+                        Continue
+                      </button>
+                    </div>
+                  ))}
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setPendingSessions([])}
+                  className="type-ui mt-3 text-xs text-ink-ghost transition-colors hover:text-ink"
+                >
+                  Start a new story instead
+                </button>
+              </div>
+            )}
             <p className="mb-4 text-sm text-ink-muted">
               What story would you like to share?
             </p>
