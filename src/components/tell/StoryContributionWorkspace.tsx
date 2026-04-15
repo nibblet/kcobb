@@ -138,6 +138,7 @@ export function StoryContributionWorkspace({
     null
   );
   const [quickAnswerText, setQuickAnswerText] = useState("");
+  const [quickAnswerPrivate, setQuickAnswerPrivate] = useState(false);
   const [questionActionBusy, setQuestionActionBusy] = useState(false);
   const [questionActionError, setQuestionActionError] = useState<string | null>(
     null
@@ -324,7 +325,10 @@ export function StoryContributionWorkspace({
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ answer_text: text, visibility: "public" }),
+          body: JSON.stringify({
+            answer_text: text,
+            visibility: quickAnswerPrivate ? "private" : "public",
+          }),
         }
       );
       if (!res.ok) {
@@ -337,6 +341,7 @@ export function StoryContributionWorkspace({
       setPendingQuestions((prev) => prev.filter((q) => q.id !== questionId));
       setExpandedQuestionId(null);
       setQuickAnswerText("");
+      setQuickAnswerPrivate(false);
     } finally {
       setQuestionActionBusy(false);
     }
@@ -653,6 +658,19 @@ export function StoryContributionWorkspace({
                                 {questionActionError}
                               </p>
                             )}
+                            <label className="type-ui mb-2 flex items-center gap-2 text-xs text-ink-muted">
+                              <input
+                                type="checkbox"
+                                checked={quickAnswerPrivate}
+                                onChange={(e) =>
+                                  setQuickAnswerPrivate(e.target.checked)
+                                }
+                                disabled={questionActionBusy}
+                                className="h-3.5 w-3.5 accent-clay"
+                              />
+                              Keep private — only the asker will see this
+                              answer
+                            </label>
                             <div className="flex flex-wrap gap-2">
                               <button
                                 type="button"
@@ -664,7 +682,9 @@ export function StoryContributionWorkspace({
                               >
                                 {questionActionBusy
                                   ? "Saving..."
-                                  : "Answer quickly"}
+                                  : quickAnswerPrivate
+                                  ? "Send private reply"
+                                  : "Answer publicly"}
                               </button>
                               <button
                                 type="button"
