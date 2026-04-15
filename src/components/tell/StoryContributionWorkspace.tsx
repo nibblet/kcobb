@@ -15,6 +15,29 @@ interface PendingSession {
   updatedAt: string;
 }
 
+interface PendingQuestion {
+  id: string;
+  story_id: string;
+  question: string;
+  category: string | null;
+  age_mode: string | null;
+  created_at: string;
+}
+
+const CATEGORY_LABEL: Record<string, string> = {
+  person: "Person",
+  place: "Place",
+  object: "Object",
+  timeline: "Timeline",
+  other: "Other",
+};
+
+const AGE_MODE_LABEL: Record<string, string> = {
+  young_reader: "young reader",
+  teen: "teen",
+  adult: "adult",
+};
+
 interface StoryDraft {
   draftId: string;
   title: string;
@@ -108,6 +131,12 @@ export function StoryContributionWorkspace({
   const [submitting, setSubmitting] = useState(false);
   const [pendingSessions, setPendingSessions] = useState<PendingSession[]>([]);
   const [sessionsChecked, setSessionsChecked] = useState(false);
+  const [pendingQuestions, setPendingQuestions] = useState<PendingQuestion[]>(
+    []
+  );
+  const [expandedQuestionId, setExpandedQuestionId] = useState<string | null>(
+    null
+  );
   const bottomRef = useRef<HTMLDivElement>(null);
   const sendInFlightRef = useRef(false);
 
@@ -132,6 +161,21 @@ export function StoryContributionWorkspace({
     }
 
     checkSessions();
+  }, [contributionMode]);
+
+  useEffect(() => {
+    if (contributionMode !== "beyond") return;
+    async function loadPendingQuestions() {
+      try {
+        const res = await fetch("/api/beyond/questions");
+        if (!res.ok) return;
+        const data = (await res.json()) as { questions?: PendingQuestion[] };
+        setPendingQuestions(data.questions || []);
+      } catch {
+        // Keep empty on fetch failure.
+      }
+    }
+    loadPendingQuestions();
   }, [contributionMode]);
 
   async function sendMessage(text?: string) {
@@ -474,6 +518,63 @@ export function StoryContributionWorkspace({
       >
         {messages.length === 0 && (
           <div className="py-12 text-center">
+            {contributionMode === "beyond" && pendingQuestions.length > 0 && (
+              <div className="mx-auto mb-6 max-w-xl rounded-lg border border-clay-border bg-warm-white p-4 text-left">
+                <p className="type-ui mb-1 text-sm font-medium text-ink">
+                  {pendingQuestions.length} reader question
+                  {pendingQuestions.length === 1 ? "" : "s"} waiting
+                </p>
+                <p className="type-ui mb-3 text-xs text-ink-ghost">
+                  Open a question to answer directly or turn it into a chapter.
+                </p>
+                <ul className="space-y-2">
+                  {pendingQuestions.map((q) => {
+                    const isOpen = expandedQuestionId === q.id;
+                    const categoryLabel = q.category
+                      ? CATEGORY_LABEL[q.category]
+                      : null;
+                    const ageLabel = q.age_mode
+                      ? AGE_MODE_LABEL[q.age_mode]
+                      : null;
+                    return (
+                      <li
+                        key={q.id}
+                        className="rounded-md border border-[var(--color-border)] bg-warm-white-2 p-3"
+                      >
+                        <button
+                          type="button"
+                          onClick={() =>
+                            setExpandedQuestionId(isOpen ? null : q.id)
+                          }
+                          className="flex w-full items-start justify-between gap-3 text-left"
+                        >
+                          <div className="min-w-0 flex-1">
+                            <p className="type-ui mb-1 text-xs text-ink-ghost">
+                              {q.story_id}
+                              {categoryLabel ? ` · ${categoryLabel}` : ""}
+                              {ageLabel ? ` · ${ageLabel}` : ""}
+                            </p>
+                            <p
+                              className={`type-ui text-sm text-ink-muted ${
+                                isOpen ? "" : "truncate"
+                              }`}
+                            >
+                              &ldquo;{q.question}&rdquo;
+                            </p>
+                          </div>
+                          <span
+                            aria-hidden
+                            className="shrink-0 pt-0.5 text-xs text-ink-ghost"
+                          >
+                            {isOpen ? "−" : "+"}
+                          </span>
+                        </button>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+            )}
             {sessionsChecked && pendingSessions.length > 0 && (
               <div className="mx-auto mb-6 max-w-xl rounded-lg border border-clay-border bg-gold-pale/40 p-4 text-left">
                 <p className="type-ui mb-2 text-sm font-medium text-ink">
