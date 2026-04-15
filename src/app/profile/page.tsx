@@ -37,9 +37,16 @@ export default async function ProfilePage() {
     user.email
   );
 
+  const supabase = await createClient();
+  const { count: unreadAnswerCount } = await supabase
+    .from("sb_chapter_questions")
+    .select("id", { count: "exact", head: true })
+    .eq("asker_id", user.id)
+    .eq("status", "answered")
+    .eq("asker_seen", false);
+
   if (isKeithSpecialAccess) {
-    const supabase = await createClient();
-    const { count } = await supabase
+    const { count: pendingQuestionCount } = await supabase
       .from("sb_chapter_questions")
       .select("id", { count: "exact", head: true })
       .eq("status", "pending");
@@ -48,10 +55,16 @@ export default async function ProfilePage() {
       <KeithProfileHero
         displayName={displayName}
         email={user.email ?? ""}
-        pendingQuestionCount={count ?? 0}
+        pendingQuestionCount={pendingQuestionCount ?? 0}
       />
     );
   }
 
-  return <ProfileHero displayName={displayName} email={user.email ?? ""} />;
+  return (
+    <ProfileHero
+      displayName={displayName}
+      email={user.email ?? ""}
+      unreadAnswerCount={unreadAnswerCount ?? 0}
+    />
+  );
 }

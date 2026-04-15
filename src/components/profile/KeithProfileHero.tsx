@@ -35,6 +35,12 @@ export function KeithProfileHero({
           : undefined,
     },
     {
+      href: "/profile/questions",
+      label: "My questions",
+      description:
+        "Questions you've asked and the answers you've sent back.",
+    },
+    {
       href: "/stories",
       label: "Read the Library",
       description:

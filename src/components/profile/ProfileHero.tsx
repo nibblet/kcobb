@@ -1,13 +1,19 @@
 "use client";
 
+import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
 
 type ProfileHeroProps = {
   displayName: string;
   email: string;
+  unreadAnswerCount?: number;
 };
 
-export function ProfileHero({ displayName, email }: ProfileHeroProps) {
+export function ProfileHero({
+  displayName,
+  email,
+  unreadAnswerCount = 0,
+}: ProfileHeroProps) {
   async function handleSignOut() {
     const supabase = createClient();
     await supabase.auth.signOut();
@@ -49,13 +55,29 @@ export function ProfileHero({ displayName, email }: ProfileHeroProps) {
         ) : (
           <div className="mb-10" />
         )}
-        <button
-          type="button"
-          onClick={handleSignOut}
-          className="inline-flex min-h-[44px] items-center justify-center rounded-full border-2 border-[rgba(240,232,213,0.55)] bg-[rgba(240,232,213,0.12)] px-8 py-2.5 font-[family-name:var(--font-inter)] text-sm font-semibold tracking-wide text-[#f7f3ed] transition-[background-color,border-color] duration-[var(--duration-normal)] hover:border-[#f0e8d5] hover:bg-[rgba(240,232,213,0.22)]"
-        >
-          Sign out
-        </button>
+        <div className="flex flex-wrap items-center justify-center gap-3">
+          <Link
+            href="/profile/questions"
+            className="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-full border-2 border-[rgba(240,232,213,0.55)] bg-[rgba(240,232,213,0.12)] px-6 py-2.5 font-[family-name:var(--font-inter)] text-sm font-semibold tracking-wide text-[#f7f3ed] transition-[background-color,border-color] duration-[var(--duration-normal)] hover:border-[#f0e8d5] hover:bg-[rgba(240,232,213,0.22)]"
+          >
+            My questions
+            {unreadAnswerCount > 0 && (
+              <span
+                aria-label={`${unreadAnswerCount} new answer${
+                  unreadAnswerCount === 1 ? "" : "s"
+                }`}
+                className="inline-block h-2 w-2 rounded-full bg-gold"
+              />
+            )}
+          </Link>
+          <button
+            type="button"
+            onClick={handleSignOut}
+            className="inline-flex min-h-[44px] items-center justify-center rounded-full border-2 border-[rgba(240,232,213,0.55)] bg-[rgba(240,232,213,0.12)] px-6 py-2.5 font-[family-name:var(--font-inter)] text-sm font-semibold tracking-wide text-[#f7f3ed] transition-[background-color,border-color] duration-[var(--duration-normal)] hover:border-[#f0e8d5] hover:bg-[rgba(240,232,213,0.22)]"
+          >
+            Sign out
+          </button>
+        </div>
       </div>
     </section>
   );
