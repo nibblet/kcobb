@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { getJourneyBySlug } from "@/lib/wiki/journeys";
 import { getStoryById } from "@/lib/wiki/parser";
 import { JourneyIntroContinue } from "@/components/journeys/JourneyIntroContinue";
+import { JourneyExperienceBadge } from "@/components/journeys/JourneyExperienceBadge";
 
 export default async function JourneyIntroPage({
   params,
@@ -38,8 +39,30 @@ export default async function JourneyIntroPage({
         totalSteps={journey.storyIds.length}
       />
 
+      <div className="mb-6 flex flex-wrap gap-2">
+        {journey.experienceModes.map((mode) => (
+          <JourneyExperienceBadge key={mode} mode={mode} />
+        ))}
+      </div>
+
+      {journey.experienceModes.includes("narrated") && (
+        <div className="mb-6 rounded-xl border border-clay-border bg-gold-pale/50 p-5">
+          <h2 className="type-meta mb-2 text-ink">Narrated Journey</h2>
+          <p className="type-body mb-4 text-ink-muted">
+            {journey.narratedDek ||
+              "Read a single longform journey woven from Keith's memoir stories and interviews."}
+          </p>
+          <Link
+            href={`/journeys/${journey.slug}/narrated`}
+            className="type-ui inline-block rounded-lg bg-clay px-5 py-2.5 font-medium text-warm-white transition-colors hover:bg-clay-mid"
+          >
+            Read Narrated Journey
+          </Link>
+        </div>
+      )}
+
       <div className="mb-8 rounded-xl border border-[var(--color-border)] bg-warm-white p-5">
-        <h2 className="type-meta mb-3 text-ink">Stories in this journey</h2>
+        <h2 className="type-meta mb-3 text-ink">Guided Journey Story Order</h2>
         <ol className="list-inside list-decimal space-y-2 font-[family-name:var(--font-lora)] text-sm text-ink">
           {titles.map(({ id, title }) => (
             <li key={id}>
@@ -53,7 +76,7 @@ export default async function JourneyIntroPage({
         href={`/journeys/${journey.slug}/1`}
         className="type-ui inline-block w-full rounded-lg bg-clay py-3 text-center font-medium text-warm-white transition-colors hover:bg-clay-mid sm:w-auto sm:px-6"
       >
-        Start Journey
+        Start Guided Journey
       </Link>
     </div>
   );

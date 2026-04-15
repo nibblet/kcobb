@@ -32,6 +32,8 @@ export async function getPublishedStories(): Promise<WikiStory[]> {
       slug,
       title: d.title,
       summary: d.body.slice(0, 200) + (d.body.length > 200 ? "..." : ""),
+      source: "family" as const,
+      sourceDetail: "",
       lifeStage: d.life_stage || "",
       themes: d.themes || [],
       wordCount: d.body.split(/\s+/).length,
@@ -78,6 +80,8 @@ export async function getPublishedStoryById(
     title: draft.title,
     summary:
       draft.body.slice(0, 200) + (draft.body.length > 200 ? "..." : ""),
+    source: "family" as const,
+    sourceDetail: "",
     lifeStage: draft.life_stage || "",
     themes: draft.themes || [],
     wordCount: draft.body.split(/\s+/).length,

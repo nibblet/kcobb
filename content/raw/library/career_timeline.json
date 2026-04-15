@@ -322,5 +322,118 @@
     "source_excerpt": "We rounded out our continental bucket list in 2014 with a memorable expedition to Antarctica.",
     "confidence": "high",
     "illustration": "/timeline/antarctica.jpg"
+  },
+  {
+    "year": 1995,
+    "event": "Alamo had posted first-ever losses; fleet costs doubled in three years",
+    "organization": "Alamo Rent A Car",
+    "location": "Fort Lauderdale, Florida",
+    "story_reference": "IV_S04",
+    "source_excerpt": "Industry history: Alamo Rent A Car posted first-ever net losses during the rental price wars of the mid-1990s.",
+    "confidence": "high",
+    "source": "public_record",
+    "source_detail": "FundingUniverse company history"
+  },
+  {
+    "year": 1996,
+    "event": "Sale of Alamo to Republic Industries for $625M in stock",
+    "organization": "Republic Industries",
+    "location": "Fort Lauderdale, Florida",
+    "story_reference": "IV_S05",
+    "source_excerpt": "Issuance of over 17 million shares of Republic common stock to Alamo selling stockholders.",
+    "confidence": "high",
+    "source": "public_record",
+    "source_detail": "SEC filing"
+  },
+  {
+    "year": 1997,
+    "event": "Joined Republic Industries Board of Directors",
+    "organization": "Republic Industries / AutoNation",
+    "story_reference": "IV_S05",
+    "source_excerpt": "Transitioned from operational helm of Alamo to Board of Directors of Republic Industries.",
+    "confidence": "high",
+    "source": "public_record",
+    "source_detail": "SEC filing"
+  },
+  {
+    "year": 2003,
+    "event": "Appointed to BankAtlantic Bancorp Board of Directors",
+    "organization": "BankAtlantic Bancorp",
+    "location": "Fort Lauderdale, Florida",
+    "story_reference": "IV_S07",
+    "source_excerpt": "BankAtlantic's board appointment announcement for Keith Cobb.",
+    "confidence": "high",
+    "source": "public_record",
+    "source_detail": "SEC Form 8-K, January 2003"
+  },
+  {
+    "year": 2004,
+    "event": "Joined Alliance Data Systems Board; began 14-year tenure as Audit Committee Chairman",
+    "organization": "Alliance Data Systems",
+    "location": "Columbus, Ohio",
+    "story_reference": "IV_S07",
+    "source_excerpt": "For fourteen years, he served as director and Chairman of the Audit Committee.",
+    "confidence": "high",
+    "source": "public_record",
+    "source_detail": "SEC DEF 14A proxy filing"
+  },
+  {
+    "year": 2018,
+    "event": "Stepped down from Alliance Data Systems Board after 14 years",
+    "organization": "Alliance Data / Bread Financial",
+    "story_reference": "IV_S07",
+    "confidence": "high",
+    "source": "public_record",
+    "source_detail": "Board tenure records"
+  },
+  {
+    "year": 2021,
+    "event": "Co-founded Locality Bank as Chairman of the Board",
+    "organization": "Locality Bank",
+    "location": "Fort Lauderdale, Florida",
+    "story_reference": "IV_S07",
+    "source_excerpt": "Serving as the Chairman of the Board of Directors for this de novo community bank.",
+    "confidence": "high",
+    "source": "public_record",
+    "source_detail": "Equilar ExecAtlas and interview"
+  },
+  {
+    "year": 2023,
+    "event": "Sold Mallory House (teacher's former home) after 25 years",
+    "location": "Calhoun City, Mississippi",
+    "story_reference": "IV_S09",
+    "source_excerpt": "We just sold it this past year. All of our friends and relatives were dying off.",
+    "confidence": "high",
+    "source": "interview",
+    "source_detail": "Coffee with Cagnetta"
+  },
+  {
+    "year": 2024,
+    "event": "Moved to John Knox Village retirement community",
+    "organization": "John Knox Village",
+    "location": "Pompano Beach, Florida",
+    "story_reference": "IV_S10",
+    "source_excerpt": "We've moved recently within the last year out to John Knox Village.",
+    "confidence": "high",
+    "source": "interview",
+    "source_detail": "Coffee with Cagnetta"
+  },
+  {
+    "year": 2024,
+    "event": "Married 62 years to Dot",
+    "story_reference": "IV_S09",
+    "source_excerpt": "Just this past Sunday. We've been married 62 years.",
+    "confidence": "high",
+    "source": "interview",
+    "source_detail": "Coffee with Cagnetta"
+  },
+  {
+    "year": 2026,
+    "event": "Recorded Coffee with Cagnetta interview; experimenting with AI and memoir sequel",
+    "story_reference": "IV_S10",
+    "source_excerpt": "I uploaded that book into ChatGPT and it came back and it now it knows me.",
+    "confidence": "high",
+    "source": "interview",
+    "source_detail": "Coffee with Cagnetta"
   }
 ]

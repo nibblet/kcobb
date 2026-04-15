@@ -3,8 +3,65 @@
 import { useState, useMemo } from "react";
 import Link from "next/link";
 import { storiesData } from "@/lib/wiki/static-data";
+import type { StorySource } from "@/lib/wiki/static-data";
 import { Reveal } from "@/components/ui/Reveal";
+import { SourceBadge } from "@/components/ui/SourceBadge";
 import { lifeStageToEraAccent } from "@/lib/design/era";
+
+const SOURCE_FILTERS: { label: string; value: StorySource | "all" }[] = [
+  { label: "All Sources", value: "all" },
+  { label: "Memoir", value: "memoir" },
+  { label: "Interview", value: "interview" },
+];
+
+/**
+ * Interview stories are placed after their primary related memoir story.
+ * Key: interview story ID → memoir story ID it follows.
+ */
+const IV_PLACEMENT: Record<string, string> = {
+  IV_S01: "P1_S39", // Writing the Memoir → after Moments to Remember
+  IV_S02: "P1_S02", // Mississippi Roots → after A Very Busy Teenager
+  IV_S03: "P1_S24", // KPMG Journey → after KPMG Financial Services
+  IV_S04: "P1_S25", // Call from Alamo → after Alamo Rent A Car
+  IV_S05: "P1_S25", // Selling to AutoNation → after Alamo (after IV_S04)
+  IV_S06: "P1_S38", // United Way → after For Good. For Ever.
+  IV_S07: "P1_S26", // Federal Reserve → after Corporate Boards
+  IV_S08: "P1_S17", // Relationship Army → after Chronology of a Career
+  IV_S09: "P1_S35", // 62 Years of Marriage → after Gift of Family
+  IV_S10: "P1_S39", // Never Done Learning → after Moments to Remember (after IV_S01)
+};
+
+function interleaveSort(
+  stories: typeof storiesData
+): typeof storiesData {
+  // Build memoir order: P1_S01=1, P1_S02=2, ... P1_S39=39
+  const memoirOrder = new Map<string, number>();
+  stories
+    .filter((s) => s.source === "memoir")
+    .sort((a, b) => a.storyId.localeCompare(b.storyId))
+    .forEach((s, i) => memoirOrder.set(s.storyId, (i + 1) * 100));
+
+  // Interview stories get placed right after their anchor memoir story
+  // Use sub-ordering to handle multiple IVs after the same memoir story
+  const sortKey = new Map<string, number>();
+  for (const s of stories) {
+    if (s.source === "memoir") {
+      sortKey.set(s.storyId, memoirOrder.get(s.storyId) || 0);
+    } else if (s.storyId in IV_PLACEMENT) {
+      const anchorOrder = memoirOrder.get(IV_PLACEMENT[s.storyId]) || 9999;
+      // Parse the IV number for sub-ordering when multiple IVs share an anchor
+      const ivNum = parseInt(s.storyId.replace("IV_S", "")) || 0;
+      sortKey.set(s.storyId, anchorOrder + ivNum);
+    } else {
+      // Family stories or unknown — sort at the end
+      sortKey.set(s.storyId, 50000);
+    }
+  }
+
+  return [...stories].sort(
+    (a, b) => (sortKey.get(a.storyId) || 0) - (sortKey.get(b.storyId) || 0)
+  );
+}
 
 const LIFE_STAGES = [
   "All",
@@ -19,6 +76,7 @@ const LIFE_STAGES = [
 
 export default function StoriesPage() {
   const [search, setSearch] = useState("");
+  const [selectedSource, setSelectedSource] = useState<StorySource | "all">("all");
   const [selectedStage, setSelectedStage] = useState("All");
   const [selectedTheme, setSelectedTheme] = useState("All");
 
@@ -28,25 +86,29 @@ export default function StoriesPage() {
     return ["All", ...Array.from(themes).sort()];
   }, []);
 
+  const sorted = useMemo(() => interleaveSort(storiesData), []);
+
   const filtered = useMemo(() => {
-    return storiesData.filter((story) => {
+    return sorted.filter((story) => {
       const matchesSearch =
         !search ||
         story.title.toLowerCase().includes(search.toLowerCase()) ||
         story.summary.toLowerCase().includes(search.toLowerCase());
+      const matchesSource =
+        selectedSource === "all" || story.source === selectedSource;
       const matchesStage =
         selectedStage === "All" || story.lifeStage === selectedStage;
       const matchesTheme =
         selectedTheme === "All" || story.themes.includes(selectedTheme);
-      return matchesSearch && matchesStage && matchesTheme;
+      return matchesSearch && matchesSource && matchesStage && matchesTheme;
     });
-  }, [search, selectedStage, selectedTheme]);
+  }, [sorted, search, selectedSource, selectedStage, selectedTheme]);
 
   return (
     <div className="mx-auto max-w-content px-[var(--page-padding-x)] py-6 md:py-10">
       <h1 className="type-page-title mb-2">Story Library</h1>
       <p className="type-ui mb-6 text-ink-muted">
-        {`${storiesData.length} stories from Keith Cobb's life`}
+        {`${storiesData.length} stories from Keith Cobb's memoir and interviews`}
       </p>
 
       <div className="mb-6 space-y-3">
@@ -57,6 +119,22 @@ export default function StoriesPage() {
           onChange={(e) => setSearch(e.target.value)}
           className="type-ui w-full rounded-lg border border-[var(--color-border)] bg-warm-white px-3 py-2 text-ink placeholder:text-ink-ghost"
         />
+        <div className="flex gap-2 overflow-x-auto pb-1">
+          {SOURCE_FILTERS.map((sf) => (
+            <button
+              key={sf.value}
+              type="button"
+              onClick={() => setSelectedSource(sf.value)}
+              className={`type-meta shrink-0 rounded-full px-3 py-1 transition-colors ${
+                selectedSource === sf.value
+                  ? "bg-ocean text-warm-white"
+                  : "bg-warm-white text-ink-muted ring-1 ring-[var(--color-border)] hover:text-ink"
+              }`}
+            >
+              {sf.label}
+            </button>
+          ))}
+        </div>
         <div className="flex gap-2 overflow-x-auto pb-1">
           {LIFE_STAGES.map((stage) => (
             <button
@@ -114,6 +192,7 @@ export default function StoriesPage() {
                       {story.summary}
                     </p>
                     <div className="mt-2 flex flex-wrap gap-1.5">
+                      <SourceBadge source={story.source} />
                       <span
                         className={`rounded-full px-2 py-0.5 text-[10px] font-medium ${era.badgeClass}`}
                       >

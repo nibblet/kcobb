@@ -4,6 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import ReactMarkdown from "react-markdown";
 import { ReadingProgressBar } from "@/components/story/ReadingProgressBar";
+import { SourceBadge } from "@/components/ui/SourceBadge";
 import { lifeStageToEraAccent } from "@/lib/design/era";
 
 export default async function StoryDetailPage({
@@ -31,7 +32,13 @@ export default async function StoryDetailPage({
         </Link>
 
         <h1 className="type-story-title mb-2 text-balance">{story.title}</h1>
+        {story.sourceDetail && (
+          <p className="type-meta mb-2 text-ink-ghost">
+            {story.sourceDetail}
+          </p>
+        )}
         <div className="mb-4 flex flex-wrap gap-2">
+          <SourceBadge source={story.source} />
           <span
             className={`rounded-full px-2.5 py-0.5 text-xs font-medium ${era.badgeClass}`}
           >

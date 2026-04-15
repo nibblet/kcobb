@@ -62,6 +62,16 @@ export default function TimelinePage() {
                               {evt.year}
                             </span>
                             <span className="text-sm text-ink">{evt.event}</span>
+                            {evt.source === "public_record" && (
+                              <span className="rounded-full bg-ocean-pale px-1.5 py-0.5 text-[9px] font-medium text-ocean">
+                                Public Record
+                              </span>
+                            )}
+                            {evt.source === "interview" && (
+                              <span className="rounded-full bg-ocean-pale px-1.5 py-0.5 text-[9px] font-medium text-ocean">
+                                Interview
+                              </span>
+                            )}
                           </div>
                           {(evt.organization || evt.location) && (
                             <p className="mt-0.5 text-xs text-ink-ghost">

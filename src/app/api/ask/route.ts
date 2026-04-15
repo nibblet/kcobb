@@ -1,6 +1,6 @@
 import Anthropic from "@anthropic-ai/sdk";
 import { createClient } from "@/lib/supabase/server";
-import { buildSystemPrompt } from "@/lib/ai/prompts";
+import { orchestrateAsk } from "@/lib/ai/orchestrator";
 import { checkRateLimit } from "@/lib/rate-limit";
 import type { AgeMode } from "@/types";
 
@@ -108,19 +108,14 @@ export async function POST(request: Request) {
     content: m.content,
   }));
 
-  // Build system prompt
-  const systemPrompt = buildSystemPrompt(
-    ageMode as AgeMode,
-    storySlug,
-    journeySlug
-  );
-
-  // Stream response from Claude
-  const stream = anthropic.messages.stream({
-    model: "claude-sonnet-4-20250514",
-    max_tokens: 1024,
-    system: systemPrompt,
+  // Orchestrate response (simple or deep path based on question type)
+  const { stream: textStream } = await orchestrateAsk({
+    anthropic,
+    message,
     messages,
+    ageMode: ageMode as AgeMode,
+    storySlug,
+    journeySlug,
   });
 
   // Create a streaming response
@@ -130,17 +125,11 @@ export async function POST(request: Request) {
   const readable = new ReadableStream({
     async start(controller) {
       try {
-        for await (const event of stream) {
-          if (
-            event.type === "content_block_delta" &&
-            event.delta.type === "text_delta"
-          ) {
-            const text = event.delta.text;
-            fullResponse += text;
-            controller.enqueue(
-              encoder.encode(`data: ${JSON.stringify({ text, conversationId: convId })}\n\n`)
-            );
-          }
+        for await (const text of textStream) {
+          fullResponse += text;
+          controller.enqueue(
+            encoder.encode(`data: ${JSON.stringify({ text, conversationId: convId })}\n\n`)
+          );
         }
 
         // Save assistant response

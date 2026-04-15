@@ -3,12 +3,16 @@ import * as path from "path";
 
 const WIKI_DIR = path.join(process.cwd(), "content/wiki");
 
+export type StorySource = "memoir" | "interview" | "family";
+
 export interface WikiStory {
   storyId: string;
   volume: string;
   slug: string;
   title: string;
   summary: string;
+  source: StorySource;
+  sourceDetail: string;
   lifeStage: string;
   themes: string[];
   wordCount: number;
@@ -31,6 +35,8 @@ export interface WikiTheme {
   quotes: { text: string; title: string }[];
 }
 
+export type TimelineSource = "memoir" | "public_record" | "interview";
+
 export interface WikiTimelineEvent {
   year: number;
   event: string;
@@ -39,6 +45,8 @@ export interface WikiTimelineEvent {
   storyRef: string;
   /** Path under public/, e.g. /timeline/usm.jpg */
   illustration?: string;
+  source: TimelineSource;
+  sourceDetail?: string;
 }
 
 function readWikiFile(relativePath: string): string {
@@ -77,11 +85,22 @@ export function getAllStories(): WikiStory[] {
     .sort((a, b) => a!.storyId.localeCompare(b!.storyId)) as WikiStory[];
 }
 
+/** Regex that matches any story ID prefix: P1_S01, IV_S01, P2_S01, etc. */
+const STORY_ID_RE = /(?:P\d+|IV)_S\d+/;
+
+function deriveSource(storyId: string): { source: StorySource; volume: string } {
+  if (storyId.startsWith("IV_")) return { source: "interview", volume: "IV" };
+  if (storyId.startsWith("P1_")) return { source: "memoir", volume: "P1" };
+  return { source: "family", volume: storyId.match(/^(P\d+)/)?.[1] || "P2" };
+}
+
 function getStoryFromFile(filename: string): WikiStory | null {
   const content = readWikiFile(`stories/${filename}`);
   if (!content) return null;
 
-  const storyIdMatch = content.match(/\*\*Story ID:\*\*\s*(P\d+_S\d+)/);
+  const storyIdMatch = content.match(
+    new RegExp(`\\*\\*Story ID:\\*\\*\\s*(${STORY_ID_RE.source})`)
+  );
   if (!storyIdMatch) return null;
 
   const titleMatch = content.match(/^# (.+)/m);
@@ -89,9 +108,12 @@ function getStoryFromFile(filename: string): WikiStory | null {
 
   const fullTextMatch = content.match(/## Full Text\n\n([\s\S]*?)(?=\n## )/);
 
-  const slug = filename.replace(/\.md$/, "").replace(/^P\d+_S\d+-/, "");
+  const slug = filename
+    .replace(/\.md$/, "")
+    .replace(new RegExp(`^${STORY_ID_RE.source}-`), "");
 
-  const volume = storyIdMatch[1].match(/^(P\d+)/)?.[1] || "P1";
+  const { source, volume } = deriveSource(storyIdMatch[1]);
+  const sourceDetail = extractMetadata(content, "Source");
 
   return {
     storyId: storyIdMatch[1],
@@ -99,6 +121,8 @@ function getStoryFromFile(filename: string): WikiStory | null {
     slug,
     title: titleMatch?.[1] || "",
     summary: summaryMatch?.[1] || "",
+    source,
+    sourceDetail,
     lifeStage: extractMetadata(content, "Life Stage"),
     themes: extractMetadata(content, "Themes")
       .split(",")
@@ -110,7 +134,7 @@ function getStoryFromFile(filename: string): WikiStory | null {
     heuristics: extractSection(content, "If You're Thinking About\\.\\.\\."),
     quotes: extractSection(content, "Key Quotes"),
     relatedStoryIds: extractSection(content, "Related Stories").map(
-      (l) => l.match(/\[\[(P\d+_S\d+)\]\]/)?.[1] || ""
+      (l) => l.match(new RegExp(`\\[\\[(${STORY_ID_RE.source})\\]\\]`))?.[1] || ""
     ).filter(Boolean),
     bestUsedWhen: extractSection(content, "Best Used When Someone Asks About"),
     timelineEvents: extractSection(content, "Timeline"),
@@ -131,7 +155,8 @@ export function getStoryById(storyId: string): WikiStory | null {
   const dir = path.join(WIKI_DIR, "stories");
   if (!fs.existsSync(dir)) return null;
 
-  const file = fs.readdirSync(dir).find((f) => f.startsWith(storyId) && f.endsWith(".md"));
+  const prefix = `${storyId}-`;
+  const file = fs.readdirSync(dir).find((f) => f.startsWith(prefix) && f.endsWith(".md"));
   if (!file) return null;
 
   return getStoryFromFile(file);
@@ -209,18 +234,35 @@ export function getTimeline(): WikiTimelineEvent[] {
   const events: WikiTimelineEvent[] = [];
   const lines = content.split("\n");
 
+  const storyRefPat = STORY_ID_RE.source;
+
   for (const line of lines) {
+    // Match lines with story refs: **YYYY** — event (org), location — [[ID]] | illustration | source:xxx | detail:xxx
     const match = line.match(
-      /- \*\*(\d{4})\*\* — (.+?)(?:\s*\((.+?)\))?(?:,\s*(.+?))?\s*—\s*\[\[(P\d+_S\d+)\]\]\s*(?:\|\s*(.+))?/
+      new RegExp(
+        `- \\*\\*(\\d{4})\\*\\* — (.+?)(?:\\s*\\((.+?)\\))?(?:,\\s*(.+?))?\\s*—\\s*\\[\\[(${storyRefPat})\\]\\]\\s*(?:\\|\\s*(.+))?`
+      )
     );
     if (match) {
+      const trailing = match[6] || "";
+      // Parse optional source and detail from trailing pipe-separated fields
+      const sourcePart = trailing.match(/source:(\w+)/)?.[1] as TimelineSource | undefined;
+      const detailPart = trailing.match(/detail:(.+?)(?:\s*\||$)/)?.[1]?.trim();
+      const illustration = trailing
+        .replace(/source:\w+/g, "")
+        .replace(/detail:.+?(?:\s*\||$)/g, "")
+        .replace(/\|/g, "")
+        .trim() || undefined;
+
       events.push({
         year: parseInt(match[1]),
         event: match[2].trim(),
         organization: match[3] || "",
         location: match[4] || "",
         storyRef: match[5],
-        illustration: match[6]?.trim() || undefined,
+        illustration: illustration || undefined,
+        source: sourcePart || "memoir",
+        sourceDetail: detailPart,
       });
     }
   }

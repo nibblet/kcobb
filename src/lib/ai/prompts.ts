@@ -10,8 +10,9 @@ const RAW_DIR = path.join(process.cwd(), "content/raw");
 let cachedWikiSummaries: string | null = null;
 let cachedVoiceGuide: string | null = null;
 let cachedStoryLinkCatalog: string | null = null;
+let cachedDecisionFrameworks: string | null = null;
 
-function getStoryLinkCatalog(): string {
+export function getStoryLinkCatalog(): string {
   if (cachedStoryLinkCatalog) return cachedStoryLinkCatalog;
   cachedStoryLinkCatalog = getAllStories()
     .map((s) => `- ${s.storyId} — ${s.title}`)
@@ -19,7 +20,7 @@ function getStoryLinkCatalog(): string {
   return cachedStoryLinkCatalog;
 }
 
-function getWikiSummaries(): string {
+export function getWikiSummaries(): string {
   if (cachedWikiSummaries) return cachedWikiSummaries;
   const indexPath = path.join(WIKI_DIR, "index.md");
   cachedWikiSummaries = fs.existsSync(indexPath)
@@ -28,7 +29,7 @@ function getWikiSummaries(): string {
   return cachedWikiSummaries;
 }
 
-function getVoiceGuide(): string {
+export function getVoiceGuide(): string {
   if (cachedVoiceGuide) return cachedVoiceGuide;
   const voicePath = path.join(RAW_DIR, "voice/30_VOICE_STYLE.md");
   cachedVoiceGuide = fs.existsSync(voicePath)
@@ -37,7 +38,16 @@ function getVoiceGuide(): string {
   return cachedVoiceGuide;
 }
 
-function getStoryContext(storyId: string): string {
+export function getDecisionFrameworks(): string {
+  if (cachedDecisionFrameworks) return cachedDecisionFrameworks;
+  const fwPath = path.join(RAW_DIR, "doctrine/40_DECISION_FRAMEWORKS.md");
+  cachedDecisionFrameworks = fs.existsSync(fwPath)
+    ? fs.readFileSync(fwPath, "utf-8")
+    : "";
+  return cachedDecisionFrameworks;
+}
+
+export function getStoryContext(storyId: string): string {
   const dir = path.join(WIKI_DIR, "stories");
   if (!fs.existsSync(dir)) return "";
   const file = fs.readdirSync(dir).find((f) => f.startsWith(storyId));
@@ -45,7 +55,7 @@ function getStoryContext(storyId: string): string {
   return fs.readFileSync(path.join(dir, file), "utf-8");
 }
 
-function getJourneyContextForPrompt(journeySlug: string): string {
+export function getJourneyContextForPrompt(journeySlug: string): string {
   const journey = getJourneyBySlug(journeySlug);
   if (!journey) return "";
   const lines = [
@@ -62,7 +72,7 @@ function getJourneyContextForPrompt(journeySlug: string): string {
   return lines.join("\n");
 }
 
-const AGE_MODE_INSTRUCTIONS: Record<AgeMode, string> = {
+export const AGE_MODE_INSTRUCTIONS: Record<AgeMode, string> = {
   young_reader: `The user is a young reader (ages 3-10). Use very simple language. Give short answers.
 Focus on one story and one clear lesson. Avoid complex vocabulary. Be warm and encouraging.`,
   teen: `The user is a teenager (ages 11-17). Explain stories clearly and connect lessons to
@@ -116,12 +126,33 @@ For FACTUAL questions (dates, events, career), answer directly with story citati
 For EXPLORATORY questions ("tell me something interesting"), suggest relevant stories.
 For LISTS ("what stories involve…"), return a curated list with brief summaries.
 
+## Source Types
+You have access to multiple source types. Be transparent about provenance:
+
+1. **The Memoir (P1_S01–P1_S39)** — 39 stories from "Out of the Red Clay Hills." Primary, authoritative source.
+   Use: "In the memoir..." or "In [Story Title]..."
+
+2. **The Cagnetta Interview (IV_S01–IV_S10)** — 10 stories from a 2026 video interview where Keith speaks in his own words.
+   Use: "In a recent interview, Keith said..." or "Keith described this in a 2026 interview..."
+
+3. **Family Contributions (P2+)** — Stories contributed by family members.
+   Use: "In a family-contributed story..."
+
+4. **Public Record timeline events** — Factual context from SEC filings, Federal Reserve records, press.
+   Use: "According to public records..." or "SEC filings show..."
+
+When memoir and interview cover the same topic, weave both perspectives naturally:
+"In the memoir, Keith describes [X] in detail ([Story Title](/stories/P1_SXX)). In a 2026 interview, he reflected: '[Y]' ([Interview Title](/stories/IV_SXX))."
+
+The interview material is Keith's own words and equally authoritative as the memoir.
+
 ## Rules
 - ALWAYS ground responses in actual stories and principles from the wiki
 - NEVER invent stories, quotes, or events
-- When you name a specific story, make the title a **markdown link** to that story's page: \`[Exact title from catalog](/stories/STORY_ID)\` (example: \`[A Work Ethic Develops](/stories/P1_S09)\`). Use the Story ID from the catalog below — path must be \`/stories/P1_SXX\` only. Link the first clear mention of each story you discuss in depth.
+- When you name a specific story, make the title a **markdown link** to that story's page: \`[Exact title from catalog](/stories/STORY_ID)\` (example: \`[A Work Ethic Develops](/stories/P1_S09)\`). Use the Story ID from the catalog below — path must be \`/stories/P1_SXX\` or \`/stories/IV_SXX\`. Link the first clear mention of each story you discuss in depth.
 - If the memoir doesn't cover a topic, say: "That's not something the stories in the memoir address."
 - Be warm, reflective, grounded — not a motivational speaker
+- When citing decision frameworks (Turnaround Entry Protocol, Relationship Capital Doctrine, etc.), reference the underlying stories that support them
 
 ## Story ID catalog (for links)
 ${getStoryLinkCatalog()}
@@ -131,6 +162,9 @@ ${voice.slice(0, 2000)}
 
 ## Wiki Index (All Available Content)
 ${wikiIndex}
+
+## Decision Frameworks
+${getDecisionFrameworks().slice(0, 2000)}
 
 ${publishedStorySummaries ? `## Additional Stories (Family Contributions)\n${publishedStorySummaries}` : ""}
 

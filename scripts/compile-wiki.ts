@@ -51,6 +51,9 @@ interface TimelineEvent {
   confidence: string;
   /** Optional path under public/, e.g. /timeline/usm.jpg */
   illustration?: string;
+  /** Source provenance: memoir (default), public_record, interview */
+  source?: string;
+  source_detail?: string;
 }
 
 interface ParsedStory {
@@ -476,19 +479,20 @@ function main() {
     "",
     "> Chronological events from Keith Cobb's life and career, linked to stories.",
     "",
-    `**${timeline.length} events** spanning ${timeline[0]?.year || ""}–${timeline[timeline.length - 1]?.year || ""}.`,
+    `**${timeline.length} events** spanning ${Math.min(...timeline.map(e => e.year))}–${Math.max(...timeline.map(e => e.year))}.`,
     "",
   ];
 
   for (const [decade, events] of Object.entries(timelineByDecade).sort()) {
     timelinePage.push(`## ${decade}`, "");
     for (const evt of events.sort((a, b) => a.year - b.year)) {
-      const storyRef = storyJsons[evt.story_reference]
-        ? `[[${evt.story_reference}]]`
-        : evt.story_reference;
+      // Accept both P1_S## and IV_S## story references
+      const storyRef = `[[${evt.story_reference}]]`;
       const ill = evt.illustration ? ` | ${evt.illustration}` : "";
+      const src = evt.source && evt.source !== "memoir" ? ` | source:${evt.source}` : "";
+      const det = evt.source_detail ? ` | detail:${evt.source_detail}` : "";
       timelinePage.push(
-        `- **${evt.year}** — ${evt.event}${evt.organization ? ` (${evt.organization})` : ""}${evt.location ? `, ${evt.location}` : ""} — ${storyRef}${ill}`
+        `- **${evt.year}** — ${evt.event}${evt.organization ? ` (${evt.organization})` : ""}${evt.location ? `, ${evt.location}` : ""} — ${storyRef}${ill}${src}${det}`
       );
     }
     timelinePage.push("");
@@ -506,6 +510,28 @@ function main() {
   fs.writeFileSync(path.join(WIKI, "timeline", "career-timeline.md"), timelinePage.join("\n"));
   indexEntries.push(`- [[timeline/career-timeline.md]] — Full career timeline: ${timeline.length} events`);
 
+  // ============ SCAN FOR INTERVIEW STORIES ============
+
+  console.log("🎙️  Scanning for interview stories (IV_*)...");
+
+  const ivStoryFiles = fs.readdirSync(path.join(WIKI, "stories"))
+    .filter((f) => f.startsWith("IV_") && f.endsWith(".md"));
+
+  const ivIndexEntries: string[] = [];
+  for (const f of ivStoryFiles) {
+    const content = fs.readFileSync(path.join(WIKI, "stories", f), "utf-8");
+    const titleMatch = content.match(/^# (.+)/m);
+    const summaryMatch = content.match(/^> (.+)/m);
+    if (titleMatch) {
+      ivIndexEntries.push(
+        `- [[stories/${f}]] — ${titleMatch[1]}: ${(summaryMatch?.[1] || "").slice(0, 80)}...`
+      );
+    }
+  }
+  console.log(`   Found ${ivStoryFiles.length} interview stories`);
+
+  const totalStories = allStoryIds.length + ivStoryFiles.length;
+
   // ============ COMPILE INDEX ============
 
   console.log("📋 Generating index.md...");
@@ -515,11 +541,17 @@ function main() {
     "",
     "> Master index of all wiki pages. Used by the AI layer to navigate content.",
     "",
-    `**${allStoryIds.length} stories** | **${Object.keys(storyIndexData.themes).length} themes** | **${timeline.length} timeline events**`,
+    `**${totalStories} stories** (${allStoryIds.length} memoir + ${ivStoryFiles.length} interview) | **${Object.keys(storyIndexData.themes).length} themes** | **${timeline.length} timeline events**`,
     "",
-    "## Stories",
+    "## Memoir Stories",
     "",
     ...indexEntries.filter(e => e.includes("stories/")),
+    "",
+    "## Interview Stories",
+    "",
+    `*From the Coffee with Cagnetta interview, 2026*`,
+    "",
+    ...ivIndexEntries,
     "",
     "## Themes",
     "",

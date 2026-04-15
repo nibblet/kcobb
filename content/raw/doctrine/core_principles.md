@@ -26,3 +26,16 @@ Top 20 by frequency (stories supporting each idea).
 - Teach practical skills through hands-on instruction and close supervision to build competence.  _(2 stories: P1_S07, P1_S09)_
 - Maintain consistent goal-setting to drive long-term personal improvement.  _(1 stories: P1_S39)_
 - Consistent generosity of time and small acts builds deep, lasting emotional bonds.  _(1 stories: P1_S08)_
+
+## Principles from Interview & Public Record
+
+- Build a "relationship army" of business relationships as career infrastructure.  _(Interview: IV_S08, IV_S03 + P1_S17, P1_S25)_
+- Technical skills are table stakes; relationships are the real career differentiator.  _(Interview: IV_S08)_
+- Ground-level intelligence from frontline employees beats filtered management reports.  _(Interview: IV_S08 — 18-month breakfast program, P1_S25)_
+- Recruit aggressively; great people make leadership easier.  _(Interview: IV_S03, IV_S08)_
+- The mark of a great institution is operational discipline, not just its mandate.  _(Interview: IV_S07 — Federal Reserve assessment)_
+- Choose based on fit, not just the offer — long-term alignment matters more.  _(Interview: IV_S03 — KPMG choice)_
+- It's never too late to learn new things; curiosity has no retirement age.  _(Interview: IV_S10)_
+- An incredible partner is one of the biggest contributors to professional success.  _(Interview: IV_S09)_
+- Sustained commitment to one cause over decades creates more impact than scattered involvement.  _(Interview: IV_S06 — 60+ years United Way)_
+- Be willing to discard your approach when an expert shows you a better way.  _(Interview: IV_S01 — memoir writing process)_

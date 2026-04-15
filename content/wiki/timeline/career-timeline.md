@@ -2,7 +2,7 @@
 
 > Chronological events from Keith Cobb's life and career, linked to stories.
 
-**32 events** spanning 1959–2014.
+**43 events** spanning 1959–2026.
 
 ## 1950s
 
@@ -37,9 +37,12 @@
 - **1993** — Traveled to Baltimore for Father Sellinger's funeral (Loyola University / church), Baltimore, Maryland — [[P1_S37]]
 - **1994** — Miss Frances Mallory (teacher) died; home donated to church (First Baptist Church), Calhoun City, Mississippi — [[P1_S03]]
 - **1995** — Became CEO of Alamo Rent A Car (Alamo Rent A Car), Fort Lauderdale, Florida — [[P1_S25]] | /timeline/alamo-cars.jpg
+- **1995** — Alamo had posted first-ever losses; fleet costs doubled in three years (Alamo Rent A Car), Fort Lauderdale, Florida — [[IV_S04]] | source:public_record | detail:FundingUniverse company history
 - **1996** — Ordered ten GM experimental electric cars for Alamo rental testing (Alamo Rent A Car) — [[P1_S33]]
+- **1996** — Sale of Alamo to Republic Industries for $625M in stock (Republic Industries), Fort Lauderdale, Florida — [[IV_S05]] | source:public_record | detail:SEC filing
 - **1997** — Alamo role ended; transition to boards and consulting — [[P1_S26]]
 - **1997** — Joined board of Federal Reserve Bank of Miami (Federal Reserve Bank of Miami), Miami, Florida — [[P1_S26]] | /timeline/florida-miami.jpg
+- **1997** — Joined Republic Industries Board of Directors (Republic Industries / AutoNation) — [[IV_S05]] | source:public_record | detail:SEC filing
 - **1998** — Purchased Mallory House (teacher's former home), Calhoun City, Mississippi — [[P1_S03]]
 - **1999** — Joined board of CRA Qualified Investment Fund (CRA Qualified Investment Fund), South Florida — [[P1_S26]]
 
@@ -48,6 +51,8 @@
 - **2000** — Laundromax failed; capital markets dried up (Laundromax) — [[P1_S26]] | /timeline/laundromat.jpg
 - **2002** — Invited to join BankAtlantic Bancorp board (BankAtlantic Bancorp), Florida — [[P1_S26]] | /timeline/bankatlantic.jpg
 - **2003** — Began teaching as adjunct at Nova Southeastern University (Nova Southeastern University), Florida — [[P1_S26]] | /timeline/nova-southeastern.jpg
+- **2003** — Appointed to BankAtlantic Bancorp Board of Directors (BankAtlantic Bancorp), Fort Lauderdale, Florida — [[IV_S07]] | source:public_record | detail:SEC Form 8-K, January 2003
+- **2004** — Joined Alliance Data Systems Board; began 14-year tenure as Audit Committee Chairman (Alliance Data Systems), Columbus, Ohio — [[IV_S07]] | source:public_record | detail:SEC DEF 14A proxy filing
 
 ## 2010s
 
@@ -56,6 +61,15 @@
 - **2013** — Resigned from BFC Financial / BankAtlantic boards; Oklahoma City tornado cleanup, Oklahoma City / Florida — [[P1_S26]]
 - **2013** — Volunteer cleanup trip to Moore, Oklahoma after tornado (Church group), Moore, Oklahoma — [[P1_S38]]
 - **2014** — Antarctica expedition; rounded out seven continents, Antarctica — [[P1_S29]] | /timeline/antarctica.jpg
+- **2018** — Stepped down from Alliance Data Systems Board after 14 years (Alliance Data / Bread Financial) — [[IV_S07]] | source:public_record | detail:Board tenure records
+
+## 2020s
+
+- **2021** — Co-founded Locality Bank as Chairman of the Board (Locality Bank), Fort Lauderdale, Florida — [[IV_S07]] | source:public_record | detail:Equilar ExecAtlas and interview
+- **2023** — Sold Mallory House (teacher's former home) after 25 years, Calhoun City, Mississippi — [[IV_S09]] | source:interview | detail:Coffee with Cagnetta
+- **2024** — Moved to John Knox Village retirement community (John Knox Village), Pompano Beach, Florida — [[IV_S10]] | source:interview | detail:Coffee with Cagnetta
+- **2024** — Married 62 years to Dot — [[IV_S09]] | source:interview | detail:Coffee with Cagnetta
+- **2026** — Recorded Coffee with Cagnetta interview; experimenting with AI and memoir sequel — [[IV_S10]] | source:interview | detail:Coffee with Cagnetta
 
 
 ## Illustration sources

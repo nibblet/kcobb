@@ -13,6 +13,16 @@ export interface WikiJourney {
   reflections: Record<string, string>;
   /** Keyed as "P1_S01→P1_S02" — pre-generated AI bridge text between adjacent stories */
   connectors: Record<string, string>;
+  narratedDek: string;
+  narratedDisclosure: string;
+  narratedSections: JourneyNarratedSection[];
+  experienceModes: ("guided" | "narrated")[];
+}
+
+export interface JourneyNarratedSection {
+  title: string;
+  body: string;
+  sourceStoryIds: string[];
 }
 
 function readFile(relativePath: string): string {
@@ -25,6 +35,34 @@ function extractMetadata(content: string, key: string): string {
   const regex = new RegExp(`\\*\\*${key}:\\*\\*\\s*(.+)`);
   const match = content.match(regex);
   return match ? match[1].trim() : "";
+}
+
+function parseStoryRefs(input: string): string[] {
+  return Array.from(input.matchAll(/\[\[((?:P\d+|IV)_S\d+)\]\]/g), (match) => match[1]);
+}
+
+function parseNarratedSections(content: string): JourneyNarratedSection[] {
+  const narratedBlock = content.match(/## Narrated Journey\s*\n\n([\s\S]*?)(?=\n## |\n*$)/);
+  if (!narratedBlock) return [];
+
+  return narratedBlock[1]
+    .split(/^### /m)
+    .map((chunk) => chunk.trim())
+    .filter(Boolean)
+    .map((chunk) => {
+      const lines = chunk.split("\n");
+      const title = lines.shift()?.trim() || "";
+      const bodyRaw = lines.join("\n").trim();
+      const sourcesLine = bodyRaw.match(/\*\*Sources:\*\*\s*(.+)$/m);
+      const sourceStoryIds = sourcesLine ? parseStoryRefs(sourcesLine[1]) : [];
+      const body = bodyRaw
+        .replace(/\n?\*\*Sources:\*\*\s*.+$/m, "")
+        .trim();
+
+      if (!title || !body) return null;
+      return { title, body, sourceStoryIds };
+    })
+    .filter(Boolean) as JourneyNarratedSection[];
 }
 
 function parseJourneyContent(content: string, fallbackSlug: string): WikiJourney | null {
@@ -62,6 +100,12 @@ function parseJourneyContent(content: string, fallbackSlug: string): WikiJourney
     }
   }
 
+  const narratedDek = extractMetadata(content, "Narrated Dek");
+  const narratedDisclosure =
+    extractMetadata(content, "Narrated Disclosure") ||
+    "This narrated journey is a newly composed story woven from Keith's memoir and interview materials. It is written to sound like Keith, but it is not an original memoir chapter or verbatim transcript.";
+  const narratedSections = parseNarratedSections(content);
+
   if (storyIds.length === 0) return null;
 
   const ageAppropriate = ageRaw
@@ -77,6 +121,10 @@ function parseJourneyContent(content: string, fallbackSlug: string): WikiJourney
     ageAppropriate,
     reflections,
     connectors,
+    narratedDek,
+    narratedDisclosure,
+    narratedSections,
+    experienceModes: narratedSections.length > 0 ? ["guided", "narrated"] : ["guided"],
   };
 }
 
