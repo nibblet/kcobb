@@ -22,6 +22,8 @@ but somewhat descriptive in a vague sense. Occasionally, when one of us needed a
 Since we both were interested in music, we were sometimes invited to perform together at functions. The earliest recording of one of these events is a prom program, in which we are listed as singing “By the Light of the Silvery Moon” together. We have a copy of that program in our memorabilia, but neither of us can remember anything about the event or even know the date. My best guess is that we were fourteen or fifteen years old.
 We both emerged as leaders in our high school, but in di fferent spheres of school activities. I was the editor of the school newspaper,
 for instance. She was the head of the school cheerleaders. I was a year older and a grade ahead, so we never had any classes together.
+
+![Book photo from page 103](/book-images/page-103_img-01_xref-499.jpeg)
 Only occasionally did we find ourselves in the same activities, such as the glee club or a school play.
 Upon graduation, we chugged o ff to di fferent colleges. I exiled myself to the University of Southern Mississippi, where I majored in accounting. Dot enrolled at Mississippi College, where she majored in music.
 Then in the summer of 1961, we began the process of binding our pathways together. Here’s how it happened.
@@ -39,12 +41,16 @@ In the summer of 1962, I was o ffered an attractive summer job on the internal a
 Orleans. The opportunity was a major steppingstone in launching my career, so I accepted it and moved to New Orleans for the summer, while Dot attended summer school at Mississippi State
 University. We were forced to be apart for most of the summer, but were in constant communication. Dot came to New Orleans one weekend to see me. Looking back, I think that visit might have been the lynchpin that locked us together. A few weeks later, both of us went home to Calhoun City for a short time before returning to college. I have a vivid recollection of a serious conversation, si tting in my car in Dot’s driveway and discussing all the rami fications we could think of related to a life together. I have no recollection if that conversation took place By the Light of the Silvery Moon. But it was then and there that I came to realize I had found a soul mate and was prepared to spend the rest of my life with her. I recall a deep philosophical conversation I once was having with my good friend
 Charlie Brumfield, and he posed the question, “What in this world can we be really sure of?” My immediate answer was, “I’m sure about
+
+![Book photo from page 106](/book-images/page-106_img-01_xref-514.jpeg)
 Dot. There’s not a doubt in my mind. ”
 I saved most of the money earned that summer and began shopping for an engagement ring. On September 15, 1962, we made it official. I formally asked for her hand in marriage and gave her the ring. Thankfully, she said “yes” and accepted it. And thus the long,
 lifetime journey began.
 Our wedding was a marvelous occasion. We were married in the
 First Baptist Church, surrounded by a sanctuary full of friends and family. The photographs of this event are among my most cherished memorabilia.
 I love to think back about the life we have built together,
+
+![Book photo from page 107](/book-images/page-107_img-01_xref-520.jpeg)
 remembering the ups and downs we’ve weathered and feeling proud of the family we’ve created. The mutual dependency and shared values formula has been one that has worked well for us. We have been strong supporters for each other and we have almost never disagreed on the fundamental values that guide our lives.
 Every day, I feel so fortunate to have spent my life with Dot.
 She is my best and most trusted friend and has filled my days with happiness. She has the most consistent beautiful spirit of anyone

@@ -51,6 +51,8 @@ International board meeting. Our hotel was sponsoring a classical concert and of
 She was standing along the perimeter of the crowd, alone except for her bodyguard, and on an impulse, I walked over and struck up a conversation with her. Although I should have logically expected her to be an engaging conversationalist, I was nevertheless surprised and stricken by her charm and the ease of the conversation. I spent about twenty minutes talking about everything, from Boynton Beach,
 Florida to the French rioting in Paris. One of my curious friends later asked, “Just what the hell would you have to talk about with
 Margaret Thatcher for twenty minutes?” I don’t recall my answer, but
+
+![Book photo from page 270](/book-images/page-270_img-01_xref-1212.jpeg)
 I do recall how many times since then I’ve been reminded that there is no good reason to be intimidated by anyone. My self-assurance,
 admittedly never altogether in the background, was rea ffirmed by this experience.
 Prime Minister Margaret Thatcher

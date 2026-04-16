@@ -51,6 +51,8 @@ She is cute, sweet, upbeat and seemingly always happy. There doesn’t appear to
 FaceTime, seeing her perpetual cheerful smiling face and listening to her peppy voice!
 And then along comes Ethan Keith Cobb on March 15, 2012.
 Our first grandson! I was touched by the selection of his middle name, of course, but even more touched seeing him emerge as all
+
+![Book photo from page 307](/book-images/page-307_img-01_xref-1378.jpeg)
 The entire family celebrating our fiftieth wedding anniversary in the
 Caribbean boy, so di fferent from his sister and cousins. Although he’s only three years old now, he is already showing remarkable athletic skills and a keen interest in sports. Perhaps he may be just as precocious athletically as Jordan has been academically. Ethan is an unusually handsome little guy and is an incredible ball of energy. He never stops moving. Ethan is lots of fun to be with!
 That rounds out the thirteen members of our immediate family. We are physically spread out from Florida to Washington,

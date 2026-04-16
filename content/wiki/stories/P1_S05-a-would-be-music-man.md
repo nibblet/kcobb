@@ -38,6 +38,8 @@ so I was extremely slow at it. But over time, I sounded good, and after Jerry Su
 Throughout high school I was a regular participant in all sorts of organized music activities. I sang in the Glee Club and the church choir and was a regular in school musical productions. My favorite production was Lelawala, where I had a singing and acting role as an
 Indian brave.
 When I was in the tenth grade, a small group from the band formed our own Dixieland jazz band. In addition to me, the members included Hal Jr. Reese on trumpet, Phil Ray on trombone, Sonny
+
+![Book photo from page 48](/book-images/page-048_img-01_xref-254.jpeg)
 Y oung on bass and John Edmondson on drums. Given our meager backgrounds and dearth of formal training, we were actually pre tty good! We began playing our Dixieland gig at various events and talent shows. In due course, we found ourselves competing in the
 Mid-South Fair T alent Competition in Memphis, where the winner was promised a spot on the T ed Mack Amateur Hour in New Y ork.
 We didn’t win, but we were featured on a local Memphis TV show.

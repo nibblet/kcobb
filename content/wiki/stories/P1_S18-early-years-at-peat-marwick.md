@@ -41,6 +41,8 @@ retail furniture, newspapers, a television station and a printing company. I als
 municipalities, construction, bond dealers and colleges. Usually,
 I spent a few weeks during the winters in the tax department,
 preparing individual returns.
+
+![Book photo from page 147](/book-images/page-147_img-01_xref-689.jpeg)
 This early experience included more than two dozen personal,
 trust and partnership tax returns each year for the extensive
 Hederman clan, our wealthiest clients. I also audited their sprawling newspaper businesses. The three brothers and one cousin in this large family werevery private, but for some reason they developed a trust in me and brought me into their confidence with virtually every aspect of their financial lives. Twice, the Hedermans o ffered me attractive positions, attempting to lure me away from Peat Marwick.
@@ -95,6 +97,8 @@ was approached by Dave Thompson, partner in charge of personnel for Peat Marwick
 Department of Professional Practice (DPP) for two years. DPP was a highly coveted assignment in the technical nerve center of the firm and a virtual guaranteed pathway to partnership. Only three or four managers were selected annually for the prestigious assignment. I
 was flattered and honored to be among this elite corps, but basically
 I didn’t want to do it. Though I felt that I was technically capable of the task, I did not relish the idea of sitting in an ivory tower without client contact for two years. Moreover, I didn’t want to move to New
+
+![Book photo from page 154](/book-images/page-154_img-01_xref-720.jpeg)
 Y ork. I fretted and fre tted over the decision, fearing that declining the o ffer would signal the end of my career. Nobody ever turned down such a rare opportunity! Nevertheless, I did my best at politely explaining my views and sheepishly turned my back on the brass ring. Dave Thompson appeared stricken by a state of lockjaw, but he eventually moved on and let me be.
 Lo and behold, only a few months later the unbelievable happened. On a Sunday afternoon in June 1970, Bill Norton showed up unexpectedly at my home and told me that I had been elected to partnership in Peat, Marwick, Mitchell & Co. I was stunned.
 And overwhelmed. It hadn’t even occurred to me that I would be nominated, much less elected. Here I was, just a regular guy, barely twenty-nine years old, stuck in the back woods of the vast empire of Peat Marwick. Y et I was being o ffered a seat in the club. Wow!

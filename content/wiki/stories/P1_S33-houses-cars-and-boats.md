@@ -42,6 +42,10 @@ In 1995, we returned to Fort Lauderdale. We had loved the
 Coral Ridge area, where we had lived before, and were predisposed to return to that neighborhood. However, as we began our house search, we gravitated to the south part of the city, where some of our prior friends were now living. It was also a bit more convenient to downtown, the airport and major roadways. Following a thorough search, we landed at 2521 Del Lago Drive. The home was a
 5,600-square-foot single-floor structure situated on a canal just off
 Philadelphia home for four years
+
+![Book photo from page 287](/book-images/page-287_img-01_xref-1284.jpeg)
+
+![Book photo from page 287](/book-images/page-287_img-02_xref-1286.jpeg)
 Home base in Fort Lauderdale, Florida the Intracoastal Waterway near the port. Reportedly, the home had once been lavishly decorated in Laura Ashley style, but after a bank repossession it had been neutralized in order to facilitate a sale. Therefore, it was plain vanilla and required some extensive remodeling. We hired an interior decorator, and she and Dot did a beautiful job of converting this terri fic house into a showplace. We have lived in this home now for twenty years. We have continued to update and maintain the property over the years, but the essential design, look and feel is much the same as it was following our initial occupancy.
 And then there is the Mallory House, our respite in Calhoun City that we have enjoyed for the past many years. We purchased the home in 1998 from our friend Fred Nabors, a local developer who had meticulously restored the property. Our beloved high school English teacher, Miss Frances Mallory, had lived in the home practically her
 The Mallory House, Calhoun City entire life, so we named it after her. Built in 1905, it is the oldest house in Calhoun City and exudes the harmony of the history of the community. The Mallory House has been our home away from home, where we visit about four times each year. It is fully decorated and stocked, and is just as comfortable as our home in Florida. James
@@ -52,6 +56,8 @@ James Pittman, caretaker
 
 Shifting from houses to automobiles, Dot and I started our marriage with two cars—a 1957 Ford Tudor Sedan and a 1961 Ford
 Falcon carried over from our college days. Neither was in great shape,
+
+![Book photo from page 288](/book-images/page-288_img-01_xref-1292.jpeg)
 but the 1957 Ford was particularly dilapidated. After struggling with it for a couple of years, I eventually parked it in our driveway and replaced it. Dot, ge tting tired of seeing in there, sold it to a scrap dealer for $50. When we later had serious engine problems with the
 Falcon, we traded it in for a brand new maroon 1965 Ford Fairlane.
 We bought the new car from Dot’s brother Charles Hill, who was working as a salesman at Hawkins Ford dealership in Calhoun City.
@@ -61,6 +67,8 @@ and their designs changed o ften. Therefore, we found ourselves trading one of o
 we owned a yellow Pontiac, a two-tone brown Oldsmobile and a white Buick Riviera. In about 1972, I surprised Dot at Christmas by driving home a gorgeous white and maroon Cadillac and parking it in the driveway. It was our first of several Cadillacs, and we were both excited. Later on, we shi fted our tastes to foreign models. I
 purchased a snazzy BMW 633 sports car and got Dot a beautiful dark green Jaguar sedan. We then shifted to Lexus and owned both sedan and sports models of that luxury brand.
 When we returned to Fort Lauderdale with Alamo, we dumped our cars and began driving company-furnished Cadillacs for the next two years. Because of our General Motors connections, we traded these cars for new ones about every six months.
+
+![Book photo from page 289](/book-images/page-289_img-01_xref-1299.jpeg)
 Upon the sale of Alamo, Mike Egan arranged a dinner and awarded me several gi fts in recognition of my leadership of the company. One of these gi fts was an option to pick out any car
 I wanted and send the bill to him. So, I chose a sleek BMW 840
 CI. This was one of the coolest cars ever built. It retailed for about

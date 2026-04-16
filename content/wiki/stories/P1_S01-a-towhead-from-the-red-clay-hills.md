@@ -21,6 +21,8 @@ In many ways, Calhoun City was the epitome of small-town
 America in the 1940s and 1950s. It was a rural hamlet tucked away in the back woods of northeastern Mississippi with a population of something less than two thousand—a number that has not changed much in the last seventy-five years. Notwithstanding its small size and remoteness, the town was very much alive and vibrant when I was growing up there. The town square was bustling with businesses —
 groceries, clothing stores, hardware stores, barbershops, restaurants and a movie theater. Three new car dealerships were located just off the square. A block or two further from the square were two large cotton gins that hummed away in the cool autumn of the year. A
 large cooperative served the surrounding farming community,
+
+![Book photo from page 18](/book-images/page-018_img-01_xref-118.jpeg)
 providing seed, fertilizer, equipment and other necessary items.
 There was only one lawyer in town. A large garment factory, a machine tool factory, a chair factory and other industry seemed to provide work opportunities for anyone who wanted to work.
 There was of course a post office, a hospital, a locally owned bank and other traditional municipal amenities. Baptist and Methodist churches brimmed with congregants every Sunday and there were community activities galore. The school system was extraordinary,
@@ -63,6 +65,10 @@ Those early years were times of learning and development for me. Home, school an
 Those were remarkable developmental days for a towheaded youngster growing up in a country southern town. It was a period of intense learning, and the times were pivotal in se tting the stage for my later years.
 Keith and Sandy, happy kids at ages seven and four
 Keith, about age ten
+
+![Book photo from page 22](/book-images/page-022_img-01_xref-139.jpeg)
+
+![Book photo from page 22](/book-images/page-022_img-02_xref-137.jpeg)
 
 ## Principles
 

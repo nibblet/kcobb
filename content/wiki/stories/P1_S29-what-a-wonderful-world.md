@@ -64,6 +64,8 @@ Sherra and Michael —our terri fic friends and marvelous travelling companions.
 Our cruises have taken us to Scandinavia, the Mediterranean,
 Europe, South America, China, Southeast Asia, Africa, Alaska and of course various venues in the Caribbean. We’ve travelled with Crystal
 Cruises, Silversea Cruises, Royal Caribbean, Princess Cruise Lines and other minor lines. They’re all great! We have strolled the streets of virtually every signi ficant city in Europe over the years, enjoying the special charm and character of each. My personal favorites have included the usual high-pro file venues —Paris, Rome, Florence,
+
+![Book photo from page 257](/book-images/page-257_img-01_xref-1149.jpeg)
 Madrid, Vienna, et al. But just as interesting and educational have been some locales that are not as famous, among them Hamburg,
 Munich, Geneva, Krakow, Budapest, Lisbon, Copenhagen, Oslo and Brussels. We spent five weeks in Italy in 2014, roaming Tuscany and the Lake Como areas and enjoying the marvelous Italian lifestyle. Europe is truly a special part of the world. So rich in history and culture. So much to learn. We have enjoyed the architecture and scenery, wonderful museums, great food, unusual customs and charming people. With all that said, I do believe we have seen enough Catholic churches to last us for the rest of our lives!
 Michael and Sherra Weil, the world’s best travelling buddies
@@ -117,6 +119,10 @@ I see friends shaking hands, saying, “How do you do?”
 They’re really saying, “I love you. ”
 I hear babies crying, I watch them grow.
 They’ll learn much more than I’ll ever know.
+
+![Book photo from page 263](/book-images/page-263_img-01_xref-1177.jpeg)
+
+![Book photo from page 263](/book-images/page-263_img-02_xref-1175.jpeg)
 And I think to myself,
 What a wonderful world.
 Y es, I think to myself,
@@ -126,6 +132,10 @@ Checking o ff Australia
 Living the good life in Italy
 Keith and Dot, the last continent
 Sunset at the South Pole
+
+![Book photo from page 264](/book-images/page-264_img-01_xref-1183.jpeg)
+
+![Book photo from page 264](/book-images/page-264_img-02_xref-1185.jpeg)
 
 ## Principles
 

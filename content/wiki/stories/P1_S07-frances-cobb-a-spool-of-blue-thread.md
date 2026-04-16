@@ -24,6 +24,8 @@ Then, when we were in elementary school, she began to find ways to help suppleme
 When Sandy and I were not in school, Mother enlisted us as helpers. I was probably nine or ten years old when she taught me how to match colors and regularly sent me uptown to the Ben
 Franklin store with fabric samples to buy matching spools of thread.
 I remember one time when she was trying to produce a contrasting seam and didn’t have a color sample. She sent me to the store with a Noxzema container to try to match its dark blue color. If I
+
+![Book photo from page 65](/book-images/page-065_img-01_xref-335.jpeg)
 did not secure a perfect match, I was immediately sent back to the
 Ben Franklin store to get it right. Since the walk there and back was about a mile, I learned fairly quickly. Over time, we accumulated a large inventory of sewing thread, almost as many shades as the store’s inventory. I constructed a couple of racks with finishing nails to accommodate the spools, and regularly kept them organized by color. Using a special tool she purchased, I took over the production of the custom-covered bu ttons and belt buckles that accompanied some of the dresses and other articles of clothing that she made. I
 also learned to cut fabric according to the complicated-looking

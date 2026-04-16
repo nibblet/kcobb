@@ -2,10 +2,10 @@ import { getStoryById } from "@/lib/wiki/parser";
 import { getPublishedStoryById } from "@/lib/wiki/supabase-stories";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import ReactMarkdown from "react-markdown";
 import { ReadingProgressBar } from "@/components/story/ReadingProgressBar";
 import { ReadTracker } from "@/components/story/ReadTracker";
 import { StoryAudioControls } from "@/components/story/StoryAudioControls";
+import { StoryMarkdown } from "@/components/story/StoryMarkdown";
 import { AskAboutStory } from "@/components/stories/AskAboutStory";
 import { AnsweredQuestionsList } from "@/components/stories/AnsweredQuestionsList";
 import { SourceBadge } from "@/components/ui/SourceBadge";
@@ -97,7 +97,7 @@ export default async function StoryDetailPage({
         )}
 
         <article className="story-body prose prose-story prose-lg max-w-none pb-8">
-          <ReactMarkdown>{story.fullText}</ReactMarkdown>
+          <StoryMarkdown content={story.fullText} />
         </article>
 
         {story.principles.length > 0 && (

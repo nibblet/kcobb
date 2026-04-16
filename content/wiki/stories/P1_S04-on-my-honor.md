@@ -48,6 +48,8 @@ The mentor and motivator-in-chief behind my Boy Scout days was Dr. Carter Dobbs.
 In his book, one had to do the work—all of it—to achieve the goals before basking in any rewards. Dr. Dobbs didn’t believe in breaks,
 gimmies or mulligans. Without a doubt, he was a tough guy and a stern taskmaster. But his rigor never got in the way of us having fun along the way.
 There were eleven young boys in T roop 40 who a ttained the
+
+![Book photo from page 42](/book-images/page-042_img-01_xref-228.jpeg)
 Eagle Scout award under Dr. Dobbs’ direction in those years. That’s an unusually large number for such a small community! Thanks to his son Jimmy Gage, I now have in my memorabilia a treasured photograph of all eleven guys posed together in uniform with their
 Eagle Scout medals.
 Dr. Dobbs was a serious man who hardly ever laughed—at least as I recall—but a shadow of a smile sneaks out in this photograph. It is the smile of an intensely proud man. It is a smile of accomplishment.

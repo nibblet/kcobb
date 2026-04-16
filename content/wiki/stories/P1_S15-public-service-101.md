@@ -26,6 +26,8 @@ The next year was one of the most pivotal in my life —mostly positive, but at 
 The trappings of political office and the a ttendant power,
 whether perceived or real, were intoxicating. I have o ften since likened the experience to being the mayor of a small municipality. I
 was even paid a salary of $100 per month, funded by the university’s student activity fees. The SGA had an office in the Student Union building that was all fitted out with desks, typewriters, telephones,
+
+![Book photo from page 125](/book-images/page-125_img-01_xref-596.jpeg)
 file cabinets and such. As if in a flash, I found myself the center of a great deal of a ttention. I was consulted regularly by the Dean of
 Student A ffairs and called upon occasionally by the university’s president. Other student leaders sought my counsel or in fluence. I
 was asked to speak to various student groups, was interviewed and frequently asked for comments by the college newspaper and invited to greet visiting dignitaries. It was a constant whirlwind of activity,

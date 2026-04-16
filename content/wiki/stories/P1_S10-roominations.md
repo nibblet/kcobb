@@ -20,6 +20,8 @@ The house cost $12,500. Daddy took out a $7,500 mortgage, his first and only deb
 Childhood home at 401 South Madison Street payments each month until the mortgage was completely retired seven years later.
 The most important detail for me was that for the first time,
 Sandy and I had our own rooms. My room was on the north end of the house, opposite my parent’s master bedroom and Sandy’s bedroom, and it provided a modicum of privacy for the first time in my life. The room was not huge—about 11 feet x 11 feet—but it was large enough for me to carve out a private existence.
+
+![Book photo from page 88](/book-images/page-088_img-01_xref-435.jpeg)
 My bedroom was my personal place, with my own personal things. I loved it. It had brand new walnut bedroom furniture, with a matching chest and desk. The bed had a bookcase headboard, and
 I could tuck away things that I didn’t want out in the open simply by sliding the little door open and then closing it. A small radio fit neatly into the headboard. With savings from working odd jobs,
 I ordered a new stereo hi- fi phonograph, which rested on a stand next to my desk. I also purchased several 33 1/3 stereo records with some of my earnings. Over time, I built up a good collection of great albums, which I stored in a rack under the stereo and played hundreds of times.

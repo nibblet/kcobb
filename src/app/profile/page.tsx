@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
+import { getProfileReadingDashboardData } from "@/lib/analytics/profile-dashboard";
 import { ProfileHero } from "@/components/profile/ProfileHero";
 import { KeithProfileHero } from "@/components/profile/KeithProfileHero";
 import { getKeithDashboardData } from "@/lib/analytics/keith-dashboard";
@@ -69,6 +70,7 @@ export default async function ProfilePage() {
       displayName={displayName}
       email={user.email ?? ""}
       unreadAnswerCount={unreadAnswerCount ?? 0}
+      dashboard={await getProfileReadingDashboardData(user.id)}
     />
   );
 }

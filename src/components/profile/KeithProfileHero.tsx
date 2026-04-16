@@ -44,18 +44,6 @@ export function KeithProfileHero({
       description:
         "Questions you've asked and the answers you've sent back.",
     },
-    {
-      href: "/stories",
-      label: "Read the Library",
-      description:
-        "Move between the memoir and newly added stories as one living collection.",
-    },
-    {
-      href: "/stories/timeline",
-      label: "Walk the Timeline",
-      description:
-        "Use the chronology to surface memories, eras, and moments worth expanding.",
-    },
   ];
 
   async function handleSignOut() {
@@ -104,19 +92,19 @@ export function KeithProfileHero({
                 </Link>
                 <Link
                   href="/stories"
-                  className="type-ui inline-flex min-h-[46px] items-center justify-center rounded-full border border-[rgba(247,243,237,0.32)] bg-[rgba(247,243,237,0.08)] px-6 py-2.5 text-sm font-semibold text-[#f7f3ed] transition-colors duration-[var(--duration-normal)] hover:bg-[rgba(247,243,237,0.16)]"
+                  className="type-ui inline-flex min-h-[46px] items-center justify-center rounded-full border border-[rgba(247,243,237,0.32)] bg-[rgba(247,243,237,0.08)] px-6 py-2.5 text-sm font-semibold !text-[#f7f3ed] transition-colors duration-[var(--duration-normal)] hover:bg-[rgba(247,243,237,0.16)]"
                 >
                   Browse stories
                 </Link>
                 <button
                   type="button"
                   onClick={handleSignOut}
-                  className="type-ui inline-flex min-h-[46px] items-center justify-center rounded-full border border-[rgba(247,243,237,0.2)] px-6 py-2.5 text-sm font-semibold text-[rgba(247,243,237,0.8)] transition-colors duration-[var(--duration-normal)] hover:text-[#f7f3ed]"
+                  className="type-ui inline-flex min-h-[46px] items-center justify-center rounded-full border border-[rgba(247,243,237,0.2)] px-6 py-2.5 text-sm font-semibold !text-[rgba(247,243,237,0.9)] transition-colors duration-[var(--duration-normal)] hover:!text-[#f7f3ed]"
                 >
                   Sign out
                 </button>
               </div>
-              <p className="type-ui mt-4 text-sm text-[rgba(247,243,237,0.58)]">
+              <p className="type-ui mt-4 text-sm !text-[rgba(247,243,237,0.65)]">
                 Signed in as {email}
               </p>
             </div>
@@ -132,7 +120,7 @@ export function KeithProfileHero({
             </div>
           </div>
 
-          <div className="mt-10 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+          <div className="mt-10 grid gap-4 sm:grid-cols-2">
             {quickLinks.map((link) => (
               <Link
                 key={link.href}
@@ -140,7 +128,7 @@ export function KeithProfileHero({
                 className="group rounded-[24px] border border-[rgba(247,243,237,0.14)] bg-[rgba(247,243,237,0.04)] p-5 transition-[transform,border-color,background-color] duration-[var(--duration-normal)] hover:-translate-y-1 hover:border-[rgba(247,243,237,0.3)] hover:bg-[rgba(247,243,237,0.08)]"
               >
                 <div className="flex items-center justify-between gap-2">
-                  <p className="type-ui text-sm font-semibold text-[#f7f3ed]">
+                  <p className="type-ui text-sm font-semibold !text-[#f7f3ed]">
                     {link.label}
                   </p>
                   {link.badge && (

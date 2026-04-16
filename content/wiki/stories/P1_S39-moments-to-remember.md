@@ -26,6 +26,8 @@ There was a strong sense of gratitude for all the support I had in the process. 
 The day we learned of Dot’s breast cancer was a traumatic one.
 If one had asked me, I would have said that I understood illness and mortality; however, the honest fact was that I had never spent any time reflecting on the tragedies that so many people deal with. All of a sudden, we were faced with this looming reality. What were we to do? It was simultaneously confusing and scary. I will never forget that day.
 Family vacations are special times in family memory bank.
+
+![Book photo from page 334](/book-images/page-334_img-01_xref-1495.jpeg)
 There were lots of them over the years. One of the most memorable was a motor home trip we took out West in about 1982. We rented a twenty-six-foot motor home from our friend Roy Letourneau in
 T exas and spent three weeks touring Colorado, Arizona and New
 Mexico. We visited the Grand Canyon, Carlsbad Caverns, Mesa

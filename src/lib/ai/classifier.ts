@@ -2,39 +2,38 @@
  * Classifies a user question as "simple" or "deep" to determine
  * whether it benefits from multi-perspective treatment.
  *
- * Simple: factual, list, exploratory questions -> single Sonnet call
- * Deep: advice, guidance, reflection questions -> two perspectives + synthesizer
+ * INVERTED LOGIC: defaults to "deep" (multi-perspective).
+ * Only clearly factual/list/lookup questions route to "simple".
  *
- * Uses a zero-cost keyword heuristic (no API call).
+ * Simple: factual dates, lists, short lookups -> single Sonnet call
+ * Deep: everything else -> two perspectives + synthesizer
  */
 
-const DEEP_PATTERNS = [
-  // Advice-seeking
-  /\bshould\s+i\b/i,
-  /\bwhat\s+would\s+keith\b/i,
-  /\bwhat\s+would\s+he\b/i,
-  /\bhow\s+(do|can|should)\s+i\b/i,
-  /\badvice\b/i,
-  /\bhelp\s+me\b/i,
-  /\bwhat\s+can\s+i\s+learn\b/i,
-  /\bhow\s+to\s+deal\s+with\b/i,
-  /\bstruggling\s+with\b/i,
-  /\bgoing\s+through\b/i,
-  /\bfacing\s+a\b/i,
+/** Patterns that indicate a simple factual or catalog question */
+const SIMPLE_PATTERNS = [
+  // Factual date/time lookups
+  /\bwhen\s+did\b/i,
+  /\bwhat\s+year\b/i,
+  /\bhow\s+old\b/i,
+  /\bwhat\s+date\b/i,
+  /\bwhat\s+age\b/i,
 
-  // Guidance / reflection
-  /\bwhat\s+lesson\b/i,
-  /\bwhat\s+principle\b/i,
-  /\bwhat\s+does\s+(this|that|it)\s+(teach|mean|show)\b/i,
-  /\bhow\s+did\s+keith\s+(handle|deal|cope|approach|navigate|decide)\b/i,
-  /\bwhat\s+would\s+you\s+(suggest|recommend)\b/i,
-  /\bapply\s+(this|that|it)\s+to\b/i,
+  // List / catalog queries
+  /\blist\s+(the|all|every)\b/i,
+  /\bwhich\s+stories\b/i,
+  /\bwhat\s+stories\b/i,
+  /\bhow\s+many\s+stories\b/i,
+  /\bhow\s+many\s+themes\b/i,
 
-  // Life decisions
-  /\bcareer\s+(change|decision|choice|move)\b/i,
-  /\bdifficult\s+(decision|choice|situation|time)\b/i,
-  /\bbig\s+decision\b/i,
-  /\blife\s+lesson\b/i,
+  // Short factual "who/what is" (only simple when question is brief)
+  // Handled separately below via length check
+];
+
+/** Short factual starters — only treated as simple when the question is < 40 chars */
+const SHORT_FACTUAL_PATTERNS = [
+  /^who\s+(is|was)\b/i,
+  /^what\s+(is|was)\s+(the|a|an|keith)/i,
+  /^where\s+(did|was|is)\b/i,
 ];
 
 export type QuestionDepth = "simple" | "deep";
@@ -43,10 +42,29 @@ export function classifyQuestion(
   message: string,
   _history?: { role: string; content: string }[]
 ): QuestionDepth {
-  for (const pattern of DEEP_PATTERNS) {
-    if (pattern.test(message)) {
-      return "deep";
+  const trimmed = message.trim();
+
+  // Very short questions are almost always simple lookups
+  if (trimmed.length < 20) {
+    return "simple";
+  }
+
+  // Check explicit simple patterns
+  for (const pattern of SIMPLE_PATTERNS) {
+    if (pattern.test(trimmed)) {
+      return "simple";
     }
   }
-  return "simple";
+
+  // Short factual starters only count as simple for brief questions
+  if (trimmed.length < 40) {
+    for (const pattern of SHORT_FACTUAL_PATTERNS) {
+      if (pattern.test(trimmed)) {
+        return "simple";
+      }
+    }
+  }
+
+  // Default: use the deep multi-perspective path
+  return "deep";
 }

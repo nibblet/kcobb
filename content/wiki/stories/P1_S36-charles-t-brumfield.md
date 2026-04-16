@@ -58,6 +58,10 @@ Charlie has been a full-time vagabond, wandering the globe for more than fifty y
 Germany, Belgium, South Korea, Okinawa and Thailand are just a few of the many places he has lived. He has visited every major edifice in the world. He’s climbed Mt. Kilimanjaro, has dived in waters everywhere, ridden horses through Mongolia and done so many other adventurous things that they are too numerous to recite. Indeed, it has been a full and glamorous life, at least from my perspective. He never seems to tire of adventure. A few years ago,
 well past age sixty, he fell in love and married a young Thai woman in her twenties. I hope she loves adventure! What a guy!
 For as long as I have known Charlie, he has never been focused on material things. He lives for the moment and seems to be interested in accumulating only what he might need for the next moment. He occasionally grumbles about being poor and financially inadequate,
+
+![Book photo from page 315](/book-images/page-315_img-01_xref-1413.jpeg)
+
+![Book photo from page 315](/book-images/page-315_img-02_xref-1415.jpeg)
 but I have always known that his grumbling is just a front. He is secretly proud of his independence and his ability to survive amidst all the adventure of his fun-loving existence.
 Charlie claims that he admires my life and all of the things I have done over the years. I certainly have admired his. He has been the
 Indiana Jones that I, like many men, have only dreamed about. He has marched to his own drummer and done his own thing, with little or no ambition for wealth and fame, or even personal security. He’s just been Charlie, roaming the world in search of adventure and the personal satisfaction that come from being a professor and teacher. I

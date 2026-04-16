@@ -24,6 +24,8 @@ Relationships with General Motors and the banks were strained to the breaking po
 Alamo CEO announcements
 Roger reported shortly after I did, and we went to work immediately. I called on my KPMG financial service experiences and the earlier advice of Marc Gerstein to develop meaningful strategies around five key sectors of the business. Roger and I quickly identified dozens of issues that needed a ttention and began sorting out those with the highest priorities. Before long we had articulated our five-point strategy. It centered on the following areas:
 • Revenue management—developing systems that would enhance rental yields while remaining competitive in the marketplace.
+
+![Book photo from page 211](/book-images/page-211_img-01_xref-957.jpeg)
 • Fleet management—stopping the perpetual over-fleeting condition and having too many cars in stock, stabilizing utilization and cultivating be tter relationships with suppliers.
 • Marketing —building a marketing program based on customer service rather than pure price competition.
 • T alent management —right-sizing the company and motivating personnel to line up behind a coherent strategy.

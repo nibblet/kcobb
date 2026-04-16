@@ -41,6 +41,8 @@ As these three guys completed their education and began their own careers and in
 Keith, Mark, John and Paul in Washington, D.C.
 Those same core values emerged for us to admire when they began to choose their spouses and life mates. Second only to our love for our sons is our love for their wives. They all managed to find and marry women who appear to be perfect matches and who have fostered their happiness for many years. Of course, they had an exceptional role model in their mother to form a pa ttern or road map! Seriously, I can see many of the same traits in Dawn, Sarah and Sue that resemble so many of Dot’s core values and personal characteristics. Each of the guys chose well and, as a result, have happy marriages and wonderful families.
 Paul, John and Mark are widely different in so many respects—
+
+![Book photo from page 299](/book-images/page-299_img-01_xref-1342.jpeg)
 different careers, di fferent interests and di fferent general outlooks.
 One illustration comes to mind. Some time ago, Dot and I sat down and worked up a detailed list of all of our family a ffairs—financial,
 assets, records, access codes, passwords, etc. We thought such a comprehensive document might be useful to our children once we are gone. So I typed it all up and sent copies to the three guys. Their responses were interesting —and telling. Paul sent back an email saying, “Dad, thanks for doing this. I have done something similar whenever I have been deployed to the Middle East. Dawn and I

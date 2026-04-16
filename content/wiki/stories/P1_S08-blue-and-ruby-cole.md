@@ -27,6 +27,10 @@ Ruby Cole, the consummate next-door neighbor earth happened to you?” Fearing I
 Ruby rapidly cooked up a tall tale of how she had stumbled going down the back door stairs and hit her head on a concrete block. I just stood there in amazement as she lied through her teeth, while Blue just winked at me and smiled.
 Mother always resented their doting attention. One time when I
 was very small, I had begged her for a wagon, a Radio Flyer that I had seen in a catalog. She had refused, saying that it was too expensive and I didn’t need it anyway. Then Blue came home one day, in his dark green Standard Oil truck, with a bright red Radio Flyer strapped on the side. He dismantled it, tied a rope to the wagon tongue and began driving up and down the gravel street pulling me in the wagon. Mother witnessed what was going on from her kitchen window and came outside screaming at Blue, using language that was a bit strange for me. Blue just shrugged it all off and said, “Well,
+
+![Book photo from page 75](/book-images/page-075_img-01_xref-380.jpeg)
+
+![Book photo from page 75](/book-images/page-075_img-02_xref-378.jpeg)
 he wanted it, and I wanted him to have it. That’s just all there is to it,
 Frances. Y ou should just cool down!”
 Our family did not own a car until 1951. Before then, Sandy and

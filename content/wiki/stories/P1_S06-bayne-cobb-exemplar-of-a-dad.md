@@ -70,6 +70,8 @@ but remained active, pu ttering around with home repairs, tending his garden and
 peas, bu tter beans, string beans, corn, okra, squash, etc. —and of course his prize tomatoes. He drove his car around town every day until he was ninety-one, when Sandy and I insisted that he give it up. This was indeed a painful transition for him, since he had been driving himself places for seventy- five years! He lived alone for the last eight years of his life and took care of himself until he was ninety-two, at which time we had him admitted to a local retirement home.
 Although he mildly resisted the move, he found himself immediately happy for the three or four months that he lived there. The reason for this happiness: there were lots of people there. He passed away in the retirement home rather abruptly and without any pain or su ffering on January 4, 2009, two days after his ninety-third birthday. That was a very sad day for me.
 There was a time in my life when I would have said I didn’t have much of a relationship with my father. That’s because I didn’t have a full appreciation of what the relationship really was. My admiration and appreciation for him grew steadily over time, mainly because of my own maturity. As I grew older and more introspective, I began to realize the enormous impact he had on my life. I did, in fact,
+
+![Book photo from page 61](/book-images/page-061_img-01_xref-310.jpeg)
 become closer to him as he aged, staying in regular contact with him,
 particularly in the last ten years. I only regret that it took me so long.
 But I will be eternally grateful for the relationship and his in fluence on me as a person.
@@ -77,6 +79,8 @@ Bayne Cobb was a good man. No, he was a great man! A
 tranquil, gentle giant who lived an exemplary life and set an example of citizenship for everyone he touched. I deeply miss him, but feel his presence every day.
 Bayne Cobb, “fit as a fiddle” at age ninety
 Keith and Dad
+
+![Book photo from page 62](/book-images/page-062_img-01_xref-318.jpeg)
 
 ## Principles
 
