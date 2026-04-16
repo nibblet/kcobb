@@ -4,12 +4,14 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ReadingProgressBar } from "@/components/story/ReadingProgressBar";
 import { ReadTracker } from "@/components/story/ReadTracker";
+import { FavoriteButton } from "@/components/story/FavoriteButton";
 import { StoryAudioControls } from "@/components/story/StoryAudioControls";
 import { StoryMarkdown } from "@/components/story/StoryMarkdown";
 import { AskAboutStory } from "@/components/stories/AskAboutStory";
 import { AnsweredQuestionsList } from "@/components/stories/AnsweredQuestionsList";
 import { SourceBadge } from "@/components/ui/SourceBadge";
 import { lifeStageToEraAccent } from "@/lib/design/era";
+import { createClient } from "@/lib/supabase/server";
 
 const STORY_AUDIO_UI_ENABLED =
   process.env.NEXT_PUBLIC_ENABLE_STORY_AUDIO === "true";
@@ -29,6 +31,23 @@ export default async function StoryDetailPage({
   const supportsListenMode =
     STORY_AUDIO_UI_ENABLED &&
     (story.source === "memoir" || story.source === "interview");
+
+  // Check if current user has favorited this story
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  let initialFavorited = false;
+  if (user) {
+    const { data } = await supabase
+      .from("sb_story_favorites")
+      .select("id")
+      .eq("user_id", user.id)
+      .eq("story_id", storyId)
+      .single();
+    initialFavorited = !!data;
+  }
 
   return (
     <>
@@ -55,6 +74,13 @@ export default async function StoryDetailPage({
           >
             {story.lifeStage}
           </span>
+          {user && (
+            <FavoriteButton
+              storyId={storyId}
+              storyTitle={story.title}
+              initialFavorited={initialFavorited}
+            />
+          )}
         </div>
         {story.themes.length > 0 && (
           <div className="mb-4">
