@@ -6,12 +6,17 @@ import { ageModeLabel } from "@/lib/utils/age-mode";
 
 const modes: AgeMode[] = ["young_reader", "teen", "adult"];
 
-export function AgeModeSwitcher() {
+type AgeModeSwitcherProps = {
+  variant?: "default" | "compact";
+};
+
+export function AgeModeSwitcher({ variant = "default" }: AgeModeSwitcherProps) {
   const { ageMode, setAgeMode } = useAgeMode();
+  const compact = variant === "compact";
 
   return (
     <div
-      className="inline-flex overflow-hidden rounded-full border border-[var(--color-border)] bg-warm-white"
+      className="inline-flex max-w-[min(100%,14rem)] shrink overflow-hidden rounded-full border border-[var(--color-border)] bg-warm-white sm:max-w-none"
       role="group"
       aria-label="Reading level"
     >
@@ -22,10 +27,18 @@ export function AgeModeSwitcher() {
             key={mode}
             type="button"
             onClick={() => setAgeMode(mode)}
-            className={`px-3 py-1 text-xs font-medium transition-[background-color,color] duration-[var(--duration-normal)] ${
-              active
-                ? "rounded-full bg-ink text-warm-white"
-                : "bg-transparent text-ink-muted hover:text-ink"
+            className={`font-medium transition-[background-color,color] duration-[var(--duration-normal)] ${
+              compact
+                ? `px-1.5 py-0.5 text-[0.625rem] leading-tight sm:px-2 sm:text-xs ${
+                    active
+                      ? "rounded-full bg-ink text-warm-white"
+                      : "bg-transparent text-ink-muted hover:text-ink"
+                  }`
+                : `px-3 py-1 text-xs ${
+                    active
+                      ? "rounded-full bg-ink text-warm-white"
+                      : "bg-transparent text-ink-muted hover:text-ink"
+                  }`
             }`}
           >
             {ageModeLabel(mode)}

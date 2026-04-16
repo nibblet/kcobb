@@ -53,7 +53,7 @@ export function HomeHero() {
           <br />
           Red Clay Hills
         </h1>
-        <p className="type-body mx-auto mb-10 max-w-[520px] text-pretty italic text-[rgba(240,232,213,0.78)]">
+        <p className="type-body mx-auto mb-10 max-w-[520px] text-pretty italic text-[rgba(156,89,38,1)]">
           Stories, lessons, and values from Keith Cobb — preserved for the
           family.
         </p>

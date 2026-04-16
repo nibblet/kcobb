@@ -2,48 +2,33 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useMemo, useState } from "react";
-import { useAgeMode } from "@/hooks/useAgeMode";
+import { useEffect, useState } from "react";
+import { AgeModeSwitcher } from "@/components/layout/AgeModeSwitcher";
+import { ProfileNavLink } from "@/components/layout/ProfileNavLink";
+import { useProfileNotificationBadge } from "@/hooks/useProfileNotificationBadge";
 
-const allNavItems = [
-  { href: "/", label: "Home" },
+const primaryNavItems = [
   { href: "/stories", label: "Stories" },
-  { href: "/journeys", label: "Journeys" },
-  { href: "/themes", label: "Themes" },
-  { href: "/timeline", label: "Timeline" },
+  { href: "/journeys", label: "Explore" },
   { href: "/ask", label: "Ask" },
   { href: "/tell", label: "Tell" },
-  { href: "/profile", label: "Profile" },
 ] as const;
 
-type NotificationState = {
-  unreadAnswers: number;
-  pendingQuestions: number;
-  isKeith: boolean;
-};
-
-function navActive(pathname: string, href: string): boolean {
-  if (href === "/") return pathname === "/";
-  return pathname === href || pathname.startsWith(`${href}/`);
+function isNavActive(pathname: string, href: string): boolean {
+  if (href === "/stories") return pathname.startsWith("/stories");
+  if (href === "/journeys") {
+    return pathname.startsWith("/journeys") || pathname.startsWith("/themes");
+  }
+  if (href === "/ask") return pathname === "/ask" || pathname.startsWith("/ask/");
+  if (href === "/tell") return pathname === "/tell" || pathname.startsWith("/tell/");
+  return false;
 }
 
 export function Nav() {
   const pathname = usePathname();
-  const { ageMode } = useAgeMode();
-  const navItems = useMemo(
-    () =>
-      ageMode === "young_reader"
-        ? allNavItems.filter((i) => i.href !== "/themes")
-        : [...allNavItems],
-    [ageMode]
-  );
+  const profileBadge = useProfileNotificationBadge();
   const isHome = pathname === "/";
   const [navSolid, setNavSolid] = useState(!isHome);
-  const [notifications, setNotifications] = useState<NotificationState>({
-    unreadAnswers: 0,
-    pendingQuestions: 0,
-    isKeith: false,
-  });
 
   useEffect(() => {
     if (!isHome) {
@@ -55,31 +40,6 @@ export function Nav() {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, [isHome]);
-
-  useEffect(() => {
-    let cancelled = false;
-    async function loadCounts() {
-      try {
-        const res = await fetch("/api/notifications/count");
-        if (!res.ok || cancelled) return;
-        const data = (await res.json()) as NotificationState;
-        if (!cancelled) setNotifications(data);
-      } catch {
-        // Keep the zero state if the endpoint fails.
-      }
-    }
-    loadCounts();
-    return () => {
-      cancelled = true;
-    };
-  }, [pathname]);
-
-  const profileBadge =
-    notifications.isKeith && notifications.pendingQuestions > 0
-      ? { kind: "number" as const, value: notifications.pendingQuestions }
-      : !notifications.isKeith && notifications.unreadAnswers > 0
-      ? { kind: "dot" as const }
-      : null;
 
   if (pathname === "/login" || pathname === "/signup") return null;
 
@@ -99,43 +59,30 @@ export function Nav() {
         >
           Keith Cobb Storybook
         </Link>
-        <div className="flex items-center gap-8">
-          <ul className="flex list-none items-center gap-8">
-            {navItems.slice(1).map((item) => {
-              const active = navActive(pathname, item.href);
-              const badge = item.href === "/profile" ? profileBadge : null;
+        <div className="flex min-w-0 flex-1 items-center justify-end gap-4 pl-6">
+          <ul className="flex list-none items-center gap-6 lg:gap-8">
+            {primaryNavItems.map((item) => {
+              const active = isNavActive(pathname, item.href);
               return (
                 <li key={item.href}>
                   <Link
                     href={item.href}
-                    className={`type-ui relative inline-flex items-center gap-1.5 text-[0.875rem] no-underline transition-colors duration-[var(--duration-fast)] ${
+                    className={`type-ui relative inline-block text-[0.875rem] no-underline transition-colors duration-[var(--duration-fast)] ${
                       active
                         ? "text-burgundy after:absolute after:left-0 after:right-0 after:top-full after:mt-0.5 after:h-0.5 after:rounded-sm after:bg-burgundy"
                         : "text-ink-muted hover:text-ink"
                     }`}
                   >
                     {item.label}
-                    {badge?.kind === "number" && (
-                      <span
-                        aria-label={`${badge.value} pending question${
-                          badge.value === 1 ? "" : "s"
-                        }`}
-                        className="inline-flex min-w-[1.1rem] items-center justify-center rounded-full bg-clay px-1 text-[0.625rem] font-semibold leading-none text-warm-white"
-                      >
-                        {badge.value}
-                      </span>
-                    )}
-                    {badge?.kind === "dot" && (
-                      <span
-                        aria-label="New answer"
-                        className="inline-block h-2 w-2 rounded-full bg-gold"
-                      />
-                    )}
                   </Link>
                 </li>
               );
             })}
           </ul>
+          <div className="flex shrink-0 items-center gap-2 border-l border-[var(--color-border)] pl-4">
+            <AgeModeSwitcher variant="compact" />
+            <ProfileNavLink badge={profileBadge} />
+          </div>
         </div>
       </nav>
 
@@ -144,34 +91,17 @@ export function Nav() {
         className="md:hidden fixed bottom-0 left-0 right-0 z-50 border-t border-[var(--color-border)] bg-warm-white/95 backdrop-blur-md"
       >
         <ul className="flex list-none justify-around py-2">
-          {navItems.map((item) => {
-            const active = navActive(pathname, item.href);
-            const badge = item.href === "/profile" ? profileBadge : null;
+          {primaryNavItems.map((item) => {
+            const active = isNavActive(pathname, item.href);
             return (
               <li key={item.href}>
                 <Link
                   href={item.href}
-                  className={`relative flex flex-col items-center px-2 py-1 text-[0.625rem] font-medium tracking-wide ${
+                  className={`flex flex-col items-center px-1.5 py-1 text-[0.6875rem] font-medium tracking-wide ${
                     active ? "text-burgundy" : "text-ink-muted"
                   }`}
                 >
                   {item.label}
-                  {badge?.kind === "number" && (
-                    <span
-                      aria-label={`${badge.value} pending question${
-                        badge.value === 1 ? "" : "s"
-                      }`}
-                      className="absolute -right-1 -top-0.5 inline-flex min-w-[1rem] items-center justify-center rounded-full bg-clay px-1 text-[0.5625rem] font-semibold leading-none text-warm-white"
-                    >
-                      {badge.value}
-                    </span>
-                  )}
-                  {badge?.kind === "dot" && (
-                    <span
-                      aria-label="New answer"
-                      className="absolute right-1 top-0.5 inline-block h-1.5 w-1.5 rounded-full bg-gold"
-                    />
-                  )}
                 </Link>
               </li>
             );

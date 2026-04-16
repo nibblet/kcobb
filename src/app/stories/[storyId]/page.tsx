@@ -4,6 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import ReactMarkdown from "react-markdown";
 import { ReadingProgressBar } from "@/components/story/ReadingProgressBar";
+import { ReadTracker } from "@/components/story/ReadTracker";
 import { StoryAudioControls } from "@/components/story/StoryAudioControls";
 import { AskAboutStory } from "@/components/stories/AskAboutStory";
 import { AnsweredQuestionsList } from "@/components/stories/AnsweredQuestionsList";
@@ -32,6 +33,7 @@ export default async function StoryDetailPage({
   return (
     <>
       <ReadingProgressBar />
+      <ReadTracker storyId={storyId} />
       <div className="mx-auto max-w-story px-[var(--page-padding-x)] py-6 md:py-10">
         <Link
           href="/stories"

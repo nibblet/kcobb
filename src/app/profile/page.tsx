@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { ProfileHero } from "@/components/profile/ProfileHero";
 import { KeithProfileHero } from "@/components/profile/KeithProfileHero";
+import { getKeithDashboardData } from "@/lib/analytics/keith-dashboard";
 import { getAuthenticatedProfileContext } from "@/lib/auth/profile-context";
 import { createClient } from "@/lib/supabase/server";
 
@@ -51,11 +52,14 @@ export default async function ProfilePage() {
       .select("id", { count: "exact", head: true })
       .eq("status", "pending");
 
+    const dashboard = await getKeithDashboardData();
+
     return (
       <KeithProfileHero
         displayName={displayName}
         email={user.email ?? ""}
         pendingQuestionCount={pendingQuestionCount ?? 0}
+        dashboard={dashboard}
       />
     );
   }
