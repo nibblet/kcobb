@@ -202,16 +202,16 @@
 
 ---
 
-### [IDEA-017] Original Photos Gallery — Browse the Memoir's Images
+### [IDEA-017] Photo Frame Mode — Fullscreen Rotating Memoir Photos
 - **Status:** ready
 - **Category:** new
 - **Seeded:** 2026-04-17
 - **Last Updated:** 2026-04-17
 - **Priority:** P2
-- **Plan:** `docs/nightshift/plans/DEVPLAN-IDEA-017-photo-gallery.md`
-- **Summary:** A dedicated `/gallery` page that lets family members browse all 35 original memoir photos grouped by life era, each with a click-to-enlarge lightbox and a link to the story it came from. Builds on `StoryMarkdown.tsx`'s lightbox and the `public/book-images/` assets already in place.
+- **Plan:** `docs/nightshift/plans/DEVPLAN-IDEA-017-photo-frame.md`
+- **Summary:** A "Photo Frame" button on the home page triggers fullscreen mode where all chrome disappears and the 35 memoir photos cycle with a slow crossfade every 8 seconds. Subtle caption (story title + era) at the bottom. Close button reveals on hover; Escape exits. Designed for a tablet left on the table at a family gathering.
 - **Night Notes:**
-  - 2026-04-17: Seeded and advanced to `ready` same night. 35 book images confirmed in `public/book-images/`. Lightbox component already exists in `StoryMarkdown.tsx`. Plan calls for extracting a reusable `PhotoLightbox` component + new `gallery-photos.ts` static data + `/gallery` page. Estimated 2–2.5 hours.
+  - 2026-04-17: Seeded as a gallery page; revised to photo frame mode same session (Paul's direction — more evocative, kiosk-style). 35 photos already in `public/book-images/`. Key component: `PhotoFrameOverlay.tsx` — fixed-position, Fullscreen API, crossfade via opacity transition, preloads next image. No new routes, no DB. Estimated 1.5–2 hours.
 
 ---
 
