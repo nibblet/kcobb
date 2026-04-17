@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import ReactMarkdown from "react-markdown";
+import { PersonLink } from "@/components/people/PersonLink";
 
 type LightboxImage = {
   src: string;
@@ -27,6 +28,17 @@ export function StoryMarkdown({ content }: { content: string }) {
     <>
       <ReactMarkdown
         components={{
+          a: ({ href, children }) => {
+            if (typeof href === "string" && href.startsWith("/people/")) {
+              const slug = href.slice("/people/".length).replace(/\/$/, "");
+              return <PersonLink slug={slug}>{children}</PersonLink>;
+            }
+            return (
+              <a href={href} target="_blank" rel="noopener noreferrer">
+                {children}
+              </a>
+            );
+          },
           img: ({ src, alt }) => {
             if (!src || typeof src !== "string") return null;
             const imageAlt = alt || "Story image";

@@ -1,5 +1,8 @@
 import { createClient } from "@/lib/supabase/server";
-import type { WikiStory } from "@/lib/wiki/parser";
+import {
+  stripDuplicateLeadingTitleFromFullText,
+  type WikiStory,
+} from "@/lib/wiki/parser";
 
 /**
  * Fetch published story drafts from Supabase (Volumes 2+).
@@ -25,19 +28,20 @@ export async function getPublishedStories(): Promise<WikiStory[]> {
       .toLowerCase()
       .replace(/[^a-z0-9]+/g, "-")
       .replace(/^-|-$/g, "");
+    const body = stripDuplicateLeadingTitleFromFullText(d.body, d.title);
 
     return {
       storyId: d.story_id!,
       volume,
       slug,
       title: d.title,
-      summary: d.body.slice(0, 200) + (d.body.length > 200 ? "..." : ""),
+      summary: body.slice(0, 200) + (body.length > 200 ? "..." : ""),
       source: "family" as const,
       sourceDetail: "",
       lifeStage: d.life_stage || "",
       themes: d.themes || [],
-      wordCount: d.body.split(/\s+/).length,
-      fullText: d.body,
+      wordCount: body.split(/\s+/).filter(Boolean).length,
+      fullText: body,
       principles: d.principles || [],
       heuristics: [],
       quotes: d.quotes || [],
@@ -72,20 +76,20 @@ export async function getPublishedStoryById(
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-|-$/g, "");
+  const body = stripDuplicateLeadingTitleFromFullText(draft.body, draft.title);
 
   return {
     storyId: draft.story_id!,
     volume,
     slug,
     title: draft.title,
-    summary:
-      draft.body.slice(0, 200) + (draft.body.length > 200 ? "..." : ""),
+    summary: body.slice(0, 200) + (body.length > 200 ? "..." : ""),
     source: "family" as const,
     sourceDetail: "",
     lifeStage: draft.life_stage || "",
     themes: draft.themes || [],
-    wordCount: draft.body.split(/\s+/).length,
-    fullText: draft.body,
+    wordCount: body.split(/\s+/).filter(Boolean).length,
+    fullText: body,
     principles: draft.principles || [],
     heuristics: [],
     quotes: draft.quotes || [],

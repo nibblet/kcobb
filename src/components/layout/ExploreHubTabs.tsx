@@ -9,6 +9,7 @@ export function ExploreHubTabs() {
   const { ageMode } = useAgeMode();
   const onJourneys = pathname.startsWith("/journeys");
   const onThemes = pathname.startsWith("/themes");
+  const onPeople = pathname.startsWith("/people");
   const hideThemes = ageMode === "young_reader";
 
   if (hideThemes) {
@@ -61,6 +62,18 @@ export function ExploreHubTabs() {
           }`}
         >
           Themes
+        </Link>
+        <Link
+          href="/people"
+          role="tab"
+          aria-selected={onPeople}
+          className={`flex-1 rounded-full px-3 py-2 text-center text-xs font-medium transition-colors md:text-sm ${
+            onPeople
+              ? "bg-ink text-warm-white"
+              : "bg-transparent text-ink-muted hover:text-ink"
+          }`}
+        >
+          People
         </Link>
       </div>
     </div>

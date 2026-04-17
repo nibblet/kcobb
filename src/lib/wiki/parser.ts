@@ -71,6 +71,25 @@ function extractMetadata(content: string, key: string): string {
   return match ? match[1].trim() : "";
 }
 
+/**
+ * Wiki "Full Text" often repeats the H1 title as its own first line; the app already shows `title` in the header.
+ */
+export function stripDuplicateLeadingTitleFromFullText(
+  fullText: string,
+  title: string
+): string {
+  const t = title.trim();
+  const trimmed = fullText.trim();
+  if (!t || !trimmed) return fullText;
+
+  const nl = trimmed.indexOf("\n");
+  const firstLine = (nl === -1 ? trimmed : trimmed.slice(0, nl)).trim();
+  if (firstLine !== t) return fullText;
+
+  const afterFirst = nl === -1 ? "" : trimmed.slice(nl + 1);
+  return afterFirst.replace(/^\s+/, "");
+}
+
 // --- Public API ---
 
 export function getAllStories(): WikiStory[] {
@@ -129,7 +148,10 @@ function getStoryFromFile(filename: string): WikiStory | null {
       .map((t) => t.trim())
       .filter(Boolean),
     wordCount: parseInt(extractMetadata(content, "Word Count")) || 0,
-    fullText: fullTextMatch?.[1]?.trim() || "",
+    fullText: stripDuplicateLeadingTitleFromFullText(
+      fullTextMatch?.[1]?.trim() || "",
+      titleMatch?.[1] || ""
+    ),
     principles: extractSection(content, "What This Story Shows"),
     heuristics: extractSection(content, "If You're Thinking About\\.\\.\\."),
     quotes: extractSection(content, "Key Quotes"),
@@ -272,4 +294,99 @@ export function getTimeline(): WikiTimelineEvent[] {
 
 export function getWikiSummaries(): string {
   return readWikiFile("index.md");
+}
+
+// --- People ---
+
+export type PersonTier = "A" | "B" | "C" | "D";
+
+export type AiDraftStatus = "none" | "draft" | "reviewed";
+
+export interface WikiPerson {
+  slug: string;
+  name: string;
+  tiers: PersonTier[];
+  memoirStoryIds: string[];
+  interviewStoryIds: string[];
+  note: string;
+  body: string;
+  aiDraft: string;
+  aiDraftStatus: AiDraftStatus;
+  aiDraftGeneratedAt: string;
+}
+
+function getPersonFromFile(filename: string): WikiPerson | null {
+  const content = readWikiFile(`people/${filename}`);
+  if (!content) return null;
+
+  const nameMatch = content.match(/^# (.+)/m);
+  const slugMatch = content.match(/\*\*Slug:\*\*\s*(.+)/);
+  const tiersMatch = content.match(/tiers:\s*([A-D,\s]+)\)/);
+
+  const slug = slugMatch?.[1]?.trim() || filename.replace(/\.md$/, "");
+  const tiers = (tiersMatch?.[1] || "")
+    .split(",")
+    .map((t) => t.trim())
+    .filter((t): t is PersonTier => /^[A-D]$/.test(t));
+
+  const memoirSection = content.match(/## Memoir stories\n\n([\s\S]*?)(?=\n## |\n---|\n<!--|$)/);
+  const interviewSection = content.match(/## Interview stories\n\n([\s\S]*?)(?=\n## |\n---|\n<!--|$)/);
+  const noteSection = content.match(/## Note\n\n([\s\S]*?)(?=\n## |\n---|\n<!--|$)/);
+
+  const aiDraftMatch = content.match(
+    /<!-- ai-draft:start(?:\s+generated="([^"]*)")?(?:\s+reviewed="(true|false)")? -->\n([\s\S]*?)\n<!-- ai-draft:end -->/
+  );
+  const aiDraft = aiDraftMatch?.[3]?.trim() || "";
+  const aiDraftGeneratedAt = aiDraftMatch?.[1] || "";
+  const aiDraftStatus: AiDraftStatus = aiDraftMatch
+    ? aiDraftMatch[2] === "true"
+      ? "reviewed"
+      : "draft"
+    : "none";
+
+  const extractIds = (block: string | undefined): string[] => {
+    if (!block) return [];
+    const re = new RegExp(`\\((${STORY_ID_RE.source})\\)`, "g");
+    const ids: string[] = [];
+    let m: RegExpExecArray | null;
+    while ((m = re.exec(block)) !== null) ids.push(m[1]);
+    return ids;
+  };
+
+  return {
+    slug,
+    name: nameMatch?.[1]?.trim() || slug,
+    tiers,
+    memoirStoryIds: extractIds(memoirSection?.[1]),
+    interviewStoryIds: extractIds(interviewSection?.[1]),
+    note: noteSection?.[1]?.trim() || "",
+    body: content,
+    aiDraft,
+    aiDraftStatus,
+    aiDraftGeneratedAt,
+  };
+}
+
+export function getAllPeople(): WikiPerson[] {
+  const dir = path.join(WIKI_DIR, "people");
+  if (!fs.existsSync(dir)) return [];
+
+  return fs
+    .readdirSync(dir)
+    .filter((f) => f.endsWith(".md"))
+    .map((f) => getPersonFromFile(f))
+    .filter(Boolean)
+    .sort((a, b) => a!.name.localeCompare(b!.name)) as WikiPerson[];
+}
+
+export function getPersonBySlug(slug: string): WikiPerson | null {
+  const filepath = path.join(WIKI_DIR, "people", `${slug}.md`);
+  if (!fs.existsSync(filepath)) return null;
+  return getPersonFromFile(`${slug}.md`);
+}
+
+export function getPeopleByStoryId(storyId: string): WikiPerson[] {
+  return getAllPeople().filter(
+    (p) => p.memoirStoryIds.includes(storyId) || p.interviewStoryIds.includes(storyId)
+  );
 }

@@ -25,6 +25,18 @@ export interface ThemeCard {
   storyIds: string[];
 }
 
+export type PersonTier = "A" | "B" | "C" | "D";
+
+export interface PersonCard {
+  slug: string;
+  name: string;
+  tiers: PersonTier[];
+  memoirStoryIds: string[];
+  interviewStoryIds: string[];
+  storyCount: number;
+  note: string;
+}
+
 export interface TimelineEvent {
   year: number;
   event: string;
@@ -271,6 +283,32 @@ export const storiesData: StoryCard[] = [
       "Early influences (home, school, church) are foundational to character development.",
       "Remembering origins helps explain later choices and identity.",
       "Hands-on community activities and local institutions provide practical learning opportunities."
+    ],
+    "volume": "P1"
+  },
+  {
+    "storyId": "P1_S02",
+    "slug": "a-v-ery-busy-teenager",
+    "title": "A Very Busy Teenager",
+    "summary": "A former high-school student recounts a busy four years filled with strong academics, extensive extracurricular involvement, health crises, and the choice of a college major influenced by an aptitude test.",
+    "source": "memoir",
+    "sourceDetail": "",
+    "lifeStage": "Education",
+    "themes": [
+      "Adversity",
+      "Career Choices",
+      "Gratitude",
+      "Identity",
+      "Leadership",
+      "Mentorship",
+      "Work Ethic"
+    ],
+    "wordCount": 2456,
+    "principles": [
+      "High-quality teaching produces lasting advantage and prepares for future success.",
+      "Extracurricular activities build skills, confidence, and social bonds.",
+      "Leaders must develop delegation skills rather than assuming excessive responsibility.",
+      "Adversity can be an opportunity to learn durable skills."
     ],
     "volume": "P1"
   },
@@ -1566,6 +1604,1008 @@ export const themesData: ThemeCard[] = [
       "P1_S06",
       "P1_S17"
     ]
+  }
+];
+
+export const peopleData: PersonCard[] = [
+  {
+    "slug": "bayne-cobb",
+    "name": "Bayne Cobb",
+    "tiers": [
+      "A",
+      "B",
+      "D"
+    ],
+    "memoirStoryIds": [
+      "P1_S01",
+      "P1_S06",
+      "P1_S07"
+    ],
+    "interviewStoryIds": [],
+    "storyCount": 3,
+    "note": "Tier A subject from P1_S06. Often appears in prose as the pair \"Bayne and Frances\" with Frances Cobb, his wife."
+  },
+  {
+    "slug": "ben-franklin",
+    "name": "Ben Franklin",
+    "tiers": [
+      "B",
+      "D"
+    ],
+    "memoirStoryIds": [
+      "P1_S07",
+      "P1_S09"
+    ],
+    "interviewStoryIds": [],
+    "storyCount": 2,
+    "note": ""
+  },
+  {
+    "slug": "bill-hannon",
+    "name": "Bill Hannon",
+    "tiers": [
+      "B",
+      "D"
+    ],
+    "memoirStoryIds": [
+      "P1_S24",
+      "P1_S27"
+    ],
+    "interviewStoryIds": [],
+    "storyCount": 2,
+    "note": ""
+  },
+  {
+    "slug": "bill-norton",
+    "name": "Bill Norton",
+    "tiers": [
+      "B",
+      "D"
+    ],
+    "memoirStoryIds": [
+      "P1_S16",
+      "P1_S18",
+      "P1_S19",
+      "P1_S21",
+      "P1_S32"
+    ],
+    "interviewStoryIds": [],
+    "storyCount": 5,
+    "note": ""
+  },
+  {
+    "slug": "bill-su",
+    "name": "Bill Su",
+    "tiers": [
+      "B",
+      "D"
+    ],
+    "memoirStoryIds": [
+      "P1_S18",
+      "P1_S19"
+    ],
+    "interviewStoryIds": [],
+    "storyCount": 2,
+    "note": ""
+  },
+  {
+    "slug": "blue-and-ruby-cole",
+    "name": "Blue and Ruby Cole",
+    "tiers": [
+      "A",
+      "B",
+      "D"
+    ],
+    "memoirStoryIds": [
+      "P1_S01",
+      "P1_S05",
+      "P1_S08"
+    ],
+    "interviewStoryIds": [],
+    "storyCount": 3,
+    "note": "Tier A subject from P1_S08. Shorter phrases \"Blue and Ruby\" and \"Blue Cole\" refer to the same neighbors, Blue and Ruby Cole."
+  },
+  {
+    "slug": "carter-dobbs",
+    "name": "Carter Dobbs",
+    "tiers": [
+      "B",
+      "D"
+    ],
+    "memoirStoryIds": [
+      "P1_S04",
+      "P1_S18"
+    ],
+    "interviewStoryIds": [],
+    "storyCount": 2,
+    "note": ""
+  },
+  {
+    "slug": "charles-t-brumfield",
+    "name": "Charles T. Brumfield",
+    "tiers": [
+      "A",
+      "B",
+      "D"
+    ],
+    "memoirStoryIds": [
+      "P1_S12",
+      "P1_S13",
+      "P1_S36"
+    ],
+    "interviewStoryIds": [],
+    "storyCount": 3,
+    "note": "Tier A subject from P1_S36. Also referred to as \"Charlie Brumfield\" in some stories."
+  },
+  {
+    "slug": "clym-yeobright",
+    "name": "Clym Yeobright",
+    "tiers": [
+      "B",
+      "D"
+    ],
+    "memoirStoryIds": [
+      "P1_S02",
+      "P1_S03"
+    ],
+    "interviewStoryIds": [],
+    "storyCount": 2,
+    "note": ""
+  },
+  {
+    "slug": "david-rush",
+    "name": "David Rush",
+    "tiers": [
+      "B",
+      "D"
+    ],
+    "memoirStoryIds": [
+      "P1_S21",
+      "P1_S22"
+    ],
+    "interviewStoryIds": [],
+    "storyCount": 2,
+    "note": ""
+  },
+  {
+    "slug": "dot-cobb",
+    "name": "Dot Cobb",
+    "tiers": [
+      "B",
+      "D"
+    ],
+    "memoirStoryIds": [
+      "P1_S01",
+      "P1_S12"
+    ],
+    "interviewStoryIds": [],
+    "storyCount": 2,
+    "note": "Dot Hill is her maiden name—the same person. \"Keith and Dot\" in the memoir refers to her with Keith Cobb."
+  },
+  {
+    "slug": "dr-carter-dobbs",
+    "name": "Dr Carter Dobbs",
+    "tiers": [
+      "B",
+      "D"
+    ],
+    "memoirStoryIds": [
+      "P1_S04",
+      "P1_S18"
+    ],
+    "interviewStoryIds": [],
+    "storyCount": 2,
+    "note": "Sometimes shortened to \"Dr Carter\" in the text."
+  },
+  {
+    "slug": "dr-mccain",
+    "name": "Dr McCain",
+    "tiers": [
+      "B",
+      "D"
+    ],
+    "memoirStoryIds": [
+      "P1_S15",
+      "P1_S16",
+      "P1_S18"
+    ],
+    "interviewStoryIds": [],
+    "storyCount": 3,
+    "note": ""
+  },
+  {
+    "slug": "dr-switzer",
+    "name": "Dr Switzer",
+    "tiers": [
+      "B",
+      "D"
+    ],
+    "memoirStoryIds": [
+      "P1_S13",
+      "P1_S18"
+    ],
+    "interviewStoryIds": [],
+    "storyCount": 2,
+    "note": ""
+  },
+  {
+    "slug": "eddy-duchin",
+    "name": "Eddy Duchin",
+    "tiers": [
+      "B",
+      "D"
+    ],
+    "memoirStoryIds": [
+      "P1_S10",
+      "P1_S31"
+    ],
+    "interviewStoryIds": [],
+    "storyCount": 2,
+    "note": ""
+  },
+  {
+    "slug": "elvis-presley",
+    "name": "Elvis Presley",
+    "tiers": [
+      "B",
+      "D"
+    ],
+    "memoirStoryIds": [
+      "P1_S05",
+      "P1_S30",
+      "P1_S31"
+    ],
+    "interviewStoryIds": [],
+    "storyCount": 3,
+    "note": ""
+  },
+  {
+    "slug": "ernie-jenkins",
+    "name": "Ernie Jenkins",
+    "tiers": [
+      "B",
+      "D"
+    ],
+    "memoirStoryIds": [
+      "P1_S18",
+      "P1_S27"
+    ],
+    "interviewStoryIds": [],
+    "storyCount": 2,
+    "note": ""
+  },
+  {
+    "slug": "frances-clements",
+    "name": "Frances Clements",
+    "tiers": [
+      "B",
+      "D"
+    ],
+    "memoirStoryIds": [
+      "P1_S06",
+      "P1_S07"
+    ],
+    "interviewStoryIds": [],
+    "storyCount": 2,
+    "note": ""
+  },
+  {
+    "slug": "frances-cobb",
+    "name": "Frances Cobb",
+    "tiers": [
+      "A",
+      "B",
+      "D"
+    ],
+    "memoirStoryIds": [
+      "P1_S07",
+      "P1_S09"
+    ],
+    "interviewStoryIds": [],
+    "storyCount": 2,
+    "note": "Tier A subject from P1_S07. Often appears paired as \"Bayne and Frances\" with Bayne Cobb (*his wife)."
+  },
+  {
+    "slug": "frances-hardin",
+    "name": "Frances Hardin",
+    "tiers": [
+      "B",
+      "D"
+    ],
+    "memoirStoryIds": [
+      "P1_S02",
+      "P1_S13"
+    ],
+    "interviewStoryIds": [],
+    "storyCount": 2,
+    "note": ""
+  },
+  {
+    "slug": "frances-mallory",
+    "name": "Frances Mallory",
+    "tiers": [
+      "A",
+      "B",
+      "D"
+    ],
+    "memoirStoryIds": [
+      "P1_S02",
+      "P1_S03",
+      "P1_S18",
+      "P1_S33"
+    ],
+    "interviewStoryIds": [],
+    "storyCount": 4,
+    "note": "Tier A subject from P1_S03. \"Miss Frances\" and \"Miss Frances Mallory\" refer to this same teacher."
+  },
+  {
+    "slug": "fred-nabors",
+    "name": "Fred Nabors",
+    "tiers": [
+      "B",
+      "D"
+    ],
+    "memoirStoryIds": [
+      "P1_S03",
+      "P1_S33"
+    ],
+    "interviewStoryIds": [],
+    "storyCount": 2,
+    "note": ""
+  },
+  {
+    "slug": "freddie-cox",
+    "name": "Freddie Cox",
+    "tiers": [
+      "B",
+      "D"
+    ],
+    "memoirStoryIds": [
+      "P1_S02",
+      "P1_S05",
+      "P1_S31"
+    ],
+    "interviewStoryIds": [],
+    "storyCount": 3,
+    "note": ""
+  },
+  {
+    "slug": "gene-o-kelly",
+    "name": "Gene O Kelly",
+    "tiers": [
+      "B",
+      "D"
+    ],
+    "memoirStoryIds": [
+      "P1_S24",
+      "P1_S28"
+    ],
+    "interviewStoryIds": [],
+    "storyCount": 2,
+    "note": ""
+  },
+  {
+    "slug": "hank-watson",
+    "name": "Hank Watson",
+    "tiers": [
+      "B",
+      "D"
+    ],
+    "memoirStoryIds": [
+      "P1_S21",
+      "P1_S22"
+    ],
+    "interviewStoryIds": [],
+    "storyCount": 2,
+    "note": ""
+  },
+  {
+    "slug": "harold-stokes",
+    "name": "Harold Stokes",
+    "tiers": [
+      "B",
+      "D"
+    ],
+    "memoirStoryIds": [
+      "P1_S21",
+      "P1_S22"
+    ],
+    "interviewStoryIds": [],
+    "storyCount": 2,
+    "note": ""
+  },
+  {
+    "slug": "harry-lorayne",
+    "name": "Harry Lorayne",
+    "tiers": [
+      "B",
+      "D"
+    ],
+    "memoirStoryIds": [
+      "P1_S02",
+      "P1_S13"
+    ],
+    "interviewStoryIds": [],
+    "storyCount": 2,
+    "note": ""
+  },
+  {
+    "slug": "harry-robinson",
+    "name": "Harry Robinson",
+    "tiers": [
+      "B",
+      "D"
+    ],
+    "memoirStoryIds": [
+      "P1_S09",
+      "P1_S12"
+    ],
+    "interviewStoryIds": [],
+    "storyCount": 2,
+    "note": ""
+  },
+  {
+    "slug": "howard-miller",
+    "name": "Howard Miller",
+    "tiers": [
+      "B",
+      "D"
+    ],
+    "memoirStoryIds": [
+      "P1_S20",
+      "P1_S21"
+    ],
+    "interviewStoryIds": [],
+    "storyCount": 2,
+    "note": ""
+  },
+  {
+    "slug": "hy-indowsky",
+    "name": "Hy Indowsky",
+    "tiers": [
+      "B",
+      "D"
+    ],
+    "memoirStoryIds": [
+      "P1_S21",
+      "P1_S30"
+    ],
+    "interviewStoryIds": [],
+    "storyCount": 2,
+    "note": ""
+  },
+  {
+    "slug": "jane-harrelson",
+    "name": "Jane Harrelson",
+    "tiers": [
+      "B",
+      "D"
+    ],
+    "memoirStoryIds": [
+      "P1_S05",
+      "P1_S31"
+    ],
+    "interviewStoryIds": [],
+    "storyCount": 2,
+    "note": ""
+  },
+  {
+    "slug": "jim-blosser",
+    "name": "Jim Blosser",
+    "tiers": [
+      "B",
+      "D"
+    ],
+    "memoirStoryIds": [
+      "P1_S25",
+      "P1_S26"
+    ],
+    "interviewStoryIds": [],
+    "storyCount": 2,
+    "note": ""
+  },
+  {
+    "slug": "jim-brocksmith",
+    "name": "Jim Brocksmith",
+    "tiers": [
+      "B",
+      "D"
+    ],
+    "memoirStoryIds": [
+      "P1_S21",
+      "P1_S22",
+      "P1_S23",
+      "P1_S24"
+    ],
+    "interviewStoryIds": [],
+    "storyCount": 4,
+    "note": ""
+  },
+  {
+    "slug": "jim-madonna",
+    "name": "Jim Madonna",
+    "tiers": [
+      "B",
+      "D"
+    ],
+    "memoirStoryIds": [
+      "P1_S22",
+      "P1_S23",
+      "P1_S24",
+      "P1_S28"
+    ],
+    "interviewStoryIds": [],
+    "storyCount": 4,
+    "note": "\"Madonna and Jim\" (and similar transcript variants with Jon/Jim) refer to Jim Madonna."
+  },
+  {
+    "slug": "john-cobb",
+    "name": "John Cobb",
+    "tiers": [
+      "C"
+    ],
+    "memoirStoryIds": [
+      "P1_S34"
+    ],
+    "interviewStoryIds": [],
+    "storyCount": 1,
+    "note": "Son; the phrase \"Paul and John\" refers to him and Paul Cobb."
+  },
+  {
+    "slug": "john-edmondson",
+    "name": "John Edmondson",
+    "tiers": [
+      "B",
+      "D"
+    ],
+    "memoirStoryIds": [
+      "P1_S02",
+      "P1_S05"
+    ],
+    "interviewStoryIds": [],
+    "storyCount": 2,
+    "note": ""
+  },
+  {
+    "slug": "john-simpson",
+    "name": "John Simpson",
+    "tiers": [
+      "B",
+      "D"
+    ],
+    "memoirStoryIds": [
+      "P1_S02",
+      "P1_S11",
+      "P1_S15"
+    ],
+    "interviewStoryIds": [],
+    "storyCount": 3,
+    "note": ""
+  },
+  {
+    "slug": "julian-noel",
+    "name": "Julian Noel",
+    "tiers": [
+      "B",
+      "D"
+    ],
+    "memoirStoryIds": [
+      "P1_S18",
+      "P1_S27"
+    ],
+    "interviewStoryIds": [],
+    "storyCount": 2,
+    "note": ""
+  },
+  {
+    "slug": "julie-andrews",
+    "name": "Julie Andrews",
+    "tiers": [
+      "B",
+      "D"
+    ],
+    "memoirStoryIds": [
+      "P1_S11",
+      "P1_S31"
+    ],
+    "interviewStoryIds": [],
+    "storyCount": 2,
+    "note": ""
+  },
+  {
+    "slug": "keith-cobb",
+    "name": "Keith Cobb",
+    "tiers": [
+      "B",
+      "D"
+    ],
+    "memoirStoryIds": [
+      "P1_S01",
+      "P1_S12",
+      "P1_S24",
+      "P1_S35"
+    ],
+    "interviewStoryIds": [
+      "IV_S01"
+    ],
+    "storyCount": 5,
+    "note": "\"Keith and Dot\" refers to Keith with Dot Cobb (née Hill)."
+  },
+  {
+    "slug": "keith-costello",
+    "name": "Keith Costello",
+    "tiers": [
+      "D"
+    ],
+    "memoirStoryIds": [],
+    "interviewStoryIds": [
+      "IV_S07",
+      "IV_S08"
+    ],
+    "storyCount": 2,
+    "note": ""
+  },
+  {
+    "slug": "larry-horner",
+    "name": "Larry Horner",
+    "tiers": [
+      "B",
+      "D"
+    ],
+    "memoirStoryIds": [
+      "P1_S21",
+      "P1_S23"
+    ],
+    "interviewStoryIds": [],
+    "storyCount": 2,
+    "note": ""
+  },
+  {
+    "slug": "libba-jane",
+    "name": "Libba Jane",
+    "tiers": [
+      "B",
+      "D"
+    ],
+    "memoirStoryIds": [
+      "P1_S05",
+      "P1_S31"
+    ],
+    "interviewStoryIds": [],
+    "storyCount": 2,
+    "note": ""
+  },
+  {
+    "slug": "libba-jane-harrelson",
+    "name": "Libba Jane Harrelson",
+    "tiers": [
+      "B",
+      "D"
+    ],
+    "memoirStoryIds": [
+      "P1_S05",
+      "P1_S31"
+    ],
+    "interviewStoryIds": [],
+    "storyCount": 2,
+    "note": ""
+  },
+  {
+    "slug": "louis-armstrong",
+    "name": "Louis Armstrong",
+    "tiers": [
+      "B",
+      "D"
+    ],
+    "memoirStoryIds": [
+      "P1_S29",
+      "P1_S31"
+    ],
+    "interviewStoryIds": [],
+    "storyCount": 2,
+    "note": ""
+  },
+  {
+    "slug": "marc-gerstein",
+    "name": "Marc Gerstein",
+    "tiers": [
+      "B",
+      "D"
+    ],
+    "memoirStoryIds": [
+      "P1_S24",
+      "P1_S25"
+    ],
+    "interviewStoryIds": [],
+    "storyCount": 2,
+    "note": ""
+  },
+  {
+    "slug": "mike-egan",
+    "name": "Mike Egan",
+    "tiers": [
+      "B",
+      "D"
+    ],
+    "memoirStoryIds": [
+      "P1_S21",
+      "P1_S24",
+      "P1_S25",
+      "P1_S33"
+    ],
+    "interviewStoryIds": [],
+    "storyCount": 4,
+    "note": ""
+  },
+  {
+    "slug": "mr-cobb",
+    "name": "Mr Cobb",
+    "tiers": [
+      "B",
+      "D"
+    ],
+    "memoirStoryIds": [
+      "P1_S13",
+      "P1_S14"
+    ],
+    "interviewStoryIds": [],
+    "storyCount": 2,
+    "note": ""
+  },
+  {
+    "slug": "mt-moro",
+    "name": "Mt Moro",
+    "tiers": [
+      "B",
+      "D"
+    ],
+    "memoirStoryIds": [
+      "P1_S23",
+      "P1_S33"
+    ],
+    "interviewStoryIds": [],
+    "storyCount": 2,
+    "note": ""
+  },
+  {
+    "slug": "murray-underwood",
+    "name": "Murray Underwood",
+    "tiers": [
+      "B",
+      "D"
+    ],
+    "memoirStoryIds": [
+      "P1_S18",
+      "P1_S27"
+    ],
+    "interviewStoryIds": [],
+    "storyCount": 2,
+    "note": ""
+  },
+  {
+    "slug": "norm-white",
+    "name": "Norm White",
+    "tiers": [
+      "B",
+      "D"
+    ],
+    "memoirStoryIds": [
+      "P1_S19",
+      "P1_S20",
+      "P1_S33"
+    ],
+    "interviewStoryIds": [],
+    "storyCount": 3,
+    "note": ""
+  },
+  {
+    "slug": "paul-breazeale",
+    "name": "Paul Breazeale",
+    "tiers": [
+      "B",
+      "D"
+    ],
+    "memoirStoryIds": [
+      "P1_S18",
+      "P1_S20"
+    ],
+    "interviewStoryIds": [],
+    "storyCount": 2,
+    "note": ""
+  },
+  {
+    "slug": "paul-cobb",
+    "name": "Paul Cobb",
+    "tiers": [
+      "C"
+    ],
+    "memoirStoryIds": [
+      "P1_S34"
+    ],
+    "interviewStoryIds": [],
+    "storyCount": 1,
+    "note": "Son; the phrase \"Paul and John\" in the memoir refers to Paul and John Cobb."
+  },
+  {
+    "slug": "pete-fountain",
+    "name": "Pete Fountain",
+    "tiers": [
+      "B",
+      "D"
+    ],
+    "memoirStoryIds": [
+      "P1_S02",
+      "P1_S31"
+    ],
+    "interviewStoryIds": [],
+    "storyCount": 2,
+    "note": ""
+  },
+  {
+    "slug": "pete-musser",
+    "name": "Pete Musser",
+    "tiers": [
+      "B",
+      "D"
+    ],
+    "memoirStoryIds": [
+      "P1_S23",
+      "P1_S38"
+    ],
+    "interviewStoryIds": [],
+    "storyCount": 2,
+    "note": ""
+  },
+  {
+    "slug": "portland-oregon",
+    "name": "Portland Oregon",
+    "tiers": [
+      "D"
+    ],
+    "memoirStoryIds": [
+      "P1_S29"
+    ],
+    "interviewStoryIds": [
+      "IV_S08"
+    ],
+    "storyCount": 2,
+    "note": ""
+  },
+  {
+    "slug": "roger-ballou",
+    "name": "Roger Ballou",
+    "tiers": [
+      "B",
+      "D"
+    ],
+    "memoirStoryIds": [
+      "P1_S25",
+      "P1_S26"
+    ],
+    "interviewStoryIds": [],
+    "storyCount": 2,
+    "note": ""
+  },
+  {
+    "slug": "ronald-reagan",
+    "name": "Ronald Reagan",
+    "tiers": [
+      "B",
+      "D"
+    ],
+    "memoirStoryIds": [
+      "P1_S24",
+      "P1_S30"
+    ],
+    "interviewStoryIds": [],
+    "storyCount": 2,
+    "note": ""
+  },
+  {
+    "slug": "rosalie-arthur",
+    "name": "Rosalie Arthur",
+    "tiers": [
+      "B",
+      "D"
+    ],
+    "memoirStoryIds": [
+      "P1_S21",
+      "P1_S25"
+    ],
+    "interviewStoryIds": [],
+    "storyCount": 2,
+    "note": ""
+  },
+  {
+    "slug": "roy-letourneau",
+    "name": "Roy Letourneau",
+    "tiers": [
+      "B",
+      "D"
+    ],
+    "memoirStoryIds": [
+      "P1_S20",
+      "P1_S39"
+    ],
+    "interviewStoryIds": [],
+    "storyCount": 2,
+    "note": ""
+  },
+  {
+    "slug": "ruby-cole",
+    "name": "Ruby Cole",
+    "tiers": [
+      "B",
+      "D"
+    ],
+    "memoirStoryIds": [
+      "P1_S01",
+      "P1_S08"
+    ],
+    "interviewStoryIds": [],
+    "storyCount": 2,
+    "note": ""
+  },
+  {
+    "slug": "steve-berrard",
+    "name": "Steve Berrard",
+    "tiers": [
+      "B",
+      "D"
+    ],
+    "memoirStoryIds": [
+      "P1_S25",
+      "P1_S26"
+    ],
+    "interviewStoryIds": [],
+    "storyCount": 2,
+    "note": ""
+  },
+  {
+    "slug": "steve-swink",
+    "name": "Steve Swink",
+    "tiers": [
+      "B",
+      "D"
+    ],
+    "memoirStoryIds": [
+      "P1_S04",
+      "P1_S26"
+    ],
+    "interviewStoryIds": [],
+    "storyCount": 2,
+    "note": ""
+  },
+  {
+    "slug": "walter-hanson",
+    "name": "Walter Hanson",
+    "tiers": [
+      "B",
+      "D"
+    ],
+    "memoirStoryIds": [
+      "P1_S19",
+      "P1_S20",
+      "P1_S21"
+    ],
+    "interviewStoryIds": [],
+    "storyCount": 3,
+    "note": ""
+  },
+  {
+    "slug": "wayne-huizenga",
+    "name": "Wayne Huizenga",
+    "tiers": [
+      "B",
+      "D"
+    ],
+    "memoirStoryIds": [
+      "P1_S21",
+      "P1_S25"
+    ],
+    "interviewStoryIds": [],
+    "storyCount": 2,
+    "note": ""
   }
 ];
 

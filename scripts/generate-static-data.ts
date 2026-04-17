@@ -35,6 +35,18 @@ interface ThemeCard {
   storyIds: string[];
 }
 
+type PersonTier = "A" | "B" | "C" | "D";
+
+interface PersonCard {
+  slug: string;
+  name: string;
+  tiers: PersonTier[];
+  memoirStoryIds: string[];
+  interviewStoryIds: string[];
+  storyCount: number;
+  note: string;
+}
+
 type TimelineSource = "memoir" | "public_record" | "interview";
 
 interface TimelineEvent {
@@ -135,6 +147,51 @@ function main() {
     })
     .sort((a, b) => b.storyCount - a.storyCount);
 
+  // People
+  const peopleDir = path.join(WIKI, "people");
+  const people: PersonCard[] = fs.existsSync(peopleDir)
+    ? fs
+        .readdirSync(peopleDir)
+        .filter((f) => f.endsWith(".md"))
+        .map((f) => {
+          const content = fs.readFileSync(path.join(peopleDir, f), "utf-8");
+          const nameMatch = content.match(/^# (.+)/m);
+          const slugMatch = content.match(/\*\*Slug:\*\*\s*(.+)/);
+          const tiersMatch = content.match(/tiers:\s*([A-D,\s]+)\)/);
+          const memoirSection = content.match(/## Memoir stories\n\n([\s\S]*?)(?=\n## |\n---|\n<!--|$)/);
+          const interviewSection = content.match(/## Interview stories\n\n([\s\S]*?)(?=\n## |\n---|\n<!--|$)/);
+          const noteSection = content.match(/## Note\n\n([\s\S]*?)(?=\n## |\n---|\n<!--|$)/);
+
+          const extractIds = (block: string | undefined): string[] => {
+            if (!block) return [];
+            const ids: string[] = [];
+            let m: RegExpExecArray | null;
+            const re = new RegExp(`\\((${STORY_ID_PAT})\\)`, "g");
+            while ((m = re.exec(block)) !== null) ids.push(m[1]);
+            return ids;
+          };
+
+          const slug = slugMatch?.[1]?.trim() || f.replace(/\.md$/, "");
+          const tiers = (tiersMatch?.[1] || "")
+            .split(",")
+            .map((t) => t.trim())
+            .filter((t): t is PersonTier => /^[A-D]$/.test(t));
+          const memoirStoryIds = extractIds(memoirSection?.[1]);
+          const interviewStoryIds = extractIds(interviewSection?.[1]);
+
+          return {
+            slug,
+            name: nameMatch?.[1]?.trim() || slug,
+            tiers,
+            memoirStoryIds,
+            interviewStoryIds,
+            storyCount: memoirStoryIds.length + interviewStoryIds.length,
+            note: noteSection?.[1]?.trim() || "",
+          };
+        })
+        .sort((a, b) => a.name.localeCompare(b.name))
+    : [];
+
   // Timeline
   const timelineContent = fs.readFileSync(path.join(WIKI, "timeline/career-timeline.md"), "utf-8");
   const timelineEvents: TimelineEvent[] = [];
@@ -194,6 +251,18 @@ export interface ThemeCard {
   storyIds: string[];
 }
 
+export type PersonTier = "A" | "B" | "C" | "D";
+
+export interface PersonCard {
+  slug: string;
+  name: string;
+  tiers: PersonTier[];
+  memoirStoryIds: string[];
+  interviewStoryIds: string[];
+  storyCount: number;
+  note: string;
+}
+
 export interface TimelineEvent {
   year: number;
   event: string;
@@ -209,12 +278,14 @@ export const storiesData: StoryCard[] = ${JSON.stringify(stories, null, 2)};
 
 export const themesData: ThemeCard[] = ${JSON.stringify(themes, null, 2)};
 
+export const peopleData: PersonCard[] = ${JSON.stringify(people, null, 2)};
+
 export const timelineData: TimelineEvent[] = ${JSON.stringify(timelineEvents, null, 2)};
 `;
 
   fs.writeFileSync(OUT, output);
   console.log(`✅ Static data generated → ${OUT}`);
-  console.log(`   ${stories.length} stories, ${themes.length} themes, ${timelineEvents.length} timeline events`);
+  console.log(`   ${stories.length} stories, ${themes.length} themes, ${people.length} people, ${timelineEvents.length} timeline events`);
 }
 
 main();

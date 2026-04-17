@@ -17,7 +17,11 @@ const primaryNavItems = [
 function isNavActive(pathname: string, href: string): boolean {
   if (href === "/stories") return pathname.startsWith("/stories");
   if (href === "/journeys") {
-    return pathname.startsWith("/journeys") || pathname.startsWith("/themes");
+    return (
+      pathname.startsWith("/journeys") ||
+      pathname.startsWith("/themes") ||
+      pathname.startsWith("/people")
+    );
   }
   if (href === "/ask") return pathname === "/ask" || pathname.startsWith("/ask/");
   if (href === "/tell") return pathname === "/tell" || pathname.startsWith("/tell/");

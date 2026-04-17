@@ -1,4 +1,5 @@
-import { getStoryById } from "@/lib/wiki/parser";
+import { getStoryById, getPeopleByStoryId } from "@/lib/wiki/parser";
+import { addPeopleLinks } from "@/lib/wiki/link-people";
 import { getPublishedStoryById } from "@/lib/wiki/supabase-stories";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -25,6 +26,9 @@ export default async function StoryDetailPage({
   const story = getStoryById(storyId) || (await getPublishedStoryById(storyId));
 
   if (!story) notFound();
+
+  const peopleInStory = getPeopleByStoryId(storyId);
+  const linkedFullText = addPeopleLinks(story.fullText, peopleInStory);
 
   const era = lifeStageToEraAccent(story.lifeStage);
   const supportsListenMode =
@@ -114,11 +118,11 @@ export default async function StoryDetailPage({
                 <StoryBodyWithHighlighting
                   storyId={storyId}
                   storyTitle={story.title}
-                  fullText={story.fullText}
+                  fullText={linkedFullText}
                 />
               ) : (
                 <article className="story-body prose prose-story prose-lg max-w-none pb-8">
-                  <StoryMarkdown content={story.fullText} />
+                  <StoryMarkdown content={linkedFullText} />
                 </article>
               )}
             </div>
