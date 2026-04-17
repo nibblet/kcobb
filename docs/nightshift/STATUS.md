@@ -1,6 +1,6 @@
 # STATUS — Keith Cobb Interactive Storybook
 
-> Last updated: 2026-04-16 (Nightshift Run 5)
+> Last updated: 2026-04-17 (Nightshift Run 6)
 
 ## App Summary
 
@@ -30,7 +30,7 @@
 - Story detail page falls back from filesystem to Supabase for non-P1 story IDs
 
 ### Database (Supabase)
-- **10 migrations** (up from 3 two weeks ago):
+- **13 migrations** (up from 10 last run):
   - `001_initial_schema.sql` — base tables
   - `002_signup_profile_age.sql` — age + age_mode on profiles
   - `003_story_sessions.sql` — Tell sessions
@@ -41,9 +41,12 @@
   - `008_story_sessions_from_question.sql` — seed sessions from questions
   - `009_qna_rls_no_recursion.sql` — breaks RLS recursion in Q&A
   - `010_asker_seen.sql` — unread tracking for reader answers
+  - `011_story_favorites.sql` — `sb_story_favorites` table (heart icon bookmarks)
+  - `012_story_highlights.sql` — `sb_story_highlights` table (saved text passages)
+  - `013_onboarding_flags.sql` — `has_onboarded` + `onboarded_at` on `sb_profiles`; existing users pre-seeded to true
 
 - **Tables:**
-  - `sb_profiles` — user profiles (display_name, age, age_mode, role: admin|member|keith)
+  - `sb_profiles` — user profiles (display_name, age, age_mode, role: admin|member|keith, **has_onboarded**, **onboarded_at**)
   - `sb_conversations` + `sb_messages` — Ask Keith chat persistence
   - `sb_story_sessions` — Tell/Beyond: story-gathering chat sessions
   - `sb_story_messages` — Tell/Beyond: messages in a story-gathering session
@@ -51,6 +54,8 @@
   - `sb_story_reads` — Read tracking: which users have read which stories
   - `sb_chapter_questions` — Reader questions submitted from story pages (status: pending/answered)
   - `sb_chapter_answers` — Keith's answers to reader questions (visibility: public/private)
+  - **`sb_story_favorites`** — bookmarked stories per user (user_id + story_id + story_title, unique constraint)
+  - **`sb_story_highlights`** — saved text passages per user (user_id + story_id + passage_text 10–1000 chars + optional note)
 
 - RLS enabled on all tables — policies cover all CRUD paths
 - Auto-trigger: `handle_new_sb_user()` creates `sb_profiles` row on auth signup
@@ -72,8 +77,11 @@
 - `/tell` — Story contribution (streaming AI interviewer, draft review, submit, resume sessions)
 - `/beyond` — Keith's dedicated story workspace (keith role only — routes to StoryContributionWorkspace)
 - `/admin/drafts` — Admin review + publish of contributed stories (admin-only)
-- `/profile` — User profile (age mode, display name, Q&A notification, read progress)
+- `/profile` — User profile (age mode, display name, Q&A notification, reading dashboard)
 - `/profile/questions` — Reader Q&A inbox (my questions + Keith's answers)
+- `/profile/favorites` — Bookmarked stories (heart icon on story pages)
+- `/profile/highlights` — Saved text passages (selection → save on story pages)
+- `/welcome` — First-run onboarding tour (4 steps, age-aware, feature-flagged by `has_onboarded`)
 - `/signup` — New user registration
 - `/login` — Supabase auth
 - `/auth/callback` — OAuth callback
@@ -96,12 +104,23 @@
   - `/api/beyond/questions/[id]/answer` — POST quick answer (keith only)
   - `/api/beyond/questions/[id]/seed-session` — POST start Beyond session from question (keith only)
   - `/api/notifications/count` — GET unread answer count (readers) + pending question count (Keith)
+  - `/api/stories/[storyId]/favorite` — POST toggle favorite, GET favorite status
+  - `/api/profile/favorites` — GET user's favorited stories list
+  - `/api/stories/[storyId]/highlights` — POST save a highlight passage
+  - `/api/profile/highlights` — GET user's saved highlights list
+  - `/api/profile/highlights/[id]` — DELETE a specific highlight
+  - `/api/profile/onboarding` — POST mark onboarding complete (sets `has_onboarded=true` + sets `sb_onboarded` cookie)
 
 ### Auth / Middleware
 - Auth enforced via `src/proxy.ts` (Next.js 16 format)
-- All routes except `/login`, `/signup`, `/auth/callback` require authentication
+- All routes except `/login`, `/signup`, `/auth/callback`, `/welcome`, `/api/*` require authentication
 - Admin routes (`/admin/*`, `/api/admin/*`) gated by `sb_profiles.role = 'admin'`
 - Keith routes (`/beyond`, `/api/beyond/*`) gated by `hasKeithSpecialAccess()` — checks `role = 'keith'` OR email match in `src/lib/auth/special-access.ts`
+- **Onboarding gate:** `proxy.ts` now also redirects new (non-onboarded) users to `/welcome`
+  - Fast-path: `sb_onboarded` cookie (1-year TTL) bypasses DB check on steady-state requests
+  - On cache miss: queries `sb_profiles.has_onboarded`; sets cookie on first confirmed onboarded status
+  - `/welcome`, auth paths, and all `/api/*` routes are allowlisted (no redirect loop)
+  - `isOnboardingAllowlisted()` in `src/lib/auth/onboarding.ts`
 
 ### Age Mode System
 - Three modes: `young_reader` (3-10), `teen` (11-17), `adult` (18+)
@@ -141,11 +160,12 @@
 - Play/Pause/Stop controls, estimated listen time from `wordCount`
 - `src/lib/story-audio.ts` — `formatEstimatedListenLabel()` utility
 
-### Story Read Tracking (partial — infra shipped)
+### Story Read Tracking + User Reading Dashboard (SHIPPED)
 - `sb_story_reads` table — upsert on story visit, user_id + story_id (unique)
 - `ReadTracker` component fires POST silently on story page load
 - Keith's analytics dashboard (`keith-dashboard.ts`) shows read metrics (total reads, top stories, weekly trends)
-- **NOT YET:** Read progress bar on user profile, read badges on story cards (IDEA-014, planned)
+- **`ProfileReadingDashboard.tsx`** — shown on `/profile` for family members: read count, most-recent date, top 3 themes, top 4 principles (derived from `sb_story_reads` + static story metadata)
+- **NOT YET:** Read badges on story cards (IDEA-014 remaining piece)
 
 ### Guided Journeys
 - 4 journeys in `content/wiki/journeys/`: growing-up-in-the-south, leadership-under-pressure, roots-and-values, the-making-of-a-career
@@ -154,10 +174,35 @@
 - Ask Keith is journey-aware: `journeySlug` param adds journey context to system prompt
 - `/journeys/[slug]/narrated` — narrated view (recently added)
 
+### Story Favorites + Highlights (SHIPPED)
+- **`FavoriteButton.tsx`** — heart toggle on story detail pages; optimistic update via `sb_story_favorites`
+- **`/profile/favorites`** — grid of all bookmarked stories with cover-style cards and a "Go read" link
+- **`StoryBodyWithHighlighting.tsx`** — wraps `StoryMarkdown` on story pages; listens for `selectionchange`, shows floating "Save this passage" button above selected text; saves to `sb_story_highlights`
+- **`/profile/highlights`** — reading-journal layout of all saved passages, grouped by story, with delete button
+- Rate limited: 30/min for highlights, standard limits for favorites
+- ProfileHero quick links: "♥ My favorites" + "✎ My passages"
+
+### Welcome / Onboarding (SHIPPED)
+- `/welcome` — first-run tour for new family members
+- `OnboardingStepper.tsx` — 4-step age-aware walkthrough (Read, Ask, Journeys, Tell demos)
+- `steps.ts` — step config + `getSteps(ageMode)` factory; demo components in `welcome/demos/`
+- Completion: POST `/api/profile/onboarding` → `has_onboarded=true` in DB + `sb_onboarded` cookie → redirect to `/`
+- Replay: `/welcome?replay=1` link in ProfileHero ("Take the tour again"); replay=true skips DB update
+- New users automatically redirected to `/welcome` by proxy gate (cookie fast-path for existing users)
+
+### Book Images — Original Memoir Photos (SHIPPED)
+- 35 JPEG photos extracted from the memoir PDF via `cobb_brain_lab/`
+- Stored in `public/book-images/` (filenames: `page-NNN_img-NN_xref-NNNN.jpeg`)
+- Referenced inline in 17 story wiki markdown files (via `![alt](path)` syntax)
+- `StoryMarkdown.tsx` renders story content with click-to-expand lightbox for images
+- "Fit to Screen" / "Actual Size" / "Open Original" controls in lightbox
+- `cobb_brain_lab/book_images_manifest.csv` — full manifest of all extracted images
+
 ### Content Pipeline (cobb_brain_lab/)
 - Standalone Python project for extracting stories from PDF memoir
 - Story IDs: Volume 1 = `P1_S01–P1_S39`, Volume 2+ = `P2_S01+` (Supabase)
 - Regex pattern in all scripts/parsers updated to `P\d+_S\d+` for multi-volume support
+- `book_images_manifest.csv` — 35 images with page refs and xref IDs
 
 ### Timeline
 - 32 events across life stages
@@ -173,30 +218,43 @@
 - Rate limiter key pattern: `userId` for chat, `${userId}:draft` for drafting, `${userId}:question` for Q&A (10/hr)
 - Keith-gated features use `hasKeithSpecialAccess(email, role)` from `src/lib/auth/special-access.ts`
 
-## Recent Changes (Since Run 4)
-- **Commits d7b6143–fb7ea3d (20 commits):** Major feature wave:
-  - `/beyond` — Keith's dedicated story workspace with reader question triage
-  - `chapter_questions` + `chapter_answers` tables (migrations 006–010)
-  - `AskAboutStory` + `AnsweredQuestionsList` on story pages
-  - `/profile/questions` — reader Q&A inbox
-  - `ProfileNavLink` notification badge (unread answers for readers, pending count for Keith)
-  - Multi-perspective Ask orchestrator (`orchestrator.ts`, `classifier.ts`, `perspectives.ts`)
-  - `StoryAudioControls` (Web Speech API TTS on story pages)
-  - `sb_story_reads` + `ReadTracker` + Keith analytics dashboard
-  - Hub navigation (Stories/Explore tabs)
-  - `/journeys/[slug]/narrated` — narrated journey view
-  - Mobile design updates
+## Recent Changes (Since Run 5)
+- **Commit c7ebef7 "added original photos and user stats":**
+  - 35 book images → `public/book-images/` (17 story wiki files updated with inline `![...]` refs)
+  - `StoryMarkdown.tsx` — new dedicated story markdown renderer with click-to-expand lightbox
+  - `ProfileReadingDashboard.tsx` + `src/lib/analytics/profile-dashboard.ts` — user reading stats section on profile
+  - `ProfileHero.tsx` — full redesign; now receives `dashboard` prop, adds favorites/highlights/welcome links
+  - `KeithProfileHero.tsx` — cleaned up (FIX-018 committed)
+  - `classifier.ts` — deep-default logic committed (FIX-018 committed)
+  - `globals.css` updates, `career-timeline.md` updated
 
-- **Uncommitted (FIX-018):** `KeithProfileHero.tsx` (removed 2 quick links, grid fix) + `classifier.ts` (inverted logic to default-deep)
+- **Commit d8af9cc "added favorites":**
+  - `FavoriteButton.tsx` — heart toggle, optimistic update
+  - `sb_story_favorites` table (migration 011) — unique per user+story
+  - `/api/stories/[storyId]/favorite` + `/api/profile/favorites`
+  - `/profile/favorites/page.tsx`
+  - `ProfileHero.tsx` "♥ My favorites" link added
+
+- **Commit 5dd3116 "daily commit":**
+  - `StoryBodyWithHighlighting.tsx` — text selection + floating "Save this passage" button
+  - `sb_story_highlights` table (migration 012) — passage text + optional note
+  - `/api/stories/[storyId]/highlights`, `/api/profile/highlights`, `/api/profile/highlights/[id]`
+  - `/profile/highlights/page.tsx` + `DeleteHighlightButton.tsx`
+  - `/welcome` page + `OnboardingStepper.tsx` + `steps.ts` + 4 demo components
+  - `013_onboarding_flags.sql` — `has_onboarded` + `onboarded_at` on profiles; pre-seeds existing users
+  - `proxy.ts` — onboarding gate (cookie fast-path + DB fallback → `/welcome`)
+  - `/api/profile/onboarding` — marks tour complete; sets `sb_onboarded` cookie
+  - `src/lib/auth/onboarding.ts` — cookie constants + `isOnboardingAllowlisted()`
+  - `ProfileHero.tsx` — "✎ My passages" + "Take the tour again" links added
 
 ## Current State
-- All V1 + V2 + V3 features complete: stories, themes, timeline, ask (multi-perspective), journeys, tell, beyond, admin drafts, signup/profile, reader Q&A
-- Build: **PASSES** — clean, 34 routes
-- Lint: **1 warning** — `_history` unused in `classifier.ts` (FIX-019)
-- 6 open issues (FIX-013, FIX-014, FIX-016, FIX-017, FIX-018, FIX-019) — all planned
-- Content: All 39 stories; 14 timeline photos; wiki index current
-- Auth: Multi-role system (member/admin/keith); all routes gated correctly
-- Story reading tracked silently; profile progress UI not yet built (IDEA-014)
+- All V1–V4 features complete: stories, themes, timeline, ask (multi-perspective), journeys, tell, beyond, admin drafts, signup/profile, reader Q&A, favorites, highlights, reading dashboard, onboarding tour, book image lightbox
+- Build: **PASSES** — clean, 38+ routes
+- Lint: **3 warnings** — `_history` in `classifier.ts` (FIX-019) + 2 `<img>` in `StoryMarkdown.tsx` (FIX-020)
+- 6 open issues (FIX-013, FIX-014, FIX-016, FIX-017, FIX-019, FIX-020) — FIX-019 + FIX-020 both have plans
+- Content: All 39 stories; 35 original book photos; 14 timeline photos; wiki index current
+- Auth: Multi-role system (member/admin/keith); onboarding gate for new users; all routes gated correctly
+- Story reading tracked; profile reading dashboard live; story card read badges still pending (IDEA-014 partial)
 - Multi-perspective Ask built but feature-flagged (IDEA-015)
 
 ## Known Issues (See FIXES.md)
@@ -204,15 +262,16 @@
 - FIX-014: ageMode not validated at runtime in /api/ask (planned)
 - FIX-016: Tell page SSE state mutation (planned)
 - FIX-017: Multiple draft rows per Tell session (planned)
-- FIX-018: Uncommitted changes — KeithProfileHero + classifier (planned, 5 min)
 - FIX-019: `_history` lint warning in classifier.ts (planned, 1 min)
+- FIX-020: `<img>` ESLint warnings in StoryMarkdown.tsx (planned, 2 min)
 
 ## Next Actions (Priority Order)
-1. **FIX-018** — Commit uncommitted KeithProfileHero + classifier changes (5 min)
-2. **FIX-019** — Fix lint warning in classifier.ts (1 min, pairs well with FIX-018)
-3. **IDEA-014** — Story read progress UI: profile bar + story card badges (1–1.5 hrs)
-4. **IDEA-015** — Enable deep Ask mode (30 min eval + env var set)
-5. **FIX-016** — Tell SSE state mutation (15 min port from ask/page.tsx)
-6. **FIX-017** — Multiple draft rows per session (30 min upsert fix)
-7. **FIX-013** — Fenced JSON fallback (10 min defensive coding)
-8. **FIX-014** — ageMode runtime validation (5 min, one-liner)
+1. **FIX-019 + FIX-020** — Fix 3 lint warnings (2 min total; pairs as one commit)
+2. **IDEA-018** — Ask Keith from highlighted passage (1 hr; builds on shipped highlights)
+3. **IDEA-014** — Story card read badges (1–1.5 hrs; completes the read progress feature)
+4. **IDEA-017** — Original photos gallery at `/gallery` (2–2.5 hrs)
+5. **IDEA-015** — Enable deep Ask mode (30 min eval + env var set)
+6. **FIX-016** — Tell SSE state mutation (15 min port from ask/page.tsx)
+7. **FIX-017** — Multiple draft rows per session (30 min upsert fix)
+8. **FIX-013** — Fenced JSON fallback (10 min defensive coding)
+9. **FIX-014** — ageMode runtime validation (5 min, one-liner)

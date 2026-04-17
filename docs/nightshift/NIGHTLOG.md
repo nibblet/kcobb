@@ -4,6 +4,53 @@
 
 ---
 
+## Run: 2026-04-17 (Run 6)
+
+### Summary
+- Scanned: 3 new commits (c7ebef7, d8af9cc, 5dd3116), all new source files (StoryMarkdown.tsx, StoryBodyWithHighlighting.tsx, FavoriteButton.tsx, ProfileReadingDashboard.tsx, OnboardingStepper.tsx + demos, profile/favorites, profile/highlights, welcome, onboarding API, highlights API, favorites API, proxy.ts onboarding gate), 3 new migrations (011–013)
+- Issues found: 1 new (FIX-020 `<img>` warnings in StoryMarkdown.tsx) — planned
+- Issues resolved: FIX-018 (KeithProfileHero + classifier committed in c7ebef7)
+- Ideas: IDEA-004, IDEA-011, IDEA-016 shipped; IDEA-013 fully shipped; IDEA-014 partially shipped (profile dashboard done, story card badges remain); IDEA-008 + IDEA-010 parked (3-day stale); IDEA-017 + IDEA-018 seeded and advanced to `ready` same night
+- Plans written:
+  - `FIXPLAN-FIX-020-storymarkdown-img-warnings.md`
+  - `DEVPLAN-IDEA-017-photo-gallery.md`
+  - `DEVPLAN-IDEA-018-ask-from-passage.md`
+
+### Build & Lint Results
+- `npm run build`: **PASSES** — clean, 38+ routes. New routes: `/profile/favorites`, `/profile/highlights`, `/welcome`, plus 6 new API routes.
+- `npm run lint`: **3 warnings** — `_history` in `classifier.ts:43` (FIX-019, existing) + 2 `@next/next/no-img-element` in `StoryMarkdown.tsx:34,100` (FIX-020, new). No errors.
+
+### Key Findings
+
+1. **Massive shipment since Run 5 — 3 commits, 100+ files.** Three features fully landed: story favorites (IDEA-004), passage highlights (IDEA-016), and original book photos with lightbox (IDEA-011). Also: `ProfileReadingDashboard.tsx` for user reading stats, and a complete welcome/onboarding tour for new family members.
+
+2. **IDEA-004 (Favorites) SHIPPED** — `FavoriteButton.tsx` with optimistic toggle, `sb_story_favorites` (migration 011), `/profile/favorites` grid, ProfileHero link. Clean implementation.
+
+3. **IDEA-016 (Highlights) SHIPPED** — `StoryBodyWithHighlighting.tsx` uses the `selectionchange` DOM event to position a floating save button above the selection, within the story body container. `sb_story_highlights` (migration 012), `/profile/highlights` reading-journal view, `DeleteHighlightButton.tsx`. Rate limited at 30/min.
+
+4. **IDEA-011 (Story Photos) SHIPPED** — Paul extracted 35 original memoir photos and created `StoryMarkdown.tsx` with a full lightbox (Escape to close, Fit to Screen / Actual Size / Open Original controls). 17 story wiki files updated with inline `![...]` image refs. Not just inline images — these are high-quality scanned photos from the physical book.
+
+5. **Welcome/Onboarding flow SHIPPED** — `/welcome` with `OnboardingStepper.tsx` (4 steps, age-aware). New users are automatically redirected to `/welcome` by an onboarding gate in `proxy.ts` (cookie fast-path via `sb_onboarded` cookie, DB fallback via `has_onboarded` column). Existing users pre-seeded as `has_onboarded=true` in migration 013. Replay link in ProfileHero. This is a thoughtful, complete onboarding implementation.
+
+6. **FIX-018 RESOLVED** — `KeithProfileHero.tsx` and `classifier.ts` changes committed in `c7ebef7`. Working tree is clean.
+
+7. **FIX-020 (VERY LOW): New lint regression in StoryMarkdown.tsx.** 2 new `@next/next/no-img-element` warnings at lines 34 and 100. Raw `<img>` is intentional here (dynamic sources from markdown, unknown dimensions). Fix: 2 targeted eslint-disable-next-line comments. Should be paired with FIX-019 (1 comment) for a clean lint sweep.
+
+8. **IDEA-017 + IDEA-018 seeded and ready.** The photo gallery is a natural next step now that 35 images are in place — a dedicated browsing experience without requiring reading specific stories. Ask from passage is the highest-value quick win — transforms the highlights page from a static archive into an active conversation launcher.
+
+### Plans Ready to Execute
+- `docs/nightshift/plans/FIXPLAN-FIX-019-classifier-lint.md` + `FIXPLAN-FIX-020-storymarkdown-img-warnings.md` — 3 total lint comments across 2 files; do together (5 min)
+- `docs/nightshift/plans/DEVPLAN-IDEA-018-ask-from-passage.md` — "Ask Keith about this" from highlights (1 hr)
+- `docs/nightshift/plans/DEVPLAN-IDEA-014-story-read-progress-ui.md` — story card read badges, Phase 2 only (~45 min)
+- `docs/nightshift/plans/DEVPLAN-IDEA-017-photo-gallery.md` — original photos gallery at `/gallery` (2–2.5 hrs)
+
+### Recommendations
+- **If you have 10 min:** FIX-019 + FIX-020 together (3 eslint comments across 2 files) — clears all 3 lint warnings and restores clean lint output.
+- **If you have 1 hour:** IDEA-018 alone (Ask from passage). Both dependencies are shipped (highlights + Ask). Immediate family value — especially meaningful for grandchildren who save a quote and want to talk about it.
+- **If you have 2 hours:** IDEA-018 (1 hr) + IDEA-014 Phase 2 story card badges (~45 min) + FIX-019/020 lint sweep (5 min). After this session: lint is clean, passages connect to conversation, story cards show read history.
+
+---
+
 ## Run: 2026-04-16 (Run 5 — addendum, Paul request)
 
 ### Summary

@@ -51,25 +51,34 @@
 
 ---
 
-### [FIX-018] Uncommitted Changes — KeithProfileHero + classifier.ts
-- **Status:** planned
-- **Severity:** Medium — working changes exist in the working tree; a fresh Vercel deploy or git stash would silently lose them
-- **Found:** 2026-04-16
-- **Plan:** `docs/nightshift/plans/FIXPLAN-FIX-018-uncommitted-changes.md`
-- **Summary:** Two files have uncommitted working-tree changes: `KeithProfileHero.tsx` (removed "Read the Library" + "Walk the Timeline" quick links, grid adjusted to sm:grid-cols-2, Tailwind override fixes) and `classifier.ts` (inverted deep/simple logic — now defaults to "deep" for all non-factual questions). Both are intentional and working. A `git add + commit` resolves this.
-
----
-
 ### [FIX-019] `_history` Unused Parameter Lint Warning in classifier.ts
 - **Status:** planned
 - **Severity:** Very Low — 1 ESLint warning; no runtime impact. Lint was previously clean (0 warnings) so this represents a regression.
 - **Found:** 2026-04-16
 - **Plan:** `docs/nightshift/plans/FIXPLAN-FIX-019-classifier-lint.md`
-- **Summary:** `src/lib/ai/classifier.ts` line 43: `_history` parameter has an underscore prefix but the project's ESLint config still warns on it. Add `// eslint-disable-next-line @typescript-eslint/no-unused-vars` on the line before. One-line fix, pairs with FIX-018 commit.
+- **Summary:** `src/lib/ai/classifier.ts` line 43: `_history` parameter has an underscore prefix but the project's ESLint config still warns on it. Add `// eslint-disable-next-line @typescript-eslint/no-unused-vars` on the line before. One-line fix, pairs with FIX-020.
+
+---
+
+### [FIX-020] `<img>` ESLint Warnings in StoryMarkdown.tsx
+- **Status:** planned
+- **Severity:** Very Low — 2 `@next/next/no-img-element` warnings; no runtime impact. Lint had 1 warning before this run; these add 2 more. Raw `<img>` is intentional here (dynamic sources, unknown dimensions at compile time, `loading="lazy"` already present).
+- **Found:** 2026-04-17
+- **Plan:** `docs/nightshift/plans/FIXPLAN-FIX-020-storymarkdown-img-warnings.md`
+- **Summary:** `src/components/story/StoryMarkdown.tsx` lines 34 and 100 use raw `<img>` tags inside a `ReactMarkdown` custom renderer and a lightbox. `next/image` is impractical here (dynamic sources, unknown dimensions). Fix: add targeted `eslint-disable-next-line @next/next/no-img-element` comments at both locations. Two-line fix.
 
 ---
 
 ## Recently Resolved
+
+### [FIX-018] Uncommitted Changes — KeithProfileHero + classifier.ts
+- **Status:** resolved
+- **Severity:** Medium
+- **Found:** 2026-04-16
+- **Resolved:** 2026-04-17 (committed in `c7ebef7`)
+- **Summary:** `KeithProfileHero.tsx` (grid simplification, quick links removed) and `classifier.ts` (deep-default logic) both committed as part of the "added original photos and user stats" commit.
+
+---
 
 ### [FIX-013] Uncommitted Auth Redirect Changes (app-url.ts + signup/middleware)
 - **Status:** resolved
