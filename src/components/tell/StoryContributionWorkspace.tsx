@@ -15,28 +15,6 @@ interface PendingSession {
   updatedAt: string;
 }
 
-interface PendingQuestion {
-  id: string;
-  story_id: string;
-  question: string;
-  category: string | null;
-  age_mode: string | null;
-  created_at: string;
-}
-
-const CATEGORY_LABEL: Record<string, string> = {
-  person: "Person",
-  place: "Place",
-  object: "Object",
-  timeline: "Timeline",
-  other: "Other",
-};
-
-const AGE_MODE_LABEL: Record<string, string> = {
-  young_reader: "young reader",
-  teen: "teen",
-  adult: "adult",
-};
 
 interface StoryDraft {
   draftId: string;
@@ -131,18 +109,6 @@ export function StoryContributionWorkspace({
   const [submitting, setSubmitting] = useState(false);
   const [pendingSessions, setPendingSessions] = useState<PendingSession[]>([]);
   const [sessionsChecked, setSessionsChecked] = useState(false);
-  const [pendingQuestions, setPendingQuestions] = useState<PendingQuestion[]>(
-    []
-  );
-  const [expandedQuestionId, setExpandedQuestionId] = useState<string | null>(
-    null
-  );
-  const [quickAnswerText, setQuickAnswerText] = useState("");
-  const [quickAnswerPrivate, setQuickAnswerPrivate] = useState(false);
-  const [questionActionBusy, setQuestionActionBusy] = useState(false);
-  const [questionActionError, setQuestionActionError] = useState<string | null>(
-    null
-  );
   const bottomRef = useRef<HTMLDivElement>(null);
   const sendInFlightRef = useRef(false);
 
@@ -167,21 +133,6 @@ export function StoryContributionWorkspace({
     }
 
     checkSessions();
-  }, [contributionMode]);
-
-  useEffect(() => {
-    if (contributionMode !== "beyond") return;
-    async function loadPendingQuestions() {
-      try {
-        const res = await fetch("/api/beyond/questions");
-        if (!res.ok) return;
-        const data = (await res.json()) as { questions?: PendingQuestion[] };
-        setPendingQuestions(data.questions || []);
-      } catch {
-        // Keep empty on fetch failure.
-      }
-    }
-    loadPendingQuestions();
   }, [contributionMode]);
 
   async function sendMessage(text?: string) {
@@ -311,71 +262,6 @@ export function StoryContributionWorkspace({
       setViewMode("chat");
     } finally {
       setDraftLoading(false);
-    }
-  }
-
-  async function submitQuickAnswer(questionId: string) {
-    const text = quickAnswerText.trim();
-    if (!text || questionActionBusy) return;
-    setQuestionActionBusy(true);
-    setQuestionActionError(null);
-    try {
-      const res = await fetch(
-        `/api/beyond/questions/${questionId}/answer`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            answer_text: text,
-            visibility: quickAnswerPrivate ? "private" : "public",
-          }),
-        }
-      );
-      if (!res.ok) {
-        const data = (await res.json().catch(() => ({}))) as {
-          error?: string;
-        };
-        setQuestionActionError(data.error || "Could not save the answer.");
-        return;
-      }
-      setPendingQuestions((prev) => prev.filter((q) => q.id !== questionId));
-      setExpandedQuestionId(null);
-      setQuickAnswerText("");
-      setQuickAnswerPrivate(false);
-    } finally {
-      setQuestionActionBusy(false);
-    }
-  }
-
-  async function seedSessionFromQuestion(questionId: string) {
-    if (questionActionBusy) return;
-    setQuestionActionBusy(true);
-    setQuestionActionError(null);
-    try {
-      const res = await fetch(
-        `/api/beyond/questions/${questionId}/seed-session`,
-        { method: "POST" }
-      );
-      if (!res.ok) {
-        const data = (await res.json().catch(() => ({}))) as {
-          error?: string;
-        };
-        setQuestionActionError(
-          data.error || "Could not start a session from that question."
-        );
-        return;
-      }
-      const data = (await res.json()) as {
-        sessionId: string;
-        messages: Message[];
-      };
-      setSessionId(data.sessionId);
-      setMessages(data.messages);
-      setPendingQuestions((prev) => prev.filter((q) => q.id !== questionId));
-      setExpandedQuestionId(null);
-      setQuickAnswerText("");
-    } finally {
-      setQuestionActionBusy(false);
     }
   }
 
@@ -589,120 +475,6 @@ export function StoryContributionWorkspace({
       >
         {messages.length === 0 && (
           <div className="py-12 text-center">
-            {contributionMode === "beyond" && pendingQuestions.length > 0 && (
-              <div className="mx-auto mb-6 max-w-xl rounded-lg border border-clay-border bg-warm-white p-4 text-left">
-                <p className="type-ui mb-1 text-sm font-medium text-ink">
-                  {pendingQuestions.length} reader question
-                  {pendingQuestions.length === 1 ? "" : "s"} waiting
-                </p>
-                <p className="type-ui mb-3 text-xs text-ink-ghost">
-                  Open a question to answer directly or turn it into a chapter.
-                </p>
-                <ul className="space-y-2">
-                  {pendingQuestions.map((q) => {
-                    const isOpen = expandedQuestionId === q.id;
-                    const categoryLabel = q.category
-                      ? CATEGORY_LABEL[q.category]
-                      : null;
-                    const ageLabel = q.age_mode
-                      ? AGE_MODE_LABEL[q.age_mode]
-                      : null;
-                    return (
-                      <li
-                        key={q.id}
-                        className="rounded-md border border-[var(--color-border)] bg-warm-white-2 p-3"
-                      >
-                        <button
-                          type="button"
-                          onClick={() =>
-                            setExpandedQuestionId(isOpen ? null : q.id)
-                          }
-                          className="flex w-full items-start justify-between gap-3 text-left"
-                        >
-                          <div className="min-w-0 flex-1">
-                            <p className="type-ui mb-1 text-xs text-ink-ghost">
-                              {q.story_id}
-                              {categoryLabel ? ` · ${categoryLabel}` : ""}
-                              {ageLabel ? ` · ${ageLabel}` : ""}
-                            </p>
-                            <p
-                              className={`type-ui text-sm text-ink-muted ${
-                                isOpen ? "" : "truncate"
-                              }`}
-                            >
-                              &ldquo;{q.question}&rdquo;
-                            </p>
-                          </div>
-                          <span
-                            aria-hidden
-                            className="shrink-0 pt-0.5 text-xs text-ink-ghost"
-                          >
-                            {isOpen ? "−" : "+"}
-                          </span>
-                        </button>
-                        {isOpen && (
-                          <div className="mt-3 border-t border-[var(--color-border)] pt-3">
-                            <textarea
-                              value={quickAnswerText}
-                              onChange={(e) =>
-                                setQuickAnswerText(e.target.value)
-                              }
-                              placeholder="Answer in a sentence or two, or turn it into a chapter below."
-                              rows={3}
-                              maxLength={5000}
-                              disabled={questionActionBusy}
-                              className="type-ui mb-2 w-full rounded-md border border-[var(--color-border)] bg-warm-white-2 px-3 py-2 text-ink placeholder:text-ink-ghost"
-                            />
-                            {questionActionError && (
-                              <p className="mb-2 text-xs text-red-700">
-                                {questionActionError}
-                              </p>
-                            )}
-                            <label className="type-ui mb-2 flex items-center gap-2 text-xs text-ink-muted">
-                              <input
-                                type="checkbox"
-                                checked={quickAnswerPrivate}
-                                onChange={(e) =>
-                                  setQuickAnswerPrivate(e.target.checked)
-                                }
-                                disabled={questionActionBusy}
-                                className="h-3.5 w-3.5 accent-clay"
-                              />
-                              Keep private — only the asker will see this
-                              answer
-                            </label>
-                            <div className="flex flex-wrap gap-2">
-                              <button
-                                type="button"
-                                onClick={() => submitQuickAnswer(q.id)}
-                                disabled={
-                                  questionActionBusy || !quickAnswerText.trim()
-                                }
-                                className="type-ui rounded-md bg-clay px-3 py-1.5 text-xs font-medium text-warm-white transition-colors hover:bg-clay-mid disabled:cursor-not-allowed disabled:opacity-50"
-                              >
-                                {questionActionBusy
-                                  ? "Saving..."
-                                  : quickAnswerPrivate
-                                  ? "Send private reply"
-                                  : "Answer publicly"}
-                              </button>
-                              <button
-                                type="button"
-                                onClick={() => seedSessionFromQuestion(q.id)}
-                                disabled={questionActionBusy}
-                                className="type-ui rounded-md border border-clay px-3 py-1.5 text-xs font-medium text-clay transition-colors hover:bg-clay hover:text-warm-white disabled:cursor-not-allowed disabled:opacity-50"
-                              >
-                                Turn into a chapter
-                              </button>
-                            </div>
-                          </div>
-                        )}
-                      </li>
-                    );
-                  })}
-                </ul>
-              </div>
-            )}
             {sessionsChecked && pendingSessions.length > 0 && (
               <div className="mx-auto mb-6 max-w-xl rounded-lg border border-clay-border bg-gold-pale/40 p-4 text-left">
                 <p className="type-ui mb-2 text-sm font-medium text-ink">

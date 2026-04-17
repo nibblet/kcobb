@@ -6,7 +6,7 @@ import { getContributionLabel } from "@/lib/tell/contribution";
 
 interface Draft {
   id: string;
-  session_id: string;
+  session_id: string | null;
   title: string;
   body: string;
   life_stage: string | null;
@@ -17,6 +17,7 @@ interface Draft {
   quotes: string[];
   status: string;
   story_id: string | null;
+  origin: "chat" | "write" | "edit" | null;
   created_at: string;
   volume: string;
   contribution_mode: "tell" | "beyond";
@@ -130,6 +131,13 @@ export default function AdminDraftsPage() {
                   <span className="rounded-full bg-ocean-pale px-2 py-0.5 text-[0.625rem] font-medium text-ocean">
                     {d.volume}
                   </span>
+                  {d.origin && (
+                    <span className="rounded-full bg-clay/10 px-2 py-0.5 text-[0.625rem] font-medium text-clay">
+                      {d.origin === "edit" && d.story_id
+                        ? `revision of ${d.story_id}`
+                        : d.origin}
+                    </span>
+                  )}
                 </div>
                 {d.themes.length > 0 && (
                   <div className="flex flex-wrap gap-1 mt-1.5">
@@ -168,7 +176,11 @@ export default function AdminDraftsPage() {
             {expanded === d.id && (
               <div className="mt-4 border-t border-[var(--color-border)] pt-4">
                 <div className="prose prose-story prose-sm max-w-none">
-                  <ReactMarkdown>{d.body}</ReactMarkdown>
+                  {isHTML(d.body) ? (
+                    <div dangerouslySetInnerHTML={{ __html: d.body }} />
+                  ) : (
+                    <ReactMarkdown>{d.body}</ReactMarkdown>
+                  )}
                 </div>
                 {d.principles.length > 0 && (
                   <div className="mt-4">
@@ -204,4 +216,8 @@ export default function AdminDraftsPage() {
       </div>
     </div>
   );
+}
+
+function isHTML(s: string): boolean {
+  return /^\s*</.test(s);
 }

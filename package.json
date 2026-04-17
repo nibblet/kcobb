@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "eslint",
     "inventory:people": "node --import tsx scripts/inventory-people.ts",
+    "seed:people": "node --import tsx scripts/seed-people.ts",
     "compile:wiki": "node --import tsx scripts/compile-wiki.ts"
   },
   "dependencies": {
@@ -15,10 +16,17 @@
     "@supabase/ssr": "^0.10.2",
     "@supabase/supabase-js": "^2.103.0",
     "@tailwindcss/typography": "^0.5.19",
+    "@tiptap/extension-image": "^3.22.3",
+    "@tiptap/extension-mention": "^3.22.3",
+    "@tiptap/pm": "^3.22.3",
+    "@tiptap/react": "^3.22.3",
+    "@tiptap/starter-kit": "^3.22.3",
+    "@tiptap/suggestion": "^3.22.3",
     "next": "16.2.3",
     "react": "19.2.4",
     "react-dom": "19.2.4",
-    "react-markdown": "^10.1.0"
+    "react-markdown": "^10.1.0",
+    "tippy.js": "^6.3.7"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",

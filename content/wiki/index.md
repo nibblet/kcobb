@@ -2,7 +2,7 @@
 
 > Master index of all wiki pages. Used by the AI layer to navigate content.
 
-**49 stories** (39 memoir + 10 interview) | **12 themes** | **65 people** | **43 timeline events**
+**49 stories** (39 memoir + 10 interview) | **12 themes** | **58 people** | **43 timeline events**
 
 ## Memoir Stories
 
@@ -81,14 +81,12 @@
 Stubs from `content/raw/people_inventory.json` (Tier **B/D** filtered to likely people; **A/C** always). Tune in `people_inventory_overrides.json`: `wiki_person_include`, `wiki_person_exclude`, `wiki_only`, `wiki_exclude`. Then `npm run inventory:people`.
 
 - [[people/bayne-cobb.md]] — Bayne Cobb (A+B+D)
-- [[people/ben-franklin.md]] — Ben Franklin (B+D)
 - [[people/bill-hannon.md]] — Bill Hannon (B+D)
 - [[people/bill-norton.md]] — Bill Norton (B+D)
 - [[people/bill-su.md]] — Bill Su (B+D)
 - [[people/blue-and-ruby-cole.md]] — Blue and Ruby Cole (A+B+D)
 - [[people/carter-dobbs.md]] — Carter Dobbs (B+D)
 - [[people/charles-t-brumfield.md]] — Charles T. Brumfield (A+B+D)
-- [[people/clym-yeobright.md]] — Clym Yeobright (B+D)
 - [[people/david-rush.md]] — David Rush (B+D)
 - [[people/dot-cobb.md]] — Dot Cobb (B+D)
 - [[people/dr-carter-dobbs.md]] — Dr Carter Dobbs (B+D)
@@ -114,11 +112,9 @@ Stubs from `content/raw/people_inventory.json` (Tier **B/D** filtered to likely 
 - [[people/jim-blosser.md]] — Jim Blosser (B+D)
 - [[people/jim-brocksmith.md]] — Jim Brocksmith (B+D)
 - [[people/jim-madonna.md]] — Jim Madonna (B+D)
-- [[people/john-cobb.md]] — John Cobb (C)
 - [[people/john-edmondson.md]] — John Edmondson (B+D)
 - [[people/john-simpson.md]] — John Simpson (B+D)
 - [[people/julian-noel.md]] — Julian Noel (B+D)
-- [[people/julie-andrews.md]] — Julie Andrews (B+D)
 - [[people/keith-cobb.md]] — Keith Cobb (B+D)
 - [[people/keith-costello.md]] — Keith Costello (D)
 - [[people/larry-horner.md]] — Larry Horner (B+D)
@@ -128,14 +124,11 @@ Stubs from `content/raw/people_inventory.json` (Tier **B/D** filtered to likely 
 - [[people/marc-gerstein.md]] — Marc Gerstein (B+D)
 - [[people/mike-egan.md]] — Mike Egan (B+D)
 - [[people/mr-cobb.md]] — Mr Cobb (B+D)
-- [[people/mt-moro.md]] — Mt Moro (B+D)
 - [[people/murray-underwood.md]] — Murray Underwood (B+D)
 - [[people/norm-white.md]] — Norm White (B+D)
 - [[people/paul-breazeale.md]] — Paul Breazeale (B+D)
-- [[people/paul-cobb.md]] — Paul Cobb (C)
 - [[people/pete-fountain.md]] — Pete Fountain (B+D)
 - [[people/pete-musser.md]] — Pete Musser (B+D)
-- [[people/portland-oregon.md]] — Portland Oregon (D)
 - [[people/roger-ballou.md]] — Roger Ballou (B+D)
 - [[people/ronald-reagan.md]] — Ronald Reagan (B+D)
 - [[people/rosalie-arthur.md]] — Rosalie Arthur (B+D)

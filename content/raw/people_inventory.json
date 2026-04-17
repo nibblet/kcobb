@@ -295,22 +295,6 @@
       "wiki_eligible": true
     },
     {
-      "canonical_name": "Ben Franklin",
-      "slug": "ben-franklin",
-      "tiers": [
-        "B",
-        "D"
-      ],
-      "memoir_story_ids": [
-        "P1_S07",
-        "P1_S09"
-      ],
-      "interview_story_ids": [],
-      "tier_a_story_ids": [],
-      "note": "",
-      "wiki_eligible": true
-    },
-    {
       "canonical_name": "Bill Hannon",
       "slug": "bill-hannon",
       "tiers": [
@@ -756,22 +740,6 @@
       "tier_a_story_ids": [],
       "note": "",
       "wiki_eligible": false
-    },
-    {
-      "canonical_name": "Clym Yeobright",
-      "slug": "clym-yeobright",
-      "tiers": [
-        "B",
-        "D"
-      ],
-      "memoir_story_ids": [
-        "P1_S02",
-        "P1_S03"
-      ],
-      "interview_story_ids": [],
-      "tier_a_story_ids": [],
-      "note": "",
-      "wiki_eligible": true
     },
     {
       "canonical_name": "Commonwealth Savings",
@@ -1980,20 +1948,6 @@
       "wiki_eligible": true
     },
     {
-      "canonical_name": "John Cobb",
-      "slug": "john-cobb",
-      "tiers": [
-        "C"
-      ],
-      "memoir_story_ids": [
-        "P1_S34"
-      ],
-      "interview_story_ids": [],
-      "tier_a_story_ids": [],
-      "note": "Son; the phrase \"Paul and John\" refers to him and Paul Cobb.",
-      "wiki_eligible": true
-    },
-    {
       "canonical_name": "John Edmondson",
       "slug": "john-edmondson",
       "tiers": [
@@ -2036,22 +1990,6 @@
       "memoir_story_ids": [
         "P1_S18",
         "P1_S27"
-      ],
-      "interview_story_ids": [],
-      "tier_a_story_ids": [],
-      "note": "",
-      "wiki_eligible": true
-    },
-    {
-      "canonical_name": "Julie Andrews",
-      "slug": "julie-andrews",
-      "tiers": [
-        "B",
-        "D"
-      ],
-      "memoir_story_ids": [
-        "P1_S11",
-        "P1_S31"
       ],
       "interview_story_ids": [],
       "tier_a_story_ids": [],
@@ -2649,38 +2587,6 @@
       "wiki_eligible": true
     },
     {
-      "canonical_name": "Mt Moro",
-      "slug": "mt-moro",
-      "tiers": [
-        "B",
-        "D"
-      ],
-      "memoir_story_ids": [
-        "P1_S23",
-        "P1_S33"
-      ],
-      "interview_story_ids": [],
-      "tier_a_story_ids": [],
-      "note": "",
-      "wiki_eligible": true
-    },
-    {
-      "canonical_name": "Mt Moro Road",
-      "slug": "mt-moro-road",
-      "tiers": [
-        "B",
-        "D"
-      ],
-      "memoir_story_ids": [
-        "P1_S23",
-        "P1_S33"
-      ],
-      "interview_story_ids": [],
-      "tier_a_story_ids": [],
-      "note": "",
-      "wiki_eligible": false
-    },
-    {
       "canonical_name": "Murray Underwood",
       "slug": "murray-underwood",
       "tiers": [
@@ -2894,20 +2800,6 @@
       "wiki_eligible": true
     },
     {
-      "canonical_name": "Paul Cobb",
-      "slug": "paul-cobb",
-      "tiers": [
-        "C"
-      ],
-      "memoir_story_ids": [
-        "P1_S34"
-      ],
-      "interview_story_ids": [],
-      "tier_a_story_ids": [],
-      "note": "Son; the phrase \"Paul and John\" in the memoir refers to Paul and John Cobb.",
-      "wiki_eligible": true
-    },
-    {
       "canonical_name": "Peat Marwick Mitchell",
       "slug": "peat-marwick-mitchell",
       "tiers": [
@@ -2967,22 +2859,6 @@
         "P1_S38"
       ],
       "interview_story_ids": [],
-      "tier_a_story_ids": [],
-      "note": "",
-      "wiki_eligible": true
-    },
-    {
-      "canonical_name": "Portland Oregon",
-      "slug": "portland-oregon",
-      "tiers": [
-        "D"
-      ],
-      "memoir_story_ids": [
-        "P1_S29"
-      ],
-      "interview_story_ids": [
-        "IV_S08"
-      ],
       "tier_a_story_ids": [],
       "note": "",
       "wiki_eligible": true

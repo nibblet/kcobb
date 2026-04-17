@@ -42,20 +42,17 @@
     "Wonderful World",
     "World War",
     "New York Times",
-    "York Times"
+    "York Times",
+    "Ben Franklin",
+    "Clym Yeobright",
+    "Julie Andrews",
+    "John Cobb",
+    "Paul Cobb",
+    "Mt Moro",
+    "Mt Moro Road",
+    "Portland Oregon"
   ],
-  "include_people": [
-    {
-      "canonical_name": "Paul Cobb",
-      "memoir_story_ids": ["P1_S34"],
-      "note": "Son; the phrase \"Paul and John\" in the memoir refers to Paul and John Cobb."
-    },
-    {
-      "canonical_name": "John Cobb",
-      "memoir_story_ids": ["P1_S34"],
-      "note": "Son; the phrase \"Paul and John\" refers to him and Paul Cobb."
-    }
-  ],
+  "include_people": [],
   "aliases": {
     "Blue and Ruby": "Blue and Ruby Cole",
     "Blue Cole": "Blue and Ruby Cole",

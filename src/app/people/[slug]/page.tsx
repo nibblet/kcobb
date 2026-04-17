@@ -2,6 +2,10 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getPersonBySlug, getStoryById } from "@/lib/wiki/parser";
 import { StoryMarkdown } from "@/components/story/StoryMarkdown";
+import { createClient } from "@/lib/supabase/server";
+import { getAuthenticatedProfileContext } from "@/lib/auth/profile-context";
+import { PersonEditDrawer } from "@/components/people/PersonEditDrawer";
+import { PersonMediaPanel } from "@/components/people/PersonMediaPanel";
 
 const TIER_LABEL: Record<string, string> = {
   A: "Dedicated story",
@@ -19,6 +23,16 @@ export default async function PersonDetailPage({
   const person = getPersonBySlug(slug);
   if (!person) notFound();
 
+  // DB-backed person row: preferred source for bio_md and the edit target.
+  const supabase = await createClient();
+  const { data: dbPerson } = await supabase
+    .from("sb_people")
+    .select("id, slug, display_name, relationship, bio_md, birth_year, death_year, updated_at")
+    .eq("slug", slug)
+    .maybeSingle();
+
+  const { isKeithSpecialAccess } = await getAuthenticatedProfileContext();
+
   const memoirStories = person.memoirStoryIds
     .map((id) => ({ id, story: getStoryById(id) }))
     .filter((x) => x.story);
@@ -35,7 +49,15 @@ export default async function PersonDetailPage({
         &larr; All People
       </Link>
 
-      <h1 className="type-page-title mb-2">{person.name}</h1>
+      <div className="mb-2 flex items-start justify-between gap-4">
+        <h1 className="type-page-title">{dbPerson?.display_name || person.name}</h1>
+        {isKeithSpecialAccess && dbPerson && (
+          <PersonEditDrawer
+            person={dbPerson}
+            aiDraftFallback={person.aiDraft || undefined}
+          />
+        )}
+      </div>
 
       {person.tiers.length > 0 && (
         <div className="mb-4 flex flex-wrap gap-1.5">
@@ -59,6 +81,15 @@ export default async function PersonDetailPage({
         .
       </p>
 
+      {dbPerson && (
+        <div className="mb-6">
+          <PersonMediaPanel
+            personId={dbPerson.id}
+            canEdit={isKeithSpecialAccess}
+          />
+        </div>
+      )}
+
       {person.note && (
         <div className="mb-6 rounded-xl border border-[var(--color-border)] bg-warm-white p-4">
           <p className="font-[family-name:var(--font-lora)] text-sm text-ink-muted">
@@ -67,22 +98,30 @@ export default async function PersonDetailPage({
         </div>
       )}
 
-      {person.aiDraft && (
+      {dbPerson?.bio_md ? (
         <section className="mb-8">
-          {person.aiDraftStatus === "draft" && (
-            <div className="mb-2 flex items-center gap-2 rounded-md border border-clay-border bg-[rgba(200,130,70,0.08)] px-3 py-2">
-              <span className="type-meta normal-case tracking-normal text-clay">
-                Draft
-              </span>
-              <span className="type-meta normal-case tracking-normal text-ink-ghost">
-                AI-generated from memoir &amp; interview passages{person.aiDraftGeneratedAt ? ` · ${person.aiDraftGeneratedAt}` : ""} · awaiting Keith&apos;s review
-              </span>
-            </div>
-          )}
           <article className="prose prose-story max-w-none">
-            <StoryMarkdown content={person.aiDraft} />
+            <StoryMarkdown content={dbPerson.bio_md} />
           </article>
         </section>
+      ) : (
+        person.aiDraft && (
+          <section className="mb-8">
+            {person.aiDraftStatus === "draft" && (
+              <div className="mb-2 flex items-center gap-2 rounded-md border border-clay-border bg-[rgba(200,130,70,0.08)] px-3 py-2">
+                <span className="type-meta normal-case tracking-normal text-clay">
+                  Draft
+                </span>
+                <span className="type-meta normal-case tracking-normal text-ink-ghost">
+                  AI-generated from memoir &amp; interview passages{person.aiDraftGeneratedAt ? ` · ${person.aiDraftGeneratedAt}` : ""} · awaiting Keith&apos;s review
+                </span>
+              </div>
+            )}
+            <article className="prose prose-story max-w-none">
+              <StoryMarkdown content={person.aiDraft} />
+            </article>
+          </section>
+        )
       )}
 
       {memoirStories.length > 0 && (

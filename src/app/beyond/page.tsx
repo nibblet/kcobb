@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
-import { StoryContributionWorkspace } from "@/components/tell/StoryContributionWorkspace";
+import { BeyondShell } from "@/components/beyond/BeyondShell";
 import { getAuthenticatedProfileContext } from "@/lib/auth/profile-context";
 
 export const metadata: Metadata = {
@@ -14,5 +14,5 @@ export default async function BeyondPage() {
   if (!user) redirect("/login");
   if (!isKeithSpecialAccess) redirect("/tell");
 
-  return <StoryContributionWorkspace contributionMode="beyond" />;
+  return <BeyondShell />;
 }

@@ -25,7 +25,7 @@ export async function GET() {
   const { data: drafts, error } = await supabase
     .from("sb_story_drafts")
     .select(
-      "id, session_id, title, body, life_stage, year_start, year_end, themes, principles, quotes, status, story_id, created_at, contributor_id, contribution_mode"
+      "id, session_id, title, body, life_stage, year_start, year_end, themes, principles, quotes, status, story_id, origin, created_at, contributor_id, contribution_mode"
     )
     .order("created_at", { ascending: false });
 

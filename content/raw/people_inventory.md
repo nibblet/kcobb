@@ -21,7 +21,6 @@
 | Baltimore Philadelphia | D | — | IV_S03, IV_S06 | false |  |
 | Bargain Store | B+D | P1_S02, P1_S07, P1_S09, P1_S14 | — | false |  |
 | Bayne Cobb | A+B+D | P1_S01, P1_S06, P1_S07 | — | true | Tier A subject from P1_S06. Often appears in prose as the pair "Bayne and Frances" with Frances Cobb, his wife. |
-| Ben Franklin | B+D | P1_S07, P1_S09 | — | true |  |
 | Bill Hannon | B+D | P1_S24, P1_S27 | — | true |  |
 | Bill Norton | B+D | P1_S16, P1_S18, P1_S19, P1_S21, P1_S32 | — | true |  |
 | Bill Su | B+D | P1_S18, P1_S19 | — | true |  |
@@ -49,7 +48,6 @@
 | City of Fort | B+D | P1_S21, P1_S38 | — | false |  |
 | City of Fort Lauderdale | B+D | P1_S21, P1_S38 | — | false |  |
 | Closer Walk | B+D | P1_S02, P1_S31 | — | false |  |
-| Clym Yeobright | B+D | P1_S02, P1_S03 | — | true |  |
 | Commonwealth Savings | B+D | P1_S21, P1_S27 | — | false |  |
 | Commonwealth Savings and Loan | B+D | P1_S21, P1_S27 | — | false |  |
 | Community Foundation | B+D | P1_S03, P1_S21, P1_S38 | — | false |  |
@@ -123,11 +121,9 @@
 | Jim Blosser | B+D | P1_S25, P1_S26 | — | true |  |
 | Jim Brocksmith | B+D | P1_S21, P1_S22, P1_S23, P1_S24 | — | true |  |
 | Jim Madonna | B+D | P1_S22, P1_S23, P1_S24, P1_S28 | — | true | "Madonna and Jim" (and similar transcript variants with Jon/Jim) refer to Jim Madonna. |
-| John Cobb | C | P1_S34 | — | true | Son; the phrase "Paul and John" refers to him and Paul Cobb. |
 | John Edmondson | B+D | P1_S02, P1_S05 | — | true |  |
 | John Simpson | B+D | P1_S02, P1_S11, P1_S15 | — | true |  |
 | Julian Noel | B+D | P1_S18, P1_S27 | — | true |  |
-| Julie Andrews | B+D | P1_S11, P1_S31 | — | true |  |
 | Keith Cobb | B+D | P1_S01, P1_S12, P1_S24, P1_S35 | IV_S01 | true | "Keith and Dot" refers to Keith with Dot Cobb (née Hill). |
 | Keith Costello | D | — | IV_S07, IV_S08 | true |  |
 | Kidder Peabody | B+D | P1_S24, P1_S27 | — | false |  |
@@ -164,8 +160,6 @@
 | Mitchell Co | B+D | P1_S16, P1_S18 | — | false |  |
 | Moro Road | B+D | P1_S23, P1_S33 | — | false |  |
 | Mr Cobb | B+D | P1_S13, P1_S14 | — | true |  |
-| Mt Moro | B+D | P1_S23, P1_S33 | — | true |  |
-| Mt Moro Road | B+D | P1_S23, P1_S33 | — | false |  |
 | Murray Underwood | B+D | P1_S18, P1_S27 | — | true |  |
 | Museum of Science | B+D | P1_S21, P1_S38 | — | false |  |
 | National Bank | B+D | P1_S09, P1_S18 | — | false |  |
@@ -179,12 +173,10 @@
 | Out of the Red | D | P1_S39 | IV_S01 | false |  |
 | Out of the Red Clay | D | P1_S39 | IV_S01 | false |  |
 | Paul Breazeale | B+D | P1_S18, P1_S20 | — | true |  |
-| Paul Cobb | C | P1_S34 | — | true | Son; the phrase "Paul and John" in the memoir refers to Paul and John Cobb. |
 | Peat Marwick Mitchell | B+D | P1_S16, P1_S18 | — | false |  |
 | Peat Marwick Mitchell Co | B+D | P1_S16, P1_S18 | — | false |  |
 | Pete Fountain | B+D | P1_S02, P1_S31 | — | true |  |
 | Pete Musser | B+D | P1_S23, P1_S38 | — | true |  |
-| Portland Oregon | D | P1_S29 | IV_S08 | true |  |
 | Presbyterian Church | B+D | P1_S21, P1_S37, P1_S38 | — | false |  |
 | Professional Services | B+D | P1_S24, P1_S28 | — | false |  |
 | Red Clay Hills | B+D | P1_S01, P1_S39 | IV_S01 | false |  |
