@@ -23,6 +23,11 @@ create policy "Users insert own corrections"
   on public.sb_story_corrections for insert
   with check (auth.uid() = user_id);
 
+-- Users can read back their own reports (required for INSERT...RETURNING to work)
+create policy "Users read own corrections"
+  on public.sb_story_corrections for select
+  using (auth.uid() = user_id);
+
 -- Admins (role = 'admin') can read, update, and delete any row
 create policy "Admins read all corrections"
   on public.sb_story_corrections for select
