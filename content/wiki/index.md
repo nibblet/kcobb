@@ -81,4 +81,4 @@
 - [[timeline/career-timeline.md]] — Full career timeline: 43 events
 
 ---
-*Compiled: 2026-04-15*
+*Compiled: 2026-04-17*

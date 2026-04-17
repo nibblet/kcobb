@@ -117,6 +117,7 @@ export default async function StoryDetailPage({
 
         {supportsListenMode && (
           <StoryAudioControls
+            storyId={storyId}
             title={story.title}
             fullText={story.fullText}
             wordCount={story.wordCount}

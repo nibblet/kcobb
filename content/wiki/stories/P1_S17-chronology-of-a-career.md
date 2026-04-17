@@ -10,7 +10,7 @@
 ## Full Text
 
 Chronology of a Career
-How does one chronicle a professional career spanning forty-plus years? My story begins as I disrobed from a cap and gown following graduation ceremonies at the University of Southern
+How does one chronicle a professional career spanning forty-plus years? My story begins as I disrobed from a capand gown following graduation ceremonies at the University of Southern
 Mississippi in 1963. I immediately went to work and began launching a long and fruitful career.
 Narratives like this normally end with retirement, but in my case
 I’m not sure when that occurred—or whether it has occurred —or whether it will ever occur—or when it occurs in general. Retirement is a fuzzy concept for me. I’m still active in the business world, just in a different way and a smidgen less involved than in the past.
@@ -19,7 +19,7 @@ Most of my stories are not dramatic. However, in the aggregate
 I am hoping they paint a picture of how a lone country boy from
 Mississippi was able to scramble around in a vast business world and find his way.
 If there is a theme in this chronology, it’s one of gratitude.
-As I re flect on my career, my focus is trans fixed by the numerous personalities that have in fluenced my life. I have had a lot of help along the way and people have been extremely generous in their tutelage and mentorship. For this I can only say, simply, that I am profoundly grateful.
+As I reflect on my career, my focus is transfixed by the numerous personalities that have influenced my life. I have had a lot of help along the way and people have been extremely generous in their tutelage and mentorship. For this I can only say, simply, that I am profoundly grateful.
 
 ## Principles
 

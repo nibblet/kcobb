@@ -18,7 +18,7 @@ who came over in tandem to personally express their compliments.
 These old guys (they surely seemed old to me) appeared to be as proud as I was. Later that month, Henry made an announcement at an Exchange Club meeting, and everyone stood and applauded. I
 felt like a celebrity. However, the euphoria faded quickly; I had work to do. And I was keenly conscious that I had a responsibility to live up to my new credentials.
 The move into the partnership position was a relative non-event from a client management standpoint. I already had complete responsibility for the majority of the clients (including Cal-Maine
-Foods and L&A Contracting Company) that had been virtually abandoned by the previous partners. The only big di fference was that I could now o fficially sign the firm’s name to the reports. I was already deeply involved in the office management, so there was no big transition there either.
+Foods and L&A Contracting Company) that had been virtually abandoned by the previous partners. The only big difference was that I could now officially sign the firm’s name to the reports. I was already deeply involved in the office management, so there was no big transition there either.
 My feeling of self-con fidence and pride in the firm escalated,
 and I took on the role of ownership with sincerity and earnestness.
 A change in prestige and respect came with the position, both internally and externally. I developed a boldness that soon exhibited itself in an interesting initiative on my part. Prior to that time, I
@@ -30,10 +30,10 @@ firing a partner was an extremely rare event for Peat Marwick in those days. Par
 My first year as a partner was a busy one on several fronts. I had responsibility for a number of the important clients and continued my role in the administration of the office as Bill Norton’s surrogate.
 Bill was convinced that my destiny was to be a managing partner and ultimately assume a national leadership role in the firm. He encouraged me to consider transferring to another office to broaden my experience and exposure. He also encouraged the firm to consider me for such a role somewhere. That moment arrived the following spring. The firm had decided to open an office in Orlando and invited me to move there and establish a presence. I went over to Atlanta and met with Norm White, the regional partner in charge, to discuss the prospect. At the conclusion of our meeting, I
 said I would like to take my wife and make a visit to Orlando to be sure it was the right thing for us. I’ll never forget his response. As he sat in a restaurant chomping on a big cigar and sipping his Jack
-Daniels, he muttered, “Y eah, that’s probably a good idea. However,
+Daniels, he muttered, “Yeah, that’s probably a good idea. However,
 you shouldn’t forget that our executive committee has already met,
-and we’ve decided you’re the best damn man in the firm to do this.
-But, hell, who knows? Y ou might get down there and decide your judgment is better than ours!” Not to appear stupid or slow on the uptake, I quickly said, “OK, I’ll do it. Sign me up. But I want to make the trip just for my wife’s sake?” He smiled wryly, with the cigar still rolling around in his mouth, and said, “ Attaboy!”
+and we’vedecided you’rethe best damn man in the firm to do this.
+But, hell, who knows? You might get down there and decide your judgment is better than ours!” Not to appear stupid or slow on the uptake, I quickly said, “OK, I’ll do it. Sign me up. But I want to make the trip just for my wife’s sake?” He smiled wryly, with the cigar still rolling around in his mouth, and said, “ Attaboy!”
 So it would be off to Orlando in August 1971.
 
 ## Principles

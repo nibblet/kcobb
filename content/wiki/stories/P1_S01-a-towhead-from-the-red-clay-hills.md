@@ -9,7 +9,7 @@
 
 ## Full Text
 
-A T owhead from the
+A Towhead from the
 Red Clay Hills
 As the pages open on these memoirs, for some reason my mind has conjured up a recollection of a political rally I attended more than fifty years ago on the public square in Pittsboro, Mississippi.
 Jesse Yancy, a colorful lawyer and gifted orator from the nearby small town of Bruce, was running for district attorney and was making a campaign speech standing on a makeshift platform atop four fifty-five-gallon drums. Standing tall there above the crowd in his serge suit and red and blue tie with slick hair parted down the middle,
@@ -21,8 +21,6 @@ In many ways, Calhoun City was the epitome of small-town
 America in the 1940s and 1950s. It was a rural hamlet tucked away in the back woods of northeastern Mississippi with a population of something less than two thousand—a number that has not changed much in the last seventy-five years. Notwithstanding its small size and remoteness, the town was very much alive and vibrant when I was growing up there. The town square was bustling with businesses —
 groceries, clothing stores, hardware stores, barbershops, restaurants and a movie theater. Three new car dealerships were located just off the square. A block or two further from the square were two large cotton gins that hummed away in the cool autumn of the year. A
 large cooperative served the surrounding farming community,
-
-![Book photo from page 18](/book-images/page-018_img-01_xref-118.jpeg)
 providing seed, fertilizer, equipment and other necessary items.
 There was only one lawyer in town. A large garment factory, a machine tool factory, a chair factory and other industry seemed to provide work opportunities for anyone who wanted to work.
 There was of course a post office, a hospital, a locally owned bank and other traditional municipal amenities. Baptist and Methodist churches brimmed with congregants every Sunday and there were community activities galore. The school system was extraordinary,
@@ -51,9 +49,9 @@ including my grandfather Harold J. Cobb, who passed away in 1955.
 I do not know a lot about these folks, other than family lore that they were fine, upstanding members of that small community.
 Keith Cobb arrived in the world amid this bucolic environment and heritage. It was a good place and a good time. Fond memories of those early years swirl around in my mind as I look back through my imaginary kaleidoscope. Twist the tube a bit and I see birthday parties attended by my friends. Another twist and there I am helping my mother with simple chores as a very young boy. In another scene, I am squirrel hunting with my father. Mrs. Suggs,
 my first-grade teacher, appears. There is a picture of my family killing and dressing hogs in our back yard. As I gaze through this imaginary kaleidoscope, all sorts of memories spring to life. I recall being terribly sick with pneumonia at five years old. I remember wondering about Santa Claus. I remember fireworks on the square on the fourth of July. I remember going fishing in an old aluminum boat with my Grandfather Cobb at Sardis Lake. I think about the generosity of Blue and Ruby Cole, who lived next door. I reminisce about riding the rickety old freight elevator in the three-story
-Justice Company building where Daddy worked. I remember the assigned chore of pasting tobacco stamps on the cigare tte packages in that same building. I remember Bible school every summer and building red birdhouses. I remember shelling buckets of peas and butterbeans from our garden. I remember playing my little Marine
+Justice Company building where Daddy worked. I remember the assigned chore of pasting tobacco stamps on the cigare ttepackages in that same building. I remember Bible school every summer and building red birdhouses. I remember shelling buckets of peas and butterbeans from our garden. I remember playing my little Marine
 Band harmonica. I remember fetching coal from the shed outside our house for the big “warm morning” heater in our living room,
-using a bucket we called a scuttle. I remember wearing a clip-on bow tie to church on Sundays. I remember spending $0.50 at Chandler’s
+using a bucket we called a scuttle. I remember wearing a clip-on bowtie to church on Sundays. I remember spending $0.50 at Chandler’s
 Drug Store for a box of Valentine candy for Paula Kay Kitchens when
 I was in the fourth grade. I look back on my Cub Scout days and my nifty blue uniform. I somehow can see a yellow raincoat that I would often forget to bring home after school. I recall walking to town to
 Calder’s grocery store and locker rental facility many times to get a package of meat from our freezer compartment, with the little silver locker key tucked away in my jeans pocket, with a string tied to my belt loop. I remember walking to school with my sister, Sandy,
@@ -61,14 +59,10 @@ and the insistence of Mother that I hold her hand all the way. And,
 interestingly, I remember watching Dot Hill in study hall when I was in the seventh grade (a very early a ttraction, I suppose). Memories,
 memories, memories. It’s funny all the small things you remember.
 I don’t have a lot of dramatic stories from those times, but my recollections of my parents, teachers and friends in those days are all positive. I was a skinny kid with a serious cowlick and fair skin. Life was always interesting for me. I was curious about most everything and I always seemed to be active and busy. My parents were hard-working and conscientious middle-class people who struggled to provide the best opportunities for their children.
-Those early years were times of learning and development for me. Home, school and church were the basic touch points of my existence and they all provided positive in fluences on my development.
-Those were remarkable developmental days for a towheaded youngster growing up in a country southern town. It was a period of intense learning, and the times were pivotal in se tting the stage for my later years.
+Those early years were times of learning and development for me. Home, school and church were the basic touch points of my existence and they all provided positive influences on my development.
+Those were remarkable developmental days for a towheaded youngster growing up in a country southern town. It was a period of intense learning, and the times were pivotal in setting the stage for my later years.
 Keith and Sandy, happy kids at ages seven and four
 Keith, about age ten
-
-![Book photo from page 22](/book-images/page-022_img-01_xref-139.jpeg)
-
-![Book photo from page 22](/book-images/page-022_img-02_xref-137.jpeg)
 
 ## Principles
 

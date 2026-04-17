@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  useCallback,
   useEffect,
   useId,
   useMemo,
@@ -10,22 +11,30 @@ import {
 } from "react";
 import { formatEstimatedListenLabel } from "@/lib/story-audio";
 
-type PlaybackState = "idle" | "playing" | "paused" | "ended";
+type PlaybackState = "idle" | "loading" | "playing" | "paused" | "ended";
+type AudioMode = "elevenlabs" | "web-speech";
 
 interface StoryAudioControlsProps {
+  storyId: string;
   title: string;
   fullText: string;
   wordCount: number;
 }
 
 export function StoryAudioControls({
+  storyId,
   title,
   fullText,
   wordCount,
 }: StoryAudioControlsProps) {
   const [playbackState, setPlaybackState] = useState<PlaybackState>("idle");
+  const [mode, setMode] = useState<AudioMode>("elevenlabs");
+  const [audioUrl, setAudioUrl] = useState<string | null>(null);
+  const autoPlayRequestedRef = useRef(false);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
   const utteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
   const statusId = useId();
+
   const hasSpeechSupport = useSyncExternalStore(
     () => () => {},
     () => typeof window !== "undefined" && "speechSynthesis" in window,
@@ -37,18 +46,39 @@ export function StoryAudioControls({
     [wordCount]
   );
 
+  const fallbackToWebSpeech = useCallback(() => {
+    setMode("web-speech");
+    setAudioUrl(null);
+  }, []);
+
+  // Cleanup on unmount / storyId change.
   useEffect(() => {
-    if (!hasSpeechSupport) return;
-
+    const audioEl = audioRef.current;
     return () => {
-      window.speechSynthesis.cancel();
+      if (audioEl) {
+        audioEl.pause();
+        audioEl.src = "";
+      }
+      if (typeof window !== "undefined" && "speechSynthesis" in window) {
+        window.speechSynthesis.cancel();
+      }
     };
-  }, [hasSpeechSupport]);
+  }, [storyId]);
 
-  const isUnsupported = !hasSpeechSupport;
+  // Auto-play when a fresh URL is available and playback was requested.
+  useEffect(() => {
+    if (!autoPlayRequestedRef.current || !audioUrl) return;
+    const el = audioRef.current;
+    if (!el) return;
+    autoPlayRequestedRef.current = false;
+    el.play().catch(() => setPlaybackState("idle"));
+  }, [audioUrl]);
+
+  const isLoading = playbackState === "loading";
   const isPlaying = playbackState === "playing";
   const isPaused = playbackState === "paused";
   const canStop = isPlaying || isPaused;
+  const isUnsupported = mode === "web-speech" && !hasSpeechSupport;
 
   function buildNarrationText() {
     const cleanBody = fullText.replace(/\s+/g, " ").trim();
@@ -69,32 +99,101 @@ export function StoryAudioControls({
     };
   }
 
-  function handleListen() {
+  function playWebSpeech() {
     if (!hasSpeechSupport) return;
-
     const narration = buildNarrationText();
     if (!narration) return;
-
     window.speechSynthesis.cancel();
-
     const utterance = new SpeechSynthesisUtterance(narration);
     utteranceRef.current = utterance;
     attachUtteranceLifecycle(utterance);
     window.speechSynthesis.speak(utterance);
   }
 
+  async function playElevenLabs() {
+    // If we already have a URL, just play it.
+    if (audioUrl && audioRef.current) {
+      try {
+        audioRef.current.currentTime = 0;
+        await audioRef.current.play();
+      } catch {
+        setPlaybackState("idle");
+      }
+      return;
+    }
+
+    setPlaybackState("loading");
+    try {
+      const res = await fetch(`/api/stories/${encodeURIComponent(storyId)}/audio`);
+      if (res.status === 501 || res.status === 403 || res.status === 404) {
+        // Provider not configured or story not eligible → silent fallback.
+        fallbackToWebSpeech();
+        setPlaybackState("idle");
+        // Attempt Web Speech immediately so the click still produces audio.
+        if (hasSpeechSupport) {
+          playWebSpeech();
+        }
+        return;
+      }
+      if (!res.ok) {
+        setPlaybackState("idle");
+        if (hasSpeechSupport) {
+          fallbackToWebSpeech();
+          playWebSpeech();
+        }
+        return;
+      }
+      const data = (await res.json()) as { audioUrl?: string };
+      if (!data.audioUrl) {
+        setPlaybackState("idle");
+        return;
+      }
+      // Triggering playback inline races React's commit — the <audio> element
+      // may not exist yet. Set a ref flag; a useEffect invokes play() once the
+      // element is mounted with the new src.
+      autoPlayRequestedRef.current = true;
+      setAudioUrl(data.audioUrl);
+    } catch {
+      setPlaybackState("idle");
+      if (hasSpeechSupport) {
+        fallbackToWebSpeech();
+        playWebSpeech();
+      }
+    }
+  }
+
+  function handleListen() {
+    if (mode === "web-speech") {
+      playWebSpeech();
+      return;
+    }
+    void playElevenLabs();
+  }
+
   function handlePauseResume() {
+    if (mode === "elevenlabs" && audioRef.current) {
+      if (isPlaying) {
+        audioRef.current.pause();
+      } else if (isPaused) {
+        audioRef.current.play().catch(() => setPlaybackState("idle"));
+      }
+      return;
+    }
     if (!hasSpeechSupport) return;
     if (isPlaying) {
       window.speechSynthesis.pause();
-      return;
-    }
-    if (isPaused) {
+    } else if (isPaused) {
       window.speechSynthesis.resume();
     }
   }
 
   function handleStop() {
+    if (mode === "elevenlabs" && audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+      setPlaybackState("idle");
+      return;
+    }
     if (!hasSpeechSupport) return;
     window.speechSynthesis.cancel();
     utteranceRef.current = null;
@@ -102,6 +201,7 @@ export function StoryAudioControls({
   }
 
   function getStatusMessage() {
+    if (isLoading) return "Preparing audio…";
     switch (playbackState) {
       case "playing":
         return "Playing narration";
@@ -110,12 +210,15 @@ export function StoryAudioControls({
       case "ended":
         return "Narration finished";
       default:
-        if (isUnsupported) {
+        if (mode === "web-speech" && !hasSpeechSupport) {
           return "Listening isn't available in this browser.";
         }
         return "Ready to listen";
     }
   }
+
+  const playDisabled =
+    isLoading || (mode === "web-speech" && !hasSpeechSupport);
 
   return (
     <section className="mb-6 rounded-xl border border-clay-border bg-ocean-pale/55 p-4">
@@ -129,10 +232,14 @@ export function StoryAudioControls({
           <button
             type="button"
             onClick={handleListen}
-            disabled={isUnsupported}
+            disabled={playDisabled}
             className="rounded-lg bg-ocean px-4 py-2 text-sm font-medium text-warm-white transition-colors hover:bg-[#3f6e8a] disabled:cursor-not-allowed disabled:bg-ink-ghost"
           >
-            {isPlaying || isPaused ? "Play Again" : "Click Here to Listen"}
+            {isLoading
+              ? "Preparing…"
+              : isPlaying || isPaused
+                ? "Play Again"
+                : "Click Here to Listen"}
           </button>
           <button
             type="button"
@@ -160,6 +267,27 @@ export function StoryAudioControls({
       >
         {getStatusMessage()}
       </p>
+
+      {mode === "elevenlabs" && audioUrl && (
+        <audio
+          ref={audioRef}
+          src={audioUrl}
+          preload="none"
+          onPlay={() => setPlaybackState("playing")}
+          onPause={() => {
+            if (audioRef.current && audioRef.current.ended) return;
+            setPlaybackState("paused");
+          }}
+          onEnded={() => setPlaybackState("ended")}
+          onError={() => {
+            setPlaybackState("idle");
+            if (hasSpeechSupport) {
+              fallbackToWebSpeech();
+            }
+          }}
+          className="sr-only"
+        />
+      )}
     </section>
   );
 }
