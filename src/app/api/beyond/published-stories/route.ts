@@ -1,5 +1,5 @@
 import { requireKeith } from "@/lib/auth/require-keith";
-import { getAllStories } from "@/lib/wiki/parser";
+import { getCanonicalStories } from "@/lib/wiki/corpus";
 
 /**
  * GET /api/beyond/published-stories — list every published story from the
@@ -10,7 +10,7 @@ export async function GET() {
   const gate = await requireKeith();
   if (!gate.ok) return Response.json({ error: gate.error }, { status: gate.status });
 
-  const stories = getAllStories().map((s) => ({
+  const stories = (await getCanonicalStories()).map((s) => ({
     storyId: s.storyId,
     title: s.title,
     volume: s.volume,

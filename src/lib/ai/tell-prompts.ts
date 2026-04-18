@@ -14,9 +14,10 @@ function getWikiSummaries(): string {
 export function buildTellSystemPrompt(
   contributorName: string,
   mode: TellMode,
-  contributionMode: ContributionMode
+  contributionMode: ContributionMode,
+  canonicalWikiSummaries?: string
 ): string {
-  const wikiIndex = getWikiSummaries();
+  const wikiIndex = canonicalWikiSummaries ?? getWikiSummaries();
   const isBeyond = contributionMode === "beyond";
 
   if (mode === "drafting") {

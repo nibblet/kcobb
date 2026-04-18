@@ -1,4 +1,9 @@
 import { requireKeith } from "@/lib/auth/require-keith";
+import {
+  publishStoryToWikiMirror,
+  type StoryDraftForMirror,
+} from "@/lib/wiki/wiki-mirror";
+import { invalidateWikiCorpusCache } from "@/lib/wiki/corpus";
 
 /**
  * POST /api/beyond/drafts/[id]/publish
@@ -27,7 +32,7 @@ export async function POST(
   const { data: draft } = await gate.supabase
     .from("sb_story_drafts")
     .select(
-      "id, status, session_id, story_id, origin, contribution_mode, contributor_id"
+      "id, title, body, life_stage, year_start, year_end, themes, principles, quotes, status, session_id, story_id, origin, contribution_mode, contributor_id"
     )
     .eq("id", draftId)
     .single();
@@ -54,8 +59,30 @@ export async function POST(
     return Response.json({ error: "Already published" }, { status: 400 });
   }
 
+  const mirrorDraft = draft as StoryDraftForMirror & {
+    status: string;
+    session_id: string | null;
+    contribution_mode: string | null;
+    contributor_id: string;
+  };
+
   // ── Revision path ──
   if (draft.story_id) {
+    let mirror: Awaited<ReturnType<typeof publishStoryToWikiMirror>>;
+    try {
+      mirror = await publishStoryToWikiMirror(
+        gate.supabase,
+        mirrorDraft,
+        draft.story_id
+      );
+    } catch (err) {
+      console.error("[beyond/publish] Wiki mirror failed:", err);
+      return Response.json(
+        { error: "Failed to compile story into the wiki mirror" },
+        { status: 500 }
+      );
+    }
+
     const { error: supersedeError } = await gate.supabase
       .from("sb_story_drafts")
       .update({
@@ -88,6 +115,8 @@ export async function POST(
       );
     }
 
+    invalidateWikiCorpusCache();
+
     if (draft.session_id) {
       await gate.supabase
         .from("sb_story_sessions")
@@ -102,6 +131,7 @@ export async function POST(
       storyId: draft.story_id,
       status: "published",
       revision: true,
+      wikiVersion: mirror.version,
     });
   }
 
@@ -134,6 +164,21 @@ export async function POST(
   const nextNumber = usedNumbers.length > 0 ? Math.max(...usedNumbers) + 1 : 1;
   const storyId = `${volume}_S${String(nextNumber).padStart(2, "0")}`;
 
+  let mirror: Awaited<ReturnType<typeof publishStoryToWikiMirror>>;
+  try {
+    mirror = await publishStoryToWikiMirror(
+      gate.supabase,
+      { ...mirrorDraft, story_id: storyId },
+      storyId
+    );
+  } catch (err) {
+    console.error("[beyond/publish] Wiki mirror failed:", err);
+    return Response.json(
+      { error: "Failed to compile story into the wiki mirror" },
+      { status: 500 }
+    );
+  }
+
   const { error: updateError } = await gate.supabase
     .from("sb_story_drafts")
     .update({
@@ -147,6 +192,8 @@ export async function POST(
     return Response.json({ error: "Failed to publish" }, { status: 500 });
   }
 
+  invalidateWikiCorpusCache();
+
   if (draft.session_id) {
     await gate.supabase
       .from("sb_story_sessions")
@@ -154,5 +201,10 @@ export async function POST(
       .eq("id", draft.session_id);
   }
 
-  return Response.json({ storyId, status: "published", revision: false });
+  return Response.json({
+    storyId,
+    status: "published",
+    revision: false,
+    wikiVersion: mirror.version,
+  });
 }

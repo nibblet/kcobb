@@ -533,8 +533,10 @@ function deriveSource(storyId: string): { source: StorySource; volume: string } 
   return { source: "family", volume: storyId.match(/^(P\d+)/)?.[1] || "P2" };
 }
 
-function getStoryFromFile(filename: string): WikiStory | null {
-  const content = readWikiFile(`stories/${filename}`);
+export function parseWikiStoryMarkdown(
+  content: string,
+  filename = ""
+): WikiStory | null {
   if (!content) return null;
 
   const storyIdMatch = content.match(
@@ -547,9 +549,14 @@ function getStoryFromFile(filename: string): WikiStory | null {
 
   const fullTextMatch = content.match(/## Full Text\n\n([\s\S]*?)(?=\n## )/);
 
+  const fallbackSlug = titleMatch?.[1]
+    ? slugifyLabel(titleMatch[1])
+    : storyIdMatch[1].toLowerCase();
   const slug = filename
-    .replace(/\.md$/, "")
-    .replace(new RegExp(`^${STORY_ID_RE.source}-`), "");
+    ? filename
+        .replace(/\.md$/, "")
+        .replace(new RegExp(`^${STORY_ID_RE.source}-`), "")
+    : fallbackSlug;
 
   const { source, volume } = deriveSource(storyIdMatch[1]);
   const sourceDetail = extractMetadata(content, "Source");
@@ -581,6 +588,11 @@ function getStoryFromFile(filename: string): WikiStory | null {
     bestUsedWhen: extractSection(content, "Best Used When Someone Asks About"),
     timelineEvents: extractSection(content, "Timeline"),
   };
+}
+
+function getStoryFromFile(filename: string): WikiStory | null {
+  const content = readWikiFile(`stories/${filename}`);
+  return parseWikiStoryMarkdown(content, filename);
 }
 
 export function getStoryBySlug(slug: string): WikiStory | null {

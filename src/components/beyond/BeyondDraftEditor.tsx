@@ -17,7 +17,7 @@ export interface DraftRecord {
   themes: string[] | null;
   principles: string[] | null;
   quotes: string[] | null;
-  status: "draft" | "approved" | "published";
+  status: "draft" | "approved" | "published" | "superseded";
   origin?: "chat" | "write" | "edit";
   story_id?: string | null;
   updated_at?: string;
@@ -96,10 +96,10 @@ export function BeyondDraftEditor({ initial, origin, onSaved, onBack }: Props) {
     };
   }, [title, body, lifeStage, yearStart, yearEnd, themes, principles, quotes, mentions]);
 
-  const save = useCallback(async () => {
+  const save = useCallback(async (): Promise<string | null> => {
     const serialized = JSON.stringify(payload);
-    if (serialized === lastSavedPayload.current) return;
-    if (!payload.title.trim() && !payload.body.trim()) return;
+    if (serialized === lastSavedPayload.current) return draftId;
+    if (!payload.title.trim() && !payload.body.trim()) return draftId;
 
     setSaveState("saving");
     setError(null);
@@ -117,6 +117,7 @@ export function BeyondDraftEditor({ initial, origin, onSaved, onBack }: Props) {
         setSavedAt(new Date());
         setSaveState("saved");
         onSaved?.(data.draft);
+        return data.draft.id;
       } else {
         const res = await fetch(`/api/beyond/drafts/${draftId}`, {
           method: "PATCH",
@@ -129,10 +130,12 @@ export function BeyondDraftEditor({ initial, origin, onSaved, onBack }: Props) {
         setSavedAt(new Date());
         setSaveState("saved");
         onSaved?.(data.draft);
+        return draftId;
       }
     } catch (err) {
       setSaveState("error");
       setError(err instanceof Error ? err.message : "Save failed");
+      return null;
     }
   }, [draftId, origin, payload, onSaved]);
 
@@ -148,10 +151,10 @@ export function BeyondDraftEditor({ initial, origin, onSaved, onBack }: Props) {
   }, [save]);
 
   async function submitForReview() {
+    let id = draftId;
     if (!draftId) {
-      await save();
+      id = await save();
     }
-    const id = draftId;
     if (!id) return;
     setSubmitState("submitting");
     try {
@@ -170,10 +173,10 @@ export function BeyondDraftEditor({ initial, origin, onSaved, onBack }: Props) {
 
   async function publishNow() {
     // Ensure the latest text is saved before publishing.
+    let id = draftId;
     if (!draftId) {
-      await save();
+      id = await save();
     }
-    const id = draftId;
     if (!id) return;
     setPublishState("publishing");
     setError(null);

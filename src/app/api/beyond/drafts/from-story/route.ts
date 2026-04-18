@@ -1,5 +1,5 @@
 import { requireKeith } from "@/lib/auth/require-keith";
-import { getStoryById } from "@/lib/wiki/parser";
+import { getCanonicalStoryById } from "@/lib/wiki/corpus";
 
 /**
  * POST /api/beyond/drafts/from-story
@@ -21,7 +21,7 @@ export async function POST(request: Request) {
     return Response.json({ error: "storyId required" }, { status: 400 });
   }
 
-  const source = getStoryById(storyId);
+  const source = await getCanonicalStoryById(storyId);
   if (!source) {
     return Response.json(
       { error: `No published story with id ${storyId}` },

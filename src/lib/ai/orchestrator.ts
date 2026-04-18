@@ -15,6 +15,11 @@ import {
 } from "./perspectives";
 import { classifyQuestion } from "./classifier";
 import type { AgeMode } from "@/types";
+import {
+  getCanonicalStoryMarkdown,
+  getCanonicalStoryLinkCatalog,
+  getCanonicalWikiSummaries,
+} from "@/lib/wiki/corpus";
 
 const MODEL = "claude-sonnet-4-20250514";
 
@@ -57,7 +62,20 @@ async function* simplePath(
 ): AsyncGenerator<string> {
   const { anthropic, messages, ageMode, storySlug, journeySlug } = params;
 
-  const systemPrompt = buildSystemPrompt(ageMode, storySlug, journeySlug);
+  const [wikiSummaries, storyCatalog, storyContext] = await Promise.all([
+    getCanonicalWikiSummaries(),
+    getCanonicalStoryLinkCatalog(),
+    storySlug ? getCanonicalStoryMarkdown(storySlug) : Promise.resolve(""),
+  ]);
+  const systemPrompt = buildSystemPrompt(
+    ageMode,
+    storySlug,
+    journeySlug,
+    undefined,
+    wikiSummaries,
+    storyCatalog,
+    storyContext || undefined
+  );
 
   const stream = anthropic.messages.stream({
     model: MODEL,
@@ -82,17 +100,25 @@ async function* deepPath(
   params: OrchestrateParams
 ): AsyncGenerator<string> {
   const { anthropic, messages, ageMode, storySlug, journeySlug } = params;
+  const [wikiSummaries, storyCatalog] = await Promise.all([
+    getCanonicalWikiSummaries(),
+    getCanonicalStoryLinkCatalog(),
+  ]);
 
   // Build perspective prompts
   const storytellerPrompt = buildStorytellerPrompt(
     ageMode,
     storySlug,
-    journeySlug
+    journeySlug,
+    wikiSummaries,
+    storyCatalog
   );
   const principlesPrompt = buildPrinciplesCoachPrompt(
     ageMode,
     storySlug,
-    journeySlug
+    journeySlug,
+    wikiSummaries,
+    storyCatalog
   );
 
   // Fire both perspective calls in parallel (non-streaming)

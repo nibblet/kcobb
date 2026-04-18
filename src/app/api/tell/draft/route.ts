@@ -4,6 +4,7 @@ import { buildTellSystemPrompt } from "@/lib/ai/tell-prompts";
 import { checkRateLimit } from "@/lib/rate-limit";
 import { hasKeithSpecialAccess } from "@/lib/auth/special-access";
 import { getContributorPersonaName } from "@/lib/tell/contribution";
+import { getCanonicalWikiSummaries } from "@/lib/wiki/corpus";
 import type { ContributionMode } from "@/types";
 
 const anthropic = new Anthropic({
@@ -112,10 +113,12 @@ export async function POST(request: Request) {
     content: "Please compose this into a story for the library now.",
   });
 
+  const wikiSummaries = await getCanonicalWikiSummaries();
   const systemPrompt = buildTellSystemPrompt(
     contributorName,
     "drafting",
-    contributionMode
+    contributionMode,
+    wikiSummaries
   );
 
   // Non-streaming — we need the full JSON response

@@ -1,6 +1,6 @@
 import { getStoryById, getPeopleByStoryId } from "@/lib/wiki/parser";
 import { addPeopleLinks } from "@/lib/wiki/link-people";
-import { getPublishedStoryById } from "@/lib/wiki/supabase-stories";
+import { getCanonicalStoryById } from "@/lib/wiki/corpus";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ReadingProgressBar } from "@/components/story/ReadingProgressBar";
@@ -22,9 +22,7 @@ export default async function StoryDetailPage({
   params: Promise<{ storyId: string }>;
 }) {
   const { storyId } = await params;
-  // Supabase first so published revisions (Keith's edits via Beyond) override
-  // the filesystem source; fall back to filesystem for Volume 1 originals.
-  const story = (await getPublishedStoryById(storyId)) || getStoryById(storyId);
+  const story = await getCanonicalStoryById(storyId);
 
   if (!story) notFound();
 
@@ -62,6 +60,12 @@ export default async function StoryDetailPage({
   if (story.relatedStoryIds.length > 0)
     tocSections.push({ id: "related", label: "Related Stories" });
   tocSections.push({ id: "ask", label: "Ask About This Story" });
+  const relatedStories = await Promise.all(
+    story.relatedStoryIds.map(async (relId) => ({
+      relId,
+      story: (await getCanonicalStoryById(relId)) || getStoryById(relId),
+    }))
+  );
 
   return (
     <>
@@ -192,8 +196,7 @@ export default async function StoryDetailPage({
               <div id="related" className="mb-6 scroll-mt-20">
                 <h2 className="type-meta mb-3 text-ink">Related Stories</h2>
                 <div className="space-y-2">
-                  {story.relatedStoryIds.map((relId) => {
-                    const rel = getStoryById(relId);
+                  {relatedStories.map(({ relId, story: rel }) => {
                     if (!rel) return null;
                     return (
                       <Link

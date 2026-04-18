@@ -23,12 +23,14 @@ import {
 
 function sharedContentBlock(
   storySlug?: string,
-  journeySlug?: string
+  journeySlug?: string,
+  wikiSummaries?: string,
+  storyCatalog?: string
 ): string {
   const parts: string[] = [];
 
-  parts.push(`## Story ID Catalog (for links)\n${getStoryLinkCatalog()}`);
-  parts.push(`## Wiki Index\n${getWikiSummaries()}`);
+  parts.push(`## Story ID Catalog (for links)\n${storyCatalog ?? getStoryLinkCatalog()}`);
+  parts.push(`## Wiki Index\n${wikiSummaries ?? getWikiSummaries()}`);
   const people = getPeopleContext();
   if (people) parts.push(people);
 
@@ -49,7 +51,9 @@ function sharedContentBlock(
 export function buildStorytellerPrompt(
   ageMode: AgeMode,
   storySlug?: string,
-  journeySlug?: string
+  journeySlug?: string,
+  wikiSummaries?: string,
+  storyCatalog?: string
 ): string {
   const voice = getVoiceGuide();
 
@@ -75,7 +79,7 @@ ${AGE_MODE_INSTRUCTIONS[ageMode]}
 ## Voice Guide
 ${voice.slice(0, 2000)}
 
-${sharedContentBlock(storySlug, journeySlug)}`;
+  ${sharedContentBlock(storySlug, journeySlug, wikiSummaries, storyCatalog)}`;
 }
 
 // ── Principles Coach ────────────────────────────────────────────────
@@ -83,7 +87,9 @@ ${sharedContentBlock(storySlug, journeySlug)}`;
 export function buildPrinciplesCoachPrompt(
   ageMode: AgeMode,
   storySlug?: string,
-  journeySlug?: string
+  journeySlug?: string,
+  wikiSummaries?: string,
+  storyCatalog?: string
 ): string {
   const frameworks = getDecisionFrameworks();
 
@@ -109,7 +115,7 @@ ${AGE_MODE_INSTRUCTIONS[ageMode]}
 ## Decision Frameworks
 ${frameworks.slice(0, 2000)}
 
-${sharedContentBlock(storySlug, journeySlug)}`;
+  ${sharedContentBlock(storySlug, journeySlug, wikiSummaries, storyCatalog)}`;
 }
 
 // ── Synthesizer ─────────────────────────────────────────────────────

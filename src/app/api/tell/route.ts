@@ -7,6 +7,7 @@ import {
   getContributorPersonaName,
   getVolumeForContributionMode,
 } from "@/lib/tell/contribution";
+import { getCanonicalWikiSummaries } from "@/lib/wiki/corpus";
 import type { ContributionMode } from "@/types";
 
 const anthropic = new Anthropic({
@@ -162,10 +163,12 @@ export async function POST(request: Request) {
       content: m.content,
     }));
 
+    const wikiSummaries = await getCanonicalWikiSummaries();
     const systemPrompt = buildTellSystemPrompt(
       contributorName,
       "gathering",
-      contributionMode
+      contributionMode,
+      wikiSummaries
     );
 
     // Stream response

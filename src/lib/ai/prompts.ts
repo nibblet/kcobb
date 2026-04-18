@@ -147,12 +147,15 @@ export function buildSystemPrompt(
   ageMode: AgeMode,
   storySlug?: string,
   journeySlug?: string,
-  publishedStorySummaries?: string
+  publishedStorySummaries?: string,
+  canonicalWikiSummaries?: string,
+  canonicalStoryCatalog?: string,
+  canonicalStoryContext?: string
 ): string {
   const voice = getVoiceGuide();
-  const wikiIndex = getWikiSummaries();
+  const wikiIndex = canonicalWikiSummaries ?? getWikiSummaries();
   const peopleContext = getPeopleContext();
-  const storyContext = storySlug ? getStoryContext(storySlug) : "";
+  const storyContext = canonicalStoryContext ?? (storySlug ? getStoryContext(storySlug) : "");
   const journeyContext = journeySlug
     ? getJourneyContextForPrompt(journeySlug)
     : "";
@@ -214,7 +217,7 @@ The interview material is Keith's own words and equally authoritative as the mem
 - When citing decision frameworks (Turnaround Entry Protocol, Relationship Capital Doctrine, etc.), reference the underlying stories that support them
 
 ## Story ID catalog (for links)
-${getStoryLinkCatalog()}
+${canonicalStoryCatalog ?? getStoryLinkCatalog()}
 
 ## Voice Guide
 ${voice.slice(0, 2000)}
