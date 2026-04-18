@@ -77,10 +77,26 @@ export default function AskPage() {
   );
 }
 
+function getPreloadPassage(raw: string | null): string | undefined {
+  if (raw === null || raw === "") return undefined;
+  let decoded: string;
+  try {
+    decoded = decodeURIComponent(raw);
+  } catch {
+    decoded = raw;
+  }
+  const trimmed = decoded.trim();
+  if (!trimmed) return undefined;
+  return trimmed.slice(0, 1000);
+}
+
 function AskPageContent() {
   const searchParams = useSearchParams();
   const storySlug = searchParams.get("story") || undefined;
   const journeySlug = searchParams.get("journey") || undefined;
+  const highlightIdFromUrl = searchParams.get("highlight") || undefined;
+  const startFreshFromHighlight = searchParams.get("new") === "1";
+  const urlPassage = getPreloadPassage(searchParams.get("passage"));
   const { ageMode } = useAgeMode();
 
   const [messages, setMessages] = useState<Message[]>([]);
@@ -88,16 +104,91 @@ function AskPageContent() {
   const [loading, setLoading] = useState(false);
   const [conversationId, setConversationId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  /** Passage text from DB when opened via ?highlight= (avoids huge URLs). */
+  const [passageFromHighlight, setPassageFromHighlight] = useState<
+    string | undefined
+  >(undefined);
+  /** When opening a highlight: fetch metadata and either resume or prep preload. */
+  const [highlightHydration, setHighlightHydration] = useState<
+    "ready" | "loading"
+  >(() => (searchParams.get("highlight") ? "loading" : "ready"));
   const [contextStoryTitle, setContextStoryTitle] = useState<string | null>(
     null
   );
   const bottomRef = useRef<HTMLDivElement>(null);
   /** Synchronous guard — `loading` state is stale until re-render, so double-submit can otherwise run two streams into one assistant bubble. */
   const sendInFlightRef = useRef(false);
+  /** Prevents double auto-send from React Strict Mode when preloading a passage from the URL. */
+  const preloadFiredRef = useRef(false);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
+
+  useEffect(() => {
+    if (!highlightIdFromUrl) {
+      setHighlightHydration("ready");
+      setPassageFromHighlight(undefined);
+      return;
+    }
+
+    let cancelled = false;
+    setHighlightHydration("loading");
+    setMessages([]);
+    setConversationId(null);
+    setPassageFromHighlight(undefined);
+    preloadFiredRef.current = false;
+
+    (async () => {
+      const hr = await fetch(
+        `/api/profile/highlights/${encodeURIComponent(highlightIdFromUrl)}`
+      );
+      if (!hr.ok || cancelled) {
+        if (!cancelled) setHighlightHydration("ready");
+        return;
+      }
+      const body: {
+        highlight?: {
+          passage_text?: string;
+          passage_ask_conversation_id?: string | null;
+        };
+      } = await hr.json();
+      const h = body.highlight;
+      if (!h || cancelled) {
+        if (!cancelled) setHighlightHydration("ready");
+        return;
+      }
+
+      if (!startFreshFromHighlight && h.passage_ask_conversation_id) {
+        const cr = await fetch(
+          `/api/conversations/${encodeURIComponent(h.passage_ask_conversation_id)}`
+        );
+        if (cr.ok && !cancelled) {
+          const cd: {
+            messages?: { role: string; content: string }[];
+          } = await cr.json();
+          const msgs: Message[] = (cd.messages ?? []).map((m) => ({
+            role: m.role as "user" | "assistant",
+            content: m.content,
+          }));
+          setMessages(msgs);
+          setConversationId(h.passage_ask_conversation_id);
+          preloadFiredRef.current = true;
+          setHighlightHydration("ready");
+          return;
+        }
+      }
+
+      const raw =
+        typeof h.passage_text === "string" ? h.passage_text.trim() : "";
+      setPassageFromHighlight(raw ? raw.slice(0, 1000) : undefined);
+      if (!cancelled) setHighlightHydration("ready");
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [highlightIdFromUrl, startFreshFromHighlight]);
 
   useEffect(() => {
     if (!storySlug) {
@@ -140,6 +231,9 @@ function AskPageContent() {
           storySlug,
           journeySlug,
           ageMode,
+          ...(highlightIdFromUrl
+            ? { highlightId: highlightIdFromUrl }
+            : {}),
         }),
       });
 
@@ -222,7 +316,40 @@ function AskPageContent() {
       sendInFlightRef.current = false;
       setLoading(false);
     }
-  }, [input, conversationId, storySlug, journeySlug, ageMode]);
+  }, [
+    input,
+    conversationId,
+    storySlug,
+    journeySlug,
+    ageMode,
+    highlightIdFromUrl,
+  ]);
+
+  const effectivePreloadPassage = urlPassage ?? passageFromHighlight;
+
+  useEffect(() => {
+    if (highlightHydration !== "ready") return;
+    if (
+      !effectivePreloadPassage ||
+      messages.length > 0 ||
+      preloadFiredRef.current ||
+      sendInFlightRef.current
+    ) {
+      return;
+    }
+    preloadFiredRef.current = true;
+    const prompt =
+      ageMode === "young_reader"
+        ? `I really liked this part from your story:\n\n"${effectivePreloadPassage}"\n\nCan you tell me more about it?`
+        : `I saved this passage from one of your stories:\n\n"${effectivePreloadPassage}"\n\nCan you tell me more about what you were thinking or feeling in this moment?`;
+    void sendMessage(prompt);
+  }, [
+    highlightHydration,
+    effectivePreloadPassage,
+    messages.length,
+    ageMode,
+    sendMessage,
+  ]);
 
   return (
     <div className="mx-auto flex h-[calc(100vh-8rem)] max-w-content flex-col px-[var(--page-padding-x)] md:h-[calc(100vh-4rem)]">
@@ -259,7 +386,14 @@ function AskPageContent() {
         aria-live="polite"
         aria-relevant="additions"
       >
-        {messages.length === 0 && (
+        {highlightIdFromUrl && highlightHydration === "loading" && (
+          <div className="py-12 text-center text-sm text-ink-ghost">
+            Loading your saved passage…
+          </div>
+        )}
+
+        {messages.length === 0 &&
+          !(highlightIdFromUrl && highlightHydration === "loading") && (
           <div className="py-12 text-center">
             <p className="mb-4 text-sm text-ink-muted">
               What would you like to know about Keith&apos;s stories?

@@ -9,7 +9,9 @@ export async function GET() {
 
   const { data } = await supabase
     .from("sb_story_highlights")
-    .select("id, story_id, story_title, passage_text, note, saved_at")
+    .select(
+      "id, story_id, story_title, passage_text, note, saved_at, passage_ask_conversation_id"
+    )
     .eq("user_id", user.id)
     .order("saved_at", { ascending: false })
     .limit(500);

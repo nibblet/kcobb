@@ -13,6 +13,7 @@ type HighlightRow = {
   passage_text: string;
   note: string | null;
   saved_at: string;
+  passage_ask_conversation_id: string | null;
 };
 
 function formatDate(iso: string): string {
@@ -32,7 +33,9 @@ export default async function ProfileHighlightsPage() {
 
   const { data } = await supabase
     .from("sb_story_highlights")
-    .select("id, story_id, story_title, passage_text, note, saved_at")
+    .select(
+      "id, story_id, story_title, passage_text, note, saved_at, passage_ask_conversation_id"
+    )
     .eq("user_id", user.id)
     .order("saved_at", { ascending: false })
     .limit(500);
@@ -108,6 +111,31 @@ export default async function ProfileHighlightsPage() {
                       {h.note}
                     </p>
                   )}
+                  <div className="mb-3 flex flex-col gap-1.5 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-4">
+                    {h.passage_ask_conversation_id ? (
+                      <>
+                        <Link
+                          href={`/ask?highlight=${encodeURIComponent(h.id)}`}
+                          className="type-ui inline-flex items-center gap-1 text-xs font-medium text-clay hover:text-clay-mid transition-colors"
+                        >
+                          Continue conversation →
+                        </Link>
+                        <Link
+                          href={`/ask?highlight=${encodeURIComponent(h.id)}&new=1`}
+                          className="type-ui inline-flex items-center gap-1 text-xs font-medium text-ink-muted hover:text-clay transition-colors"
+                        >
+                          New question about this passage →
+                        </Link>
+                      </>
+                    ) : (
+                      <Link
+                        href={`/ask?highlight=${encodeURIComponent(h.id)}`}
+                        className="type-ui inline-flex items-center gap-1 text-xs font-medium text-clay hover:text-clay-mid transition-colors"
+                      >
+                        Ask Keith about this →
+                      </Link>
+                    )}
+                  </div>
                   <div className="flex items-center justify-between gap-2">
                     <p className="type-meta text-ink-ghost">
                       Saved {formatDate(h.saved_at)}

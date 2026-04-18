@@ -42,12 +42,15 @@ export async function POST(request: Request) {
     storySlug,
     journeySlug,
     ageMode = "adult",
+    highlightId,
   } = body as {
     message: string;
     conversationId?: string;
     storySlug?: string;
     journeySlug?: string;
     ageMode?: AgeMode;
+    /** When set, successful responses link this saved passage to the conversation. */
+    highlightId?: string;
   };
 
   if (!message || typeof message !== "string" || message.length > 2000) {
@@ -138,6 +141,18 @@ export async function POST(request: Request) {
           role: "assistant",
           content: fullResponse,
         });
+
+        if (
+          highlightId &&
+          typeof highlightId === "string" &&
+          highlightId.length <= 80
+        ) {
+          await supabase
+            .from("sb_story_highlights")
+            .update({ passage_ask_conversation_id: convId })
+            .eq("id", highlightId)
+            .eq("user_id", user.id);
+        }
 
         controller.enqueue(
           encoder.encode(`data: ${JSON.stringify({ done: true, conversationId: convId })}\n\n`)
