@@ -53,7 +53,7 @@ export function HomeHero() {
           <br />
           Red Clay Hills
         </h1>
-        <p className="type-body mx-auto mb-10 max-w-[520px] text-pretty italic text-burgundy">
+        <p className="type-body mx-auto mb-10 max-w-[520px] text-pretty italic !text-[rgba(240,232,213,0.65)]">
           A family library built from Keith&apos;s memoir and conversations.
         </p>
       </div>

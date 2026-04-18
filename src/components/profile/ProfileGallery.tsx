@@ -18,11 +18,26 @@ export function ProfileGallery({ data }: Props) {
       />
       <div className="relative mx-auto max-w-wide px-[var(--page-padding-x)] py-12 md:py-16">
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-6">
-          {/* Row 1 */}
           <FeaturedPassageTile
             passage={data.featuredPassage}
             totalCount={data.savedPassageCount}
-            className="lg:col-span-4"
+            className="lg:col-span-6"
+          />
+          <PrinciplesTile
+            principles={data.topPrinciples}
+            className="lg:col-span-3"
+          />
+          <ThemesTile themes={data.topThemes} className="lg:col-span-3" />
+          <KeepersTile
+            top={data.favorites.top}
+            totalCount={data.favorites.totalCount}
+            className="lg:col-span-2"
+          />
+          <DialogueTile
+            recent={data.dialogue.recent}
+            askedCount={data.dialogue.askedCount}
+            answeredCount={data.dialogue.answeredCount}
+            className="lg:col-span-2"
           />
           <WithKeithSinceTile
             firstReadAt={data.readStats.firstReadAt}
@@ -30,25 +45,7 @@ export function ProfileGallery({ data }: Props) {
             mostRecentReadAt={data.readStats.mostRecentReadAt}
             className="lg:col-span-2"
           />
-          {/* Row 2 */}
-          <PrinciplesTile
-            principles={data.topPrinciples}
-            className="lg:col-span-3"
-          />
-          <DialogueTile
-            recent={data.dialogue.recent}
-            askedCount={data.dialogue.askedCount}
-            answeredCount={data.dialogue.answeredCount}
-            className="lg:col-span-3"
-          />
-          {/* Row 3 */}
-          <ThemesTile themes={data.topThemes} className="lg:col-span-2" />
-          <KeepersTile
-            top={data.favorites.top}
-            totalCount={data.favorites.totalCount}
-            className="lg:col-span-2"
-          />
-          <KeithsPeopleTile className="lg:col-span-2" />
+          <KeithsPeopleTile className="lg:col-span-6" />
         </div>
       </div>
     </section>
