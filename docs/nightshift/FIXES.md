@@ -15,6 +15,33 @@
 
 ## Open Issues
 
+### [FIX-025] `key={paragraph}` Using Text Content as React Key in Principle Detail
+- **Status:** planned
+- **Severity:** Very Low — could produce duplicate key warnings if two narrative paragraphs ever share identical text
+- **Found:** 2026-04-19
+- **Plan:** `docs/nightshift/plans/FIXPLAN-FIX-025-principle-detail-key.md`
+- **Summary:** `src/app/principles/[slug]/page.tsx:46` uses paragraph text as React key when rendering `aiNarrative` paragraphs. Fix: replace `key={paragraph}` with `key={i}` (array index). One-line change.
+
+---
+
+### [FIX-024] `invalidateWikiCorpusCache()` Ineffective in Vercel Serverless
+- **Status:** planned
+- **Severity:** Very Low — 30-second TTL means stale data expires quickly; family app with rare writes
+- **Found:** 2026-04-19
+- **Plan:** `docs/nightshift/plans/FIXPLAN-FIX-024-corpus-cache-serverless.md`
+- **Summary:** `src/lib/wiki/corpus.ts` uses a module-level cache that only affects the calling Lambda instance. `invalidateWikiCorpusCache()` in the publish route has no effect on other concurrent instances. Fix: add a named constant `CACHE_TTL_MS` and document the serverless limitation with a comment.
+
+---
+
+### [FIX-023] `publishStoryToWikiMirror` Non-Atomic DB Operations
+- **Status:** planned
+- **Severity:** Low-Medium — if the new `sb_wiki_documents` insert fails after superseding the old one, the story goes dark (no active wiki doc exists); Keith has no recovery UI signal
+- **Found:** 2026-04-19
+- **Plan:** `docs/nightshift/plans/FIXPLAN-FIX-023-wiki-mirror-atomicity.md`
+- **Summary:** `src/lib/wiki/wiki-mirror.ts:288` supersedes the existing active doc before inserting the new one (required by the unique partial index). If the insert fails, no active doc exists. Fix: add a recovery block that re-activates the most recent superseded doc if the insert throws.
+
+---
+
 ### [FIX-022] Duplicate `013_` Migration Prefix
 - **Status:** planned
 - **Severity:** Low — no functional impact since Supabase tracks migrations by full filename; however, it's confusing naming and could cause issues on fresh deployments if alphabetical ordering ever changes
@@ -62,7 +89,7 @@
 
 ## Recently Resolved
 
-### [FIX-021] ESLint Errors in Beyond Components (4 errors)
+### [FIX-021] ESLint Errors in Beyond Components (4 errors) + FIX-019/020
 - **Status:** resolved
 - **Severity:** Medium
 - **Found:** 2026-04-18

@@ -118,17 +118,18 @@
 ## Category 2: New Features or Integrations
 
 ### [IDEA-002] Keith's Story Workshop — Author & Source Material Intake
-- **Status:** planned
+- **Status:** parked
 - **Category:** new
 - **Seeded:** 2026-04-12
-- **Last Updated:** 2026-04-14
+- **Last Updated:** 2026-04-19
 - **Priority:** P1
 - **Plan:** *(full dev plan not yet written)*
-- **Summary:** Track 1 (family /tell) and Beyond (Keith's AI-assisted workspace) are shipped. Track 2 (direct markdown authoring by Keith/admin) remains.
+- **Summary:** Track 1 (family /tell) and Beyond (Keith's AI-assisted workspace + TipTap direct editor) are shipped. Track 2 (raw markdown authoring) was the remaining piece.
 - **Night Notes:**
   - 2026-04-12: Seeded by Paul.
-  - 2026-04-14: Track 1 SHIPPED as `/tell`. Advanced to `planned`.
-  - 2026-04-16: Beyond workspace SHIPPED — Keith can now capture stories via AI-assisted chat AND respond to reader questions. Remaining: admin-facing direct markdown editor for quick story additions without chat.
+  - 2026-04-14: Track 1 SHIPPED as `/tell`.
+  - 2026-04-16: Beyond workspace SHIPPED.
+  - 2026-04-19: **Stale 3 days — parked.** The TipTap direct-write mode in Beyond (`origin='write'`) now lets Keith write directly without a chat session, and the wiki mirror publishes to Supabase. The admin markdown editor track is superseded by this. If raw-text import is ever needed, the `wiki-mirror.ts` infrastructure can support it. Parked as largely fulfilled by TipTap + wiki mirror.
 
 ---
 
@@ -233,28 +234,56 @@
 ---
 
 ### [IDEA-018] Ask Keith About a Saved Passage
-- **Status:** ready
+- **Status:** shipped
 - **Category:** new
 - **Seeded:** 2026-04-17
-- **Last Updated:** 2026-04-17
+- **Last Updated:** 2026-04-19
 - **Priority:** P1
 - **Plan:** `docs/nightshift/plans/DEVPLAN-IDEA-018-ask-from-passage.md`
-- **Summary:** "Ask Keith about this →" button on each saved passage in `/profile/highlights`. Clicking it opens the Ask Keith chat with the saved passage pre-loaded as context, so the AI responds specifically to that quote. Transforms saved passages from a static archive into live conversation starters.
+- **Summary:** "Ask about this passage →" button on each saved passage in `/profile/highlights`. Migration 018 adds `passage_ask_conversation_id` to `sb_story_highlights`. Ask page gained `?prompt=` URL param and `?highlight=` param for direct highlight context.
 - **Night Notes:**
-  - 2026-04-17: Seeded and advanced to `ready` same night. Both IDEA-016 (highlights) and Ask are shipped. This is a pure integration — URL query param on `/ask` + `useEffect` on mount + button in highlights page. Estimated 1 hour. Strong storytelling value for grandchildren.
+  - 2026-04-17: Seeded and advanced to `ready` same night.
+  - 2026-04-19: **SHIPPED.** Migration 018 confirmed; highlights page has "Ask about this passage →" link with `?highlight=...`; ask page has `getPreloadPrompt()` for `?prompt=` URL param; `promptHydratedRef` prevents repeat prefills. Both the highlight-to-conversation link and the principle "Ask About This" CTA use this infrastructure.
 
 ---
 
 ### [IDEA-019] People Biographical Context in Ask Keith
-- **Status:** planned
+- **Status:** shipped
 - **Category:** enhance
 - **Seeded:** 2026-04-18
-- **Last Updated:** 2026-04-18
+- **Last Updated:** 2026-04-19
 - **Priority:** P1
 - **Plan:** `docs/nightshift/plans/DEVPLAN-IDEA-019-people-in-ask-keith.md`
-- **Summary:** Ask Keith currently only has story summaries when answering questions about people. The wiki already has 58 people pages with rich AI-drafted bios (confirmed for Tier A figures like Bayne Cobb, Frances Cobb, etc.). Adding a `getPeopleContext()` loader to `src/lib/ai/prompts.ts` that reads the `ai-draft` section from each person's wiki page would make Ask dramatically more knowledgeable when a grandchild asks "Who was Grandpa's dad?" No new DB changes, no new routes — purely a system prompt enhancement. Estimated 1 hour.
+- **Summary:** `getPeopleContext()` in `src/lib/ai/prompts.ts` reads Tier A/B bios from `content/wiki/people/` and injects them into the Ask system prompt. Ask Keith now knows who Bayne Cobb, Frances Cobb, and other key figures were.
 - **Night Notes:**
-  - 2026-04-18: Seeded and advanced to `planned` same night. Verified: `content/wiki/people/bayne-cobb.md` has a full 300-word bio with quotes and notable moments. The `getWikiSummaries()` call only loads `index.md` (one-line per person). People wiki pages are NOT included in the system prompt today. Gap confirmed. Dev plan written.
+  - 2026-04-18: Seeded and advanced to `planned` same night.
+  - 2026-04-19: **SHIPPED.** Confirmed in commit `c0411d6`.
+
+---
+
+### [IDEA-022] Principles Context in Ask Keith
+- **Status:** ready
+- **Category:** enhance
+- **Seeded:** 2026-04-19
+- **Last Updated:** 2026-04-19
+- **Priority:** P1
+- **Plan:** `docs/nightshift/plans/DEVPLAN-IDEA-022-principles-in-ask-keith.md`
+- **Summary:** The 12 canonical principles with thesis statements and rich `aiNarrative` text exist in `parser.ts` but are NOT in the Ask system prompt. Adding `getPrinciplesContext()` to `prompts.ts` would make Ask dramatically better at questions about Keith's values, leadership philosophy, and life lessons. Pure prompt enhancement — no DB, no new routes. Estimated 30 min.
+- **Night Notes:**
+  - 2026-04-19: Seeded, validated against codebase, and advanced to `ready` same night. Verified gap: orchestrator passes corpus summaries but not canonical principles context. Dev plan written. Highest-value 30-min improvement currently available.
+
+---
+
+### [IDEA-023] Explore Hub — Interactive Story Map
+- **Status:** exploring
+- **Category:** new
+- **Seeded:** 2026-04-19
+- **Last Updated:** 2026-04-19
+- **Priority:** P2
+- **Plan:** *(not yet written)*
+- **Summary:** The `StorySankey`, `ThemePrincipleMatrix`, and `buildPeopleGraph` data are scattered across `/themes` and `/people`. A dedicated `/explore` page combining all three in a tabbed interface would give family members a visual "map" of the storybook — especially engaging for adult readers. All visualization infrastructure is already built in `graph.ts`; this is a pure UI assembly task. Estimated 1.5–2 hours.
+- **Night Notes:**
+  - 2026-04-19: Seeded. Verified: `buildPeopleGraph()`, `buildStorySankey()`, `buildThemePrincipleMatrix()` all work (41 tests pass). Components: `StorySankey.tsx`, `ThemePrincipleMatrix.tsx` on `/themes`; `ChordDiagram.tsx` on `/themes`; `PrincipleFormationTimeline.tsx` on `/principles`; no dedicated explore page exists. Data infra complete. Need to assess whether to reuse existing components or create a layout-only wrapper page.
 
 ---
 
@@ -272,15 +301,16 @@
 ---
 
 ### [IDEA-015] Enable Deep Ask — Multi-Perspective Responses in Production
-- **Status:** ready
+- **Status:** parked
 - **Category:** new
 - **Seeded:** 2026-04-16
-- **Last Updated:** 2026-04-16
+- **Last Updated:** 2026-04-19
 - **Priority:** P2
 - **Plan:** `docs/nightshift/plans/DEVPLAN-IDEA-015-deep-ask-activation.md`
-- **Summary:** The multi-perspective Ask orchestrator (storyteller + principles coach → synthesizer) is fully implemented and feature-flagged via `ENABLE_DEEP_ASK=true`. The classifier now defaults to "deep" for all reflective questions. Activating it requires reviewing the perspective prompts in `perspectives.ts`, testing locally, then setting the env var in Vercel. Estimated 30 min eval + 5 min deploy.
+- **Summary:** The multi-perspective Ask orchestrator (storyteller + principles coach → synthesizer) is fully implemented and feature-flagged via `ENABLE_DEEP_ASK=true`. Activating requires reviewing perspective prompts and setting the Vercel env var.
 - **Night Notes:**
-  - 2026-04-16: Seeded and advanced to `ready` same night. `orchestrator.ts`, `classifier.ts`, `perspectives.ts` all confirmed in codebase. Plan written.
+  - 2026-04-16: Seeded and advanced to `ready` same night.
+  - 2026-04-19: **Stale 3 days — parked.** Plan still valid. The orchestrator was updated in Run 8 to use corpus data, so perspective prompts are more accurate than before. Good candidate for re-activation when Paul has time to eval the deep path quality.
 
 ---
 
@@ -294,4 +324,6 @@
 - **IDEA-006** Featured Story of the Week — parked 2026-04-16. Stale 3 days. Wiki-first, no DB changes. Parked — revisit when home page refresh is prioritized.
 - **IDEA-008** New Stories Feed — parked 2026-04-17. Stale 3 days. Pure UI addition. Parked — low priority while larger features are landing.
 - **IDEA-010** Public Media Integration — parked 2026-04-17. Stale 3 days. Content curation is the blocker (need actual media links). Parked — revisit when Paul has a media list.
-- **IDEA-012** Letter to Keith — parked 2026-04-18. Stale 3 days. Non-streaming `/api/ask/letter` endpoint. Parked — revisit when conversational features take priority.
+- **IDEA-012** Letter to Keith — parked 2026-04-18. Non-streaming `/api/ask/letter` endpoint. Parked — revisit when conversational features take priority.
+- **IDEA-015** Enable Deep Ask — parked 2026-04-19. Stale 3 days. Orchestrator updated with corpus data in Run 8; perspective prompts are better now. Re-evaluate when Paul has time for quality eval.
+- **IDEA-002** Keith's Story Workshop direct markdown — parked 2026-04-19. Stale 3 days. TipTap direct-write mode + wiki mirror largely fulfills the remaining need.

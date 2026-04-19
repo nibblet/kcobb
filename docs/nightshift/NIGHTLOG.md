@@ -4,6 +4,56 @@
 
 ---
 
+## Run: 2026-04-19 (Run 8)
+
+### Summary
+- Scanned: 5 new commits (9700ec4 → 0f8758f): copy updates, profile gallery, principles as first-class items, expanded principles matching, wiki mirror system; all new source files (principles/page.tsx, principles/[slug]/page.tsx, PrincipleFormationTimeline.tsx, StorySankey.tsx, ThemePrincipleMatrix.tsx, wiki-mirror.ts, corpus.ts, graph.ts expansion, StoriesPageClient.tsx, 3 new migrations), build + lint + tests
+- Issues found: 3 new (FIX-023 wiki mirror atomicity, FIX-024 corpus cache doc, FIX-025 paragraph key) — all planned
+- Issues resolved: FIX-019/020/021 (lint sweep, commit `1bf9147`), confirmed from last run plans
+- Ideas: IDEA-018 + IDEA-019 marked shipped; IDEA-022 seeded → ready same night (principles in Ask); IDEA-023 seeded → exploring (Explore Hub); IDEA-015 + IDEA-002 parked (stale 3 days)
+- Plans written:
+  - `FIXPLAN-FIX-023-wiki-mirror-atomicity.md`
+  - `FIXPLAN-FIX-024-corpus-cache-serverless.md`
+  - `FIXPLAN-FIX-025-principle-detail-key.md`
+  - `DEVPLAN-IDEA-022-principles-in-ask-keith.md`
+
+### Build & Lint & Test Results
+- `npm run build`: **PASSES** — clean, 54 routes (up from 44). New routes: `/principles`, `/principles/[slug]` and 8 new API routes.
+- `npm run lint`: **PASSES** — 0 errors, 0 warnings. Clean since `1bf9147`.
+- `npm test`: **41 PASS** — Node built-in test runner. New test files: `graph.test.ts` (10 tests), `parser.test.ts` (7 tests), `layout.test.ts` (2 tests). All pass on first run.
+
+### Key Findings
+
+1. **Principles as first-class items — major new feature.** Paul shipped 12 canonical principles with rich `aiNarrative` narratives, a `PrincipleFormationTimeline` SVG matrix, and `/principles` + `/principles/[slug]` routes. Each principle links to "Ask About This" — the `?prompt=` URL param added to the Ask page powers this. `StorySankey` and `ThemePrincipleMatrix` are now on the Themes page. The principles have full test coverage (graph.test.ts confirms all 12 canonical principles, era ordering, etc.).
+
+2. **Wiki mirror system ships.** `wiki-mirror.ts` + `corpus.ts` + migration 020. When Keith publishes a Beyond story, it compiles into `sb_wiki_documents` (versioned, with derived theme/timeline/index docs). Ask Keith's orchestrator now calls `getCanonicalWikiSummaries()` from the corpus — Beyond stories are immediately searchable by Ask after publish. This closes the long-standing gap where family-contributed stories were invisible to the AI.
+
+3. **IDEA-018 (Ask from passage) + IDEA-019 (people bios in Ask) SHIPPED.** The highlights page has "Ask about this passage →" links (migration 018 adds `passage_ask_conversation_id`). People biographical context is in the Ask system prompt. Both IDEA-018 and IDEA-019 are now confirmed shipped.
+
+4. **Tests added (41 passing).** `npm test` uses Node's built-in test runner with `tsx`. Tests cover graph layout, parser principles, polish helpers, and profile reflection logic. This is a meaningful addition for a codebase that has grown significantly. **Important:** run `npm test`, not `npx jest` — there is no Jest config.
+
+5. **FIX-023 (LOW-MEDIUM): Wiki mirror publish is non-atomic.** `publishStoryToWikiMirror` supersedes the old doc before inserting the new one (required by unique partial index). If the insert fails, there's a brief window with no active doc — the story goes dark. Recovery block (re-activate superseded doc on insert failure) would fix this. Low probability in practice but high impact when it happens.
+
+6. **FIX-024 (VERY LOW): `invalidateWikiCorpusCache()` is misleading in serverless.** Module-level cache invalidation only affects the calling Lambda instance. Other instances serve stale data until the 30s TTL expires naturally. Documentation-only fix needed.
+
+7. **FIX-025 (VERY LOW): Paragraph text as React key.** `principles/[slug]/page.tsx:46` uses aiNarrative paragraph text as key. One-line fix to use index instead.
+
+8. **IDEA-022 identified and planned.** The 12 canonical principles exist in the parser but are NOT in the Ask system prompt. Adding `getPrinciplesContext()` (analogous to `getPeopleContext()`) would directly improve answers about values, leadership, and life lessons. 30-minute pure prompt enhancement. Highest-value quick win currently available.
+
+### Plans Ready to Execute
+- `docs/nightshift/plans/DEVPLAN-IDEA-022-principles-in-ask-keith.md` — Add principles context to Ask Keith system prompt (30 min)
+- `docs/nightshift/plans/FIXPLAN-FIX-025-principle-detail-key.md` — One-line key fix (1 min)
+- `docs/nightshift/plans/FIXPLAN-FIX-023-wiki-mirror-atomicity.md` — Recovery block on wiki publish failure (15 min)
+- `docs/nightshift/plans/FIXPLAN-FIX-024-corpus-cache-serverless.md` — Documentation comment only (5 min)
+- `docs/nightshift/plans/DEVPLAN-IDEA-014-story-read-progress-ui.md` — Story card read badges, Phase 2 (~45 min, still outstanding)
+
+### Recommendations
+- **If you have 30 min:** IDEA-022 alone (principles in Ask Keith). The principles page shipped tonight but Ask doesn't know about them yet. After this, asking "What did Keith believe about leadership?" returns a named principle. Zero risk, pure quality improvement.
+- **If you have 1 hour:** IDEA-022 (30 min) + FIX-025 + FIX-023 + FIX-024 in a single commit (20 min) + `npm test` to verify (2 min). Principles in Ask, wiki publish is safer, docs are accurate. Clean sweep of all new Run 8 findings.
+- **If you have 2 hours:** The 1-hour batch above + IDEA-014 (story card read badges, Phase 2 only, ~45 min). After this session: Ask knows all 12 principles by name, publish failures are recoverable, and family members can see read badges on story cards in the library.
+
+---
+
 ## Run: 2026-04-18 (Run 7)
 
 ### Summary

@@ -1,6 +1,6 @@
 # STATUS — Keith Cobb Interactive Storybook
 
-> Last updated: 2026-04-18 (Nightshift Run 7)
+> Last updated: 2026-04-19 (Nightshift Run 8)
 
 ## App Summary
 
@@ -33,7 +33,7 @@
 - Story detail page falls back from filesystem to Supabase for non-P1/IV story IDs
 
 ### Database (Supabase)
-- **17 migrations** (up from 13 last run):
+- **20 migrations** (up from 17 last run):
   - `001_initial_schema.sql` — base tables
   - `002_signup_profile_age.sql` — age + age_mode on profiles
   - `003_story_sessions.sql` — Tell sessions
@@ -52,6 +52,9 @@
   - `015_beyond_write_mode.sql` — `sb_story_drafts.session_id` now nullable; `origin` column (`chat`|`write`|`edit`) added
   - `016_people.sql` — `sb_people` + `sb_story_people` tables; people as first-class entities
   - `017_media.sql` — `sb_media` table (polymorphic owner: story|person); `beyond-media` Storage bucket
+  - `018_highlight_passage_conversation.sql` — `passage_ask_conversation_id` UUID column on `sb_story_highlights` (links a passage to a conversation)
+  - `019_profile_reflections.sql` — `sb_profile_reflections` table; AI narrator reflection with cooldown + trigger logic
+  - `020_wiki_mirror.sql` — `sb_story_integrations` + `sb_wiki_documents` tables; Beyond publish pipeline writes compiled stories into the wiki layer; RLS: all authenticated users read active docs; keith/admin write
 
 - **Tables:**
   - `sb_profiles` — user profiles (display_name, age, age_mode, role: admin|member|keith, **has_onboarded**, **onboarded_at**)
@@ -69,6 +72,9 @@
   - `sb_people` — people as first-class entities (slug, display_name, relationship, bio_md, birth/death year); Keith/admin-editable
   - `sb_story_people` — link table: connects drafts or published stories to people via @mentions
   - `sb_media` — polymorphic media attachments (story or person owner); soft-delete; `beyond-media` bucket
+  - `sb_profile_reflections` — per-user AI narrator reflection (cooldown: 24h; triggers: +3 reads, +1 saved, +1 asked)
+  - `sb_story_integrations` — compiled metadata per Beyond publish (version, content_hash, themes, principles, quotes, timeline_events, related_story_ids)
+  - `sb_wiki_documents` — compiled wiki documents per Beyond publish (doc_type: story|theme|principle|timeline|index|ask_context; versioned; status: active|superseded)
 
 - RLS enabled on all tables — policies cover all CRUD paths
 - Auto-trigger: `handle_new_sb_user()` creates `sb_profiles` row on auth signup
@@ -78,7 +84,9 @@
 - `/stories` — Story library (search, filter by stage/theme/source, Volume 1 + interview + published V2+)
 - `/stories/[storyId]` — Story detail (filesystem-first, Supabase fallback for V2+; ElevenLabs audio; lightbox photos; highlight selection; correction report)
 - `/stories/timeline` — Timeline embedded in stories hub
-- `/themes` — Themes/Principles browser (chord diagram, 12 themes)
+- `/themes` — Themes browser (ChordDiagram + ThemePrincipleMatrix + StorySankey visualizations; 12 themes)
+- `/principles` — Principles browser (12 canonical principles with `PrincipleFormationTimeline` SVG; "Ask About This" CTA per principle)
+- `/principles/[slug]` — Principle detail (AI narrative, supporting statements, related theme pills, linked stories)
 - `/themes/[slug]` — Theme detail
 - `/timeline` — Life timeline (grouped by decade, 43 events, with photos)
 - `/people` — People directory (58 people, 2-column grid with story counts)
@@ -174,7 +182,10 @@
 - Rate limiting: 20 req/min per user
 - Double-submit guard: `sendInFlightRef` in `ask/page.tsx`
 - SSE stream parsing: buffered with TextDecoder stream:true, per-line try/catch
-- **People context gap:** wiki index includes people list but NOT full bios — IDEA-019 addresses this
+- **People context:** `getPeopleContext()` in `prompts.ts` includes Tier A/B bios (IDEA-019, shipped)
+- **Corpus integration (Run 8):** orchestrator calls `getCanonicalWikiSummaries()` + `getCanonicalStoryLinkCatalog()` from `corpus.ts` — Beyond family stories now visible to Ask Keith after publish
+- **Principles gap:** 12 canonical principles with rich `aiNarrative` exist in parser but are NOT yet in the Ask system prompt — see IDEA-022
+- `?prompt=` URL parameter added to Ask page — used by principle "Ask About This" CTAs
 
 ### AI / Tell + Beyond (Story Contribution)
 - System prompt in `src/lib/ai/tell-prompts.ts` with two modes: `gathering` and `drafting`
@@ -294,30 +305,57 @@
 - **Commit `73779e6` "added keith editing options":** Beyond Edit mode — `BeyondEditMode.tsx`, `BeyondDraftEditor.tsx`, `TipTapEditor.tsx`, `BeyondModeTabs.tsx`, migration 015
 - **Commit `43cfb4b` "added full edit capability to Beyond space now":** Media attachments — migration 017, `MediaGallery.tsx`, `/api/beyond/media`, `BeyondPeopleMode.tsx`; also ElevenLabs infrastructure (migration 014, `src/lib/elevenlabs/`, `src/lib/story-audio/generate.ts`)
 
+### Wiki Mirror System (NEW in Run 8)
+- `src/lib/wiki/wiki-mirror.ts` — Beyond publish pipeline: converts TipTap HTML to markdown, builds `StoryIntegration` struct, writes to `sb_wiki_documents` + `sb_story_integrations`
+- `src/lib/wiki/corpus.ts` — merged filesystem + DB story corpus; `getCanonicalStories()`, `getCanonicalWikiSummaries()`, `getCanonicalStoryLinkCatalog()`; 30-second in-memory cache
+- On Beyond publish: `publishStoryToWikiMirror()` supersedes old doc, inserts new one, then calls `rebuildDerivedWikiMirrorDocuments()` (theme, timeline, index docs)
+- Ask Keith now sees Beyond family stories after they publish (corpus feeds system prompt via orchestrator)
+
+### Principles as First-Class Items (NEW in Run 8)
+- 12 canonical principles defined in `src/lib/wiki/parser.ts` (line 184) with slug, title, shortTitle, thesis, narrative, aiNarrative, themeSlugs, matchTerms, seedStoryIds
+- `getAllCanonicalPrinciples()` matches raw story principles to canonical definitions via scoring
+- `src/app/principles/page.tsx` — browser with `PrincipleFormationTimeline` SVG + "Ask About This" CTAs
+- `src/app/principles/[slug]/page.tsx` — detail: AI narrative, supporting statements, related themes, linked stories
+- **3 new viz components:** `PrincipleFormationTimeline.tsx`, `StorySankey.tsx`, `ThemePrincipleMatrix.tsx`
+- `StorySankey` and `ThemePrincipleMatrix` shown on `/themes` page alongside existing `ChordDiagram`
+- `src/lib/wiki/graph.ts` significantly expanded: `buildEraPrincipleMatrix()`, `buildStorySankey()`, `buildThemePrincipleMatrix()`, `buildPeopleGraph()`
+- **Tests:** 41 tests pass via `npm test` (Node built-in test runner + tsx); test files: `graph.test.ts`, `parser.test.ts`, `layout.test.ts`
+
+### Recent Changes (Since Run 7)
+- **Commit `c0411d6`:** IDEA-019 SHIPPED — People biographical context in Ask Keith
+- **Commit `1bf9147`:** FIX-019/020/021 RESOLVED — Full lint sweep, 0 errors 0 warnings
+- **Commits `d3c232b`+:** IDEA-020 SHIPPED — Profile reflection gallery merged
+- **Commit `9700ec4`:** Copy updates across multiple pages; AgeModeSwitcher improvements
+- **Commit `629c250`:** ProfileGallery layout fixes; HomeHero copy
+- **Commit `1c71904`:** Principles as first-class items — `/principles`, `/principles/[slug]`, viz components, `graph.ts` expansion, tests added
+- **Commit `114ccac`:** `parser.ts` expanded principles matching
+- **Commit `0f8758f`:** Wiki mirror system — `wiki-mirror.ts`, `corpus.ts`, migration 020; orchestrator updated to use corpus; `StoriesPageClient` extracted; `BeyondDraftEditor` updated
+
 ## Current State
-- All V1–V5 features complete: stories (memoir + interview), themes, timeline, ask (multi-perspective), journeys, tell, beyond (QA + Edit + People modes), admin (drafts + corrections + media), signup/profile, reader Q&A, favorites, highlights, reading dashboard, onboarding tour, book image lightbox, photo frame, people directory, media attachments, ElevenLabs audio, story corrections
-- Build: **PASSES** — clean, 44 routes
-- Lint: **4 errors, 3 warnings** — FIX-021 (4 new errors in Beyond) + FIX-019/020 (existing warnings). This is a regression from Run 6 (0 errors, 3 warnings).
-- **Note on migration numbering:** Two migrations named `013_*` — see FIX-022
-- 8 open issues (FIX-013, FIX-014, FIX-016, FIX-017, FIX-019, FIX-020, FIX-021, FIX-022)
+- All features complete: stories, themes, timeline, ask (corpus-aware + people bios), journeys, tell, beyond (QA + Edit + People modes + wiki publish pipeline), admin, signup/profile, reader Q&A, favorites, highlights, profile reflection gallery, onboarding tour, book image lightbox, photo frame, people directory, media attachments, ElevenLabs audio, story corrections, **principles browser**, **wiki mirror**
+- Build: **PASSES** — clean, 54 routes (up from 44)
+- Lint: **PASSES** — 0 errors, 0 warnings (clean since `1bf9147`)
+- Tests: **41 PASS** — `npm test` (Node built-in test runner)
+- **Note on migration numbering:** Two migrations named `013_*` — see FIX-022 (low-risk naming conflict)
+- 5 open issues (FIX-013, FIX-014, FIX-016, FIX-017, FIX-022, FIX-023, FIX-024, FIX-025)
 
 ## Known Issues (See FIXES.md)
 - FIX-013: Fenced JSON fallback in /api/tell/draft not wrapped in try/catch (planned)
 - FIX-014: ageMode not validated at runtime in /api/ask (planned)
 - FIX-016: Tell page SSE state mutation (planned)
 - FIX-017: Multiple draft rows per Tell session (planned)
-- FIX-019: `_history` lint warning in classifier.ts (planned, 1 min)
-- FIX-020: `<img>` ESLint warnings in StoryMarkdown.tsx (planned, 2 min)
-- FIX-021: 4 ESLint errors in Beyond components (planned, 2 min — **priority: do ASAP**)
 - FIX-022: Dual `013_` migration prefix naming conflict (planned, low risk)
+- FIX-023: `publishStoryToWikiMirror` non-atomic DB operations — story can go dark on partial failure (planned)
+- FIX-024: `invalidateWikiCorpusCache()` is a no-op in Vercel serverless (planned, doc-only fix)
+- FIX-025: `key={paragraph}` using text content as React key in principle detail page (planned, 1-line fix)
 
 ## Next Actions (Priority Order)
-1. **FIX-021** — Fix 4 lint errors (2 min; restores clean lint status post-Beyond)
-2. **FIX-019 + FIX-020** — Fix remaining 3 lint warnings (2 min total; clean sweep)
-3. **IDEA-019** — People bio context in Ask Keith (1 hr; direct AI quality improvement)
-4. **IDEA-018** — Ask Keith from highlighted passage (1 hr; builds on shipped highlights)
+1. **IDEA-022** — Principles context in Ask Keith (30 min; closes the last Ask quality gap)
+2. **FIX-025** — key={paragraph} fix (1 min; one-liner)
+3. **FIX-023** — Wiki mirror atomicity recovery (15 min; prevents story going dark on publish error)
+4. **FIX-024** — Corpus cache doc comment (5 min; docs-only, no behavior change)
 5. **IDEA-014** — Story card read badges (45 min; completes the read progress feature)
-6. **IDEA-015** — Enable deep Ask mode (30 min eval + env var set)
+6. **IDEA-023** — Explore Hub / Story Map (1.5–2 hrs; connects the scattered viz components)
 7. **FIX-016** — Tell SSE state mutation (15 min port)
 8. **FIX-017** — Multiple draft rows per session (30 min upsert fix)
 9. **FIX-013** — Fenced JSON fallback (10 min defensive coding)
