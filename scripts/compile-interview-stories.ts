@@ -8,6 +8,9 @@
  *   raw transcript → cleaned stories_md + stories_json → wiki pages
  *
  * Run: npx tsx scripts/compile-interview-stories.ts
+ *
+ * Curated stories: IDs listed in content/raw/interview/CURATED_STORY_IDS.txt are
+ * skipped so hand-edited markdown/json/wiki files are not overwritten.
  */
 
 import * as fs from "fs";
@@ -17,6 +20,18 @@ const ROOT = process.cwd();
 const PUBLIC_INFO = path.join(ROOT, "cobb_brain_lab/public_info");
 const RAW_IV = path.join(ROOT, "content/raw/interview");
 const WIKI_STORIES = path.join(ROOT, "content/wiki/stories");
+const CURATED_STORY_IDS_PATH = path.join(RAW_IV, "CURATED_STORY_IDS.txt");
+
+function loadCuratedStoryIds(): Set<string> {
+  if (!fs.existsSync(CURATED_STORY_IDS_PATH)) return new Set();
+  const raw = fs.readFileSync(CURATED_STORY_IDS_PATH, "utf8");
+  return new Set(
+    raw
+      .split(/\r?\n/)
+      .map((line) => line.trim())
+      .filter((line) => line.length > 0 && !line.startsWith("#"))
+  );
+}
 
 // --- Story grouping map: chapter ranges → story ---
 
@@ -467,6 +482,13 @@ function generateWikiPage(
 function main() {
   console.log("🎙️  Compiling interview stories from Coffee with Cagnetta transcript...\n");
 
+  const curatedIds = loadCuratedStoryIds();
+  if (curatedIds.size > 0) {
+    console.log(
+      `   Locked (curated, skipped): ${[...curatedIds].sort().join(", ")}\n`
+    );
+  }
+
   // Ensure output dirs exist
   fs.mkdirSync(path.join(RAW_IV, "stories_md"), { recursive: true });
   fs.mkdirSync(path.join(RAW_IV, "stories_json"), { recursive: true });
@@ -484,6 +506,13 @@ function main() {
 
   // Process each story mapping
   for (const mapping of STORY_MAP) {
+    if (curatedIds.has(mapping.storyId)) {
+      console.log(
+        `   🔒 ${mapping.storyId} — ${mapping.title} (skipped: curated)`
+      );
+      continue;
+    }
+
     // Collect chapter text
     const storyChapters = chapters.filter((ch) =>
       mapping.chapters.includes(ch.number)

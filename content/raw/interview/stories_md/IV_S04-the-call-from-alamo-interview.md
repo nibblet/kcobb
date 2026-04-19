@@ -1,22 +1,23 @@
 # The Call from Alamo (Interview)
 
+_Transcript edited lightly for clarity and readability; wording and voice preserved._
+
 ## Full Text
 
-beginning when Alamo was very small and uh I had developed a great relationship with Alamo and uhhad had been a service
-provider for them for many years and uhand then in 1995 I got a call from Mike Eaggan who was the owner.
-Sure. uhand and he came up to New York and said, you know, uh I need you to come come down here and and and work
-with me. The company was was faltering at the time, was not doing well,
-and uhhe said, "We I'vegot some major issues and I would like for you to come come and do it." So
-I I shifted gears, left the public accounting profession after 32 years.
-Yeah. and came down here as the CEO of Alamo Rent Car. Right. So that's how I came back.
-So that was and your your journey at Alamo, I mean obviously it it was one of the if not the premier downtown Fort Lauderdale company at the time.
-Yeah. Yeah. And it was a I mean it was it was a good company. uhthey had run into some the industry had run into a
-lot of difficulties and uhand um there was a lot to be done and fortunately we were able to get a lot done and over a
-two-year period of time but um uhyeah and it was a it was a sizable company we had
-13% of I think at the time I was there we had 13% of the national market share right
+**Cagnetta:** So your travels took you to Philadelphia—how'd you wind back up here in Fort Lauderdale?
 
-and had and Mike had built that from virtually nothing to to a major major player, one of the five
-major rental car companies. So, it was a we like this a I think we had 125,000 cars. So, it was
-a it was a it was a formidable operation, you know.
-And then it was it was public at the time? No, never was public. It never was public. No, always private. Okay. Yeah.
-Okay. And then um and Wayne was involved. How? Wayne?
+**Keith:** I moved from here to Baltimore for a couple of years, then to Philadelphia—I lived there four years—then up to New York. I was running a major segment of KPMG in 1995; I'd been with the firm 32 years and had a senior leadership position. Alamo Rent A Car had been a client of mine when I was here in Florida. Beginning when Alamo was very small I'd developed a great relationship with Alamo and had been a service provider for many years, and in 1995 I got a call from Mike Egan, who was the owner.
+
+**Cagnetta:** Sure.
+
+**Keith:** He came up to New York and said he needed me to come down here and work with him. The company was faltering—not doing well. He said, "I've got some major issues, and I would like for you to come and do it." So I shifted gears, left the public accounting profession after 32 years, and came down here as the CEO of Alamo Rent A Car. That's how I came back.
+
+**Cagnetta:** And your journey at Alamo—obviously it was one of the, if not the, premier downtown Fort Lauderdale companies at the time.
+
+**Keith:** It was a good company. The industry had run into a lot of difficulties, and there was a lot to be done. Fortunately we were able to get a lot done over about a two-year period. It was a sizable company—when I was there we had something like 13% of the national market share. Mike had built that from virtually nothing to a major player, one of the five major rental car companies. I think we had 125,000 cars. It was a formidable operation.
+
+**Cagnetta:** Was it public at the time?
+
+**Keith:** No—it never was public. Always private.
+
+**Cagnetta:** Okay. Yeah. Okay—and Wayne was involved? How? Wayne?

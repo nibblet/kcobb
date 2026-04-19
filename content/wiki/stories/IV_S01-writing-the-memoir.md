@@ -6,34 +6,25 @@
 **Source:** Coffee with Cagnetta interview, 2026
 **Life Stage:** Reflection
 **Themes:** Curiosity, Identity, Gratitude
-**Word Count:** 528
+**Word Count:** 392
 
 ## Full Text
 
-Hey, welcome back everybody to Coffee with Kagneta. I have a very special guest with me, uh, a dear friend, Keith
-Cobb. And Keith has had an incredible career. Uh, he's written a book, uh, Out of the Red Clay Hills. it's not
-available, but we're trying to convince him uh to put it on Amazon or to write a second uh but we'll talk a little bit
-about that because Keith's a forwardthinking guy always uh and he's using chat GPT and some other uh AI
-these days. But, uh, Keith, uh, has had an incredible career at KPMG, uh, that we'd love to talk about, Keith, and, uh,
-we'd also love to talk about your time at Alamo and everything else that you've done in our community and other communities. So, Keith, welcome.
-Well, I'm glad to be here. Thank you. Thank you for inviting me.
-It's great. It's great. Uh, we've had some great conversations over the years.
-I was really I I loved your book because I think it was just really a great conversation. And I I I think you you
-did a great job of writing it. We talked about it because you helped me write my book. You gave me some good advice and this was before Chat GPT.
-It was it was well before that and I remember that you were writing one as well and uh and so uh yeah it was fun though.
-Yeah. But talk about that a little bit because you have so many good stories in your life. You kind of put this together by arranging some stories.
-Yeah. Yes, I did. And I I actually started just by writing out some me memories and chapters and so forth. And
+_Transcript edited lightly for clarity and readability; wording and voice preserved. Childhood and Mississippi continue in **Mississippi Roots (Interview)**._
 
-uh and I so then I organized it. I got it all organized in my mind and wrote out an outline. And I was on a cruise
-ship and they had a seminar on memoir writing and so I signed up for that. And so I
-went and um talked to the guy on the cruise ship that was conducting the seminar. And he said, "Well, let me see your outline." And and so I gave him my outline and he says, "Man," I said,
-"This looks like it was written by a CPA." He said, "You need to throw this away."
-And what you need to do is just to sit down and write your stories as they come to you in no particular order or fashion. And then when you're done and
-when you've got a a a full body of information, then you sit down and piece it together and get it organized. So
-that's what I did. And I did and I and I it took me about about four years, right,
-to put it together because you can't just sit down and right write a book, right,
-non-stop. It has to be developed over a period of time. At least that's was the case with me.
-You did a great job. I mean, and and so let's talk about Out of the Red Clay Hills because that's where you're from.
+**Cagnetta:** Hey, welcome back to Coffee with Cagnetta. I have a very special guest—dear friend Keith Cobb. Keith has had an incredible career. He's written a book, *Out of the Red Clay Hills*—it's not on the market yet, but we're trying to convince him to put it on Amazon or write a second. We'll get to that—Keith's a forward-thinking guy; he's using ChatGPT and other AI these days. We want to talk about your career at KPMG, your time at Alamo, and what you've done in this community and others. Keith—welcome.
+
+**Keith:** I'm glad to be here. Thank you for inviting me.
+
+**Cagnetta:** It's great to see you. We've had some great conversations over the years. I loved your book—it read like a great conversation, and you did a great job writing it. You helped me write my book; you gave me good advice, and that was before ChatGPT.
+
+**Keith:** It was well before that. I remember you were working on a book as well—yeah, it was fun.
+
+**Cagnetta:** Talk about that a little. You have so many good stories—you put this together by arranging stories.
+
+**Keith:** I did. I started by writing out memories and rough chapters, then I organized it in my mind and wrote an outline. I was on a cruise ship; they had a seminar on memoir writing, and I signed up. I went to the man who was running the seminar, and he said, "Let me see your outline." I gave him my outline. He said, "Man, this looks like it was written by a CPA. You need to throw this away. What you need to do is sit down and write your stories as they come to you, in no particular order or fashion. When you've got a full body of information, then you sit down and piece it together and get it organized." So that's what I did. It took me about four years to put it together—you can't just sit down and write a book nonstop. It has to be developed over a period of time. At least that was the case for me.
+
+**Cagnetta:** You did a great job. Let's talk about *Out of the Red Clay Hills*—that's where you're from.
 
 ## What This Story Shows
 

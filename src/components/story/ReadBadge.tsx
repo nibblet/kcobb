@@ -8,7 +8,7 @@ interface ReadBadgeProps {
 export function ReadBadge({ label = "Read", className }: ReadBadgeProps) {
   return (
     <span
-      className={`type-meta inline-flex shrink-0 items-center rounded-full border border-[color-mix(in_srgb,var(--color-gold)_35%,transparent)] bg-gold-pale px-2.5 py-1 text-xs font-medium text-gold ${className ?? ""}`}
+      className={`inline-flex shrink-0 items-center rounded-full border border-[color-mix(in_srgb,var(--color-gold)_35%,transparent)] bg-gold-pale px-2 py-0.5 text-[10px] font-medium leading-none text-gold ${className ?? ""}`}
     >
       {label}
     </span>
