@@ -265,6 +265,13 @@ body[data-theme-resolved="dark"] {
   color: var(--color-ink);
 }
 
+/* Ensure following sections start after floated story photos */
+.story-body::after {
+  content: "";
+  display: block;
+  clear: both;
+}
+
 .story-body > p:first-of-type::first-letter {
   font-family: var(--font-playfair), Georgia, serif;
   font-size: 4.5rem;
