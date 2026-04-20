@@ -384,6 +384,62 @@
 
 ---
 
+### [IDEA-027] "What to Read Next" — Story Momentum After Reading
+
+- **Status:** seed
+- **Category:** enhance
+- **Seeded:** 2026-04-20
+- **Last Updated:** 2026-04-20
+- **Priority:** P1
+- **Plan:** *(not yet written)*
+- **Summary:** The story detail page footer currently has two CTAs ("Chat about this story" + "Browse more stories"). Replace/augment with a "What to read next" block that surfaces 1–2 specific suggestions: the next story in sequence (P1_SXX+1) if unread, OR a related story from `story.relatedStoryIds` if the next-in-sequence has already been read. For young readers, lean on sequence ("next in the book"). For adults, lean on thematic connections. No new DB — all data is in the static wiki.
+- **Night Notes:**
+  - 2026-04-20: Seeded by Paul. Core insight: ending a story with "Browse more stories" sends readers to a flat list and kills momentum. A specific "next" suggestion keeps them in the book. `relatedStoryIds` already exists on every story. `sb_story_reads` tells us what's already been read (available in `page.tsx` via Supabase query). The CTA copy could be: "Continue reading →" (sequence) or "Stories connected to this one" (related).
+
+---
+
+### [IDEA-028] Story List Discovery — Break the Flat List
+
+- **Status:** seed
+- **Category:** enhance
+- **Seeded:** 2026-04-20
+- **Last Updated:** 2026-04-20
+- **Priority:** P1
+- **Plan:** *(not yet written)*
+- **Summary:** 49 stories shown as an undifferentiated scrollable list is overwhelming and has no entry point. Several layered improvements could make the list feel like a curated library instead of a flat index: (1) era section headers between life-stage groups when "All" life stages are shown — "Childhood", "Education", etc. as visual separators; (2) a "Start Here" pinned card for first-time or low-read-count users pointing to P1_S01; (3) a "Continue reading" banner at the top when a user has read some but not all stories, showing the next unread in sequence; (4) subtle visual differentiation between read and unread cards (read cards slightly dimmer, read badge already exists). No DB changes needed for (1)+(2)+(4); (3) needs the existing `readStoryIds` prop which is already passed.
+- **Night Notes:**
+  - 2026-04-20: Seeded by Paul. The flat-list problem compounds on People too (see IDEA-030). The most impactful quick win is probably (1) era section headers — pure UI, no data changes, makes the list scannable. (2) "Start Here" is the most important for new family members who don't know where to begin.
+
+---
+
+### [IDEA-029] Homepage "Continue Reading" Card
+
+- **Status:** seed
+- **Category:** new
+- **Seeded:** 2026-04-20
+- **Last Updated:** 2026-04-20
+- **Priority:** P1
+- **Plan:** *(not yet written)*
+- **Summary:** The homepage currently has static nav cards (Stories, Ask, Tell, etc.) and a Photo Frame button. Add a personalized "Continue reading" card for logged-in users who have started the book: shows the cover/title of the next unread memoir story, reading progress ("12 of 39 stories"), and a direct link. For users who haven't read anything yet, show a "Start with story 1" invitation. For users who've finished all stories, show a "Re-read a favorite" prompt. Requires a lightweight server-side read of `sb_story_reads` on the home page (similar to what `/stories/page.tsx` already does).
+- **Night Notes:**
+  - 2026-04-20: Seeded by Paul. The homepage currently has no personalization at all — this is the single highest-value hook for getting family members back into the book. Implementation: `home/page.tsx` adds a Supabase query for `sb_story_reads` (already exists), computes next unread P1_* story, renders a `ContinueReadingCard` component. No new tables, no API routes.
+
+---
+
+### [IDEA-030] People Directory — Break the Flat Grid
+
+- **Status:** seed
+- **Category:** enhance
+- **Seeded:** 2026-04-20
+- **Last Updated:** 2026-04-20
+- **Priority:** P2
+- **Plan:** *(not yet written)*
+- **Summary:** The People directory shows 58 people in a uniform 2-column grid with no hierarchy or discovery hooks — same flat-list problem as Stories. Improvements: (1) Feature the 3–4 Tier A people (Bayne, Frances, Dot, key mentors) in a prominent "Key figures" row at the top with a slightly larger card and a quote or story excerpt; (2) Group remaining people by relationship type (Family / Career & Colleagues / Community & Civic) with section headers; (3) Show a short story excerpt (first sentence from the person's most significant story appearance) on each card instead of just a story count; (4) "Stories featuring [Person]" count as a subtle progress indicator — "appears in 8 stories, you've read 3." The last one requires cross-referencing `sb_story_reads` with `sb_story_people`.
+- **Night Notes:**
+  - 2026-04-20: Seeded by Paul. Same root problem as IDEA-028 (Stories flat list) — no entry point, no hierarchy, no discovery hook. Tier A people are already flagged in `content/wiki/people/` with inventory tier markers. Grouping by relationship type would require adding a `group` field to `sb_people` or inferring from the existing `relationship` text field. Most impactful quick win: feature row for Tier A people at top, no DB changes needed.
+
+---
+
 ### [IDEA-015] Enable Deep Ask — Multi-Perspective Responses in Production
 
 - **Status:** parked
