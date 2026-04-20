@@ -26,7 +26,7 @@ export async function getAuthenticatedProfileContext(): Promise<AuthenticatedPro
   const { data: profile } = await supabase
     .from("sb_profiles")
     .select(
-      "id, display_name, age, age_mode, role, has_onboarded, onboarded_at, created_at, updated_at"
+      "id, display_name, age, age_mode, theme_mode, role, has_onboarded, onboarded_at, created_at, updated_at"
     )
     .eq("id", user.id)
     .single();

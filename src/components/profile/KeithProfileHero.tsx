@@ -4,6 +4,7 @@ import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
 import { KeithDashboard } from "@/components/profile/KeithDashboard";
 import type { KeithDashboardData } from "@/lib/analytics/keith-dashboard";
+import { ThemeModeSelector } from "@/components/profile/ThemeModeSelector";
 
 type KeithProfileHeroProps = {
   displayName: string;
@@ -87,13 +88,16 @@ export function KeithProfileHero({
               </p>
             </Link>
 
-            <button
-              type="button"
-              onClick={handleSignOut}
-              className="type-ui inline-flex min-h-[46px] items-center justify-center self-start rounded-full border border-[rgba(247,243,237,0.2)] px-6 py-2.5 text-sm font-semibold !text-[rgba(247,243,237,0.9)] transition-colors duration-[var(--duration-normal)] hover:!text-[#f7f3ed]"
-            >
-              Sign out
-            </button>
+            <div className="space-y-3">
+              <button
+                type="button"
+                onClick={handleSignOut}
+                className="type-ui inline-flex min-h-[46px] items-center justify-center self-start rounded-full border border-[rgba(247,243,237,0.2)] px-6 py-2.5 text-sm font-semibold !text-[rgba(247,243,237,0.9)] transition-colors duration-[var(--duration-normal)] hover:!text-[#f7f3ed]"
+              >
+                Sign out
+              </button>
+              <ThemeModeSelector className="max-w-fit" helperText="minimal" />
+            </div>
           </div>
         </div>
       </section>

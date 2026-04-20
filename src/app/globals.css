@@ -78,6 +78,26 @@ body[data-age-mode="teen"] {
   --card-columns: 2;
 }
 
+body[data-theme-resolved="dark"] {
+  --color-parchment: #1a120d;
+  --color-warm-white: #221912;
+  --color-warm-white-2: #2b2119;
+  --color-ink: #f2e6d6;
+  --color-ink-muted: #cfbba3;
+  --color-ink-ghost: #a88f75;
+  --color-burgundy: #f2c4b4;
+  --color-burgundy-dark: #dfa899;
+  --color-burgundy-light: #3a2a24;
+  --color-ocean: #89c6df;
+  --color-ocean-light: #a4d8ec;
+  --color-ocean-pale: #2a3d46;
+  --color-gold: #e3bc66;
+  --color-gold-pale: #4a3a20;
+  --color-border: rgba(242, 230, 214, 0.18);
+  --color-border-strong: rgba(242, 230, 214, 0.3);
+  --color-divider: rgba(242, 230, 214, 0.12);
+}
+
 @theme inline {
   /* Colors reference :root custom properties so they can be overridden
      in scoped themes (e.g. .beyond-theme for Keith's workspace). */

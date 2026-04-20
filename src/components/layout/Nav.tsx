@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { AgeModeSwitcher } from "@/components/layout/AgeModeSwitcher";
+import { ThemeModeCycleButton } from "@/components/layout/ThemeModeCycleButton";
 import { ProfileNavLink } from "@/components/layout/ProfileNavLink";
 import { useProfileNotificationBadge } from "@/hooks/useProfileNotificationBadge";
 
@@ -155,7 +156,7 @@ export function Nav() {
   if (pathname === "/login" || pathname === "/signup") return null;
 
   const desktopNavSurface = navSolid
-    ? "border-[var(--color-border)] bg-[rgba(247,243,237,0.92)] backdrop-blur-md shadow-sm"
+    ? "border-[var(--color-border)] bg-warm-white/92 backdrop-blur-md shadow-sm"
     : "border-transparent bg-transparent backdrop-blur-sm";
 
   return (
@@ -192,6 +193,7 @@ export function Nav() {
           </ul>
           <div className="flex shrink-0 items-center gap-2 border-l border-[var(--color-border)] pl-4">
             <AgeModeSwitcher variant="compact" />
+            <ThemeModeCycleButton compact />
             <ProfileNavLink badge={profileBadge} />
           </div>
         </div>

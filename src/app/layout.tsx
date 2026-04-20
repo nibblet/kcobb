@@ -5,9 +5,10 @@ import { createClient } from "@/lib/supabase/server";
 import { Nav } from "@/components/layout/Nav";
 import { Header } from "@/components/layout/Header";
 import { AgeModeProvider } from "@/hooks/useAgeMode";
+import { ThemeModeProvider } from "@/hooks/useThemeMode";
 import { BodyModeSync } from "@/components/layout/BodyModeSync";
 import { ageModeFromAge } from "@/lib/utils/age-mode";
-import type { AgeMode } from "@/types";
+import type { AgeMode, ThemeMode } from "@/types";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -33,7 +34,10 @@ export const metadata: Metadata = {
     "Stories and lessons from Keith Cobb's life — a family archive.",
 };
 
-async function getInitialAgeMode(): Promise<AgeMode> {
+async function getInitialDisplayModes(): Promise<{
+  ageMode: AgeMode;
+  themeMode: ThemeMode;
+}> {
   try {
     const supabase = await createClient();
     const {
@@ -43,17 +47,22 @@ async function getInitialAgeMode(): Promise<AgeMode> {
     if (user) {
       const { data: profile } = await supabase
         .from("sb_profiles")
-        .select("age, age_mode")
+        .select("age, age_mode, theme_mode")
         .eq("id", user.id)
         .single();
 
-      if (profile?.age_mode) return profile.age_mode;
-      if (profile?.age) return ageModeFromAge(profile.age);
+      const ageMode = profile?.age_mode
+        ? profile.age_mode
+        : profile?.age
+          ? ageModeFromAge(profile.age)
+          : "adult";
+      const themeMode = profile?.theme_mode ?? "auto";
+      return { ageMode, themeMode };
     }
   } catch {
     // Not logged in or profiles table doesn't exist yet
   }
-  return "adult";
+  return { ageMode: "adult", themeMode: "auto" };
 }
 
 export default async function RootLayout({
@@ -61,23 +70,26 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const initialAgeMode = await getInitialAgeMode();
+  const { ageMode: initialAgeMode, themeMode: initialThemeMode } =
+    await getInitialDisplayModes();
   const fontVars = `${playfair.variable} ${lora.variable} ${inter.variable}`;
 
   return (
     <html lang="en" className={`h-full ${fontVars}`}>
       <body className="min-h-full flex flex-col antialiased">
-        <AgeModeProvider initialMode={initialAgeMode}>
-          <BodyModeSync />
-          <a href="#main-content" className="skip-link">
-            Skip to main content
-          </a>
-          <Nav />
-          <Header />
-          <main id="main-content" className="flex-1 pb-16 md:pb-0">
-            {children}
-          </main>
-        </AgeModeProvider>
+        <ThemeModeProvider initialMode={initialThemeMode}>
+          <AgeModeProvider initialMode={initialAgeMode}>
+            <BodyModeSync />
+            <a href="#main-content" className="skip-link">
+              Skip to main content
+            </a>
+            <Nav />
+            <Header />
+            <main id="main-content" className="flex-1 pb-16 md:pb-0">
+              {children}
+            </main>
+          </AgeModeProvider>
+        </ThemeModeProvider>
       </body>
     </html>
   );

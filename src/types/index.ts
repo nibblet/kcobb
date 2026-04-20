@@ -3,6 +3,7 @@
 // Tables: sb_profiles, sb_conversations, sb_messages
 
 export type AgeMode = "young_reader" | "teen" | "adult";
+export type ThemeMode = "light" | "dark" | "auto";
 
 export type UserRole = "admin" | "member" | "keith";
 export type ContributionMode = "tell" | "beyond";
@@ -12,6 +13,7 @@ export interface Profile {
   display_name: string;
   age: number | null;
   age_mode: AgeMode | null;
+  theme_mode: ThemeMode | null;
   role: UserRole;
   has_onboarded: boolean;
   onboarded_at: string | null;
