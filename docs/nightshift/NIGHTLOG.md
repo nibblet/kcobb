@@ -4,6 +4,53 @@
 
 ---
 
+## Run: 2026-04-20 (Run 9)
+
+### Summary
+- Scanned: 2 new commits (`ffd0fbd` nightly fixes + principles + read badges; `379292a` interview file fixes); all new source files (ReadBadge, ReadBadgeAgeAware, StoriesReadProgress, compile-interview-stories.ts); build + lint + tests
+- Issues found: 2 new (FIX-027 duplicate P1_S02 wiki — medium; FIX-026 readCount overflow — very low) — both planned
+- Issues resolved: 0 this run (FIX-023/024/025 were resolved in the Run 8 commit `ffd0fbd`)
+- Ideas: IDEA-022 + IDEA-014 marked shipped; IDEA-021 promoted seed → planned; IDEA-023 promoted exploring → planned; IDEA-024/025/026 seeded
+- Plans written:
+  - `FIXPLAN-FIX-027-duplicate-p1-s02-wiki.md`
+  - `FIXPLAN-FIX-026-stories-read-progress-overflow.md`
+  - `DEVPLAN-IDEA-021-reading-milestone.md`
+  - `DEVPLAN-IDEA-023-explore-hub.md`
+
+### Build & Lint & Test Results
+- `npm run build`: **PASSES** — clean, 54 routes unchanged
+- `npm run lint`: **PASSES** — 0 errors, 0 warnings
+- `npm test`: **41 PASS** — no new tests added, all existing pass
+
+### Key Findings
+
+1. **IDEA-022 SHIPPED — principles now in Ask Keith.** `getPrinciplesContext()` in `prompts.ts` lines 78–101 builds a compact "Keith's 12 Core Principles" section (title + thesis + up to 3 story citations each). Injected into `buildSystemPrompt()` at line 261. Ask Keith can now answer "What did Keith believe about leadership?" with named principles like "Build a Relationship Army" — a meaningful quality jump.
+
+2. **IDEA-014 SHIPPED — read badges on story cards and detail page, plus profile progress bar.** `ReadBadge.tsx` + `ReadBadgeAgeAware.tsx` add a gold "Read" pill (age-aware: "Read it!" for young readers). Badges appear on story cards in `/stories` library and in the story detail header. `StoriesReadProgress.tsx` shows a progress bar in `ProfileGallery`. Bonus: `StoriesReadProgress` has an age-aware celebration message ("You read ALL of Grandpa's stories!") when complete.
+
+3. **FIX-027 (MEDIUM): Duplicate P1_S02 wiki file.** `content/wiki/stories/` contains two files for P1_S02: `P1_S02-a-v-ery-busy-teenager.md` (105 lines, misspelled slug, old) and `P1_S02-a-very-busy-teenager.md` (133 lines, correct). `generate-static-data.ts` parses both, inflating `storiesData.length` to 50. Visible effect: story library shows a duplicate P1_S02 card; header says "50 stories"; progress bar can never reach 100% (49/50 = 98% max). **Fix is 2 steps: delete misspelled file + regenerate static-data.ts.**
+
+4. **FIX-026 (VERY LOW): StoriesReadProgress text can show "N of 49" where N > 49.** The progress bar caps at 100% correctly, but the display text uses raw `readCount` from the DB, which includes reads of family-contributed stories (P2+). Only affects users who read family stories. 2-line fix in `StoriesReadProgress.tsx`.
+
+5. **compile-interview-stories.ts added** — a deterministic script for regenerating interview wiki pages from the Coffee with Cagnetta transcript. `CURATED_STORY_IDS.txt` locks all 10 IDs so the script won't overwrite the hand-curated files.
+
+6. **IDEA-021 (Reading Milestone) planned.** API returns `memoirReadCount` + `milestoneReached`; `ReadTracker` fires `onMilestone` callback; `MilestoneOverlay.tsx` fullscreen celebration with age-aware copy. localStorage prevents re-triggering. **Requires FIX-027 first.**
+
+7. **IDEA-023 (Explore Hub) planned.** `/explore` with 4 tabs (Themes, Stories, Principles, People). All viz components and graph.ts functions exist — pure UI assembly. ~1.5–2 hrs.
+
+### Plans Ready to Execute
+- `docs/nightshift/plans/FIXPLAN-FIX-027-duplicate-p1-s02-wiki.md` — Delete misspelled P1_S02 file + regenerate static-data (5 min) **— do this first**
+- `docs/nightshift/plans/FIXPLAN-FIX-026-stories-read-progress-overflow.md` — 2-line display fix (2 min)
+- `docs/nightshift/plans/DEVPLAN-IDEA-021-reading-milestone.md` — Reading milestone celebration (1.5 hrs; requires FIX-027)
+- `docs/nightshift/plans/DEVPLAN-IDEA-023-explore-hub.md` — Explore Hub tabbed viz page (1.5–2 hrs)
+
+### Recommendations
+- **If you have 10 min:** FIX-027 (delete duplicate P1_S02 + regenerate static-data) + FIX-026 (2-line StoriesReadProgress fix). Both can go in a single commit. Fixes the story count, fixes the duplicate card, and the progress bar reaches 100%.
+- **If you have 1 hour:** The 10-min batch above + FIX-016 (Tell SSE immutability, 15 min) + FIX-013 (fenced JSON try/catch, 10 min). Knocks out 4 open issues.
+- **If you have 2 hours:** 10-min batch + IDEA-023 (Explore Hub, ~1.5 hrs). The entire viz infrastructure is built — this one mostly writes itself from the plan.
+
+---
+
 ## Run: 2026-04-19 (Run 8)
 
 ### Summary

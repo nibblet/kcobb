@@ -110,17 +110,18 @@
 
 ### [IDEA-014] Story Read Progress UI — Story Card Read Badges
 
-- **Status:** ready
+- **Status:** shipped
 - **Category:** enhance
 - **Seeded:** 2026-04-16
-- **Last Updated:** 2026-04-17
+- **Last Updated:** 2026-04-20
 - **Priority:** P2
 - **Plan:** `docs/nightshift/plans/DEVPLAN-IDEA-014-story-read-progress-ui.md`
-- **Summary:** The profile reading dashboard (count, themes, principles) shipped in Run 6. The remaining piece: small "Read" badges on story cards in the story library, so family members can spot which stories they've already visited without clicking each one.
+- **Summary:** Story card read badges and profile progress bar both shipped. `ReadBadge.tsx` + `ReadBadgeAgeAware.tsx` render a gold pill on read story cards in the library and on the story detail header. `StoriesReadProgress.tsx` shows a progress bar in ProfileGallery. Young-reader label is "Read it!" instead of "Read".
 - **Night Notes:**
-  - 2026-04-16: Seeded and advanced to `ready` same night. DB + API + ReadTracker all confirmed working. Only UI elements remain. Plan written.
-  - 2026-04-17: **Profile progress dashboard portion SHIPPED** (ProfileReadingDashboard on `/profile`). Story card badges (Phase 2 of the plan) remain. Plan still valid — only Phase 2 needs execution now. Estimated ~45 min remaining work.
-  - 2026-04-18: `ProfileReadingDashboard` has been superseded by the new reflection gallery (IDEA-020). Story card "Read" badges (Phase 2) are still open and remain the only outstanding piece.
+  - 2026-04-16: Seeded and advanced to `ready` same night.
+  - 2026-04-17: Profile reading dashboard portion shipped.
+  - 2026-04-18: ProfileReadingDashboard superseded by IDEA-020 reflection gallery.
+  - 2026-04-20: **SHIPPED (all phases).** Commit `ffd0fbd`: `ReadBadge.tsx`, `ReadBadgeAgeAware.tsx`, badges on story library cards (`StoriesPageClient.tsx:222`) and story detail header (`story/[storyId]/page.tsx:104`), `StoriesReadProgress.tsx` in `ProfileGallery`. Note: `storiesData` currently shows 50 due to FIX-027 — progress bar stuck at 98% max until that's fixed.
 
 ---
 
@@ -298,43 +299,88 @@
 
 ### [IDEA-022] Principles Context in Ask Keith
 
-- **Status:** ready
+- **Status:** shipped
 - **Category:** enhance
 - **Seeded:** 2026-04-19
-- **Last Updated:** 2026-04-19
+- **Last Updated:** 2026-04-20
 - **Priority:** P1
 - **Plan:** `docs/nightshift/plans/DEVPLAN-IDEA-022-principles-in-ask-keith.md`
-- **Summary:** The 12 canonical principles with thesis statements and rich `aiNarrative` text exist in `parser.ts` but are NOT in the Ask system prompt. Adding `getPrinciplesContext()` to `prompts.ts` would make Ask dramatically better at questions about Keith's values, leadership philosophy, and life lessons. Pure prompt enhancement — no DB, no new routes. Estimated 30 min.
+- **Summary:** `getPrinciplesContext()` added to `buildSystemPrompt()` in `prompts.ts`. The 12 canonical principles with thesis and "seen in" story citations are now injected into the Ask system prompt. Ask Keith now knows all 12 principles by name and can reference them in responses about values and leadership.
 - **Night Notes:**
-  - 2026-04-19: Seeded, validated against codebase, and advanced to `ready` same night. Verified gap: orchestrator passes corpus summaries but not canonical principles context. Dev plan written. Highest-value 30-min improvement currently available.
+  - 2026-04-19: Seeded, validated against codebase, and advanced to `ready` same night.
+  - 2026-04-20: **SHIPPED.** Confirmed in commit `ffd0fbd`: `getPrinciplesContext()` in `prompts.ts` lines 78–101; injected at line 261 of `buildSystemPrompt()`.
 
 ---
 
 ### [IDEA-023] Explore Hub — Interactive Story Map
 
-- **Status:** exploring
+- **Status:** planned
 - **Category:** new
 - **Seeded:** 2026-04-19
-- **Last Updated:** 2026-04-19
+- **Last Updated:** 2026-04-20
 - **Priority:** P2
-- **Plan:** *(not yet written)*
-- **Summary:** The `StorySankey`, `ThemePrincipleMatrix`, and `buildPeopleGraph` data are scattered across `/themes` and `/people`. A dedicated `/explore` page combining all three in a tabbed interface would give family members a visual "map" of the storybook — especially engaging for adult readers. All visualization infrastructure is already built in `graph.ts`; this is a pure UI assembly task. Estimated 1.5–2 hours.
+- **Plan:** `docs/nightshift/plans/DEVPLAN-IDEA-023-explore-hub.md`
+- **Summary:** A `/explore` page with 4 tabs: Themes (ChordDiagram + ThemePrincipleMatrix), Stories (StorySankey), Principles (PrincipleFormationTimeline), People (grid). All visualization components and graph.ts functions already exist; this is a pure UI assembly task. Server component loads data; client component handles tab state. Estimated 1.5–2 hours.
 - **Night Notes:**
-  - 2026-04-19: Seeded. Verified: `buildPeopleGraph()`, `buildStorySankey()`, `buildThemePrincipleMatrix()` all work (41 tests pass). Components: `StorySankey.tsx`, `ThemePrincipleMatrix.tsx` on `/themes`; `ChordDiagram.tsx` on `/themes`; `PrincipleFormationTimeline.tsx` on `/principles`; no dedicated explore page exists. Data infra complete. Need to assess whether to reuse existing components or create a layout-only wrapper page.
+  - 2026-04-19: Seeded. All viz infra confirmed working (41 tests pass).
+  - 2026-04-20: Advanced to `planned`. Dev plan written — pure assembly task, no new data structures. Check actual function signatures in `graph.ts` before coding.
 
 ---
 
 ### [IDEA-021] Reading Milestone Celebration — Complete All 39 Memoir Stories
 
-- **Status:** seed
+- **Status:** planned
 - **Category:** new
 - **Seeded:** 2026-04-18
-- **Last Updated:** 2026-04-18
+- **Last Updated:** 2026-04-20
 - **Priority:** P2
-- **Plan:** *(not yet written)*
-- **Summary:** When a family member reads their 39th memoir story (`sb_story_reads` count reaches 39 for P1_S* stories), show a special congratulations moment — "You've walked the full journey with Grandpa" — as a fullscreen overlay or celebratory toast with a meaningful message. The `sb_story_reads` infrastructure is fully in place; this is purely a celebration UI layer on top of the ReadTracker component. Especially meaningful for grandchildren who read the whole book.
+- **Plan:** `docs/nightshift/plans/DEVPLAN-IDEA-021-reading-milestone.md`
+- **Summary:** When a family member reads their 39th (final) memoir story, show a fullscreen celebration moment — age-aware message ("You read ALL of Grandpa's stories!" for young readers; "You've read Keith's complete memoir." for adults). `sb_story_reads` infra is in place. API returns `memoirReadCount` + `milestoneReached`; `ReadTracker` fires `onMilestone` callback; `MilestoneOverlay.tsx` shows the celebration. localStorage prevents re-triggering.
 - **Night Notes:**
-  - 2026-04-18: Seeded. Implementation sketch: `ReadTracker` component checks total memoir story read count after each successful POST; if it hits 39 for the first time, fires a callback to parent page. Parent page shows `MilestoneOverlay.tsx` (similar pattern to `PhotoFrameOverlay.tsx`). No new DB columns needed — just a count query on `sb_story_reads` where story_id like `P1_%`.
+  - 2026-04-18: Seeded. Implementation sketch noted.
+  - 2026-04-20: Advanced to `planned`. Full dev plan written. **Requires FIX-027 first** (duplicate P1_S02 must be removed so memoir count is correct). Estimated 1.5 hours.
+
+---
+
+### [IDEA-024] Story Print Mode — Clean Print-Friendly Story View
+
+- **Status:** seed
+- **Category:** enhance
+- **Seeded:** 2026-04-20
+- **Last Updated:** 2026-04-20
+- **Priority:** P3
+- **Plan:** *(not yet written)*
+- **Summary:** A "Print story" button on each story detail page that triggers `window.print()` with Tailwind `print:` CSS variants to hide navigation, audio controls, TOC sidebar, and UI chrome — leaving only the story title, body, principles list, and key quotes in a clean readable layout. No new routes, no DB. Perfect for grandparents who want a physical copy of a specific story. Estimated 30–45 min.
+- **Night Notes:**
+  - 2026-04-20: Seeded. Implementation: add `print:hidden` to nav/sidebar/audio; add a `print:block` class to a print-only header. One print-specific CSS rule for page breaks. Add a `<button onClick={() => window.print()}>` to story detail page.
+
+---
+
+### [IDEA-025] Reading Streak Counter on Profile
+
+- **Status:** seed
+- **Category:** enhance
+- **Seeded:** 2026-04-20
+- **Last Updated:** 2026-04-20
+- **Priority:** P3
+- **Plan:** *(not yet written)*
+- **Summary:** Track consecutive days where the user read at least one story (`sb_story_reads.read_at` dates). Show a "🔥 N day streak" counter on the profile page — either in the `StoriesReadProgress` tile or as a new tile in `ProfileGallery`. Compute server-side in `profile-gallery-data.ts`. Especially motivating for grandchildren. Estimated 1.5–2 hours.
+- **Night Notes:**
+  - 2026-04-20: Seeded. Data is in `sb_story_reads.read_at`. Server-side computation: group reads by UTC date, find the longest run of consecutive days ending today. Pass to `StoriesReadProgress` or a new `StreakTile`.
+
+---
+
+### [IDEA-026] "Quote of the Day" Home Widget
+
+- **Status:** seed
+- **Category:** new
+- **Seeded:** 2026-04-20
+- **Last Updated:** 2026-04-20
+- **Priority:** P3
+- **Plan:** *(not yet written)*
+- **Summary:** Show a rotating daily quote from Keith's memoir on the home page — deterministic based on day-of-year so all family members see the same quote each day. No DB, no API. Pull all quotes from `getAllStories().flatMap(s => s.quotes)`, select by `dayOfYear % totalQuotes`. Small, warm widget below the nav cards, linking to the source story. Estimated 20–30 min.
+- **Night Notes:**
+  - 2026-04-20: Seeded. All quotes are already in the static wiki data (each story has `quotes[]`). Deterministic selection ensures the same quote appears for all family members on a given day — a nice conversational hook for family gatherings.
 
 ---
 
@@ -366,3 +412,5 @@
 - **IDEA-008** New Stories Feed — parked 2026-04-17. Stale 3 days. Pure UI addition. Parked — low priority while larger features are landing.
 - **IDEA-012** Letter to Keith — parked 2026-04-18. Non-streaming `/api/ask/letter` endpoint. Parked — revisit when conversational features take priority.
 - **IDEA-015** Enable Deep Ask — parked 2026-04-19. Stale 3 days. Orchestrator updated with corpus data in Run 8; perspective prompts are better now. Re-evaluate when Paul has time for quality eval.
+- *(IDEA-022 SHIPPED 2026-04-20 — principles context in Ask Keith system prompt)*
+- *(IDEA-014 SHIPPED 2026-04-20 — story card read badges + StoriesReadProgress tile, all phases)*

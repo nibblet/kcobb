@@ -1,6 +1,6 @@
 # STATUS — Keith Cobb Interactive Storybook
 
-> Last updated: 2026-04-19 (Nightshift Run 8)
+> Last updated: 2026-04-20 (Nightshift Run 9)
 
 ## App Summary
 
@@ -331,32 +331,40 @@
 - **Commit `114ccac`:** `parser.ts` expanded principles matching
 - **Commit `0f8758f`:** Wiki mirror system — `wiki-mirror.ts`, `corpus.ts`, migration 020; orchestrator updated to use corpus; `StoriesPageClient` extracted; `BeyondDraftEditor` updated
 
+### Recent Changes (Since Run 8)
+- **Commit `ffd0fbd`:** IDEA-022 SHIPPED — `getPrinciplesContext()` added to `buildSystemPrompt()` in `prompts.ts`; IDEA-014 Phase 2+3 SHIPPED — `ReadBadge.tsx` + `ReadBadgeAgeAware.tsx`; badges on story cards (`StoriesPageClient`) and story detail header (`initialRead && <ReadBadgeAgeAware />`); `StoriesReadProgress.tsx` progress bar added to `ProfileGallery`; nightshift doc updates (FIX-023/024/025 resolved, IDEA-022 dev plan updated)
+- **Commit `379292a`:** Interview wiki files normalized (all 10 IV stories hand-curated); `CURATED_STORY_IDS.txt` locks all 10 from compiler overwrite; `scripts/compile-interview-stories.ts` added for deterministic regeneration of interview wiki pages from Coffee with Cagnetta transcript; `ReadBadge.tsx` minor tweak
+
+### ⚠️ Known Data Bug (Run 9)
+- `storiesData.length = 50` instead of expected 49 — see **FIX-027**
+- Root cause: two wiki files exist for P1_S02 (`P1_S02-a-v-ery-busy-teenager.md` and `P1_S02-a-very-busy-teenager.md`)
+- Effect: story library shows duplicate P1_S02 card; progress bar can never reach 100% for memoir readers (stuck at 49/50 = 98%)
+
 ## Current State
-- All features complete: stories, themes, timeline, ask (corpus-aware + people bios), journeys, tell, beyond (QA + Edit + People modes + wiki publish pipeline), admin, signup/profile, reader Q&A, favorites, highlights, profile reflection gallery, onboarding tour, book image lightbox, photo frame, people directory, media attachments, ElevenLabs audio, story corrections, **principles browser**, **wiki mirror**
-- Build: **PASSES** — clean, 54 routes (up from 44)
-- Lint: **PASSES** — 0 errors, 0 warnings (clean since `1bf9147`)
+- All features complete: stories (with read badges + progress bar), themes, timeline, ask (corpus-aware + people bios + **principles context**), journeys, tell, beyond (QA + Edit + People modes + wiki publish pipeline), admin, signup/profile (reflection gallery + stories read progress), reader Q&A, favorites, highlights, onboarding tour, book image lightbox, photo frame, people directory, media attachments, ElevenLabs audio, story corrections, **principles browser**, **wiki mirror**
+- Build: **PASSES** — clean, 54 routes
+- Lint: **PASSES** — 0 errors, 0 warnings
 - Tests: **41 PASS** — `npm test` (Node built-in test runner)
 - **Note on migration numbering:** Two migrations named `013_*` — see FIX-022 (low-risk naming conflict)
-- 5 open issues (FIX-013, FIX-014, FIX-016, FIX-017, FIX-022, FIX-023, FIX-024, FIX-025)
+- **⚠️ Data bug:** `storiesData` has duplicate P1_S02 entry (FIX-027, medium priority, easy fix)
+- 7 open issues (FIX-013, FIX-014, FIX-016, FIX-017, FIX-022, FIX-026, FIX-027)
 
 ## Known Issues (See FIXES.md)
+- **FIX-027**: Duplicate P1_S02 wiki file — `storiesData.length=50` instead of 49 (planned, 2-step fix)
+- FIX-026: StoriesReadProgress readCount can exceed totalStories (planned, 2-line fix)
 - FIX-013: Fenced JSON fallback in /api/tell/draft not wrapped in try/catch (planned)
 - FIX-014: ageMode not validated at runtime in /api/ask (planned)
 - FIX-016: Tell page SSE state mutation (planned)
 - FIX-017: Multiple draft rows per Tell session (planned)
 - FIX-022: Dual `013_` migration prefix naming conflict (planned, low risk)
-- FIX-023: `publishStoryToWikiMirror` non-atomic DB operations — story can go dark on partial failure (planned)
-- FIX-024: `invalidateWikiCorpusCache()` is a no-op in Vercel serverless (planned, doc-only fix)
-- FIX-025: `key={paragraph}` using text content as React key in principle detail page (planned, 1-line fix)
 
 ## Next Actions (Priority Order)
-1. **IDEA-022** — Principles context in Ask Keith (30 min; closes the last Ask quality gap)
-2. **FIX-025** — key={paragraph} fix (1 min; one-liner)
-3. **FIX-023** — Wiki mirror atomicity recovery (15 min; prevents story going dark on publish error)
-4. **FIX-024** — Corpus cache doc comment (5 min; docs-only, no behavior change)
-5. **IDEA-014** — Story card read badges (45 min; completes the read progress feature)
-6. **IDEA-023** — Explore Hub / Story Map (1.5–2 hrs; connects the scattered viz components)
-7. **FIX-016** — Tell SSE state mutation (15 min port)
-8. **FIX-017** — Multiple draft rows per session (30 min upsert fix)
-9. **FIX-013** — Fenced JSON fallback (10 min defensive coding)
-10. **FIX-014** — ageMode runtime validation (5 min, one-liner)
+1. **FIX-027** — Delete duplicate P1_S02 wiki file + regenerate static-data (5 min; fixes story count + progress bar 100%)
+2. **FIX-026** — StoriesReadProgress display cap (2 min; one-liner)
+3. **IDEA-021** — Reading milestone celebration (1.5 hrs; requires FIX-027 first)
+4. **IDEA-023** — Explore Hub / Story Map (1.5–2 hrs; pure UI assembly, all infra exists)
+5. **FIX-016** — Tell SSE state mutation (15 min port)
+6. **FIX-017** — Multiple draft rows per session (30 min upsert fix)
+7. **FIX-013** — Fenced JSON fallback (10 min defensive coding)
+8. **FIX-014** — ageMode runtime validation (5 min, one-liner)
+9. **FIX-022** — Migration naming comment (5 min, docs-only)
