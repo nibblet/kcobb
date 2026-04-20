@@ -39,10 +39,11 @@ export async function updateSession(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser();
 
-  // Allow access to login, signup, and auth callback without auth
+  // Allow access to login, signup, forgot-password, and auth callback without auth
   const isAuthRoute =
     request.nextUrl.pathname.startsWith("/login") ||
     request.nextUrl.pathname.startsWith("/signup") ||
+    request.nextUrl.pathname.startsWith("/forgot-password") ||
     request.nextUrl.pathname.startsWith("/auth");
 
   if (!user && !isAuthRoute) {
@@ -51,11 +52,12 @@ export async function updateSession(request: NextRequest) {
     return NextResponse.redirect(url);
   }
 
-  // Redirect logged-in users away from login / signup
+  // Redirect logged-in users away from login / signup / forgot-password
   if (
     user &&
     (request.nextUrl.pathname === "/login" ||
-      request.nextUrl.pathname === "/signup")
+      request.nextUrl.pathname === "/signup" ||
+      request.nextUrl.pathname === "/forgot-password")
   ) {
     const url = request.nextUrl.clone();
     url.pathname = "/";

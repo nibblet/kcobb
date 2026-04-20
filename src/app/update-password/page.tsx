@@ -4,29 +4,35 @@ import { useState } from "react";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
 
-export default function LoginPage() {
-  const [email, setEmail] = useState("");
+export default function UpdatePasswordPage() {
   const [password, setPassword] = useState("");
+  const [confirm, setConfirm] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
-  async function handleLogin(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setLoading(true);
     setError(null);
 
+    if (password !== confirm) {
+      setError("Passwords do not match.");
+      setLoading(false);
+      return;
+    }
+
     const supabase = createClient();
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
+    const { error: updateError } = await supabase.auth.updateUser({
       password,
     });
 
-    if (error) {
-      setError(error.message);
+    if (updateError) {
+      setError(updateError.message);
       setLoading(false);
-    } else {
-      window.location.href = "/";
+      return;
     }
+
+    window.location.href = "/";
   }
 
   return (
@@ -35,12 +41,10 @@ export default function LoginPage() {
         <div className="mb-8 text-center">
           <h1 className="type-page-title text-3xl">The Cobb Family</h1>
           <h2 className="type-page-title mt-1 text-3xl">Story Library</h2>
-          <p className="type-ui mt-3 text-ink-muted">
-            Stories and lessons from Keith Cobb&apos;s life
-          </p>
+          <p className="type-ui mt-3 text-ink-muted">Choose a new password</p>
         </div>
 
-        <form onSubmit={handleLogin} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-4">
           {error && (
             <div className="rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-800">
               {error}
@@ -49,42 +53,41 @@ export default function LoginPage() {
 
           <div>
             <label
-              htmlFor="email"
+              htmlFor="new-password"
               className="type-ui mb-1 block text-ink"
             >
-              Email
+              New password
             </label>
             <input
-              id="email"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              className="type-ui w-full rounded-lg border border-[var(--color-border)] bg-warm-white px-3 py-2 text-ink"
-              placeholder="you@family.com"
-            />
-          </div>
-
-          <div>
-            <div className="mb-1 flex items-center justify-between gap-2">
-              <label htmlFor="password" className="type-ui block text-ink">
-                Password
-              </label>
-              <Link
-                href="/forgot-password"
-                className="type-ui shrink-0 text-xs text-burgundy underline-offset-2 hover:underline"
-              >
-                Forgot password?
-              </Link>
-            </div>
-            <input
-              id="password"
+              id="new-password"
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
+              minLength={6}
+              autoComplete="new-password"
               className="type-ui w-full rounded-lg border border-[var(--color-border)] bg-warm-white px-3 py-2 text-ink"
-              placeholder="Your password"
+              placeholder="At least 6 characters"
+            />
+          </div>
+
+          <div>
+            <label
+              htmlFor="confirm-password"
+              className="type-ui mb-1 block text-ink"
+            >
+              Confirm password
+            </label>
+            <input
+              id="confirm-password"
+              type="password"
+              value={confirm}
+              onChange={(e) => setConfirm(e.target.value)}
+              required
+              minLength={6}
+              autoComplete="new-password"
+              className="type-ui w-full rounded-lg border border-[var(--color-border)] bg-warm-white px-3 py-2 text-ink"
+              placeholder="Repeat your new password"
             />
           </div>
 
@@ -93,16 +96,16 @@ export default function LoginPage() {
             disabled={loading}
             className="type-ui w-full rounded-lg bg-clay py-2.5 font-medium text-warm-white transition-colors hover:bg-clay-mid disabled:cursor-not-allowed disabled:opacity-50"
           >
-            {loading ? "Signing in..." : "Sign In"}
+            {loading ? "Saving…" : "Save new password"}
           </button>
 
           <p className="type-ui text-center text-sm text-ink-muted">
-            New here?{" "}
             <Link
-              href="/signup"
+              href="/login"
               className="text-burgundy underline-offset-2 hover:underline"
+              prefetch={false}
             >
-              Create an account
+              Cancel and sign in
             </Link>
           </p>
         </form>
