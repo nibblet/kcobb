@@ -129,8 +129,8 @@ export function StoriesPageClient({
               onClick={() => setSelectedSource(sf.value)}
               className={`type-meta shrink-0 rounded-full px-3 py-1 transition-colors ${
                 selectedSource === sf.value
-                  ? "bg-ocean text-warm-white"
-                  : "bg-warm-white text-ink-muted ring-1 ring-[var(--color-border)] hover:text-ink"
+                  ? "bg-ocean font-semibold !text-warm-white"
+                  : "bg-warm-white !text-ink ring-1 ring-[var(--color-border)] hover:ring-[var(--color-border-strong)]"
               }`}
             >
               {sf.label}
@@ -145,8 +145,8 @@ export function StoriesPageClient({
               onClick={() => setSelectedStage(stage)}
               className={`type-meta shrink-0 rounded-full px-3 py-1 transition-colors ${
                 selectedStage === stage
-                  ? "bg-clay text-warm-white"
-                  : "bg-warm-white text-ink-muted ring-1 ring-[var(--color-border)] hover:text-ink"
+                  ? "bg-clay font-semibold !text-warm-white"
+                  : "bg-warm-white !text-ink ring-1 ring-[var(--color-border)] hover:ring-[var(--color-border-strong)]"
               }`}
             >
               {stage}
@@ -161,8 +161,8 @@ export function StoriesPageClient({
               onClick={() => setSelectedTheme(theme)}
               className={`type-meta shrink-0 rounded-full px-3 py-1 transition-colors ${
                 selectedTheme === theme
-                  ? "bg-burgundy text-warm-white"
-                  : "bg-warm-white text-ink-muted ring-1 ring-[var(--color-border)] hover:text-ink"
+                  ? "bg-burgundy font-semibold !text-warm-white"
+                  : "bg-warm-white !text-ink ring-1 ring-[var(--color-border)] hover:ring-[var(--color-border-strong)]"
               }`}
             >
               {theme}
