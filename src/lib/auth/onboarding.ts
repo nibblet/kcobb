@@ -21,6 +21,8 @@ export function isOnboardingAllowlisted(pathname: string): boolean {
     pathname.startsWith("/welcome/") ||
     pathname.startsWith("/login") ||
     pathname.startsWith("/signup") ||
+    pathname.startsWith("/forgot-password") ||
+    pathname.startsWith("/update-password") ||
     pathname.startsWith("/auth") ||
     pathname.startsWith("/api") ||
     pathname.startsWith("/_next") ||
