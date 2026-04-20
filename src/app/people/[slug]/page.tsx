@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getPersonBySlug, getStoryById } from "@/lib/wiki/parser";
+import { ReadingProgressBar } from "@/components/story/ReadingProgressBar";
 import { StoryMarkdown } from "@/components/story/StoryMarkdown";
 import { createClient } from "@/lib/supabase/server";
 import { getAuthenticatedProfileContext } from "@/lib/auth/profile-context";
@@ -35,7 +36,9 @@ export default async function PersonDetailPage({
     .filter((x) => x.story);
 
   return (
-    <div className="mx-auto max-w-content px-[var(--page-padding-x)] py-6 md:py-10">
+    <>
+      <ReadingProgressBar />
+      <div className="mx-auto max-w-content px-[var(--page-padding-x)] py-6 md:py-10">
       <Link
         href="/people"
         className="type-ui mb-4 inline-block text-ink-ghost no-underline transition-colors hover:text-ocean"
@@ -149,6 +152,7 @@ export default async function PersonDetailPage({
           </div>
         </div>
       )}
-    </div>
+      </div>
+    </>
   );
 }

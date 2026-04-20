@@ -4,6 +4,7 @@ import { getJourneyBySlug } from "@/lib/wiki/journeys";
 import { getStoryById } from "@/lib/wiki/parser";
 import { JourneyIntroContinue } from "@/components/journeys/JourneyIntroContinue";
 import { JourneyExperienceBadge } from "@/components/journeys/JourneyExperienceBadge";
+import { ReadingProgressBar } from "@/components/story/ReadingProgressBar";
 
 export default async function JourneyIntroPage({
   params,
@@ -21,7 +22,9 @@ export default async function JourneyIntroPage({
   });
 
   return (
-    <div className="mx-auto max-w-content px-[var(--page-padding-x)] py-6 md:py-10">
+    <>
+      <ReadingProgressBar />
+      <div className="mx-auto max-w-content px-[var(--page-padding-x)] py-6 md:py-10">
       <Link
         href="/journeys"
         className="type-ui mb-4 inline-block text-ink-ghost no-underline transition-colors hover:text-ocean"
@@ -82,6 +85,7 @@ export default async function JourneyIntroPage({
       >
         Start Guided Journey
       </Link>
-    </div>
+      </div>
+    </>
   );
 }

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ThemePillLink } from "@/components/themes/ThemePillLink";
+import { ReadingProgressBar } from "@/components/story/ReadingProgressBar";
 import { getCanonicalPrincipleBySlug } from "@/lib/wiki/parser";
 
 export default async function PrincipleDetailPage({
@@ -14,7 +15,9 @@ export default async function PrincipleDetailPage({
   if (!principle) notFound();
 
   return (
-    <div className="mx-auto max-w-content px-[var(--page-padding-x)] py-6 md:py-10">
+    <>
+      <ReadingProgressBar />
+      <div className="mx-auto max-w-content px-[var(--page-padding-x)] py-6 md:py-10">
       <Link
         href="/principles"
         className="type-ui mb-4 inline-block text-ink-ghost no-underline transition-colors hover:text-ocean"
@@ -107,6 +110,7 @@ export default async function PrincipleDetailPage({
           </ul>
         </details>
       )}
-    </div>
+      </div>
+    </>
   );
 }
