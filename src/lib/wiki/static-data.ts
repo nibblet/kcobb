@@ -62,7 +62,7 @@ export const storiesData: StoryCard[] = [
       "Identity",
       "Gratitude"
     ],
-    "wordCount": 528,
+    "wordCount": 392,
     "principles": [
       "Be willing to discard your approach when an expert shows you a better way.",
       "Creative work requires patience — a book develops over years, not weeks.",
@@ -83,7 +83,7 @@ export const storiesData: StoryCard[] = [
       "Identity",
       "Gratitude"
     ],
-    "wordCount": 177,
+    "wordCount": 130,
     "principles": [
       "A small community can provide an education and value system as strong as any large one.",
       "Your origins stay with you — they are a foundation, not a limitation."
@@ -104,7 +104,7 @@ export const storiesData: StoryCard[] = [
       "Work Ethic",
       "Mentorship"
     ],
-    "wordCount": 531,
+    "wordCount": 287,
     "principles": [
       "Choose based on fit, not just the offer — long-term alignment matters more than short-term advantage.",
       "Recruiting great people is the single most important leadership skill.",
@@ -126,7 +126,7 @@ export const storiesData: StoryCard[] = [
       "Adversity",
       "Financial Responsibility"
     ],
-    "wordCount": 347,
+    "wordCount": 345,
     "principles": [
       "When someone you trust asks for help, answer the call — even if it means leaving security behind.",
       "Scale demands respect — understand the full magnitude of what you're taking on before acting.",
@@ -147,7 +147,7 @@ export const storiesData: StoryCard[] = [
       "Financial Responsibility",
       "Leadership"
     ],
-    "wordCount": 212,
+    "wordCount": 74,
     "principles": [
       "A well-managed sale is a successful outcome — knowing when to transition is a leadership skill."
     ],
@@ -167,7 +167,7 @@ export const storiesData: StoryCard[] = [
       "Leadership",
       "Work Ethic"
     ],
-    "wordCount": 339,
+    "wordCount": 377,
     "principles": [
       "Sustained commitment to one cause over decades creates more impact than scattered involvement.",
       "Community engagement follows you — carry your civic commitments to every place you live.",
@@ -189,7 +189,7 @@ export const storiesData: StoryCard[] = [
       "Curiosity",
       "Integrity"
     ],
-    "wordCount": 525,
+    "wordCount": 372,
     "principles": [
       "The mark of a great institution is operational discipline, not just its mandate or mission.",
       "Never stop learning — even in your later career, be willing to go back to textbooks.",
@@ -211,7 +211,7 @@ export const storiesData: StoryCard[] = [
       "Career Choices",
       "Work Ethic"
     ],
-    "wordCount": 1092,
+    "wordCount": 612,
     "principles": [
       "Technical capability is table stakes — relationships are the real career differentiator.",
       "Build a 'relationship army' of business connections as career infrastructure.",
@@ -233,7 +233,7 @@ export const storiesData: StoryCard[] = [
       "Gratitude",
       "Identity"
     ],
-    "wordCount": 458,
+    "wordCount": 370,
     "principles": [
       "An incredible partner is one of the biggest contributors to professional success.",
       "Deep roots and long-standing connections are worth maintaining, even across distance."
@@ -254,7 +254,7 @@ export const storiesData: StoryCard[] = [
       "Gratitude",
       "Identity"
     ],
-    "wordCount": 579,
+    "wordCount": 447,
     "principles": [
       "It's never too late to learn new things — curiosity has no retirement age.",
       "Experimentation is the best way to learn — try things hands-on rather than just reading about them.",
@@ -283,32 +283,6 @@ export const storiesData: StoryCard[] = [
       "Early influences (home, school, church) are foundational to character development.",
       "Remembering origins helps explain later choices and identity.",
       "Hands-on community activities and local institutions provide practical learning opportunities."
-    ],
-    "volume": "P1"
-  },
-  {
-    "storyId": "P1_S02",
-    "slug": "a-v-ery-busy-teenager",
-    "title": "A Very Busy Teenager",
-    "summary": "A former high-school student recounts a busy four years filled with strong academics, extensive extracurricular involvement, health crises, and the choice of a college major influenced by an aptitude test.",
-    "source": "memoir",
-    "sourceDetail": "",
-    "lifeStage": "Education",
-    "themes": [
-      "Adversity",
-      "Career Choices",
-      "Gratitude",
-      "Identity",
-      "Leadership",
-      "Mentorship",
-      "Work Ethic"
-    ],
-    "wordCount": 2456,
-    "principles": [
-      "High-quality teaching produces lasting advantage and prepares for future success.",
-      "Extracurricular activities build skills, confidence, and social bonds.",
-      "Leaders must develop delegation skills rather than assuming excessive responsibility.",
-      "Adversity can be an opportunity to learn durable skills."
     ],
     "volume": "P1"
   },

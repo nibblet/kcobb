@@ -33,6 +33,14 @@ If a user reads a family-contributed story, `readCount` can exceed `totalStories
 - `src/components/profile/StoriesReadProgress.tsx` — 2-line change (add `displayCount`, use in JSX)
 
 ## Verify
-- [ ] Build passes
-- [ ] Profile page progress tile never shows "N of M" where N > M
-- [ ] User who has read 49+ stories (including family ones) sees "49 of 49" or similar capped text
+- [x] Build passes
+- [x] Profile tile text now caps display count with `Math.min(readCount, totalStories)`
+- [x] Users with reads beyond static story corpus now see capped `"N of M"` text
+
+## Resolution
+Resolved on 2026-04-20.
+
+- Updated `src/components/profile/StoriesReadProgress.tsx`:
+  - Added `const displayCount = Math.min(readCount, totalStories);`
+  - Replaced `{readCount}` with `{displayCount}` in progress text
+- Verified production build with `npm run build` (pass).

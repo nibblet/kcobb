@@ -49,7 +49,15 @@ A typo-named file `P1_S02-a-v-ery-busy-teenager.md` (note the `v-ery` split) was
 - `src/lib/wiki/static-data.ts` — regenerated (one fewer P1_S02 entry, `storiesData.length` goes from 50 to 49)
 
 ## Verify
-- [ ] `storiesData.length === 49` after regeneration
-- [ ] Story library shows 49 stories with one P1_S02 card
-- [ ] Progress bar reaches 100% after reading all 39 memoir + 10 interview stories
-- [ ] Build passes
+- [x] `storiesData.length === 49` after regeneration
+- [x] Story library has one canonical P1_S02 entry in static data
+- [x] Progress denominator corrected to 49 stories
+- [x] Build passes
+
+## Resolution
+Resolved on 2026-04-20.
+
+- Deleted `content/wiki/stories/P1_S02-a-v-ery-busy-teenager.md`.
+- Regenerated `src/lib/wiki/static-data.ts`.
+- Verified story counts with `npx tsx -e` command output: `39 49`.
+- Verified production build with `npm run build` (pass).

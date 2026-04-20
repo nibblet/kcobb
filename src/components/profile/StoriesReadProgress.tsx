@@ -18,6 +18,7 @@ export function StoriesReadProgress({ readCount, totalStories }: Props) {
 
   const pct = Math.min(100, Math.round((readCount / totalStories) * 100));
   const complete = readCount >= totalStories;
+  const displayCount = Math.min(readCount, totalStories);
 
   const showYoungCelebration =
     ageMode === "young_reader" && complete;
@@ -31,7 +32,7 @@ export function StoriesReadProgress({ readCount, totalStories }: Props) {
             Stories read
           </p>
           <p className="font-[family-name:var(--font-inter)] text-xs tabular-nums text-[rgba(240,232,213,0.72)]">
-            {readCount} of {totalStories}
+            {displayCount} of {totalStories}
           </p>
         </div>
         <div className="h-2 overflow-hidden rounded-full bg-[rgba(240,232,213,0.12)]">

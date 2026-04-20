@@ -15,24 +15,6 @@
 
 ## Open Issues
 
-### [FIX-027] Duplicate P1_S02 Wiki File — storiesData Inflated to 50 Stories
-- **Status:** planned
-- **Severity:** Medium — story library shows duplicate P1_S02 card; `storiesData.length = 50` instead of 49; `StoriesReadProgress` progress bar can never reach 100% (stuck at 49/50 = 98%)
-- **Found:** 2026-04-20
-- **Plan:** `docs/nightshift/plans/FIXPLAN-FIX-027-duplicate-p1-s02-wiki.md`
-- **Summary:** Two wiki files exist for P1_S02: `P1_S02-a-v-ery-busy-teenager.md` (105 lines, old/shorter) and `P1_S02-a-very-busy-teenager.md` (133 lines, correct). Both declare `**Story ID:** P1_S02` so `generate-static-data.ts` includes two entries. Fix: delete the misspelled file and regenerate static-data.ts.
-
----
-
-### [FIX-026] StoriesReadProgress Displays readCount > totalStories
-- **Status:** planned
-- **Severity:** Very Low — only affects users who read family-contributed stories (P2+); `readCount` from DB can exceed `storiesData.length` (49 static stories) causing the text to display "N of 49" where N > 49
-- **Found:** 2026-04-20
-- **Plan:** `docs/nightshift/plans/FIXPLAN-FIX-026-stories-read-progress-overflow.md`
-- **Summary:** `profile-gallery-data.ts` `readCount: reads.length` counts all story reads including family-contributed ones; `totalStories = storiesData.length` = 49 static stories. The progress bar caps with `Math.min` but the display text does not. Fix: `const displayCount = Math.min(readCount, totalStories)` in `StoriesReadProgress.tsx`.
-
----
-
 ### [FIX-022] Duplicate `013_` Migration Prefix
 - **Status:** planned
 - **Severity:** Low — no functional impact since Supabase tracks migrations by full filename; however, it's confusing naming and could cause issues on fresh deployments if alphabetical ordering ever changes
@@ -79,6 +61,26 @@
 ---
 
 ## Recently Resolved
+
+### [FIX-027] Duplicate P1_S02 Wiki File — storiesData Inflated to 50 Stories
+- **Status:** resolved
+- **Severity:** Medium
+- **Found:** 2026-04-20
+- **Resolved:** 2026-04-20
+- **Plan:** `docs/nightshift/plans/FIXPLAN-FIX-027-duplicate-p1-s02-wiki.md`
+- **Summary:** Removed typo duplicate `content/wiki/stories/P1_S02-a-v-ery-busy-teenager.md`, regenerated `src/lib/wiki/static-data.ts`, and verified story counts now report `39 49` with a successful production build.
+
+---
+
+### [FIX-026] StoriesReadProgress Displays readCount > totalStories
+- **Status:** resolved
+- **Severity:** Very Low
+- **Found:** 2026-04-20
+- **Resolved:** 2026-04-20
+- **Plan:** `docs/nightshift/plans/FIXPLAN-FIX-026-stories-read-progress-overflow.md`
+- **Summary:** Updated `src/components/profile/StoriesReadProgress.tsx` to cap display text via `displayCount = Math.min(readCount, totalStories)`, preventing `"N of M"` overflow while preserving existing progress bar behavior. Build verified.
+
+---
 
 ### [FIX-025] Paragraph Text Used as React Key on Principle Detail Page
 - **Status:** resolved
