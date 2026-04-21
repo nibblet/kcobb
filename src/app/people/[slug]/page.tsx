@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getPersonBySlug, getStoryById } from "@/lib/wiki/parser";
-import { ReadingProgressBar } from "@/components/story/ReadingProgressBar";
+import { ReadAloudControls } from "@/components/ReadAloudControls";
 import { StoryMarkdown } from "@/components/story/StoryMarkdown";
 import { createClient } from "@/lib/supabase/server";
 import { getAuthenticatedProfileContext } from "@/lib/auth/profile-context";
@@ -35,10 +35,11 @@ export default async function PersonDetailPage({
     .map((id) => ({ id, story: getStoryById(id) }))
     .filter((x) => x.story);
 
+  const readAloudText = dbPerson?.bio_md || person.aiDraft || "";
+  const readAloudTitle = dbPerson?.display_name || person.name;
+
   return (
-    <>
-      <ReadingProgressBar />
-      <div className="mx-auto max-w-content px-[var(--page-padding-x)] py-6 md:py-10">
+    <div className="mx-auto max-w-content px-[var(--page-padding-x)] py-6 md:py-10">
       <Link
         href="/people"
         className="type-ui mb-4 inline-block text-ink-ghost no-underline transition-colors hover:text-ocean"
@@ -85,6 +86,10 @@ export default async function PersonDetailPage({
             canEdit={isKeithSpecialAccess}
           />
         </div>
+      )}
+
+      {readAloudText && (
+        <ReadAloudControls title={readAloudTitle} text={readAloudText} />
       )}
 
       {dbPerson?.bio_md ? (
@@ -152,7 +157,6 @@ export default async function PersonDetailPage({
           </div>
         </div>
       )}
-      </div>
-    </>
+    </div>
   );
 }

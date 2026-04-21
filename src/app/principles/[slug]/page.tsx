@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ThemePillLink } from "@/components/themes/ThemePillLink";
-import { ReadingProgressBar } from "@/components/story/ReadingProgressBar";
+import { ReadAloudControls } from "@/components/ReadAloudControls";
 import { getCanonicalPrincipleBySlug } from "@/lib/wiki/parser";
 
 export default async function PrincipleDetailPage({
@@ -15,9 +15,7 @@ export default async function PrincipleDetailPage({
   if (!principle) notFound();
 
   return (
-    <>
-      <ReadingProgressBar />
-      <div className="mx-auto max-w-content px-[var(--page-padding-x)] py-6 md:py-10">
+    <div className="mx-auto max-w-content px-[var(--page-padding-x)] py-6 md:py-10">
       <Link
         href="/principles"
         className="type-ui mb-4 inline-block text-ink-ghost no-underline transition-colors hover:text-ocean"
@@ -44,6 +42,12 @@ export default async function PrincipleDetailPage({
       </div>
 
       <section className="mt-6 rounded-2xl border border-[var(--color-border)] bg-warm-white p-5">
+        {principle.aiNarrative && (
+          <ReadAloudControls
+            title={principle.title}
+            text={principle.aiNarrative}
+          />
+        )}
         <div className="space-y-4">
           {principle.aiNarrative.split("\n\n").map((paragraph, i) => (
             <p
@@ -110,7 +114,6 @@ export default async function PrincipleDetailPage({
           </ul>
         </details>
       )}
-      </div>
-    </>
+    </div>
   );
 }
