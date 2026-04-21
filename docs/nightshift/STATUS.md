@@ -1,6 +1,6 @@
 # STATUS — Keith Cobb Interactive Storybook
 
-> Last updated: 2026-04-20 (Nightshift Run 9)
+> Last updated: 2026-04-21 (Nightshift Run 10)
 
 ## App Summary
 
@@ -55,6 +55,7 @@
   - `018_highlight_passage_conversation.sql` — `passage_ask_conversation_id` UUID column on `sb_story_highlights` (links a passage to a conversation)
   - `019_profile_reflections.sql` — `sb_profile_reflections` table; AI narrator reflection with cooldown + trigger logic
   - `020_wiki_mirror.sql` — `sb_story_integrations` + `sb_wiki_documents` tables; Beyond publish pipeline writes compiled stories into the wiki layer; RLS: all authenticated users read active docs; keith/admin write
+  - `021_theme_mode.sql` — `theme_mode text check('light','dark','auto') default 'auto'` column on `sb_profiles`
 
 - **Tables:**
   - `sb_profiles` — user profiles (display_name, age, age_mode, role: admin|member|keith, **has_onboarded**, **onboarded_at**)
@@ -75,6 +76,7 @@
   - `sb_profile_reflections` — per-user AI narrator reflection (cooldown: 24h; triggers: +3 reads, +1 saved, +1 asked)
   - `sb_story_integrations` — compiled metadata per Beyond publish (version, content_hash, themes, principles, quotes, timeline_events, related_story_ids)
   - `sb_wiki_documents` — compiled wiki documents per Beyond publish (doc_type: story|theme|principle|timeline|index|ask_context; versioned; status: active|superseded)
+  - `sb_profiles.theme_mode` — NEW (migration 021): `'light'|'dark'|'auto'`, default `'auto'`; persists day/night preference per user
 
 - RLS enabled on all tables — policies cover all CRUD paths
 - Auto-trigger: `handle_new_sb_user()` creates `sb_profiles` row on auth signup
@@ -111,8 +113,10 @@
 - `/profile/admin` — Admin triage for story corrections (admin-only)
 - `/welcome` — First-run onboarding tour (4 steps, age-aware, feature-flagged by `has_onboarded`)
 - `/signup` — New user registration
-- `/login` — Supabase auth
-- `/auth/callback` — OAuth callback
+- `/login` — Supabase auth (now has "Forgot password?" link)
+- `/forgot-password` — Password reset request form (NEW in Run 10)
+- `/update-password` — Choose new password form; reached via reset email link (NEW in Run 10)
+- `/auth/callback` — Auth callback page (converted from `route.ts` to `page.tsx` in Run 10; handles code exchange, OTP/recovery token hash, and legacy hash fragment)
 
 - **API:**
   - `/api/ask` — Streaming Claude API endpoint (rate limited: 20/min, multi-perspective orchestrator)
@@ -164,6 +168,17 @@
 - **Onboarding gate:** `proxy.ts` redirects new (non-onboarded) users to `/welcome`
   - Fast-path: `sb_onboarded` cookie (1-year TTL) bypasses DB check on steady-state requests
   - On cache miss: queries `sb_profiles.has_onboarded`; sets cookie on first confirmed onboarded status
+
+### Day/Night Theme Mode (NEW in Run 10)
+- Three modes: `light` (Day), `dark` (Night), `auto` (follows OS)
+- Persisted: authenticated users → `sb_profiles.theme_mode` (migration 021); unauthenticated → `localStorage` (`kcobb_theme_mode` key)
+- Provider: `src/hooks/useThemeMode.tsx` — `ThemeModeProvider` wraps the app in `layout.tsx`; `initialMode` read from DB on server
+- DOM sync: `BodyModeSync.tsx` sets `data-theme-resolved="light|dark"` on `document.body` after hydration
+- CSS: `body[data-theme-resolved="dark"]` in `globals.css` overrides all design tokens for dark palette
+- UI: `ThemeModeCycleButton.tsx` — sun/moon/monitor icon cycles light→dark→auto; in Nav and ProfileUtilityIcons
+- `ThemeModeSelector.tsx` — full-width selector variant for profile settings
+- `src/lib/utils/theme-mode.ts` — pure `resolveThemeMode`, `nextThemeMode`, `themeModeLabel` utilities; 4 tests
+- **Known lint issue:** `useThemeMode.tsx:55` has `setState` synchronously in effect (FIX-028 — easy fix, 2 min)
 
 ### Age Mode System
 - Three modes: `young_reader` (3-10), `teen` (11-17), `adult` (18+)
@@ -331,6 +346,15 @@
 - **Commit `114ccac`:** `parser.ts` expanded principles matching
 - **Commit `0f8758f`:** Wiki mirror system — `wiki-mirror.ts`, `corpus.ts`, migration 020; orchestrator updated to use corpus; `StoriesPageClient` extracted; `BeyondDraftEditor` updated
 
+### Recent Changes (Since Run 9)
+- **Commit `d5ff821`:** FIX-027 RESOLVED (deleted duplicate `P1_S02-a-v-ery-busy-teenager.md`) + FIX-026 RESOLVED (StoriesReadProgress display cap) + nightshift docs update
+- **Commit `b8aaa69`:** Color fixes in `P1_S14_Togetherness_on_Saturday` story + `StoriesPageClient.tsx`
+- **Commit `0202555`:** Removed `john-cobb.md` + `paul-cobb.md` people pages; updated `BACKLOG.md` with IDEA-027–030; minor `people-tiers.ts` fix
+- **Commit `2dfd387`:** **Day/Night theming shipped** — migration 021, `useThemeMode.tsx`, `ThemeModeProvider`, `BodyModeSync.tsx`, `ThemeModeCycleButton.tsx`, `ThemeModeSelector.tsx`, `theme-mode.ts` (+tests), `globals.css` dark token overrides, `layout.tsx` updated; also added `cobb_brain_lab/scripts/reflow_story_from_pdf.py` (paragraph reflow tool)
+- **Commit `e5bafa9`:** **All 39 memoir stories paragraph-reformatted** using new reflow script; `apply_reflow_to_stories.py` added; both raw and wiki story files updated
+- **Commit `66ce184`:** **Forgot password flow added** — `/forgot-password/page.tsx`, `/update-password/page.tsx`, `login/page.tsx` updated with link, `supabase/middleware.ts` updated to allow new routes
+- **Commit `ea6ad56`:** **Auth callback upgraded** — `auth/callback/route.ts` replaced with `auth/callback/page.tsx` (client-side, handles code, token_hash/OTP, and hash-fragment auth flows); `onboarding.ts` adds `/update-password` to allowlist
+
 ### Recent Changes (Since Run 8)
 - **Commit `ffd0fbd`:** IDEA-022 SHIPPED — `getPrinciplesContext()` added to `buildSystemPrompt()` in `prompts.ts`; IDEA-014 Phase 2+3 SHIPPED — `ReadBadge.tsx` + `ReadBadgeAgeAware.tsx`; badges on story cards (`StoriesPageClient`) and story detail header (`initialRead && <ReadBadgeAgeAware />`); `StoriesReadProgress.tsx` progress bar added to `ProfileGallery`; nightshift doc updates (FIX-023/024/025 resolved, IDEA-022 dev plan updated)
 - **Commit `379292a`:** Interview wiki files normalized (all 10 IV stories hand-curated); `CURATED_STORY_IDS.txt` locks all 10 from compiler overwrite; `scripts/compile-interview-stories.ts` added for deterministic regeneration of interview wiki pages from Coffee with Cagnetta transcript; `ReadBadge.tsx` minor tweak
@@ -341,17 +365,15 @@
 - Effect: story library shows duplicate P1_S02 card; progress bar can never reach 100% for memoir readers (stuck at 49/50 = 98%)
 
 ## Current State
-- All features complete: stories (with read badges + progress bar), themes, timeline, ask (corpus-aware + people bios + **principles context**), journeys, tell, beyond (QA + Edit + People modes + wiki publish pipeline), admin, signup/profile (reflection gallery + stories read progress), reader Q&A, favorites, highlights, onboarding tour, book image lightbox, photo frame, people directory, media attachments, ElevenLabs audio, story corrections, **principles browser**, **wiki mirror**
-- Build: **PASSES** — clean, 54 routes
-- Lint: **PASSES** — 0 errors, 0 warnings
-- Tests: **41 PASS** — `npm test` (Node built-in test runner)
+- All features complete: stories (read badges + progress bar + all 39 paragraph-reformatted), themes, timeline, ask (corpus-aware + people bios + principles context), journeys, tell, beyond (QA + Edit + People modes + wiki publish pipeline), admin, signup/profile (reflection gallery + stories read progress), reader Q&A, favorites, highlights, onboarding tour, book image lightbox, photo frame, people directory, media attachments, ElevenLabs audio, story corrections, principles browser, wiki mirror, **day/night theming**, **forgot-password flow**
+- Build: **PASSES** — clean, 55 routes (up from 54; added `/forgot-password`, `/update-password`)
+- Lint: **FAILS** — 1 error (`useThemeMode.tsx:55`, see FIX-028 — 2-min fix)
+- Tests: **45 PASS** — `npm test` (up from 41; 4 new theme-mode tests)
 - **Note on migration numbering:** Two migrations named `013_*` — see FIX-022 (low-risk naming conflict)
-- **⚠️ Data bug:** `storiesData` has duplicate P1_S02 entry (FIX-027, medium priority, easy fix)
-- 7 open issues (FIX-013, FIX-014, FIX-016, FIX-017, FIX-022, FIX-026, FIX-027)
+- 6 open issues (FIX-028, FIX-013, FIX-014, FIX-016, FIX-017, FIX-022)
 
 ## Known Issues (See FIXES.md)
-- **FIX-027**: Duplicate P1_S02 wiki file — `storiesData.length=50` instead of 49 (planned, 2-step fix)
-- FIX-026: StoriesReadProgress readCount can exceed totalStories (planned, 2-line fix)
+- **FIX-028**: `useThemeMode.tsx` lint error — setState in effect (planned, 2-min fix)
 - FIX-013: Fenced JSON fallback in /api/tell/draft not wrapped in try/catch (planned)
 - FIX-014: ageMode not validated at runtime in /api/ask (planned)
 - FIX-016: Tell page SSE state mutation (planned)
@@ -359,12 +381,14 @@
 - FIX-022: Dual `013_` migration prefix naming conflict (planned, low risk)
 
 ## Next Actions (Priority Order)
-1. **FIX-027** — Delete duplicate P1_S02 wiki file + regenerate static-data (5 min; fixes story count + progress bar 100%)
-2. **FIX-026** — StoriesReadProgress display cap (2 min; one-liner)
-3. **IDEA-021** — Reading milestone celebration (1.5 hrs; requires FIX-027 first)
-4. **IDEA-023** — Explore Hub / Story Map (1.5–2 hrs; pure UI assembly, all infra exists)
-5. **FIX-016** — Tell SSE state mutation (15 min port)
-6. **FIX-017** — Multiple draft rows per session (30 min upsert fix)
-7. **FIX-013** — Fenced JSON fallback (10 min defensive coding)
-8. **FIX-014** — ageMode runtime validation (5 min, one-liner)
-9. **FIX-022** — Migration naming comment (5 min, docs-only)
+1. **FIX-028** — `useThemeMode.tsx` lazy initializer fix (2 min; restores clean lint)
+2. **IDEA-029** — Homepage Continue Reading card (30–40 min; personalization hook)
+3. **IDEA-027** — What to Read Next on story pages (40–50 min; reading momentum)
+4. **IDEA-026** — Quote of the Day home widget (20–25 min; no DB, pure UI)
+5. **IDEA-021** — Reading milestone celebration (1.5 hrs)
+6. **IDEA-023** — Explore Hub / Story Map (1.5–2 hrs; pure UI assembly)
+7. **FIX-016** — Tell SSE state mutation (15 min port)
+8. **FIX-017** — Multiple draft rows per session (30 min upsert fix)
+9. **FIX-013** — Fenced JSON fallback (10 min defensive coding)
+10. **FIX-014** — ageMode runtime validation (5 min, one-liner)
+11. **FIX-022** — Migration naming comment (5 min, docs-only)

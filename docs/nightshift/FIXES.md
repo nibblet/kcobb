@@ -15,6 +15,15 @@
 
 ## Open Issues
 
+### [FIX-028] useThemeMode.tsx setState-in-Effect Lint Error
+- **Status:** planned
+- **Severity:** Low — lint fails, feature works correctly; cascade render on theme init
+- **Found:** 2026-04-21
+- **Plan:** `docs/nightshift/plans/FIXPLAN-FIX-028-usethememode-lint.md`
+- **Summary:** `src/hooks/useThemeMode.tsx:55` calls `setSystemMode(getSystemThemeMode())` synchronously inside a `useEffect` body, triggering the `react-hooks/set-state-in-effect` ESLint rule. `npm run lint` fails with 1 error. Fix: pass `getSystemThemeMode` as a lazy `useState` initializer instead, removing the setState call from the effect. SSR-safe because the function guards `typeof window === "undefined"` and returns `"light"` on the server.
+
+---
+
 ### [FIX-022] Duplicate `013_` Migration Prefix
 - **Status:** planned
 - **Severity:** Low — no functional impact since Supabase tracks migrations by full filename; however, it's confusing naming and could cause issues on fresh deployments if alphabetical ordering ever changes

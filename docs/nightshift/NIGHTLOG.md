@@ -4,6 +4,51 @@
 
 ---
 
+## Run: 2026-04-21 (Run 10)
+
+### Summary
+- Scanned: 7 new commits (`d5ff821` → `ea6ad56`); all new source files (useThemeMode.tsx, ThemeModeProvider, BodyModeSync, ThemeModeCycleButton, ThemeModeSelector, theme-mode.ts+test, forgot-password/page.tsx, update-password/page.tsx, auth/callback/page.tsx); migration 021; build + lint + tests
+- Issues found: 1 new (FIX-028 useThemeMode lint error — low severity, 2-min fix)
+- Issues resolved: FIX-027 + FIX-026 both confirmed resolved in commit `d5ff821`
+- Ideas: IDEA-026 promoted seed→planned; IDEA-027 promoted seed→planned; IDEA-029 promoted seed→planned; IDEA-031 + IDEA-032 seeded (night typography, dark mode onboarding)
+- Plans written:
+  - `FIXPLAN-FIX-028-usethememode-lint.md`
+  - `DEVPLAN-IDEA-026-quote-of-the-day.md`
+  - `DEVPLAN-IDEA-027-what-to-read-next.md`
+  - `DEVPLAN-IDEA-029-homepage-continue-reading.md`
+
+### Build & Lint & Test Results
+- `npm run build`: **PASSES** — clean, 55 routes (up from 54; added `/forgot-password`, `/update-password`; `/auth/callback` changed from route to page)
+- `npm run lint`: **FAILS** — 1 error (`useThemeMode.tsx:55` setState in effect, FIX-028)
+- `npm test`: **45 PASS** — up from 41; 4 new tests for `theme-mode.ts` utilities
+
+### Key Findings
+
+1. **Day/Night theming ships.** Commit `2dfd387` adds the full theming system: `ThemeModeProvider`, `BodyModeSync`, `ThemeModeCycleButton`, `ThemeModeSelector`, migration 021 (`theme_mode` on `sb_profiles`). Dark mode CSS overrides all 20 design tokens. Authenticated users get DB persistence; unauthenticated users get localStorage. Three modes: Day / Night / Auto (follows OS). Clean implementation. 4 new tests all pass.
+
+2. **FIX-028 (LOW): Lint regression in `useThemeMode.tsx`.** `setSystemMode(getSystemThemeMode())` called synchronously at the start of a `useEffect` body triggers the `react-hooks/set-state-in-effect` ESLint rule. `npm run lint` fails with 1 error. Fix: change `useState("light")` to `useState(getSystemThemeMode)` (lazy initializer). SSR-safe (function guards `typeof window`). No hydration risk (theme is applied via DOM attribute in a separate effect, never in render output). Estimated 2 min.
+
+3. **Forgot password flow ships.** Commits `66ce184` + `ea6ad56` add `/forgot-password` (email form → Supabase `resetPasswordForEmail`) + `/update-password` (choose new password form) + `/auth/callback` upgraded from `route.ts` to a full `page.tsx` that handles code exchange, OTP/recovery token hash, and legacy hash-fragment flows. `supabase/middleware.ts` + `onboarding.ts` both updated to allow the new paths. Well-implemented; `safeNext()` guard prevents open redirects on callback.
+
+4. **All 39 memoir stories paragraph-reformatted.** Commit `e5bafa9` rewrote `cobb_brain_lab/scripts/reflow_story_from_pdf.py` and ran `apply_reflow_to_stories.py` to normalize paragraph breaks across all story files (both `content/raw/stories_md/` and `content/wiki/stories/`). This is a content quality improvement — OCR-style run-on paragraphs have been split correctly.
+
+5. **FIX-027 + FIX-026 confirmed resolved.** Commit `d5ff821` deleted the misspelled `P1_S02-a-v-ery-busy-teenager.md` and regenerated `static-data.ts`. `storiesData.length` is now 49. StoriesReadProgress display cap also applied.
+
+6. **Three P1 backlog ideas advanced to `planned`.** IDEA-026 (Quote of the Day — 20 min), IDEA-027 (What to Read Next — 40 min), IDEA-029 (Homepage Continue Reading — 30 min). All plans written and self-contained. These three together would transform the home page and story pages into a cohesive reading experience.
+
+### Plans Ready to Execute
+- `docs/nightshift/plans/FIXPLAN-FIX-028-usethememode-lint.md` — 2-min lazy initializer fix, restores clean lint
+- `docs/nightshift/plans/DEVPLAN-IDEA-029-homepage-continue-reading.md` — Homepage personalized Continue Reading card (30–40 min)
+- `docs/nightshift/plans/DEVPLAN-IDEA-027-what-to-read-next.md` — Story page "What to Read Next" (40–50 min)
+- `docs/nightshift/plans/DEVPLAN-IDEA-026-quote-of-the-day.md` — Daily quote widget on home page (20–25 min)
+
+### Recommendations
+- **If you have 5 min:** FIX-028 alone — restores `npm run lint` to 0 errors. Lazy initializer swap + remove 1 line.
+- **If you have 1 hour:** FIX-028 (2 min) + IDEA-026 Quote of the Day (20 min) + IDEA-029 Continue Reading (35 min). After this: lint is clean, home page is personalized with both a daily quote and a specific "keep reading" entry point.
+- **If you have 2 hours:** The 1-hour batch above + IDEA-027 What to Read Next (45 min). After this: every story page ends with a specific next suggestion instead of a dead end. The reading experience becomes a continuous journey rather than a flat library.
+
+---
+
 ## Run: 2026-04-20 (Run 9)
 
 ### Summary

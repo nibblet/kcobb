@@ -372,29 +372,31 @@
 
 ### [IDEA-026] "Quote of the Day" Home Widget
 
-- **Status:** seed
+- **Status:** planned
 - **Category:** new
 - **Seeded:** 2026-04-20
-- **Last Updated:** 2026-04-20
+- **Last Updated:** 2026-04-21
 - **Priority:** P3
-- **Plan:** *(not yet written)*
-- **Summary:** Show a rotating daily quote from Keith's memoir on the home page — deterministic based on day-of-year so all family members see the same quote each day. No DB, no API. Pull all quotes from `getAllStories().flatMap(s => s.quotes)`, select by `dayOfYear % totalQuotes`. Small, warm widget below the nav cards, linking to the source story. Estimated 20–30 min.
+- **Plan:** `docs/nightshift/plans/DEVPLAN-IDEA-026-quote-of-the-day.md`
+- **Summary:** Show a rotating daily quote from Keith's memoir on the home page — deterministic based on day-of-year so all family members see the same quote each day. No DB, no API. Pull all quotes from `getAllStories().flatMap(s => s.quotes)`, select by `dayOfYear % totalQuotes`. Small, warm widget below the nav cards, linking to the source story. Estimated 20–25 min.
 - **Night Notes:**
   - 2026-04-20: Seeded. All quotes are already in the static wiki data (each story has `quotes[]`). Deterministic selection ensures the same quote appears for all family members on a given day — a nice conversational hook for family gatherings.
+  - 2026-04-21: Advanced to `planned`. Dev plan written. Zero dependencies — pure server component addition.
 
 ---
 
 ### [IDEA-027] "What to Read Next" — Story Momentum After Reading
 
-- **Status:** seed
+- **Status:** planned
 - **Category:** enhance
 - **Seeded:** 2026-04-20
-- **Last Updated:** 2026-04-20
+- **Last Updated:** 2026-04-21
 - **Priority:** P1
-- **Plan:** *(not yet written)*
-- **Summary:** The story detail page footer currently has two CTAs ("Chat about this story" + "Browse more stories"). Replace/augment with a "What to read next" block that surfaces 1–2 specific suggestions: the next story in sequence (P1_SXX+1) if unread, OR a related story from `story.relatedStoryIds` if the next-in-sequence has already been read. For young readers, lean on sequence ("next in the book"). For adults, lean on thematic connections. No new DB — all data is in the static wiki.
+- **Plan:** `docs/nightshift/plans/DEVPLAN-IDEA-027-what-to-read-next.md`
+- **Summary:** The story detail page footer currently has two CTAs ("Chat about this story" + "Browse more stories"). Replace the flat "Browse" CTA with a specific "What to Read Next" block: next memoir story in sequence if unread, OR first unread related story, OR next-in-sequence as fallback. Age-aware copy. No new DB tables — uses existing `sb_story_reads` + `story.relatedStoryIds`. Estimated 40–50 min.
 - **Night Notes:**
-  - 2026-04-20: Seeded by Paul. Core insight: ending a story with "Browse more stories" sends readers to a flat list and kills momentum. A specific "next" suggestion keeps them in the book. `relatedStoryIds` already exists on every story. `sb_story_reads` tells us what's already been read (available in `page.tsx` via Supabase query). The CTA copy could be: "Continue reading →" (sequence) or "Stories connected to this one" (related).
+  - 2026-04-20: Seeded by Paul. Core insight: ending a story with "Browse more stories" sends readers to a flat list and kills momentum. `relatedStoryIds` already exists on every story. `sb_story_reads` tells us what's already been read.
+  - 2026-04-21: Advanced to `planned`. Dev plan written. Server component already queries `sb_story_reads` for favorite/read checks — adding reads query for next-suggestion is a natural extension.
 
 ---
 
@@ -414,15 +416,44 @@
 
 ### [IDEA-029] Homepage "Continue Reading" Card
 
-- **Status:** seed
+- **Status:** planned
 - **Category:** new
 - **Seeded:** 2026-04-20
-- **Last Updated:** 2026-04-20
+- **Last Updated:** 2026-04-21
 - **Priority:** P1
-- **Plan:** *(not yet written)*
-- **Summary:** The homepage currently has static nav cards (Stories, Ask, Tell, etc.) and a Photo Frame button. Add a personalized "Continue reading" card for logged-in users who have started the book: shows the cover/title of the next unread memoir story, reading progress ("12 of 39 stories"), and a direct link. For users who haven't read anything yet, show a "Start with story 1" invitation. For users who've finished all stories, show a "Re-read a favorite" prompt. Requires a lightweight server-side read of `sb_story_reads` on the home page (similar to what `/stories/page.tsx` already does).
+- **Plan:** `docs/nightshift/plans/DEVPLAN-IDEA-029-homepage-continue-reading.md`
+- **Summary:** Personalized "Continue Reading" card on the home page. Shows next unread memoir story (with progress "X of 39") for readers who've started; "Start with Story 1" for zero-reads users (no card rendered — graceful); "Re-read a favourite" for completed readers. Server component, no new DB tables. Estimated 30–40 min.
 - **Night Notes:**
-  - 2026-04-20: Seeded by Paul. The homepage currently has no personalization at all — this is the single highest-value hook for getting family members back into the book. Implementation: `home/page.tsx` adds a Supabase query for `sb_story_reads` (already exists), computes next unread P1_* story, renders a `ContinueReadingCard` component. No new tables, no API routes.
+  - 2026-04-20: Seeded by Paul. The homepage currently has no personalization — this is the highest-value hook for getting family members back into the book.
+  - 2026-04-21: Advanced to `planned`. Dev plan written. `page.tsx` converts from pass-through to async server component, adds `sb_story_reads` query + `ContinueReadingCard` client component. Note: if IDEA-026 (Quote of the Day) is done first, the `page.tsx` rewrite can include both features together.
+
+---
+
+### [IDEA-031] Night Reading Typography Refinements
+
+- **Status:** seed
+- **Category:** enhance
+- **Seeded:** 2026-04-21
+- **Last Updated:** 2026-04-21
+- **Priority:** P3
+- **Plan:** *(not yet written)*
+- **Summary:** The day/night theme ships with correct dark color tokens but doesn't adjust typography for nighttime reading. Dark mode story body could benefit from slightly increased line-height (1.9 vs 1.8) and a slightly warmer ink color to reduce eye strain. Pure CSS addition: `body[data-theme-resolved="dark"] .story-body { --story-line-height: 1.9; }`. Also consider slightly reducing `--story-font-size` by 0.05rem in dark to match the perceived size increase from lighter-on-dark text. No JS, no DB, ~15 min.
+- **Night Notes:**
+  - 2026-04-21: Seeded. Day/night theming shipped in `2dfd387`. The dark token set in `globals.css` is complete for colors but doesn't include any typographic adjustments. Low priority but would make nighttime reading noticeably more comfortable.
+
+---
+
+### [IDEA-032] Dark Mode Welcome Tour Step
+
+- **Status:** seed
+- **Category:** enhance
+- **Seeded:** 2026-04-21
+- **Last Updated:** 2026-04-21
+- **Priority:** P3
+- **Plan:** *(not yet written)*
+- **Summary:** The `/welcome` onboarding tour has 4 steps. Family members who complete onboarding today won't discover the day/night theme button unless they happen to find it. Add a brief 5th step ("Reading at night? Try Night Mode") that shows the `ThemeModeCycleButton` and explains the three modes (Day/Night/Auto). The step itself can be conditionally shown only when `resolvedThemeMode === 'light'` to avoid showing it to users already in dark mode. Low priority since existing users won't re-trigger onboarding.
+- **Night Notes:**
+  - 2026-04-21: Seeded. Day/night theming shipped but is not surfaced during onboarding. Onboarding steps are in `OnboardingStepper.tsx`. The theme button is in the Nav (`ThemeModeCycleButton`) and profile (`ThemeModeSelector`). A brief mention in the welcome tour would reduce discoverability friction.
 
 ---
 
