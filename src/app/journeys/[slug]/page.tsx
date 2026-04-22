@@ -4,6 +4,11 @@ import { getJourneyBySlug } from "@/lib/wiki/journeys";
 import { getStoryById } from "@/lib/wiki/parser";
 import { JourneyIntroContinue } from "@/components/journeys/JourneyIntroContinue";
 import { JourneyExperienceBadge } from "@/components/journeys/JourneyExperienceBadge";
+import { NarrationControls } from "@/components/audio/NarrationControls";
+import {
+  narrationAudioEndpoint,
+  resolveJourneyIntroNarration,
+} from "@/lib/narration/resolve";
 
 export default async function JourneyIntroPage({
   params,
@@ -14,6 +19,8 @@ export default async function JourneyIntroPage({
   const journey = getJourneyBySlug(slug);
 
   if (!journey) notFound();
+
+  const introNarration = resolveJourneyIntroNarration(slug);
 
   const titles = journey.storyIds.map((id) => {
     const s = getStoryById(id);
@@ -33,6 +40,16 @@ export default async function JourneyIntroPage({
       <p className="type-body mb-6 text-pretty text-ink-muted">
         {journey.description}
       </p>
+
+      {introNarration && (
+        <NarrationControls
+          playbackKey={introNarration.contentHash}
+          title={journey.title}
+          fullText={introNarration.speechBodyPlain}
+          wordCount={introNarration.wordCount}
+          audioEndpoint={narrationAudioEndpoint(introNarration)}
+        />
+      )}
 
       <JourneyIntroContinue
         slug={journey.slug}

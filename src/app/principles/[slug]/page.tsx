@@ -2,6 +2,11 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ThemePillLink } from "@/components/themes/ThemePillLink";
 import { getCanonicalPrincipleBySlug } from "@/lib/wiki/parser";
+import { NarrationControls } from "@/components/audio/NarrationControls";
+import {
+  narrationAudioEndpoint,
+  resolvePrincipleNarration,
+} from "@/lib/narration/resolve";
 
 export default async function PrincipleDetailPage({
   params,
@@ -12,6 +17,8 @@ export default async function PrincipleDetailPage({
   const principle = getCanonicalPrincipleBySlug(slug);
 
   if (!principle) notFound();
+
+  const principleNarration = resolvePrincipleNarration(slug);
 
   return (
     <div className="mx-auto max-w-content px-[var(--page-padding-x)] py-6 md:py-10">
@@ -39,6 +46,18 @@ export default async function PrincipleDetailPage({
           </div>
         </div>
       </div>
+
+      {principleNarration && (
+        <div className="mt-6">
+          <NarrationControls
+            playbackKey={principleNarration.contentHash}
+            title={principle.title}
+            fullText={principleNarration.speechBodyPlain}
+            wordCount={principleNarration.wordCount}
+            audioEndpoint={narrationAudioEndpoint(principleNarration)}
+          />
+        </div>
+      )}
 
       <section className="mt-6 rounded-2xl border border-[var(--color-border)] bg-warm-white p-5">
         <div className="space-y-4">

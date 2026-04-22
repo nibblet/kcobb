@@ -4,6 +4,11 @@ import ReactMarkdown from "react-markdown";
 import { getJourneyBySlug } from "@/lib/wiki/journeys";
 import { JourneyExperienceBadge } from "@/components/journeys/JourneyExperienceBadge";
 import { JourneyNarratedSources } from "@/components/journeys/JourneyNarratedSources";
+import { NarrationControls } from "@/components/audio/NarrationControls";
+import {
+  narrationAudioEndpoint,
+  resolveJourneyNarratedNarration,
+} from "@/lib/narration/resolve";
 
 export default async function NarratedJourneyPage({
   params,
@@ -18,6 +23,8 @@ export default async function NarratedJourneyPage({
   const relatedSourceIds = Array.from(
     new Set(journey.narratedSections.flatMap((section) => section.sourceStoryIds))
   );
+
+  const narratedListen = resolveJourneyNarratedNarration(slug);
 
   return (
     <div className="mx-auto max-w-story px-[var(--page-padding-x)] py-6 md:py-10">
@@ -43,6 +50,16 @@ export default async function NarratedJourneyPage({
           {journey.narratedDisclosure}
         </p>
       </div>
+
+      {narratedListen && (
+        <NarrationControls
+          playbackKey={narratedListen.contentHash}
+          title={journey.title}
+          fullText={narratedListen.speechBodyPlain}
+          wordCount={narratedListen.wordCount}
+          audioEndpoint={narrationAudioEndpoint(narratedListen)}
+        />
+      )}
 
       <div className="space-y-8">
         {journey.narratedSections.map((section) => (

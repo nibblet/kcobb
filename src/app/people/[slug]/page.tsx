@@ -6,6 +6,11 @@ import { createClient } from "@/lib/supabase/server";
 import { getAuthenticatedProfileContext } from "@/lib/auth/profile-context";
 import { PersonEditDrawer } from "@/components/people/PersonEditDrawer";
 import { PersonMediaPanel } from "@/components/people/PersonMediaPanel";
+import { NarrationControls } from "@/components/audio/NarrationControls";
+import {
+  narrationAudioEndpoint,
+  resolvePeopleNarration,
+} from "@/lib/narration/resolve";
 import { TIER_SHORT_LABEL } from "@/lib/wiki/people-tiers";
 
 export default async function PersonDetailPage({
@@ -27,6 +32,9 @@ export default async function PersonDetailPage({
 
   const { isKeithSpecialAccess } = await getAuthenticatedProfileContext();
 
+  const narration = await resolvePeopleNarration(slug);
+  const displayName = dbPerson?.display_name || person.name;
+
   const memoirStories = person.memoirStoryIds
     .map((id) => ({ id, story: getStoryById(id) }))
     .filter((x) => x.story);
@@ -44,7 +52,7 @@ export default async function PersonDetailPage({
       </Link>
 
       <div className="mb-2 flex items-start justify-between gap-4">
-        <h1 className="type-page-title">{dbPerson?.display_name || person.name}</h1>
+        <h1 className="type-page-title">{displayName}</h1>
         {isKeithSpecialAccess && dbPerson && (
           <PersonEditDrawer
             person={dbPerson}
@@ -82,6 +90,16 @@ export default async function PersonDetailPage({
             canEdit={isKeithSpecialAccess}
           />
         </div>
+      )}
+
+      {narration && (
+        <NarrationControls
+          playbackKey={narration.contentHash}
+          title={displayName}
+          fullText={narration.speechBodyPlain}
+          wordCount={narration.wordCount}
+          audioEndpoint={narrationAudioEndpoint(narration)}
+        />
       )}
 
       {dbPerson?.bio_md ? (

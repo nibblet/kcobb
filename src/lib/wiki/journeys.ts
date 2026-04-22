@@ -2,6 +2,7 @@ import * as fs from "fs";
 import * as path from "path";
 
 const JOURNEYS_DIR = path.join(process.cwd(), "content/wiki/journeys");
+const STORY_ID_RE = /((?:P\d+|IV)_S\d+)/;
 
 export interface WikiJourney {
   slug: string;
@@ -38,7 +39,10 @@ function extractMetadata(content: string, key: string): string {
 }
 
 function parseStoryRefs(input: string): string[] {
-  return Array.from(input.matchAll(/\[\[((?:P\d+|IV)_S\d+)\]\]/g), (match) => match[1]);
+  return Array.from(
+    input.matchAll(new RegExp(`\\[\\[${STORY_ID_RE.source}\\]\\]`, "g")),
+    (match) => match[1]
+  );
 }
 
 function parseNarratedSections(content: string): JourneyNarratedSection[] {
@@ -77,7 +81,7 @@ function parseJourneyContent(content: string, fallbackSlug: string): WikiJourney
   const storyIds: string[] = [];
   if (storiesBlock) {
     for (const line of storiesBlock[1].split("\n")) {
-      const m = line.match(/\[\[(P\d+_S\d+)\]\]/);
+      const m = line.match(new RegExp(`\\[\\[${STORY_ID_RE.source}\\]\\]`));
       if (m) storyIds.push(m[1]);
     }
   }
@@ -86,7 +90,9 @@ function parseJourneyContent(content: string, fallbackSlug: string): WikiJourney
   const refBlock = content.match(/## Reflections\s*\n\n([\s\S]*?)(?=\n## |\n*$)/);
   if (refBlock) {
     for (const line of refBlock[1].split("\n")) {
-      const m = line.match(/^-\s*\[\[(P\d+_S\d+)\]\]:\s*(.+)$/);
+      const m = line.match(
+        new RegExp(`^-\\s*\\[\\[${STORY_ID_RE.source}\\]\\]:\\s*(.+)$`)
+      );
       if (m) reflections[m[1]] = m[2].trim();
     }
   }

@@ -8,6 +8,11 @@ import { JourneyProgressBar } from "@/components/journeys/JourneyProgressBar";
 import { JourneyConnector } from "@/components/journeys/JourneyConnector";
 import { JourneyReflection } from "@/components/journeys/JourneyReflection";
 import { JourneyVisitRecorder } from "@/components/journeys/JourneyVisitRecorder";
+import { NarrationControls } from "@/components/audio/NarrationControls";
+import {
+  narrationAudioEndpoint,
+  resolveJourneyStepNarration,
+} from "@/lib/narration/resolve";
 
 export default async function JourneyStepPage({
   params,
@@ -34,6 +39,8 @@ export default async function JourneyStepPage({
   const prevStep = step > 1 ? step - 1 : null;
   const nextStep = step < journey.storyIds.length ? step + 1 : null;
   const era = lifeStageToEraAccent(story.lifeStage);
+
+  const stepNarration = resolveJourneyStepNarration(slug, step);
 
   return (
     <div className="mx-auto max-w-story px-[var(--page-padding-x)] py-6 pb-24 md:pb-10">
@@ -66,6 +73,16 @@ export default async function JourneyStepPage({
           {story.summary}
         </p>
       </div>
+
+      {stepNarration && (
+        <NarrationControls
+          playbackKey={stepNarration.contentHash}
+          title={story.title}
+          fullText={stepNarration.speechBodyPlain}
+          wordCount={stepNarration.wordCount}
+          audioEndpoint={narrationAudioEndpoint(stepNarration)}
+        />
+      )}
 
       <article className="story-body prose prose-story prose-lg mb-8 max-w-none">
         <ReactMarkdown>{story.fullText}</ReactMarkdown>
