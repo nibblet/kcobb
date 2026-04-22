@@ -7,6 +7,7 @@ import { AgeModeSwitcher } from "@/components/layout/AgeModeSwitcher";
 import { Reveal } from "@/components/ui/Reveal";
 import { PhotoFrameOverlay } from "@/components/PhotoFrameOverlay";
 import { framePhotos } from "@/lib/wiki/frame-photos";
+import type { WikiTimelineEvent } from "@/lib/wiki/parser";
 
 const navCards = [
   {
@@ -29,7 +30,11 @@ const navCards = [
   },
 ];
 
-export function HomePageClient() {
+export interface HomePageClientProps {
+  yearEvents: readonly WikiTimelineEvent[];
+}
+
+export function HomePageClient({ yearEvents }: HomePageClientProps) {
   const [photoFrame, setPhotoFrame] = useState(false);
 
   return (
@@ -41,7 +46,7 @@ export function HomePageClient() {
         />
       )}
 
-      <HomeHero />
+      <HomeHero yearEvents={yearEvents} />
 
       <div className="mx-auto max-w-content px-[var(--page-padding-x)] py-12 md:py-16">
         <Reveal className="mb-10 text-center">

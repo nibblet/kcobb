@@ -422,6 +422,137 @@ body[data-theme-resolved="dark"] {
   animation: bounce-down 2s ease-in-out infinite;
 }
 
+/* --- Homepage key-date feature (wax seal + typewriter dateline) --- */
+
+.typewriter-dateline {
+  margin-top: 0.85rem;
+  font-family: var(--font-lora), "Times New Roman", serif;
+  font-size: 0.95rem;
+  font-style: italic;
+  line-height: 1.5;
+  color: rgba(240, 232, 213, 0.82);
+  min-height: 1.6em;
+  max-width: 560px;
+  margin-left: auto;
+  margin-right: auto;
+  text-shadow: 0 1px 2px rgba(20, 8, 4, 0.4);
+}
+
+.typewriter-prefix {
+  font-family: var(--font-inter), "Helvetica Neue", sans-serif;
+  font-size: 0.7rem;
+  font-style: normal;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(222, 180, 90, 0.95);
+}
+
+.typewriter-sep {
+  color: rgba(240, 232, 213, 0.45);
+  font-style: normal;
+}
+
+.typewriter-text {
+  color: rgba(240, 232, 213, 0.88);
+}
+
+.typewriter-caret {
+  display: inline-block;
+  width: 1px;
+  margin-left: 2px;
+  color: rgba(212, 168, 67, 0.85);
+  animation: caret-blink 1000ms step-end infinite;
+}
+
+.typewriter-caret-steady {
+  animation: caret-blink 1400ms step-end infinite;
+  opacity: 0.55;
+}
+
+@keyframes caret-blink {
+  0%,
+  50% {
+    opacity: 1;
+  }
+  51%,
+  100% {
+    opacity: 0;
+  }
+}
+
+.wax-seal {
+  position: absolute;
+  bottom: 2.75rem;
+  left: clamp(1rem, 4vw, 3rem);
+  width: 160px;
+  height: 160px;
+  pointer-events: none;
+  user-select: none;
+  opacity: 1;
+  transform: rotate(-5deg);
+  filter: drop-shadow(0 14px 30px rgba(20, 8, 4, 0.65))
+    drop-shadow(0 0 28px rgba(212, 168, 67, 0.55))
+    drop-shadow(0 0 64px rgba(139, 44, 44, 0.45));
+  display: none;
+  z-index: 5;
+}
+
+@media (min-width: 768px) {
+  .wax-seal {
+    display: block;
+  }
+}
+
+.wax-seal-edge {
+  opacity: 0.9;
+}
+
+.wax-seal-ring-text {
+  font-family: var(--font-inter), "Helvetica Neue", sans-serif;
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+}
+
+.wax-seal-flourish {
+  font-size: 11px;
+  opacity: 0.85;
+}
+
+.wax-seal-number {
+  font-family: var(--font-playfair), Georgia, serif;
+  font-size: 44px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.wax-seal-label {
+  font-family: var(--font-lora), "Times New Roman", serif;
+  font-size: 11px;
+  font-style: italic;
+  letter-spacing: 0.06em;
+  opacity: 0.85;
+}
+
+.wax-seal-date {
+  font-family: var(--font-inter), "Helvetica Neue", sans-serif;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  opacity: 0.88;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .typewriter-caret,
+  .typewriter-caret-steady {
+    animation: none !important;
+    opacity: 0;
+  }
+}
+
 body {
   font-family: var(--font-inter), "Helvetica Neue", sans-serif;
   background: var(--color-parchment);

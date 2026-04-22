@@ -1,10 +1,24 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { TypewriterDateline } from "@/components/home/TypewriterDateline";
+import { WaxSealMedallion } from "@/components/home/WaxSealMedallion";
+import {
+  EXACT_DATES,
+  selectFeature,
+  type HomeTodayFeature,
+} from "@/lib/wiki/key-dates";
+import type { WikiTimelineEvent } from "@/lib/wiki/parser";
 
-export function HomeHero() {
+export interface HomeHeroProps {
+  /** Year-only career-timeline events used as daily filler when no exact date matches. */
+  yearEvents: readonly WikiTimelineEvent[];
+}
+
+export function HomeHero({ yearEvents }: HomeHeroProps) {
   const [parallaxY, setParallaxY] = useState(0);
   const [reduceMotion, setReduceMotion] = useState(false);
+  const [feature, setFeature] = useState<HomeTodayFeature | null>(null);
 
   useEffect(() => {
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -21,6 +35,15 @@ export function HomeHero() {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, [reduceMotion]);
+
+  // Compute today's feature on the client so it picks up the user's local
+  // date/timezone and isn't frozen at build time by static generation.
+  const stableYearEvents = useMemo(() => yearEvents, [yearEvents]);
+  useEffect(() => {
+    queueMicrotask(() =>
+      setFeature(selectFeature(new Date(), EXACT_DATES, stableYearEvents)),
+    );
+  }, [stableYearEvents]);
 
   return (
     <section className="relative flex min-h-[75vh] flex-col justify-center overflow-hidden md:min-h-[85vh]">
@@ -53,10 +76,13 @@ export function HomeHero() {
           <br />
           Red Clay Hills
         </h1>
-        <p className="type-body mx-auto mb-10 max-w-[520px] text-pretty italic !text-[rgba(240,232,213,0.65)]">
+        <p className="type-body mx-auto mb-2 max-w-[520px] text-pretty italic !text-[rgba(240,232,213,0.65)]">
           A family library built from Keith&apos;s memoir and conversations.
         </p>
+        {feature && <TypewriterDateline data={feature.dateline} />}
       </div>
+
+      {feature?.seal && <WaxSealMedallion data={feature.seal} />}
 
       <div
         className="hero-scroll-cue type-meta absolute bottom-8 left-1/2 flex flex-col items-center gap-2 text-[rgba(240,232,213,0.45)]"
