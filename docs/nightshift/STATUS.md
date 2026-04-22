@@ -1,6 +1,6 @@
 # STATUS — Keith Cobb Interactive Storybook
 
-> Last updated: 2026-04-21 (Nightshift Run 10)
+> Last updated: 2026-04-22 (Nightshift Run 11)
 
 ## App Summary
 
@@ -366,9 +366,9 @@
 
 ## Current State
 - All features complete: stories (read badges + progress bar + all 39 paragraph-reformatted), themes, timeline, ask (corpus-aware + people bios + principles context), journeys, tell, beyond (QA + Edit + People modes + wiki publish pipeline), admin, signup/profile (reflection gallery + stories read progress), reader Q&A, favorites, highlights, onboarding tour, book image lightbox, photo frame, people directory, media attachments, ElevenLabs audio, story corrections, principles browser, wiki mirror, **day/night theming**, **forgot-password flow**
-- Build: **PASSES** — clean, 55 routes (up from 54; added `/forgot-password`, `/update-password`)
+- Build: **PASSES** — clean, 55 routes
 - Lint: **FAILS** — 1 error (`useThemeMode.tsx:55`, see FIX-028 — 2-min fix)
-- Tests: **45 PASS** — `npm test` (up from 41; 4 new theme-mode tests)
+- Tests: **45 PASS** — `npm test`
 - **Note on migration numbering:** Two migrations named `013_*` — see FIX-022 (low-risk naming conflict)
 - 6 open issues (FIX-028, FIX-013, FIX-014, FIX-016, FIX-017, FIX-022)
 
@@ -382,11 +382,11 @@
 
 ## Next Actions (Priority Order)
 1. **FIX-028** — `useThemeMode.tsx` lazy initializer fix (2 min; restores clean lint)
-2. **IDEA-029** — Homepage Continue Reading card (30–40 min; personalization hook)
-3. **IDEA-027** — What to Read Next on story pages (40–50 min; reading momentum)
-4. **IDEA-026** — Quote of the Day home widget (20–25 min; no DB, pure UI)
-5. **IDEA-021** — Reading milestone celebration (1.5 hrs)
-6. **IDEA-023** — Explore Hub / Story Map (1.5–2 hrs; pure UI assembly)
+2. **IDEA-033** — Link story principles to `/principles/[slug]` (20–30 min; zero dependencies, high discovery value)
+3. **IDEA-029** — Homepage Continue Reading card (30–40 min; personalization hook)
+4. **IDEA-027** — What to Read Next on story pages (40–50 min; reading momentum)
+5. **IDEA-026** — Quote of the Day home widget (20–25 min; no DB, pure UI)
+6. **IDEA-024** — Story Print Mode (30–45 min; grandparent use case)
 7. **FIX-016** — Tell SSE state mutation (15 min port)
 8. **FIX-017** — Multiple draft rows per session (30 min upsert fix)
 9. **FIX-013** — Fenced JSON fallback (10 min defensive coding)

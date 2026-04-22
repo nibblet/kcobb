@@ -314,45 +314,48 @@
 
 ### [IDEA-023] Explore Hub — Interactive Story Map
 
-- **Status:** planned
+- **Status:** parked
 - **Category:** new
 - **Seeded:** 2026-04-19
-- **Last Updated:** 2026-04-20
+- **Last Updated:** 2026-04-22
 - **Priority:** P2
 - **Plan:** `docs/nightshift/plans/DEVPLAN-IDEA-023-explore-hub.md`
 - **Summary:** A `/explore` page with 4 tabs: Themes (ChordDiagram + ThemePrincipleMatrix), Stories (StorySankey), Principles (PrincipleFormationTimeline), People (grid). All visualization components and graph.ts functions already exist; this is a pure UI assembly task. Server component loads data; client component handles tab state. Estimated 1.5–2 hours.
 - **Night Notes:**
   - 2026-04-19: Seeded. All viz infra confirmed working (41 tests pass).
   - 2026-04-20: Advanced to `planned`. Dev plan written — pure assembly task, no new data structures. Check actual function signatures in `graph.ts` before coding.
+  - 2026-04-22: Stale 3 days — likely low priority or too complex. Demoting to parked. Dev plan remains at `docs/nightshift/plans/DEVPLAN-IDEA-023-explore-hub.md` — easy to revisit (pure UI assembly, no new data needed).
 
 ---
 
 ### [IDEA-021] Reading Milestone Celebration — Complete All 39 Memoir Stories
 
-- **Status:** planned
+- **Status:** parked
 - **Category:** new
 - **Seeded:** 2026-04-18
-- **Last Updated:** 2026-04-20
+- **Last Updated:** 2026-04-22
 - **Priority:** P2
 - **Plan:** `docs/nightshift/plans/DEVPLAN-IDEA-021-reading-milestone.md`
 - **Summary:** When a family member reads their 39th (final) memoir story, show a fullscreen celebration moment — age-aware message ("You read ALL of Grandpa's stories!" for young readers; "You've read Keith's complete memoir." for adults). `sb_story_reads` infra is in place. API returns `memoirReadCount` + `milestoneReached`; `ReadTracker` fires `onMilestone` callback; `MilestoneOverlay.tsx` shows the celebration. localStorage prevents re-triggering.
 - **Night Notes:**
   - 2026-04-18: Seeded. Implementation sketch noted.
-  - 2026-04-20: Advanced to `planned`. Full dev plan written. **Requires FIX-027 first** (duplicate P1_S02 must be removed so memoir count is correct). Estimated 1.5 hours.
+  - 2026-04-20: Advanced to `planned`. Full dev plan written. FIX-027 blocker is now resolved.
+  - 2026-04-22: Stale 4 days — likely lower priority while Paul ships smaller focused improvements. Demoting to parked. Dev plan at `docs/nightshift/plans/DEVPLAN-IDEA-021-reading-milestone.md` — self-contained, ready to execute (~1.5h).
 
 ---
 
 ### [IDEA-024] Story Print Mode — Clean Print-Friendly Story View
 
-- **Status:** seed
+- **Status:** planned
 - **Category:** enhance
 - **Seeded:** 2026-04-20
-- **Last Updated:** 2026-04-20
+- **Last Updated:** 2026-04-22
 - **Priority:** P3
-- **Plan:** *(not yet written)*
-- **Summary:** A "Print story" button on each story detail page that triggers `window.print()` with Tailwind `print:` CSS variants to hide navigation, audio controls, TOC sidebar, and UI chrome — leaving only the story title, body, principles list, and key quotes in a clean readable layout. No new routes, no DB. Perfect for grandparents who want a physical copy of a specific story. Estimated 30–45 min.
+- **Plan:** `docs/nightshift/plans/DEVPLAN-IDEA-024-print-mode.md`
+- **Summary:** A "Print story" button on each story detail page that triggers `window.print()` with a `@media print` CSS block in `globals.css` to hide navigation, audio controls, TOC sidebar, and UI chrome — leaving only the story title, body, principles list, and attribution in a clean readable layout. `PrintButton.tsx` client component. No new routes, no DB. Perfect for grandparents who want a physical copy. Estimated 30–45 min.
 - **Night Notes:**
-  - 2026-04-20: Seeded. Implementation: add `print:hidden` to nav/sidebar/audio; add a `print:block` class to a print-only header. One print-specific CSS rule for page breaks. Add a `<button onClick={() => window.print()}>` to story detail page.
+  - 2026-04-20: Seeded. Pure CSS + small client component.
+  - 2026-04-22: Advanced to `planned`. Dev plan written using `@media print` block in `globals.css` + `data-print-hide` attribute pattern + new `PrintButton.tsx` client component. Zero dependencies.
 
 ---
 
@@ -471,6 +474,34 @@
 
 ---
 
+### [IDEA-033] Link Story Principles to Principle Detail Pages
+
+- **Status:** planned
+- **Category:** enhance
+- **Seeded:** 2026-04-22
+- **Last Updated:** 2026-04-22
+- **Priority:** P2
+- **Plan:** `docs/nightshift/plans/DEVPLAN-IDEA-033-link-principles.md`
+- **Summary:** The "What This Story Shows" section on every story detail page lists Keith's principles as plain unlinked text. This plan converts each matched principle into a link to `/principles/[slug]`, turning a dead-end list into a discovery path. Uses `getAllCanonicalPrinciples()` server-side to build a slug lookup map; unmatched principles gracefully fall back to plain text. All changes in `src/app/stories/[storyId]/page.tsx`. No new files except an inline helper. Estimated 20–30 min.
+- **Night Notes:**
+  - 2026-04-22: Seeded and advanced to `planned` same night. Verified: story detail page already imports `Link`, `/principles/[slug]` pages exist and are built. `getAllCanonicalPrinciples()` is available server-side. This is a high-value low-effort enhancement — every story page gets richer without any DB or content changes.
+
+---
+
+### [IDEA-034] Conversation Continuity in Ask Keith
+
+- **Status:** seed
+- **Category:** new
+- **Seeded:** 2026-04-22
+- **Last Updated:** 2026-04-22
+- **Priority:** P2
+- **Plan:** *(not yet written)*
+- **Summary:** Right now each Ask Keith session starts with a blank slate. A family member who had a meaningful conversation last week has no way to pick it up. Add a "Continue our last conversation" entry point on the Ask page — fetch the user's most recent conversation from `sb_conversations` + `sb_messages` (already persisted), pre-load those messages into the chat UI, and let the user continue naturally. Keith's AI response will have the prior exchange as context. No new DB tables — conversations are already stored. Would make repeat visits feel like a continuous relationship, not isolated sessions.
+- **Night Notes:**
+  - 2026-04-22: Seeded. Data is in `sb_conversations` + `sb_messages`. The Ask page already has a conversation list at `/api/conversations`. Most recent conversation could be fetched on page load. UX: show a "Continue" pill above the empty-state chips when a recent conversation exists.
+
+---
+
 ### [IDEA-015] Enable Deep Ask — Multi-Perspective Responses in Production
 
 - **Status:** parked
@@ -499,5 +530,7 @@
 - **IDEA-008** New Stories Feed — parked 2026-04-17. Stale 3 days. Pure UI addition. Parked — low priority while larger features are landing.
 - **IDEA-012** Letter to Keith — parked 2026-04-18. Non-streaming `/api/ask/letter` endpoint. Parked — revisit when conversational features take priority.
 - **IDEA-015** Enable Deep Ask — parked 2026-04-19. Stale 3 days. Orchestrator updated with corpus data in Run 8; perspective prompts are better now. Re-evaluate when Paul has time for quality eval.
+- **IDEA-021** Reading Milestone Celebration — parked 2026-04-22. 4 days stale. FIX-027 blocker resolved. Dev plan at `DEVPLAN-IDEA-021-reading-milestone.md` is ready (~1.5h).
+- **IDEA-023** Explore Hub — parked 2026-04-22. 3 days stale. Pure UI assembly task. Dev plan at `DEVPLAN-IDEA-023-explore-hub.md` is ready (~1.5h).
 - *(IDEA-022 SHIPPED 2026-04-20 — principles context in Ask Keith system prompt)*
 - *(IDEA-014 SHIPPED 2026-04-20 — story card read badges + StoriesReadProgress tile, all phases)*

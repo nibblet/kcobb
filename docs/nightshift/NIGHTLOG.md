@@ -4,6 +4,48 @@
 
 ---
 
+## Run: 2026-04-22 (Run 11)
+
+### Summary
+- Scanned: no new commits since Run 10 (last commit `ffc7ce0` nightshift docs); full auth flow review (forgot-password, update-password, auth/callback); dark mode system; story detail page; beyond-theme CSS; nav mobile vs desktop; profile components
+- Issues found: 0 new — FIX-028 is the only remaining open issue
+- Ideas: IDEA-033 seeded + advanced to `planned` same night; IDEA-034 seeded; IDEA-021 and IDEA-023 demoted to parked (3/4 days stale); IDEA-024 advanced from seed to `planned`
+- Plans written:
+  - `DEVPLAN-IDEA-024-print-mode.md`
+  - `DEVPLAN-IDEA-033-link-principles.md`
+
+### Build & Lint & Test Results
+- `npm run build`: **PASSES** — clean, 55 routes (unchanged from Run 10)
+- `npm run lint`: **FAILS** — 1 error (`useThemeMode.tsx:55` setState in effect, FIX-028 — 2-min fix)
+- `npm test`: **45 PASS** — all existing tests pass, no regressions
+
+### Key Findings
+
+1. **Auth flow (forgot-password + update-password + auth/callback) is well-implemented.** Three commits (`66ce184`, `ea6ad56`) ship a complete password reset flow. `safeNext()` correctly prevents open redirects. `isOnboardingAllowlisted()` covers both new routes. `supabase/middleware.ts` redirects logged-in users away from `/forgot-password` but NOT `/update-password` — intentional, since any authenticated user can legitimately update their password. The `cancelled` flag in the auth callback effect is a correct cancellation pattern. Auth flow is solid.
+
+2. **Dark mode CSS and beyond-theme interact correctly.** `body[data-theme-resolved="dark"]` overrides tokens at the body level; `.beyond-theme` on the inner div overrides those back to teal for Keith's workspace. CSS custom property cascade makes this work without specificity conflicts — the beyond div always gets its teal context regardless of system dark mode. This is correct behavior.
+
+3. **Story principles are displayed as plain text — no links to principle pages.** The "What This Story Shows" section on every story detail page lists principles as `string[]` from wiki frontmatter. `/principles/[slug]` pages exist and are complete (shipped Run 8). This gap is a missed discovery opportunity — readers can't click through to learn more about a principle or see all stories that exemplify it. Filed as IDEA-033 with a full dev plan — 20–30 min fix, zero dependencies.
+
+4. **IDEA-021 and IDEA-023 parked (3/4 days stale).** Paul's recent commit pattern shows smaller focused improvements (theming, auth, paragraph reflow) rather than the larger assembly tasks. Both plans are preserved and self-contained — easy to revive.
+
+5. **No new bugs.** Code quality in new auth pages is high. Loading states handled correctly. Error messages are user-friendly. Rate limiting and open redirect guard are both in place.
+
+### Plans Ready to Execute
+- `docs/nightshift/plans/FIXPLAN-FIX-028-usethememode-lint.md` — 2-min lazy initializer fix, restores clean lint
+- `docs/nightshift/plans/DEVPLAN-IDEA-033-link-principles.md` — **NEW**: Link story principles to principle pages (20–30 min, zero dependencies)
+- `docs/nightshift/plans/DEVPLAN-IDEA-024-print-mode.md` — **NEW**: Print button + `@media print` CSS (30–45 min, grandparent use case)
+- `docs/nightshift/plans/DEVPLAN-IDEA-029-homepage-continue-reading.md` — Homepage personalized Continue Reading card (30–40 min)
+- `docs/nightshift/plans/DEVPLAN-IDEA-027-what-to-read-next.md` — Story page "What to Read Next" (40–50 min)
+- `docs/nightshift/plans/DEVPLAN-IDEA-026-quote-of-the-day.md` — Daily quote widget on home page (20–25 min)
+
+### Recommendations
+- **If you have 5 min:** FIX-028 — restores `npm run lint` to 0 errors. Lazy initializer swap: change `useState("light")` to `useState(getSystemThemeMode)` and remove line 55.
+- **If you have 30 min:** FIX-028 (2 min) + IDEA-033 (20–25 min). Every story's principle list becomes a discovery path to the principles browser. No DB changes, no new routes.
+- **If you have 1.5 hours:** The 30-min batch + IDEA-026 Quote of the Day (20 min) + IDEA-029 Continue Reading (35 min). After this: lint is clean, home page is personalized, principles are linked from every story.
+
+---
+
 ## Run: 2026-04-21 (Run 10)
 
 ### Summary
