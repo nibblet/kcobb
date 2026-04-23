@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useCallback, useEffect, useMemo, useState } from "react";
 
 type Era = "childhood" | "youth" | "military" | "career" | "family" | "later";
@@ -351,6 +352,12 @@ function SnippetCard({
           {new Date(snippet.created_at).toLocaleDateString()}
         </span>
         <div className="flex gap-3">
+          <Link
+            href={`/beyond?mode=write&fromSnippet=${snippet.id}`}
+            className="type-ui text-clay transition-colors hover:text-clay-mid"
+          >
+            ✨ Write more →
+          </Link>
           <button
             type="button"
             onClick={() => setEditingTags((v) => !v)}

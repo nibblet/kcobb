@@ -3,9 +3,11 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import type { Editor } from "@tiptap/react";
+import { useSearchParams } from "next/navigation";
 import { TipTapEditor, type MentionEntry } from "./TipTapEditor";
 import { MediaGallery } from "./MediaGallery";
 import { AIPolishPanel, type PolishSuggestion } from "./AIPolishPanel";
+import { StartHelper } from "./StartHelper";
 
 export interface DraftRecord {
   id: string;
@@ -67,6 +69,21 @@ export function BeyondDraftEditor({ initial, origin, onSaved, onBack }: Props) {
   const [polishing, setPolishing] = useState(false);
   const [polishError, setPolishError] = useState<string | null>(null);
   const [suggestion, setSuggestion] = useState<PolishSuggestion | null>(null);
+
+  const searchParams = useSearchParams();
+  const fromSnippetId = searchParams.get("fromSnippet");
+  const [showStartHelper, setShowStartHelper] = useState<boolean>(
+    Boolean(fromSnippetId)
+  );
+
+  function appendToBody(markdown: string) {
+    const ed = editorRef.current;
+    if (ed) {
+      ed.chain().focus("end").insertContent(markdown.replace(/\n/g, "<br/>")).run();
+    } else {
+      setBody((prev) => (prev ? `${prev}\n\n${markdown}` : markdown));
+    }
+  }
 
   const saveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const lastSavedPayload = useRef<string>("");
@@ -427,6 +444,24 @@ export function BeyondDraftEditor({ initial, origin, onSaved, onBack }: Props) {
         </div>
       ) : (
         <div className="flex flex-1 flex-col gap-3 overflow-y-auto">
+          {!showStartHelper && (
+            <button
+              type="button"
+              onClick={() => setShowStartHelper(true)}
+              className="type-ui self-start rounded-lg border border-clay/30 bg-warm-white px-3 py-1.5 text-xs font-medium text-clay transition-colors hover:bg-clay hover:text-warm-white"
+            >
+              ✨ Help me get started
+            </button>
+          )}
+          {showStartHelper && (
+            <StartHelper
+              initialTopic={title}
+              initialSnippetId={fromSnippetId ?? undefined}
+              autoStart={Boolean(fromSnippetId)}
+              onAppend={appendToBody}
+              onClose={() => setShowStartHelper(false)}
+            />
+          )}
           <input
             value={title}
             onChange={(e) => setTitle(e.target.value)}
