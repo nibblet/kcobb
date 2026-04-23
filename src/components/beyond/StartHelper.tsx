@@ -121,11 +121,29 @@ export function StartHelper({
           type="button"
           onClick={() => generate(topic, snippetId)}
           disabled={loading || (!topic.trim() && !snippetId)}
-          className="type-ui rounded bg-clay px-3 py-1.5 text-sm font-medium text-warm-white transition-colors hover:bg-clay-mid disabled:opacity-50"
+          className="type-ui inline-flex items-center gap-2 rounded bg-clay px-3 py-1.5 text-sm font-medium text-warm-white transition-colors hover:bg-clay-mid disabled:opacity-50"
         >
+          {loading && (
+            <span
+              className="inline-block h-3.5 w-3.5 animate-spin rounded-full border-2 border-warm-white/40 border-t-warm-white"
+              aria-hidden
+            />
+          )}
           {loading ? "Thinking…" : result ? "Regenerate" : "Get help"}
         </button>
       </div>
+
+      {loading && (
+        <div className="mb-3 flex items-center gap-2 rounded border border-clay/20 bg-warm-white-2 px-3 py-2">
+          <span
+            className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-clay/30 border-t-clay"
+            aria-hidden
+          />
+          <span className="type-ui text-xs text-ink-muted">
+            Reading your stories and snippets to ground the response…
+          </span>
+        </div>
+      )}
 
       {error && <p className="type-ui mb-3 text-xs text-red-800">{error}</p>}
 

@@ -116,8 +116,14 @@ export function BeyondCaptureMode() {
             type="button"
             onClick={save}
             disabled={saving || !text.trim()}
-            className="type-ui rounded-lg bg-clay px-4 py-1.5 text-sm font-medium text-warm-white transition-colors hover:bg-clay-mid disabled:opacity-50"
+            className="type-ui inline-flex items-center gap-2 rounded-lg bg-clay px-4 py-1.5 text-sm font-medium text-warm-white transition-colors hover:bg-clay-mid disabled:opacity-50"
           >
+            {saving && (
+              <span
+                className="inline-block h-3.5 w-3.5 animate-spin rounded-full border-2 border-warm-white/40 border-t-warm-white"
+                aria-hidden
+              />
+            )}
             {saving ? "Saving & tagging…" : "Save snippet"}
           </button>
         </div>
