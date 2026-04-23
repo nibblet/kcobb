@@ -3,13 +3,20 @@
 import { useSearchParams } from "next/navigation";
 import { Suspense } from "react";
 import { StoryContributionWorkspace } from "@/components/tell/StoryContributionWorkspace";
+import { BeyondCaptureMode } from "./BeyondCaptureMode";
 import { BeyondDraftEditor } from "./BeyondDraftEditor";
 import { BeyondEditMode } from "./BeyondEditMode";
 import { BeyondQAMode } from "./BeyondQAMode";
 import { BeyondModeTabs, type BeyondMode } from "./BeyondModeTabs";
 
 function resolveMode(param: string | null): BeyondMode {
-  if (param === "write" || param === "edit" || param === "qa") return param;
+  if (
+    param === "write" ||
+    param === "edit" ||
+    param === "qa" ||
+    param === "capture"
+  )
+    return param;
   return "chat";
 }
 
@@ -22,6 +29,7 @@ function BeyondShellInner() {
       <BeyondModeTabs active={mode} />
       <div className="flex-1 overflow-y-auto">
         {mode === "qa" && <BeyondQAMode />}
+        {mode === "capture" && <BeyondCaptureMode />}
         {mode === "chat" && (
           <StoryContributionWorkspace contributionMode="beyond" />
         )}

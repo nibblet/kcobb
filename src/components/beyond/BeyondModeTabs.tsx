@@ -2,10 +2,11 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 
-export type BeyondMode = "qa" | "chat" | "write" | "edit";
+export type BeyondMode = "qa" | "capture" | "chat" | "write" | "edit";
 
 const TABS: { id: BeyondMode; label: string; description: string }[] = [
   { id: "qa", label: "Q&A", description: "Answer reader questions" },
+  { id: "capture", label: "Capture", description: "Capture facts & memories to enrich your stories" },
   { id: "chat", label: "Chat", description: "Guided interview" },
   { id: "write", label: "Write", description: "Compose directly" },
   { id: "edit", label: "Edit", description: "Drafts, published stories & biographies" },
