@@ -245,6 +245,10 @@ export default async function StoryDetailPage({
                     title: r.story!.title,
                     summary: r.story!.summary,
                   })),
+                firstPrincipleSlug: story.principles[0] ?? null,
+                firstPrincipleTitle: story.principles[0]
+                  ? story.principles[0].replace(/-/g, " ")
+                  : null,
               })}
             />
           </div>

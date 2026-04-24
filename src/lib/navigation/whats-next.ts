@@ -9,9 +9,9 @@ export interface WhatsNextPrimary {
 
 export interface WhatsNextPillData {
   label: string;
-  /** Either link or the "open Ask overlay" action on the client. */
+  /** Either a link or a client-side action. */
   href?: string;
-  action?: "ask" | "none";
+  action?: "ask" | "tell" | "none";
 }
 
 export interface WhatsNextData {
@@ -30,12 +30,16 @@ interface BuildStoryArgs {
   storyId: string;
   title: string;
   relatedStories: StoryLike[];
+  firstPrincipleSlug?: string | null;
+  firstPrincipleTitle?: string | null;
 }
 
 export function getStoryWhatsNext({
   storyId,
   title,
   relatedStories,
+  firstPrincipleSlug,
+  firstPrincipleTitle,
 }: BuildStoryArgs): WhatsNextData {
   const first = relatedStories[0];
   const primary: WhatsNextPrimary = first
@@ -51,16 +55,24 @@ export function getStoryWhatsNext({
         title: "More stories",
         blurb: "Return to the full library.",
       };
+
+  const pills: WhatsNextPillData[] = [
+    { label: "Share a memory", action: "tell" },
+    { label: "Ask about this story", action: "ask" },
+  ];
+
+  if (firstPrincipleSlug) {
+    pills.push({
+      label: firstPrincipleTitle
+        ? `See principle: ${firstPrincipleTitle}`
+        : "See a related principle",
+      href: `/principles/${encodeURIComponent(firstPrincipleSlug)}`,
+    });
+  }
+
   return {
     primary,
-    pills: [
-      {
-        label: "Share a memory",
-        href: `/tell?about=story:${encodeURIComponent(storyId)}`,
-      },
-      { label: "Ask about this story", action: "ask" },
-      { label: "Back to Stories", href: "/stories" },
-    ],
+    pills,
     askContext: { type: "story", slug: storyId, title },
   };
 }
@@ -93,10 +105,7 @@ export function getPrincipleWhatsNext({
   return {
     primary,
     pills: [
-      {
-        label: "Share a memory",
-        href: `/tell?about=principle:${encodeURIComponent(slug)}`,
-      },
+      { label: "Share a memory", action: "tell" },
       { label: "Ask about this principle", action: "ask" },
       { label: "More principles", href: "/principles" },
     ],
@@ -131,10 +140,7 @@ export function getPersonWhatsNext({
   return {
     primary,
     pills: [
-      {
-        label: `Share a memory of ${title}`,
-        href: `/tell?about=person:${encodeURIComponent(slug)}`,
-      },
+      { label: `Share a memory of ${title}`, action: "tell" },
       { label: `Ask about ${title}`, action: "ask" },
       { label: "Browse people", href: "/people" },
     ],
@@ -159,10 +165,7 @@ export function getJourneyCompleteWhatsNext({
       blurb: "Pick the next path through Keith's stories.",
     },
     pills: [
-      {
-        label: "Share a memory",
-        href: `/tell?about=journey:${encodeURIComponent(slug)}`,
-      },
+      { label: "Share a memory", action: "tell" },
       { label: "Ask about these themes", action: "ask" },
       { label: "Browse all stories", href: "/stories" },
     ],

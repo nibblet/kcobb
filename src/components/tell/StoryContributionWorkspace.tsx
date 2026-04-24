@@ -112,8 +112,14 @@ const workspaceContent: Record<ContributionMode, WorkspaceContent> = {
 
 export function StoryContributionWorkspace({
   contributionMode,
+  mode = "page",
+  initialAbout,
+  onClose,
 }: {
   contributionMode: ContributionMode;
+  mode?: "page" | "overlay";
+  initialAbout?: { type: AboutType; slug: string; title: string } | null;
+  onClose?: () => void;
 }) {
   const content = workspaceContent[contributionMode];
   const [messages, setMessages] = useState<Message[]>([]);
@@ -130,7 +136,9 @@ export function StoryContributionWorkspace({
   const [submitting, setSubmitting] = useState(false);
   const [pendingSessions, setPendingSessions] = useState<PendingSession[]>([]);
   const [sessionsChecked, setSessionsChecked] = useState(false);
-  const [aboutContext, setAboutContext] = useState<AboutContext | null>(null);
+  const [aboutContext, setAboutContext] = useState<AboutContext | null>(
+    initialAbout ?? null,
+  );
   const bottomRef = useRef<HTMLDivElement>(null);
   const sendInFlightRef = useRef(false);
   const searchParams = useSearchParams();
@@ -160,6 +168,8 @@ export function StoryContributionWorkspace({
   }, [contributionMode]);
 
   useEffect(() => {
+    // In overlay mode, context comes from props — skip URL parsing
+    if (initialAbout !== undefined) return;
     const parsed = parseAbout(searchParams.get("about"));
     if (!parsed) {
       setAboutContext(null);
@@ -187,11 +197,13 @@ export function StoryContributionWorkspace({
     return () => {
       cancelled = true;
     };
-  }, [searchParams]);
+  }, [searchParams, initialAbout]);
 
   const dismissAbout = () => {
     setAboutContext(null);
-    router.replace("/tell");
+    if (!onClose) {
+      router.replace("/tell");
+    }
   };
 
   async function sendMessage(text?: string) {
@@ -383,8 +395,12 @@ export function StoryContributionWorkspace({
   }
 
   if (viewMode === "drafting") {
+    const draftingClass =
+      mode === "overlay"
+        ? "flex h-full flex-col items-center justify-center px-[var(--page-padding-x)] md:px-4"
+        : "mx-auto flex h-[calc(100vh-8rem)] max-w-content flex-col items-center justify-center px-[var(--page-padding-x)] md:h-[calc(100vh-4rem)]";
     return (
-      <div className="mx-auto flex h-[calc(100vh-8rem)] max-w-content flex-col items-center justify-center px-[var(--page-padding-x)] md:h-[calc(100vh-4rem)]">
+      <div className={draftingClass}>
         <div className="text-center">
           <div className="mb-4 text-4xl animate-pulse">&#9997;&#65039;</div>
           <h2 className="type-page-title mb-2 text-xl">
@@ -399,9 +415,13 @@ export function StoryContributionWorkspace({
   }
 
   if (viewMode === "review" && draft) {
+    const reviewContainerClass =
+      mode === "overlay"
+        ? "flex h-full flex-col items-center justify-center px-[var(--page-padding-x)] md:px-4"
+        : "mx-auto flex h-[calc(100vh-8rem)] max-w-content flex-col items-center justify-center px-[var(--page-padding-x)] md:h-[calc(100vh-4rem)]";
     if (submitted) {
       return (
-        <div className="mx-auto flex h-[calc(100vh-8rem)] max-w-content flex-col items-center justify-center px-[var(--page-padding-x)] md:h-[calc(100vh-4rem)]">
+        <div className={reviewContainerClass}>
           <div className="max-w-lg text-center">
             <div className="mb-4 text-4xl">&#10024;</div>
             <h2 className="type-page-title mb-2 text-xl">
@@ -421,8 +441,12 @@ export function StoryContributionWorkspace({
       );
     }
 
+    const reviewEditClass =
+      mode === "overlay"
+        ? "flex-1 overflow-y-auto px-[var(--page-padding-x)] py-6 md:px-4"
+        : "mx-auto max-w-content px-[var(--page-padding-x)] py-6";
     return (
-      <div className="mx-auto max-w-content px-[var(--page-padding-x)] py-6">
+      <div className={reviewEditClass}>
         <div className="mb-6">
           <button
             onClick={backToChat}
@@ -519,12 +543,24 @@ export function StoryContributionWorkspace({
     );
   }
 
+  const containerClass =
+    mode === "overlay"
+      ? "flex h-full flex-col"
+      : "mx-auto flex h-[calc(100vh-8rem)] max-w-content flex-col px-[var(--page-padding-x)] md:h-[calc(100vh-4rem)]";
+
+  const headerPadding = mode === "overlay" ? "px-[var(--page-padding-x)] md:px-4" : "";
+  const bodyPadding = mode === "overlay" ? "px-[var(--page-padding-x)] md:px-4" : "";
+
   return (
-    <div className="mx-auto flex h-[calc(100vh-8rem)] max-w-content flex-col px-[var(--page-padding-x)] md:h-[calc(100vh-4rem)]">
-      <div className="border-b border-[var(--color-border)] py-4">
-        <p className="type-era-label mb-2 text-ink-ghost">{content.badge}</p>
-        <h1 className="type-page-title text-2xl">{content.title}</h1>
-        <p className="type-ui mt-1 text-ink-ghost">{content.subtitle}</p>
+    <div className={containerClass}>
+      <div className={`border-b border-[var(--color-border)] py-4 ${headerPadding}`}>
+        {mode === "page" && (
+          <>
+            <p className="type-era-label mb-2 text-ink-ghost">{content.badge}</p>
+            <h1 className="type-page-title text-2xl">{content.title}</h1>
+            <p className="type-ui mt-1 text-ink-ghost">{content.subtitle}</p>
+          </>
+        )}
         {aboutContext && (
           <div className="mt-3 inline-flex items-center gap-2 rounded-full border border-[var(--color-border)] bg-gold-pale/50 px-3 py-1 text-xs text-ink">
             <span className="text-ink-ghost">Responding to {aboutContext.type}:</span>
@@ -542,7 +578,7 @@ export function StoryContributionWorkspace({
       </div>
 
       <div
-        className="flex-1 space-y-4 overflow-y-auto py-4"
+        className={`flex-1 space-y-4 overflow-y-auto py-4 ${bodyPadding}`}
         aria-live="polite"
         aria-relevant="additions"
       >
@@ -640,7 +676,7 @@ export function StoryContributionWorkspace({
         <div ref={bottomRef} />
       </div>
 
-      <div className="border-t border-[var(--color-border)] bg-warm-white py-3">
+      <div className={`border-t border-[var(--color-border)] bg-warm-white py-3 ${bodyPadding}`}>
         {messages.length >= 6 && (
           <div className="mb-2 flex justify-center">
             <button

@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import { usePageContext } from "@/components/layout/PageContextProvider";
 import { useAskOverlay } from "./AskOverlayProvider";
@@ -37,23 +36,6 @@ export function AskBar() {
   const pathname = usePathname();
   const pageContext = usePageContext();
   const { open } = useAskOverlay();
-  const [hidden, setHidden] = useState(false);
-  const lastYRef = useRef(0);
-
-  useEffect(() => {
-    const handler = () => {
-      const y = document.documentElement.scrollTop;
-      const delta = y - lastYRef.current;
-      lastYRef.current = y;
-      if (delta > 2 && y > 120) {
-        setHidden(true);
-      } else if (delta < -2 || y < 40) {
-        setHidden(false);
-      }
-    };
-    window.addEventListener("scroll", handler, { passive: true });
-    return () => window.removeEventListener("scroll", handler);
-  }, []);
 
   if (HIDE_ON_PATHS.has(pathname)) return null;
 
@@ -61,9 +43,7 @@ export function AskBar() {
 
   return (
     <div
-      className={`sticky top-0 z-40 border-b border-[var(--color-border)] bg-warm-white/95 backdrop-blur supports-[backdrop-filter]:bg-warm-white/75 transition-transform duration-200 ease-out md:top-[60px] ${
-        hidden ? "md:translate-y-0 -translate-y-full" : "translate-y-0"
-      }`}
+      className="sticky top-0 z-40 border-b border-[var(--color-border)] bg-warm-white/95 backdrop-blur supports-[backdrop-filter]:bg-warm-white/75 md:top-[60px]"
     >
       <div className="mx-auto max-w-content px-[var(--page-padding-x)] py-2">
         <button
