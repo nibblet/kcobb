@@ -7,6 +7,9 @@ import { Header } from "@/components/layout/Header";
 import { AgeModeProvider } from "@/hooks/useAgeMode";
 import { ThemeModeProvider } from "@/hooks/useThemeMode";
 import { BodyModeSync } from "@/components/layout/BodyModeSync";
+import { PageContextProvider } from "@/components/layout/PageContextProvider";
+import { AskOverlayProvider } from "@/components/ask/AskOverlayProvider";
+import { AskBar } from "@/components/ask/AskBar";
 import { ageModeFromAge } from "@/lib/utils/age-mode";
 import type { AgeMode, ThemeMode } from "@/types";
 
@@ -83,11 +86,16 @@ export default async function RootLayout({
             <a href="#main-content" className="skip-link">
               Skip to main content
             </a>
-            <Nav />
-            <Header />
-            <main id="main-content" className="flex-1 pb-16 md:pb-0">
-              {children}
-            </main>
+            <PageContextProvider>
+              <AskOverlayProvider>
+                <Nav />
+                <Header />
+                <AskBar />
+                <main id="main-content" className="flex-1 pb-16 md:pb-0">
+                  {children}
+                </main>
+              </AskOverlayProvider>
+            </PageContextProvider>
           </AgeModeProvider>
         </ThemeModeProvider>
       </body>

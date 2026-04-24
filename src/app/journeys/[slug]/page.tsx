@@ -9,6 +9,7 @@ import {
   narrationAudioEndpoint,
   resolveJourneyIntroNarration,
 } from "@/lib/narration/resolve";
+import { PageContextBoundary } from "@/components/layout/PageContextBoundary";
 
 export default async function JourneyIntroPage({
   params,
@@ -29,6 +30,11 @@ export default async function JourneyIntroPage({
 
   return (
     <div className="mx-auto max-w-content px-[var(--page-padding-x)] py-6 md:py-10">
+      <PageContextBoundary
+        type="journey"
+        slug={slug}
+        title={journey.title}
+      />
       <Link
         href="/journeys"
         className="type-ui mb-4 inline-block text-ink-ghost no-underline transition-colors hover:text-ocean"

@@ -4,6 +4,9 @@ import { getJourneyBySlug } from "@/lib/wiki/journeys";
 import { getStoryById } from "@/lib/wiki/parser";
 import { JourneyCompleteMarker } from "@/components/journeys/JourneyCompleteMarker";
 import { JourneyCompleteSummary } from "@/components/journeys/JourneyCompleteSummary";
+import { PageContextBoundary } from "@/components/layout/PageContextBoundary";
+import { WhatsNext } from "@/components/nav/WhatsNext";
+import { getJourneyCompleteWhatsNext } from "@/lib/navigation/whats-next";
 
 function uniquePrinciplesForJourney(storyIds: string[]): string[] {
   const seen = new Set<string>();
@@ -35,6 +38,11 @@ export default async function JourneyCompletePage({
 
   return (
     <div className="mx-auto max-w-content px-[var(--page-padding-x)] py-6 md:py-10">
+      <PageContextBoundary
+        type="journey"
+        slug={journey.slug}
+        title={journey.title}
+      />
       <JourneyCompleteMarker slug={journey.slug} />
 
       <Link
@@ -58,26 +66,12 @@ export default async function JourneyCompletePage({
         }
       />
 
-      <div className="flex flex-col gap-3">
-        <Link
-          href={`/ask?journey=${encodeURIComponent(journey.slug)}`}
-          className="type-ui rounded-lg bg-clay py-2.5 text-center font-medium text-warm-white transition-colors hover:bg-clay-mid"
-        >
-          Ask about this journey
-        </Link>
-        <Link
-          href="/journeys"
-          className="type-ui rounded-lg border border-[var(--color-border)] bg-warm-white py-2.5 text-center font-medium text-ink transition-colors hover:border-clay-border"
-        >
-          Explore another journey
-        </Link>
-        <Link
-          href="/stories"
-          className="type-ui rounded-lg border border-[var(--color-border)] bg-warm-white-2 py-2.5 text-center font-medium text-ink transition-colors hover:border-clay-border"
-        >
-          Browse all stories
-        </Link>
-      </div>
+      <WhatsNext
+        data={getJourneyCompleteWhatsNext({
+          slug: journey.slug,
+          title: journey.title,
+        })}
+      />
     </div>
   );
 }

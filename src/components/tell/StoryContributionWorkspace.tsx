@@ -1,8 +1,29 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import ReactMarkdown from "react-markdown";
 import type { ContributionMode } from "@/types";
+
+const ABOUT_TYPES = ["story", "journey", "principle", "person"] as const;
+type AboutType = (typeof ABOUT_TYPES)[number];
+
+interface AboutContext {
+  type: AboutType;
+  slug: string;
+  title: string;
+}
+
+function parseAbout(param: string | null): { type: AboutType; slug: string } | null {
+  if (!param) return null;
+  const idx = param.indexOf(":");
+  if (idx <= 0) return null;
+  const type = param.slice(0, idx);
+  const slug = param.slice(idx + 1).trim();
+  if (!slug) return null;
+  if (!(ABOUT_TYPES as readonly string[]).includes(type)) return null;
+  return { type: type as AboutType, slug };
+}
 
 interface Message {
   role: "user" | "assistant";
@@ -109,8 +130,11 @@ export function StoryContributionWorkspace({
   const [submitting, setSubmitting] = useState(false);
   const [pendingSessions, setPendingSessions] = useState<PendingSession[]>([]);
   const [sessionsChecked, setSessionsChecked] = useState(false);
+  const [aboutContext, setAboutContext] = useState<AboutContext | null>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
   const sendInFlightRef = useRef(false);
+  const searchParams = useSearchParams();
+  const router = useRouter();
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -134,6 +158,41 @@ export function StoryContributionWorkspace({
 
     checkSessions();
   }, [contributionMode]);
+
+  useEffect(() => {
+    const parsed = parseAbout(searchParams.get("about"));
+    if (!parsed) {
+      setAboutContext(null);
+      return;
+    }
+    let cancelled = false;
+    (async () => {
+      try {
+        const res = await fetch(
+          `/api/context/resolve?type=${encodeURIComponent(parsed.type)}&slug=${encodeURIComponent(parsed.slug)}`,
+        );
+        if (!res.ok || cancelled) return;
+        const data = (await res.json()) as { title?: string };
+        if (!cancelled && data.title) {
+          setAboutContext({
+            type: parsed.type,
+            slug: parsed.slug,
+            title: data.title,
+          });
+        }
+      } catch {
+        // Silent fail — chip just won't appear
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [searchParams]);
+
+  const dismissAbout = () => {
+    setAboutContext(null);
+    router.replace("/tell");
+  };
 
   async function sendMessage(text?: string) {
     const messageText = text || input.trim();
@@ -466,6 +525,20 @@ export function StoryContributionWorkspace({
         <p className="type-era-label mb-2 text-ink-ghost">{content.badge}</p>
         <h1 className="type-page-title text-2xl">{content.title}</h1>
         <p className="type-ui mt-1 text-ink-ghost">{content.subtitle}</p>
+        {aboutContext && (
+          <div className="mt-3 inline-flex items-center gap-2 rounded-full border border-[var(--color-border)] bg-gold-pale/50 px-3 py-1 text-xs text-ink">
+            <span className="text-ink-ghost">Responding to {aboutContext.type}:</span>
+            <span className="font-medium">{aboutContext.title}</span>
+            <button
+              type="button"
+              onClick={dismissAbout}
+              aria-label="Remove context"
+              className="ml-0.5 rounded-full text-ink-ghost transition-colors hover:text-ink"
+            >
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+        )}
       </div>
 
       <div

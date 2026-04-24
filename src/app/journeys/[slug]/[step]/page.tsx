@@ -13,6 +13,7 @@ import {
   narrationAudioEndpoint,
   resolveJourneyStepNarration,
 } from "@/lib/narration/resolve";
+import { PageContextBoundary } from "@/components/layout/PageContextBoundary";
 
 export default async function JourneyStepPage({
   params,
@@ -44,6 +45,11 @@ export default async function JourneyStepPage({
 
   return (
     <div className="mx-auto max-w-story px-[var(--page-padding-x)] py-6 pb-24 md:pb-10">
+      <PageContextBoundary
+        type="journey"
+        slug={journey.slug}
+        title={journey.title}
+      />
       <JourneyVisitRecorder slug={journey.slug} step={step} />
 
       <Link

@@ -12,6 +12,9 @@ import {
   resolvePeopleNarration,
 } from "@/lib/narration/resolve";
 import { TIER_SHORT_LABEL } from "@/lib/wiki/people-tiers";
+import { PageContextBoundary } from "@/components/layout/PageContextBoundary";
+import { WhatsNext } from "@/components/nav/WhatsNext";
+import { getPersonWhatsNext } from "@/lib/navigation/whats-next";
 
 export default async function PersonDetailPage({
   params,
@@ -42,8 +45,18 @@ export default async function PersonDetailPage({
     .map((id) => ({ id, story: getStoryById(id) }))
     .filter((x) => x.story);
 
+  const featuredStoryEntry = memoirStories[0] ?? interviewStories[0] ?? null;
+  const featuredStory = featuredStoryEntry?.story
+    ? {
+        storyId: featuredStoryEntry.id,
+        title: featuredStoryEntry.story.title,
+        summary: featuredStoryEntry.story.summary,
+      }
+    : null;
+
   return (
     <div className="mx-auto max-w-content px-[var(--page-padding-x)] py-6 md:py-10">
+      <PageContextBoundary type="person" slug={slug} title={displayName} />
       <Link
         href="/people"
         className="type-ui mb-4 inline-block text-ink-ghost no-underline transition-colors hover:text-ocean"
@@ -167,6 +180,14 @@ export default async function PersonDetailPage({
           </div>
         </div>
       )}
+
+      <WhatsNext
+        data={getPersonWhatsNext({
+          slug,
+          title: displayName,
+          featuredStory,
+        })}
+      />
     </div>
   );
 }

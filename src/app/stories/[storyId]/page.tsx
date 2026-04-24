@@ -12,10 +12,12 @@ import { StoryMarkdown } from "@/components/story/StoryMarkdown";
 import { StoryBodyWithHighlighting } from "@/components/story/StoryBodyWithHighlighting";
 import { StoryDetailsDisclosure } from "@/components/story/StoryDetailsDisclosure";
 import { StoryTOC, type StoryTOCSection } from "@/components/story/StoryTOC";
-import { AskAboutStory } from "@/components/stories/AskAboutStory";
 import { AnsweredQuestionsList } from "@/components/stories/AnsweredQuestionsList";
 import { lifeStageToEraAccent } from "@/lib/design/era";
 import { createClient } from "@/lib/supabase/server";
+import { PageContextBoundary } from "@/components/layout/PageContextBoundary";
+import { WhatsNext } from "@/components/nav/WhatsNext";
+import { getStoryWhatsNext } from "@/lib/navigation/whats-next";
 
 export default async function StoryDetailPage({
   params,
@@ -69,7 +71,6 @@ export default async function StoryDetailPage({
     tocSections.push({ id: "quotes", label: "Key Quotes" });
   if (story.relatedStoryIds.length > 0)
     tocSections.push({ id: "related", label: "Related Stories" });
-  tocSections.push({ id: "ask", label: "Ask About This Story" });
   const relatedStories = await Promise.all(
     story.relatedStoryIds.map(async (relId) => ({
       relId,
@@ -79,6 +80,7 @@ export default async function StoryDetailPage({
 
   return (
     <>
+      <PageContextBoundary type="story" slug={storyId} title={story.title} />
       <ReadingProgressBar />
       <ReadTracker storyId={storyId} />
       <div className="mx-auto max-w-6xl px-[var(--page-padding-x)] py-6 md:py-10">
@@ -232,27 +234,19 @@ export default async function StoryDetailPage({
 
             <AnsweredQuestionsList storyId={storyId} />
 
-            <div id="ask" className="scroll-mt-20">
-              <AskAboutStory storyId={storyId} />
-            </div>
-
-            <div className="mt-8 flex flex-col gap-3 border-t border-[var(--color-divider)] pt-6 sm:flex-row sm:items-start">
-              <div className="flex min-w-0 flex-1 flex-col gap-1">
-                <Link
-                  href={`/ask?story=${storyId}`}
-                  className="rounded-lg bg-clay py-2.5 text-center text-sm font-medium text-warm-white transition-colors hover:bg-clay-mid"
-                >
-                  Chat about this story (AI)
-                </Link>
-              </div>
-              <Link
-                href="/stories"
-                className="flex-1 rounded-lg border border-[var(--color-border)] bg-warm-white py-2.5 text-center text-sm font-medium text-ink transition-colors hover:border-clay-border sm:max-w-[12rem] sm:self-center"
-              >
-                <span className="sm:hidden">More stories</span>
-                <span className="hidden sm:inline">Browse more stories</span>
-              </Link>
-            </div>
+            <WhatsNext
+              data={getStoryWhatsNext({
+                storyId,
+                title: story.title,
+                relatedStories: relatedStories
+                  .filter((r) => r.story)
+                  .map((r) => ({
+                    storyId: r.relId,
+                    title: r.story!.title,
+                    summary: r.story!.summary,
+                  })),
+              })}
+            />
           </div>
 
           <StoryTOC sections={tocSections} />
