@@ -11,7 +11,7 @@ export function ExploreHubTabs() {
 
   return (
     <div
-      className="sticky top-0 z-[40] border-b border-[var(--color-border)] bg-warm-white/95 backdrop-blur-md md:top-[60px]"
+      className="sticky top-[52px] z-30 border-b border-[var(--color-border)] bg-warm-white/95 backdrop-blur-md md:top-[112px]"
       role="tablist"
       aria-label="Explore section"
     >

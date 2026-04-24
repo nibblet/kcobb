@@ -11,8 +11,6 @@ import { useProfileNotificationBadge } from "@/hooks/useProfileNotificationBadge
 const primaryNavItems = [
   { href: "/stories", label: "Stories" },
   { href: "/journeys", label: "Explore" },
-  { href: "/ask", label: "Ask" },
-  { href: "/tell", label: "Tell" },
 ] as const;
 
 function isNavActive(pathname: string, href: string): boolean {
@@ -25,8 +23,6 @@ function isNavActive(pathname: string, href: string): boolean {
       pathname.startsWith("/people")
     );
   }
-  if (href === "/ask") return pathname === "/ask" || pathname.startsWith("/ask/");
-  if (href === "/tell") return pathname === "/tell" || pathname.startsWith("/tell/");
   return false;
 }
 
@@ -88,46 +84,6 @@ function MobileNavIcon({
             stroke="currentColor"
             strokeWidth="1.75"
             strokeLinecap="round"
-          />
-        </svg>
-      );
-    case "/ask":
-      return (
-        <svg
-          className={`h-5 w-5 ${c}`}
-          viewBox="0 0 24 24"
-          fill="none"
-          aria-hidden
-        >
-          <path
-            d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"
-            stroke="currentColor"
-            strokeWidth="1.75"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
-      );
-    case "/tell":
-      return (
-        <svg
-          className={`h-5 w-5 ${c}`}
-          viewBox="0 0 24 24"
-          fill="none"
-          aria-hidden
-        >
-          <path
-            d="M12 20h9"
-            stroke="currentColor"
-            strokeWidth="1.75"
-            strokeLinecap="round"
-          />
-          <path
-            d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"
-            stroke="currentColor"
-            strokeWidth="1.75"
-            strokeLinecap="round"
-            strokeLinejoin="round"
           />
         </svg>
       );
