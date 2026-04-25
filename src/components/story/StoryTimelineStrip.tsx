@@ -11,8 +11,13 @@ interface TimelinePoint {
 }
 
 interface Props {
-  currentStoryId: string;
+  /** Single highlighted story (story detail pages). Renders as the largest marker. */
+  currentStoryId?: string;
+  /** Set of stories to emphasize (e.g. all stories in a journey). Mid-size dots. */
+  highlightedStoryIds?: string[];
   points: TimelinePoint[];
+  /** Accessible label for the strip; defaults to the story-page wording. */
+  ariaLabel?: string;
 }
 
 /** Bands chained so adjacent eras share boundaries (no visual gap). */
@@ -32,14 +37,33 @@ function pct(year: number): number {
   return ((year - DOMAIN_START) / DOMAIN_SPAN) * 100;
 }
 
-export function StoryTimelineStrip({ currentStoryId, points }: Props) {
+type DotState = "current" | "highlighted" | "muted";
+
+export function StoryTimelineStrip({
+  currentStoryId,
+  highlightedStoryIds,
+  points,
+  ariaLabel,
+}: Props) {
   const [hoveredId, setHoveredId] = useState<string | null>(null);
 
   const eras = useMemo(() => getAllEraAccents(), []);
-  const current = points.find((p) => p.storyId === currentStoryId);
-  const others = points.filter((p) => p.storyId !== currentStoryId);
+  const highlightedSet = useMemo(
+    () => new Set(highlightedStoryIds ?? []),
+    [highlightedStoryIds],
+  );
+
+  const stateFor = (storyId: string): DotState => {
+    if (storyId === currentStoryId) return "current";
+    if (highlightedSet.has(storyId)) return "highlighted";
+    return "muted";
+  };
+
   const hovered = hoveredId
     ? points.find((p) => p.storyId === hoveredId)
+    : null;
+  const current = currentStoryId
+    ? points.find((p) => p.storyId === currentStoryId)
     : null;
   const tooltipPoint = hovered ?? current ?? null;
 
@@ -47,7 +71,7 @@ export function StoryTimelineStrip({ currentStoryId, points }: Props) {
     <div
       className="mb-5 select-none"
       role="navigation"
-      aria-label="Where this story sits in Keith's life"
+      aria-label={ariaLabel ?? "Where this story sits in Keith's life"}
     >
       <div className="relative h-12">
         {/* Era bands — absolute positioned to align with year-positioned dots */}
@@ -72,10 +96,13 @@ export function StoryTimelineStrip({ currentStoryId, points }: Props) {
           })}
         </div>
 
-        {/* Other story dots */}
-        {others.map((p) => {
+        {/* Story dots — render muted/highlighted as Links, current as a static larger marker */}
+        {points.map((p) => {
+          const state = stateFor(p.storyId);
+          if (state === "current") return null;
           const era = yearToEraKey(p.year);
           const accent = eras.find((e) => e.key === era);
+          const isHighlighted = state === "highlighted";
           return (
             <Link
               key={p.storyId}
@@ -85,7 +112,11 @@ export function StoryTimelineStrip({ currentStoryId, points }: Props) {
               onFocus={() => setHoveredId(p.storyId)}
               onBlur={() => setHoveredId(null)}
               aria-label={`${p.title} (${p.year})`}
-              className="absolute top-5 h-2 w-2 -translate-x-1/2 rounded-full opacity-50 transition-all hover:scale-150 hover:opacity-100 focus:scale-150 focus:opacity-100 focus:outline-none"
+              className={`absolute -translate-x-1/2 rounded-full transition-all hover:scale-150 hover:opacity-100 focus:scale-150 focus:opacity-100 focus:outline-none ${
+                isHighlighted
+                  ? "top-[18px] h-3 w-3 opacity-95 ring-2 ring-warm-white"
+                  : "top-5 h-2 w-2 opacity-45"
+              }`}
               style={{
                 left: `${pct(p.year)}%`,
                 backgroundColor: accent?.hex ?? "#888",

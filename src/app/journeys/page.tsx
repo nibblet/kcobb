@@ -1,13 +1,9 @@
 import Link from "next/link";
 import { getAllJourneys } from "@/lib/wiki/journeys";
-import { getStoryTimelinePoints } from "@/lib/wiki/parser";
 import { JourneyStatusBadge } from "@/components/journeys/JourneyStatusBadge";
-import { JourneyMiniTimeline } from "@/components/journeys/JourneyMiniTimeline";
 
 export default function JourneysPage() {
   const journeys = getAllJourneys();
-  const allPoints = getStoryTimelinePoints();
-  const yearByStoryId = new Map(allPoints.map((p) => [p.storyId, p.year]));
 
   return (
     <div className="mx-auto max-w-content px-[var(--page-padding-x)] py-6 md:py-10">
@@ -23,12 +19,6 @@ export default function JourneysPage() {
           const href = hasNarrated
             ? `/journeys/${journey.slug}/narrated`
             : `/journeys/${journey.slug}`;
-          const points = journey.storyIds
-            .map((id) => {
-              const year = yearByStoryId.get(id);
-              return year != null ? { storyId: id, year } : null;
-            })
-            .filter((p): p is { storyId: string; year: number } => p !== null);
 
           return (
             <Link
@@ -49,11 +39,6 @@ export default function JourneysPage() {
               <p className="type-meta mt-3 normal-case tracking-normal text-ink-ghost">
                 {journey.storyCount} stories
               </p>
-              {points.length > 0 && (
-                <div className="mt-3">
-                  <JourneyMiniTimeline points={points} />
-                </div>
-              )}
             </Link>
           );
         })}

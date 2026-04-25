@@ -4,12 +4,14 @@ import { getJourneyBySlug } from "@/lib/wiki/journeys";
 import {
   getPeopleByStoryId,
   getCanonicalPrinciplesForStoryIds,
+  getStoryTimelinePoints,
 } from "@/lib/wiki/parser";
 import { addPeopleLinks } from "@/lib/wiki/link-people";
 import { JourneyExperienceBadge } from "@/components/journeys/JourneyExperienceBadge";
 import { JourneyNarratedSources } from "@/components/journeys/JourneyNarratedSources";
 import { NarrationControls } from "@/components/audio/NarrationControls";
 import { StoryMarkdown } from "@/components/story/StoryMarkdown";
+import { StoryTimelineStrip } from "@/components/story/StoryTimelineStrip";
 import { PrinciplesInlineProse } from "@/components/principles/PrinciplesInlineProse";
 import { PageContextBoundary } from "@/components/layout/PageContextBoundary";
 import { WhatsNext } from "@/components/nav/WhatsNext";
@@ -34,6 +36,7 @@ export default async function NarratedJourneyPage({
   const principlesForJourney = getCanonicalPrinciplesForStoryIds(
     journey.storyIds,
   );
+  const timelinePoints = getStoryTimelinePoints();
 
   return (
     <div className="mx-auto max-w-story px-[var(--page-padding-x)] py-6 md:py-10">
@@ -61,6 +64,12 @@ export default async function NarratedJourneyPage({
       <PrinciplesInlineProse
         principles={principlesForJourney}
         prefix="Principles this journey explores include"
+      />
+
+      <StoryTimelineStrip
+        points={timelinePoints}
+        highlightedStoryIds={journey.storyIds}
+        ariaLabel="Stories in this journey on Keith's life timeline"
       />
 
       {narratedListen && (
