@@ -7,6 +7,9 @@ import {
   narrationAudioEndpoint,
   resolvePrincipleNarration,
 } from "@/lib/narration/resolve";
+import { PageContextBoundary } from "@/components/layout/PageContextBoundary";
+import { WhatsNext } from "@/components/nav/WhatsNext";
+import { getPrincipleWhatsNext } from "@/lib/navigation/whats-next";
 
 export default async function PrincipleDetailPage({
   params,
@@ -22,6 +25,7 @@ export default async function PrincipleDetailPage({
 
   return (
     <div className="mx-auto max-w-content px-[var(--page-padding-x)] py-6 md:py-10">
+      <PageContextBoundary type="principle" slug={slug} title={principle.title} />
       <Link
         href="/principles"
         className="type-ui mb-4 inline-block text-ink-ghost no-underline transition-colors hover:text-ocean"
@@ -70,12 +74,6 @@ export default async function PrincipleDetailPage({
             </p>
           ))}
         </div>
-        <Link
-          href={`/ask?prompt=${encodeURIComponent(principle.askPrompt)}`}
-          className="type-ui mt-5 inline-block rounded-lg bg-clay px-4 py-2 font-medium text-warm-white transition-colors hover:bg-clay-mid"
-        >
-          Ask about this theme
-        </Link>
       </section>
 
       {principle.stories.length > 0 && (
@@ -126,6 +124,18 @@ export default async function PrincipleDetailPage({
           </ul>
         </details>
       )}
+
+      <WhatsNext
+        data={getPrincipleWhatsNext({
+          slug,
+          title: principle.title,
+          backingStories: principle.stories.map((s) => ({
+            storyId: s.storyId,
+            title: s.title,
+            summary: s.summary,
+          })),
+        })}
+      />
     </div>
   );
 }

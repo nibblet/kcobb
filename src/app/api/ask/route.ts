@@ -48,6 +48,10 @@ export async function POST(request: Request) {
     conversationId?: string;
     storySlug?: string;
     journeySlug?: string;
+    /** Accepted but not yet grounded server-side; UI uses for context chip only. */
+    principleSlug?: string;
+    /** Accepted but not yet grounded server-side; UI uses for context chip only. */
+    personSlug?: string;
     ageMode?: AgeMode;
     /** When set, successful responses link this saved passage to the conversation. */
     highlightId?: string;

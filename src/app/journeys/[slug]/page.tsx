@@ -1,7 +1,10 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getJourneyBySlug } from "@/lib/wiki/journeys";
-import { getStoryById } from "@/lib/wiki/parser";
+import {
+  getStoryById,
+  getCanonicalPrinciplesForStoryIds,
+} from "@/lib/wiki/parser";
 import { JourneyIntroContinue } from "@/components/journeys/JourneyIntroContinue";
 import { JourneyExperienceBadge } from "@/components/journeys/JourneyExperienceBadge";
 import { NarrationControls } from "@/components/audio/NarrationControls";
@@ -9,6 +12,8 @@ import {
   narrationAudioEndpoint,
   resolveJourneyIntroNarration,
 } from "@/lib/narration/resolve";
+import { PageContextBoundary } from "@/components/layout/PageContextBoundary";
+import { PrinciplesInlineProse } from "@/components/principles/PrinciplesInlineProse";
 
 export default async function JourneyIntroPage({
   params,
@@ -27,8 +32,17 @@ export default async function JourneyIntroPage({
     return { id, title: s?.title || id };
   });
 
+  const principlesForJourney = getCanonicalPrinciplesForStoryIds(
+    journey.storyIds,
+  );
+
   return (
     <div className="mx-auto max-w-content px-[var(--page-padding-x)] py-6 md:py-10">
+      <PageContextBoundary
+        type="journey"
+        slug={slug}
+        title={journey.title}
+      />
       <Link
         href="/journeys"
         className="type-ui mb-4 inline-block text-ink-ghost no-underline transition-colors hover:text-ocean"
@@ -37,9 +51,14 @@ export default async function JourneyIntroPage({
       </Link>
 
       <h1 className="type-page-title mb-3">{journey.title}</h1>
-      <p className="type-body mb-6 text-pretty text-ink-muted">
+      <p className="type-body mb-3 text-pretty text-ink-muted">
         {journey.description}
       </p>
+
+      <PrinciplesInlineProse
+        principles={principlesForJourney}
+        prefix="Principles this journey explores include"
+      />
 
       {introNarration && (
         <NarrationControls

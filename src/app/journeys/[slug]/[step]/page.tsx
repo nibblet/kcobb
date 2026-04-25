@@ -1,8 +1,12 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import ReactMarkdown from "react-markdown";
 import { getJourneyBySlug } from "@/lib/wiki/journeys";
-import { getStoryById } from "@/lib/wiki/parser";
+import {
+  getStoryById,
+  getPeopleByStoryId,
+  getCanonicalPrinciplesForStory,
+} from "@/lib/wiki/parser";
+import { addPeopleLinks } from "@/lib/wiki/link-people";
 import { lifeStageToEraAccent } from "@/lib/design/era";
 import { JourneyProgressBar } from "@/components/journeys/JourneyProgressBar";
 import { JourneyConnector } from "@/components/journeys/JourneyConnector";
@@ -13,6 +17,9 @@ import {
   narrationAudioEndpoint,
   resolveJourneyStepNarration,
 } from "@/lib/narration/resolve";
+import { PageContextBoundary } from "@/components/layout/PageContextBoundary";
+import { StoryMarkdown } from "@/components/story/StoryMarkdown";
+import { PrinciplesInlineProse } from "@/components/principles/PrinciplesInlineProse";
 
 export default async function JourneyStepPage({
   params,
@@ -32,6 +39,10 @@ export default async function JourneyStepPage({
   const story = getStoryById(storyId);
   if (!story) notFound();
 
+  const principlesForStory = getCanonicalPrinciplesForStory(storyId);
+  const peopleInStory = getPeopleByStoryId(storyId);
+  const linkedFullText = addPeopleLinks(story.fullText, peopleInStory);
+
   const reflection =
     journey.reflections[storyId] ||
     "What part of this story stays with you, and why?";
@@ -44,6 +55,11 @@ export default async function JourneyStepPage({
 
   return (
     <div className="mx-auto max-w-story px-[var(--page-padding-x)] py-6 pb-24 md:pb-10">
+      <PageContextBoundary
+        type="journey"
+        slug={journey.slug}
+        title={journey.title}
+      />
       <JourneyVisitRecorder slug={journey.slug} step={step} />
 
       <Link
@@ -68,11 +84,16 @@ export default async function JourneyStepPage({
         </span>
       </div>
 
-      <div className="mb-6 rounded-lg border border-clay-border bg-gold-pale/40 p-4">
+      <div className="mb-3 rounded-lg border border-clay-border bg-gold-pale/40 p-4">
         <p className="font-[family-name:var(--font-lora)] text-sm italic leading-relaxed text-ink">
           {story.summary}
         </p>
       </div>
+
+      <PrinciplesInlineProse
+        principles={principlesForStory}
+        prefix="Principles in this story include"
+      />
 
       {stepNarration && (
         <NarrationControls
@@ -85,25 +106,8 @@ export default async function JourneyStepPage({
       )}
 
       <article className="story-body prose prose-story prose-lg mb-8 max-w-none">
-        <ReactMarkdown>{story.fullText}</ReactMarkdown>
+        <StoryMarkdown content={linkedFullText} />
       </article>
-
-      {story.principles.length > 0 && (
-        <div className="mb-6 rounded-xl border border-[var(--color-border)] bg-warm-white p-5">
-          <h2 className="type-meta mb-3 text-ink">What This Story Shows</h2>
-          <ul className="space-y-2">
-            {story.principles.map((p, i) => (
-              <li
-                key={i}
-                className="flex gap-2 font-[family-name:var(--font-lora)] text-sm text-ink-muted"
-              >
-                <span className="mt-0.5 text-clay">&#9679;</span>
-                {p}
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
 
       <JourneyReflection prompt={reflection} />
 

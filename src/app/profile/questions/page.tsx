@@ -100,8 +100,7 @@ export default async function ProfileQuestionsPage() {
             You haven&apos;t asked any questions yet.
           </p>
           <p className="font-[family-name:var(--font-lora)] text-sm text-ink-muted">
-            At the bottom of any chapter you can ask a question about
-            Keith&apos;s stories — it will show up here when an answer is ready.
+            Any answers Keith writes for you will collect here.
           </p>
         </div>
       )}

@@ -1,6 +1,6 @@
+import Link from "next/link";
 import { getAllJourneys } from "@/lib/wiki/journeys";
 import { JourneyStatusBadge } from "@/components/journeys/JourneyStatusBadge";
-import { JourneyCTAButtons } from "@/components/journeys/JourneyCTAButtons";
 
 export default function JourneysPage() {
   const journeys = getAllJourneys();
@@ -9,52 +9,37 @@ export default function JourneysPage() {
     <div className="mx-auto max-w-content px-[var(--page-padding-x)] py-6 md:py-10">
       <h1 className="type-page-title mb-2">Journeys</h1>
       <p className="type-ui mb-6 text-ink-muted">
-        Explore Keith&apos;s life as either a curated path through stories or a
-        woven retelling built from the memoir and interviews.
+        Curated paths through Keith&apos;s life — each woven from the memoir and
+        interviews into a single narrative arc.
       </p>
 
-      <div className="grid gap-3 sm:grid-cols-2">
+      <div className="space-y-3">
         {journeys.map((journey) => {
           const hasNarrated = journey.experienceModes.includes("narrated");
-          const hasGuided = journey.experienceModes.includes("guided");
-          const singleMode =
-            journey.experienceModes.length === 1
-              ? journey.experienceModes[0]
-              : null;
+          const href = hasNarrated
+            ? `/journeys/${journey.slug}/narrated`
+            : `/journeys/${journey.slug}`;
 
           return (
-            <div
+            <Link
               key={journey.slug}
-              className="relative rounded-xl border border-[var(--color-border)] bg-warm-white p-4 pb-5 pt-5 pr-16"
+              href={href}
+              className="group relative block rounded-xl border border-[var(--color-border)] bg-warm-white p-5 pr-16 transition-[transform,box-shadow,border-color] duration-[var(--duration-slow)] ease-[var(--ease-out-soft)] hover:-translate-y-0.5 hover:border-clay-border hover:shadow-[0_12px_40px_rgba(44,28,16,0.08)]"
             >
               <JourneyStatusBadge
                 slug={journey.slug}
                 totalSteps={journey.storyIds.length}
               />
-              <div className="group">
-                <h2 className="font-[family-name:var(--font-playfair)] text-base font-semibold text-ink transition-colors group-hover:text-burgundy">
-                  {journey.title}
-                </h2>
-                {singleMode && (
-                  <p className="type-meta mt-1.5 text-ink-ghost">
-                    {singleMode === "narrated"
-                      ? "Narrated experience only"
-                      : "Guided path only"}
-                  </p>
-                )}
-                <p className="mt-2 line-clamp-3 font-[family-name:var(--font-lora)] text-sm italic leading-snug text-ink-muted">
-                  {journey.description}
-                </p>
-                <p className="type-meta mt-3 normal-case tracking-normal text-ink-ghost">
-                  {journey.storyCount} stories
-                </p>
-              </div>
-              <JourneyCTAButtons
-                slug={journey.slug}
-                hasNarrated={hasNarrated}
-                hasGuided={hasGuided}
-              />
-            </div>
+              <h2 className="font-[family-name:var(--font-playfair)] text-lg font-semibold text-ink transition-colors group-hover:text-burgundy">
+                {journey.title}
+              </h2>
+              <p className="mt-1.5 line-clamp-3 font-[family-name:var(--font-lora)] text-sm leading-relaxed text-ink-muted">
+                {journey.description}
+              </p>
+              <p className="type-meta mt-3 normal-case tracking-normal text-ink-ghost">
+                {journey.storyCount} stories
+              </p>
+            </Link>
           );
         })}
       </div>
