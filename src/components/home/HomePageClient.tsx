@@ -51,10 +51,13 @@ function StartHereRail({ journeys }: { journeys: readonly WikiJourney[] }) {
 
       <div className="grid gap-4 md:grid-cols-3">
         {journeys.map((journey) => {
+          const journeyHref = journey.experienceModes.includes("narrated")
+            ? `/journeys/${journey.slug}/narrated`
+            : `/journeys/${journey.slug}`;
           return (
             <Reveal key={journey.slug}>
               <Link
-                href={`/journeys/${journey.slug}`}
+                href={journeyHref}
                 className="group flex h-full flex-col rounded-2xl border border-[var(--color-border)] bg-warm-white p-6 transition-[transform,box-shadow,border-color] duration-[var(--duration-slow)] ease-[var(--ease-out-soft)] hover:-translate-y-0.5 hover:border-clay-border hover:shadow-[0_12px_40px_rgba(44,28,16,0.08)]"
               >
                 <h3 className="type-story-title mb-3 transition-colors group-hover:text-burgundy">
