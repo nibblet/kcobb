@@ -1,20 +1,6 @@
 import Link from "next/link";
 import { getAllCanonicalPrinciples } from "@/lib/wiki/parser";
 
-function IconAsk({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" aria-hidden>
-      <path
-        d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"
-        stroke="currentColor"
-        strokeWidth="1.75"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
-
 export default function PrinciplesPage() {
   const principles = getAllCanonicalPrinciples();
 
@@ -27,32 +13,20 @@ export default function PrinciplesPage() {
         repeated over a lifetime.
       </p>
 
-      <div className="space-y-6">
+      <div className="grid gap-3 sm:grid-cols-2">
         {principles.map((principle) => (
-          <article
+          <Link
             key={principle.id}
-            id={principle.slug}
-            className="scroll-mt-32 rounded-2xl border border-[var(--color-border)] bg-warm-white p-5 md:p-6"
+            href={`/principles/${principle.slug}`}
+            className="block rounded-2xl border border-[var(--color-border)] bg-warm-white p-5 transition-colors hover:border-clay-border"
           >
-            <h2 className="font-[family-name:var(--font-playfair)] text-2xl font-semibold text-burgundy">
+            <h2 className="font-[family-name:var(--font-playfair)] text-xl font-semibold text-burgundy">
               {principle.title}
             </h2>
-            <p className="mt-2 font-[family-name:var(--font-lora)] text-base leading-relaxed text-ink">
+            <p className="mt-2 font-[family-name:var(--font-lora)] text-sm leading-relaxed text-ink-muted">
               {principle.thesis}
             </p>
-            <p className="mt-3 font-[family-name:var(--font-lora)] text-sm leading-relaxed text-ink-muted">
-              {principle.narrative}
-            </p>
-            <div className="mt-4">
-              <Link
-                href={`/ask?prompt=${encodeURIComponent(principle.askPrompt)}`}
-                className="type-ui inline-flex items-center gap-2 rounded-full border border-[var(--color-border)] bg-warm-white-2 px-4 py-2 text-sm font-medium text-ink transition-colors hover:border-clay-border hover:text-clay"
-              >
-                <IconAsk className="h-4 w-4 text-clay" />
-                Ask about this principle
-              </Link>
-            </div>
-          </article>
+          </Link>
         ))}
       </div>
     </div>

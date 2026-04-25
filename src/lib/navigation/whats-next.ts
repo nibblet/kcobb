@@ -66,7 +66,7 @@ export function getStoryWhatsNext({
       label: firstPrincipleTitle
         ? `See principle: ${firstPrincipleTitle}`
         : "See a related principle",
-      href: `/principles#${encodeURIComponent(firstPrincipleSlug)}`,
+      href: `/principles/${encodeURIComponent(firstPrincipleSlug)}`,
     });
   }
 
@@ -80,6 +80,42 @@ export function getStoryWhatsNext({
 interface BuildJourneyCompleteArgs {
   slug: string;
   title: string;
+}
+
+interface BuildPrincipleArgs {
+  slug: string;
+  title: string;
+  backingStories: StoryLike[];
+}
+
+export function getPrincipleWhatsNext({
+  slug,
+  title,
+  backingStories,
+}: BuildPrincipleArgs): WhatsNextData {
+  const first = backingStories[0];
+  const primary: WhatsNextPrimary = first
+    ? {
+        href: `/stories/${first.storyId}`,
+        label: "Story that shows this",
+        title: first.title,
+        blurb: first.summary ?? undefined,
+      }
+    : {
+        href: "/principles",
+        label: "Browse",
+        title: "More principles",
+        blurb: "See the full set.",
+      };
+  return {
+    primary,
+    pills: [
+      { label: "Share a memory", action: "tell" },
+      { label: "Ask about this principle", action: "ask" },
+      { label: "More principles", href: "/principles" },
+    ],
+    askContext: { type: "principle", slug, title },
+  };
 }
 
 export function getJourneyCompleteWhatsNext({

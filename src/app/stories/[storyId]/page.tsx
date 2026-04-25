@@ -63,8 +63,6 @@ export default async function StoryDetailPage({
   }
 
   const tocSections: StoryTOCSection[] = [{ id: "story-body", label: "Story" }];
-  if (principlesForStory.length > 0)
-    tocSections.push({ id: "principles", label: "Principles" });
   if (story.quotes.length > 0)
     tocSections.push({ id: "quotes", label: "Key Quotes" });
   const relatedStories = await Promise.all(
@@ -115,9 +113,38 @@ export default async function StoryDetailPage({
               </div>
             </div>
 
-            <p className="mb-5 font-[family-name:var(--font-lora)] text-base italic leading-relaxed text-ink-muted">
+            <p className="mb-3 font-[family-name:var(--font-lora)] text-base italic leading-relaxed text-ink-muted">
               {story.summary}
             </p>
+
+            {principlesForStory.length > 0 && (
+              <p className="mb-5 font-[family-name:var(--font-lora)] text-base leading-relaxed text-ink-muted">
+                Principles in this story include{" "}
+                {principlesForStory.map((p, i) => {
+                  const isLast = i === principlesForStory.length - 1;
+                  const isSecondToLast = i === principlesForStory.length - 2;
+                  const separator = isLast
+                    ? ""
+                    : isSecondToLast && principlesForStory.length === 2
+                      ? " and "
+                      : isSecondToLast
+                        ? ", and "
+                        : ", ";
+                  return (
+                    <span key={p.slug}>
+                      <Link
+                        href={`/principles/${p.slug}`}
+                        className="font-medium text-clay underline underline-offset-2 hover:text-clay-mid"
+                      >
+                        {p.shortTitle}
+                      </Link>
+                      {separator}
+                    </span>
+                  );
+                })}
+                .
+              </p>
+            )}
 
             {supportsListenMode && (
               <StoryAudioControls
@@ -147,28 +174,6 @@ export default async function StoryDetailPage({
                 </article>
               )}
             </div>
-
-            {principlesForStory.length > 0 && (
-              <div
-                id="principles"
-                className="mb-6 scroll-mt-32 rounded-xl border border-[var(--color-border)] bg-warm-white p-5"
-              >
-                <h2 className="type-meta mb-3 text-ink">
-                  Principles in this story
-                </h2>
-                <div className="flex flex-wrap gap-2">
-                  {principlesForStory.map((p) => (
-                    <Link
-                      key={p.slug}
-                      href={`/principles#${p.slug}`}
-                      className="type-ui rounded-full border border-[var(--color-border)] bg-warm-white-2 px-3 py-1.5 text-sm text-ink-muted transition-colors hover:border-clay-border hover:text-clay"
-                    >
-                      {p.shortTitle}
-                    </Link>
-                  ))}
-                </div>
-              </div>
-            )}
 
             {story.quotes.length > 0 && (
               <div id="quotes" className="mb-6 scroll-mt-32">

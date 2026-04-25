@@ -106,7 +106,7 @@ export default async function JourneyStepPage({
             {principlesForStory.map((p) => (
               <Link
                 key={p.slug}
-                href={`/principles#${p.slug}`}
+                href={`/principles/${p.slug}`}
                 className="type-ui rounded-full border border-[var(--color-border)] bg-warm-white-2 px-3 py-1.5 text-sm text-ink-muted transition-colors hover:border-clay-border hover:text-clay"
               >
                 {p.shortTitle}
