@@ -2,6 +2,7 @@ import {
   getStoryById,
   getPeopleByStoryId,
   getCanonicalPrinciplesForStory,
+  getStoryTimelinePoints,
 } from "@/lib/wiki/parser";
 import { addPeopleLinks } from "@/lib/wiki/link-people";
 import { getCanonicalStoryById } from "@/lib/wiki/corpus";
@@ -23,6 +24,7 @@ import { PageContextBoundary } from "@/components/layout/PageContextBoundary";
 import { WhatsNext } from "@/components/nav/WhatsNext";
 import { getStoryWhatsNext } from "@/lib/navigation/whats-next";
 import { PrinciplesInlineProse } from "@/components/principles/PrinciplesInlineProse";
+import { StoryTimelineStrip } from "@/components/story/StoryTimelineStrip";
 
 export default async function StoryDetailPage({
   params,
@@ -39,6 +41,7 @@ export default async function StoryDetailPage({
 
   const era = lifeStageToEraAccent(story.lifeStage);
   const principlesForStory = getCanonicalPrinciplesForStory(storyId);
+  const timelinePoints = getStoryTimelinePoints();
   const supportsListenMode =
     story.source === "memoir" || story.source === "interview";
 
@@ -118,6 +121,11 @@ export default async function StoryDetailPage({
                 )}
               </div>
             </div>
+
+            <StoryTimelineStrip
+              currentStoryId={storyId}
+              points={timelinePoints}
+            />
 
             <p className="mb-3 font-[family-name:var(--font-lora)] text-base italic leading-relaxed text-ink-muted">
               {story.summary}

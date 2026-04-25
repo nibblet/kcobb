@@ -1078,6 +1078,51 @@ export function getCanonicalPrinciplesForStoryIds(
   return out;
 }
 
+const YEAR_RE = /\b(19\d{2}|20\d{2})\b/;
+
+/** Best-effort year parsed from a story's Timeline section; first year wins. */
+export function getStoryYear(story: WikiStory): number | null {
+  for (const entry of story.timelineEvents) {
+    const m = entry.match(YEAR_RE);
+    if (m) {
+      const year = parseInt(m[1], 10);
+      if (year >= 1900 && year <= 2100) return year;
+    }
+  }
+  return null;
+}
+
+const LIFE_STAGE_FALLBACK_YEAR: Record<string, number> = {
+  childhood: 1945,
+  education: 1958,
+  "early career": 1968,
+  "mid career": 1978,
+  leadership: 1990,
+  reflection: 2008,
+  legacy: 2015,
+};
+
+/** Returns one timeline point per story, with year (parsed or era-fallback). */
+export function getStoryTimelinePoints(): {
+  storyId: string;
+  title: string;
+  lifeStage: string;
+  year: number;
+}[] {
+  const stories = getAllStories();
+  return stories.map((story) => {
+    const parsed = getStoryYear(story);
+    const fallback =
+      LIFE_STAGE_FALLBACK_YEAR[story.lifeStage.toLowerCase()] ?? 1980;
+    return {
+      storyId: story.storyId,
+      title: story.title,
+      lifeStage: story.lifeStage,
+      year: parsed ?? fallback,
+    };
+  });
+}
+
 // --- People ---
 
 export type PersonTier = "A" | "B" | "C" | "D";
