@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { getAllJourneys } from "@/lib/wiki/journeys";
 import { JourneyStatusBadge } from "@/components/journeys/JourneyStatusBadge";
+import { lifeStageToEraAccent } from "@/lib/design/era";
+import { getStoryById } from "@/lib/wiki/parser";
 
 export default function JourneysPage() {
   const journeys = getAllJourneys();
@@ -24,7 +26,11 @@ export default function JourneysPage() {
             <Link
               key={journey.slug}
               href={href}
-              className="group relative block rounded-xl border border-[var(--color-border)] bg-warm-white p-5 pr-16 transition-[transform,box-shadow,border-color] duration-[var(--duration-slow)] ease-[var(--ease-out-soft)] hover:-translate-y-0.5 hover:border-clay-border hover:shadow-[0_12px_40px_rgba(44,28,16,0.08)]"
+              className={`group relative block border-b border-[var(--color-divider)] py-5 pl-4 pr-16 ${
+                lifeStageToEraAccent(
+                  getStoryById(journey.storyIds[0])?.lifeStage ?? "",
+                ).accentBorder
+              } border-l-4`}
             >
               <JourneyStatusBadge
                 slug={journey.slug}

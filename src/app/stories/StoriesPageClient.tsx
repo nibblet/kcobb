@@ -4,8 +4,7 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import type { StoryCard } from "@/lib/wiki/static-data";
 import { Reveal } from "@/components/ui/Reveal";
-import { SourceBadge } from "@/components/ui/SourceBadge";
-import { lifeStageToEraAccent } from "@/lib/design/era";
+import { getAllEraAccents, lifeStageToEraAccent } from "@/lib/design/era";
 import { ReadBadgeAgeAware } from "@/components/story/ReadBadgeAgeAware";
 
 const IV_PLACEMENT: Record<string, string> = {
@@ -58,6 +57,7 @@ export function StoriesPageClient({
   const readSet = useMemo(() => new Set(readStoryIds), [readStoryIds]);
 
   const sorted = useMemo(() => interleaveSort(stories), [stories]);
+  const eras = useMemo(() => getAllEraAccents(), []);
 
   const filtered = useMemo(() => {
     const q = search.trim().toLowerCase();
@@ -69,78 +69,93 @@ export function StoriesPageClient({
     );
   }, [sorted, search]);
 
+  const groupedByEra = useMemo(() => {
+    const groups = new Map<string, StoryCard[]>();
+    for (const story of filtered) {
+      const era = lifeStageToEraAccent(story.lifeStage);
+      const arr = groups.get(era.key) ?? [];
+      arr.push(story);
+      groups.set(era.key, arr);
+    }
+    return groups;
+  }, [filtered]);
+
   return (
     <div className="mx-auto max-w-content px-[var(--page-padding-x)] py-6 md:py-10">
       <h1 className="type-page-title mb-2">Story Library</h1>
       <p className="type-ui mb-6 text-ink-muted">
-        {`${stories.length} stories from Keith Cobb's memoir, interviews, and Beyond collection`}
+        Stories from Keith&apos;s memoir, interviews, and family reflections.
       </p>
 
-      <div className="mb-6">
+      <div className="relative mb-8">
+        <span
+          aria-hidden
+          className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-ink-ghost"
+        >
+          &#128269;
+        </span>
         <input
           type="search"
           placeholder="Search stories..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="type-ui w-full rounded-lg border border-[var(--color-border)] bg-warm-white px-3 py-2 text-ink placeholder:text-ink-ghost"
+          className="type-ui w-full rounded-lg border border-[var(--color-border)] bg-warm-white py-2 pl-10 pr-10 text-ink placeholder:text-ink-ghost focus:border-clay-mid focus:outline-none"
         />
+        {search && (
+          <button
+            type="button"
+            onClick={() => setSearch("")}
+            aria-label="Clear search"
+            className="absolute right-2 top-1/2 h-8 w-8 -translate-y-1/2 rounded-full text-ink-ghost transition-colors hover:bg-paper hover:text-ink"
+          >
+            &times;
+          </button>
+        )}
       </div>
 
-      <div className="space-y-3">
-        {filtered.length === 0 && (
+      <div>
+        {filtered.length === 0 ? (
           <p className="py-8 text-center text-sm text-ink-ghost">
             No stories match your search.
           </p>
-        )}
-        {filtered.map((story) => {
-          const era = lifeStageToEraAccent(story.lifeStage);
-          return (
-            <Reveal key={story.storyId}>
-              <Link
-                href={`/stories/${story.storyId}`}
-                className="group block rounded-xl border border-[var(--color-border)] bg-warm-white p-4 transition-[transform,box-shadow,border-color] duration-[var(--duration-slow)] ease-[var(--ease-out-soft)] hover:-translate-y-0.5 hover:border-clay-border hover:shadow-[0_12px_40px_rgba(44,28,16,0.08)]"
-              >
-                <div className="flex items-start justify-between gap-3">
-                  <div className="min-w-0">
-                    <h2 className="font-[family-name:var(--font-playfair)] text-base font-semibold text-ink transition-colors group-hover:text-burgundy">
-                      {story.title}
-                    </h2>
-                    <p className="mt-1 line-clamp-2 font-[family-name:var(--font-lora)] text-sm leading-relaxed text-ink-muted">
-                      {story.summary}
-                    </p>
-                    <div className="mt-2 flex flex-wrap gap-1.5">
-                      <SourceBadge source={story.source} />
-                      <span
-                        className={`rounded-full px-2 py-0.5 text-[10px] font-medium ${era.badgeClass}`}
-                      >
-                        {story.lifeStage}
-                      </span>
-                      {story.themes.slice(0, 3).map((theme) => {
-                        const isLeadership = theme
-                          .toLowerCase()
-                          .includes("leadership");
-                        return (
-                          <span
-                            key={theme}
-                            className={`rounded-full px-2 py-0.5 text-[10px] font-medium ${
-                              isLeadership
-                                ? "bg-ocean-pale text-ocean"
-                                : "bg-green-pale text-green"
-                            }`}
-                          >
-                            {theme}
-                          </span>
-                        );
-                      })}
-                    </div>
-                  </div>
-                  {readSet.has(story.storyId) && <ReadBadgeAgeAware />}
+        ) : (
+          eras.map((era) => {
+            const storiesInEra = groupedByEra.get(era.key) ?? [];
+            if (storiesInEra.length === 0) return null;
+            return (
+              <section key={era.key} className="mb-8">
+                <p className="type-era-label mb-3 text-ink-ghost">{era.label}</p>
+                <div>
+                  {storiesInEra.map((story) => {
+                    const storyEra = lifeStageToEraAccent(story.lifeStage);
+                    return (
+                      <Reveal key={story.storyId}>
+                        <Link
+                          href={`/stories/${story.storyId}`}
+                          className={`group block border-b border-[var(--color-divider)] py-5 pl-4 ${storyEra.accentBorder} border-l-4`}
+                        >
+                          <div className="flex items-start justify-between gap-3">
+                            <div className="min-w-0">
+                              <h2 className="font-[family-name:var(--font-playfair)] text-base font-semibold text-ink transition-colors group-hover:text-burgundy">
+                                {story.title}
+                              </h2>
+                              <p className="mt-1 line-clamp-2 font-[family-name:var(--font-lora)] text-sm leading-relaxed text-ink-muted">
+                                {story.summary}
+                              </p>
+                            </div>
+                            {readSet.has(story.storyId) && <ReadBadgeAgeAware />}
+                          </div>
+                        </Link>
+                      </Reveal>
+                    );
+                  })}
                 </div>
-              </Link>
-            </Reveal>
-          );
-        })}
+              </section>
+            );
+          })
+        )}
       </div>
+      <p className="type-meta text-ink-ghost">{stories.length} stories total</p>
     </div>
   );
 }

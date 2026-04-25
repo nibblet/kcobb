@@ -7,7 +7,6 @@ import {
   getStoryTimelinePoints,
 } from "@/lib/wiki/parser";
 import { addPeopleLinks } from "@/lib/wiki/link-people";
-import { JourneyExperienceBadge } from "@/components/journeys/JourneyExperienceBadge";
 import { JourneyNarratedSources } from "@/components/journeys/JourneyNarratedSources";
 import { NarrationControls } from "@/components/audio/NarrationControls";
 import { StoryMarkdown } from "@/components/story/StoryMarkdown";
@@ -51,10 +50,6 @@ export default async function NarratedJourneyPage({
       >
         &larr; All Journeys
       </Link>
-
-      <div className="mb-3 flex flex-wrap gap-2">
-        <JourneyExperienceBadge mode="narrated" />
-      </div>
 
       <h1 className="type-page-title mb-3">{journey.title}</h1>
       <p className="type-body mb-3 text-pretty text-ink-muted">
