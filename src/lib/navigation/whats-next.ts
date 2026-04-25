@@ -15,7 +15,7 @@ export interface WhatsNextPillData {
 }
 
 export interface WhatsNextData {
-  primary: WhatsNextPrimary;
+  primary?: WhatsNextPrimary;
   pills: WhatsNextPillData[];
   askContext: { type: AskChatContextType; slug: string; title: string };
 }
@@ -41,37 +41,31 @@ export function getStoryWhatsNext({
   firstPrincipleSlug,
   firstPrincipleTitle,
 }: BuildStoryArgs): WhatsNextData {
-  const first = relatedStories[0];
-  const primary: WhatsNextPrimary = first
-    ? {
-        href: `/stories/${first.storyId}`,
-        label: "Read next",
-        title: first.title,
-        blurb: first.summary ?? undefined,
-      }
-    : {
-        href: "/stories",
-        label: "Browse",
-        title: "More stories",
-        blurb: "Return to the full library.",
-      };
+  const next = relatedStories[0];
 
   const pills: WhatsNextPillData[] = [
     { label: "Share a memory", action: "tell" },
-    { label: "Ask about this story", action: "ask" },
   ];
 
   if (firstPrincipleSlug) {
     pills.push({
       label: firstPrincipleTitle
-        ? `See principle: ${firstPrincipleTitle}`
-        : "See a related principle",
+        ? `Read about: ${firstPrincipleTitle}`
+        : "Read about a principle",
       href: `/principles/${encodeURIComponent(firstPrincipleSlug)}`,
     });
   }
 
+  if (next) {
+    pills.push({
+      label: `Read next: ${next.title}`,
+      href: `/stories/${next.storyId}`,
+    });
+  } else {
+    pills.push({ label: "Browse stories", href: "/stories" });
+  }
+
   return {
-    primary,
     pills,
     askContext: { type: "story", slug: storyId, title },
   };

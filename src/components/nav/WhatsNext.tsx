@@ -12,7 +12,13 @@ function readReduceMotion(): boolean {
   return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 }
 
-export function WhatsNext({ data }: { data: WhatsNextData }) {
+export function WhatsNext({
+  data,
+  floating = false,
+}: {
+  data: WhatsNextData;
+  floating?: boolean;
+}) {
   const [shouldShow, setShouldShow] = useState(false);
   const [reduceMotion, setReduceMotion] = useState<boolean>(() =>
     readReduceMotion(),
@@ -36,7 +42,12 @@ export function WhatsNext({ data }: { data: WhatsNextData }) {
       const percent = max <= 0 ? 0 : Math.min(100, (scrollY / max) * 100);
       const viewport = window.innerHeight;
       const docH = doc.scrollHeight;
-      if (percent > 60 || scrollY + viewport > docH - 400) {
+      const nearEnd =
+        percent > 60 || scrollY + viewport > docH - 400;
+      // Floating bar can appear/disappear; in-flow bar latches once shown.
+      if (floating) {
+        setShouldShow(nearEnd);
+      } else if (nearEnd) {
         setShouldShow(true);
       }
     };
@@ -47,14 +58,78 @@ export function WhatsNext({ data }: { data: WhatsNextData }) {
       window.removeEventListener("scroll", check);
       window.removeEventListener("resize", check);
     };
-  }, []);
+  }, [floating]);
 
-  const visible = shouldShow || reduceMotion;
+  const visible = shouldShow || (reduceMotion && !floating);
   const transitionClasses = reduceMotion
     ? "opacity-100 translate-y-0"
     : `transition-[opacity,transform] duration-300 ease-out ${
-        visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"
+        visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-3 pointer-events-none"
       }`;
+
+  const pills = (
+    <>
+      {data.pills.map((pill, i) => {
+        if (pill.action === "ask") {
+          return (
+            <WhatsNextPill
+              key={`${pill.label}-${i}`}
+              onClick={() =>
+                open({
+                  context: {
+                    type: data.askContext.type,
+                    slug: data.askContext.slug,
+                    title: data.askContext.title,
+                  },
+                })
+              }
+            >
+              {pill.label}
+            </WhatsNextPill>
+          );
+        }
+        if (pill.action === "tell") {
+          return (
+            <WhatsNextPill
+              key={`${pill.label}-${i}`}
+              onClick={() =>
+                openTell({
+                  about: {
+                    type: data.askContext.type,
+                    slug: data.askContext.slug,
+                    title: data.askContext.title,
+                  },
+                })
+              }
+            >
+              {pill.label}
+            </WhatsNextPill>
+          );
+        }
+        if (pill.href) {
+          return (
+            <WhatsNextPill key={`${pill.label}-${i}`} href={pill.href}>
+              {pill.label}
+            </WhatsNextPill>
+          );
+        }
+        return null;
+      })}
+    </>
+  );
+
+  if (floating) {
+    return (
+      <div
+        aria-label="What's next"
+        className={`fixed inset-x-0 bottom-[72px] z-40 flex justify-center px-3 md:bottom-6 ${transitionClasses}`}
+      >
+        <div className="flex max-w-full flex-wrap items-center justify-center gap-2 rounded-full border border-[var(--color-border)] bg-warm-white/95 px-3 py-2 shadow-[0_8px_24px_rgba(44,28,16,0.12)] backdrop-blur supports-[backdrop-filter]:bg-warm-white/85">
+          {pills}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <section
@@ -62,55 +137,8 @@ export function WhatsNext({ data }: { data: WhatsNextData }) {
       className={`mt-10 pb-24 md:pb-10 ${transitionClasses}`}
     >
       <div className="flex flex-col gap-4">
-        <WhatsNextTile primary={data.primary} />
-        <div className="flex flex-wrap gap-2">
-          {data.pills.map((pill, i) => {
-            if (pill.action === "ask") {
-              return (
-                <WhatsNextPill
-                  key={`${pill.label}-${i}`}
-                  onClick={() =>
-                    open({
-                      context: {
-                        type: data.askContext.type,
-                        slug: data.askContext.slug,
-                        title: data.askContext.title,
-                      },
-                    })
-                  }
-                >
-                  {pill.label}
-                </WhatsNextPill>
-              );
-            }
-            if (pill.action === "tell") {
-              return (
-                <WhatsNextPill
-                  key={`${pill.label}-${i}`}
-                  onClick={() =>
-                    openTell({
-                      about: {
-                        type: data.askContext.type,
-                        slug: data.askContext.slug,
-                        title: data.askContext.title,
-                      },
-                    })
-                  }
-                >
-                  {pill.label}
-                </WhatsNextPill>
-              );
-            }
-            if (pill.href) {
-              return (
-                <WhatsNextPill key={`${pill.label}-${i}`} href={pill.href}>
-                  {pill.label}
-                </WhatsNextPill>
-              );
-            }
-            return null;
-          })}
-        </div>
+        {data.primary && <WhatsNextTile primary={data.primary} />}
+        <div className="flex flex-wrap gap-2">{pills}</div>
       </div>
     </section>
   );

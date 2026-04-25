@@ -165,11 +165,11 @@ export default async function StoryDetailPage({
             {story.quotes.length > 0 && (
               <div id="quotes" className="mb-6 scroll-mt-32">
                 <h2 className="type-meta mb-3 text-ink">Key Quotes</h2>
-                <div className="space-y-3">
+                <div className="space-y-2">
                   {story.quotes.map((q, i) => (
                     <blockquote
                       key={i}
-                      className="type-pullquote border-l-[3px] border-clay-mid pl-4 text-base not-italic text-ink-muted"
+                      className="border-l-2 border-clay-mid/60 pl-3 font-[family-name:var(--font-lora)] text-sm leading-relaxed text-ink-muted"
                     >
                       {q}
                     </blockquote>
@@ -181,6 +181,7 @@ export default async function StoryDetailPage({
             <AnsweredQuestionsList storyId={storyId} />
 
             <WhatsNext
+              floating
               data={getStoryWhatsNext({
                 storyId,
                 title: story.title,
