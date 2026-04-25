@@ -1,10 +1,16 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import ReactMarkdown from "react-markdown";
 import { getJourneyBySlug } from "@/lib/wiki/journeys";
+import {
+  getPeopleByStoryId,
+  getCanonicalPrinciplesForStoryIds,
+} from "@/lib/wiki/parser";
+import { addPeopleLinks } from "@/lib/wiki/link-people";
 import { JourneyExperienceBadge } from "@/components/journeys/JourneyExperienceBadge";
 import { JourneyNarratedSources } from "@/components/journeys/JourneyNarratedSources";
 import { NarrationControls } from "@/components/audio/NarrationControls";
+import { StoryMarkdown } from "@/components/story/StoryMarkdown";
+import { PrinciplesInlineProse } from "@/components/principles/PrinciplesInlineProse";
 import {
   narrationAudioEndpoint,
   resolveJourneyNarratedNarration,
@@ -26,6 +32,10 @@ export default async function NarratedJourneyPage({
 
   const narratedListen = resolveJourneyNarratedNarration(slug);
 
+  const principlesForJourney = getCanonicalPrinciplesForStoryIds(
+    journey.storyIds,
+  );
+
   return (
     <div className="mx-auto max-w-story px-[var(--page-padding-x)] py-6 md:py-10">
       <Link
@@ -40,16 +50,14 @@ export default async function NarratedJourneyPage({
       </div>
 
       <h1 className="type-page-title mb-3">{journey.title}</h1>
-      <p className="type-body mb-4 text-pretty text-ink-muted">
+      <p className="type-body mb-3 text-pretty text-ink-muted">
         {journey.narratedDek || journey.description}
       </p>
 
-      <div className="mb-8 rounded-xl border border-[var(--color-border)] bg-burgundy-light p-5">
-        <h2 className="type-meta mb-2 text-ink">About this journey</h2>
-        <p className="font-[family-name:var(--font-lora)] text-sm leading-relaxed text-ink-muted">
-          {journey.narratedDisclosure}
-        </p>
-      </div>
+      <PrinciplesInlineProse
+        principles={principlesForJourney}
+        prefix="Principles this journey explores include"
+      />
 
       {narratedListen && (
         <NarrationControls
@@ -62,17 +70,27 @@ export default async function NarratedJourneyPage({
       )}
 
       <div className="space-y-8">
-        {journey.narratedSections.map((section) => (
-          <section key={section.title} className="space-y-4">
-            <div>
-              <h2 className="type-story-title mb-3 text-clay">{section.title}</h2>
-              <article className="story-body prose prose-story prose-lg max-w-none">
-                <ReactMarkdown>{section.body}</ReactMarkdown>
-              </article>
-            </div>
-            <JourneyNarratedSources sourceStoryIds={section.sourceStoryIds} />
-          </section>
-        ))}
+        {journey.narratedSections.map((section) => {
+          const sectionPeople = Array.from(
+            new Map(
+              section.sourceStoryIds
+                .flatMap((id) => getPeopleByStoryId(id))
+                .map((p) => [p.slug, p]),
+            ).values(),
+          );
+          const linkedBody = addPeopleLinks(section.body, sectionPeople);
+          return (
+            <section key={section.title} className="space-y-4">
+              <div>
+                <h2 className="type-story-title mb-3 text-clay">{section.title}</h2>
+                <article className="story-body prose prose-story prose-lg max-w-none">
+                  <StoryMarkdown content={linkedBody} />
+                </article>
+              </div>
+              <JourneyNarratedSources sourceStoryIds={section.sourceStoryIds} />
+            </section>
+          );
+        })}
       </div>
 
       <div className="mt-10 rounded-xl border border-[var(--color-border)] bg-warm-white p-5">

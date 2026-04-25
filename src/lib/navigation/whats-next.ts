@@ -82,6 +82,41 @@ interface BuildJourneyCompleteArgs {
   title: string;
 }
 
+interface BuildPersonArgs {
+  slug: string;
+  title: string;
+  featuredStory: StoryLike | null;
+}
+
+export function getPersonWhatsNext({
+  slug,
+  title,
+  featuredStory,
+}: BuildPersonArgs): WhatsNextData {
+  const primary: WhatsNextPrimary = featuredStory
+    ? {
+        href: `/stories/${featuredStory.storyId}`,
+        label: `A story featuring ${title}`,
+        title: featuredStory.title,
+        blurb: featuredStory.summary ?? undefined,
+      }
+    : {
+        href: "/people",
+        label: "Browse",
+        title: "More people",
+        blurb: "Return to the people index.",
+      };
+  return {
+    primary,
+    pills: [
+      { label: `Share a memory of ${title}`, action: "tell" },
+      { label: `Ask about ${title}`, action: "ask" },
+      { label: "Browse people", href: "/people" },
+    ],
+    askContext: { type: "person", slug, title },
+  };
+}
+
 interface BuildPrincipleArgs {
   slug: string;
   title: string;

@@ -1,11 +1,12 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import ReactMarkdown from "react-markdown";
 import { getJourneyBySlug } from "@/lib/wiki/journeys";
 import {
   getStoryById,
+  getPeopleByStoryId,
   getCanonicalPrinciplesForStory,
 } from "@/lib/wiki/parser";
+import { addPeopleLinks } from "@/lib/wiki/link-people";
 import { lifeStageToEraAccent } from "@/lib/design/era";
 import { JourneyProgressBar } from "@/components/journeys/JourneyProgressBar";
 import { JourneyConnector } from "@/components/journeys/JourneyConnector";
@@ -17,6 +18,8 @@ import {
   resolveJourneyStepNarration,
 } from "@/lib/narration/resolve";
 import { PageContextBoundary } from "@/components/layout/PageContextBoundary";
+import { StoryMarkdown } from "@/components/story/StoryMarkdown";
+import { PrinciplesInlineProse } from "@/components/principles/PrinciplesInlineProse";
 
 export default async function JourneyStepPage({
   params,
@@ -37,6 +40,8 @@ export default async function JourneyStepPage({
   if (!story) notFound();
 
   const principlesForStory = getCanonicalPrinciplesForStory(storyId);
+  const peopleInStory = getPeopleByStoryId(storyId);
+  const linkedFullText = addPeopleLinks(story.fullText, peopleInStory);
 
   const reflection =
     journey.reflections[storyId] ||
@@ -79,11 +84,16 @@ export default async function JourneyStepPage({
         </span>
       </div>
 
-      <div className="mb-6 rounded-lg border border-clay-border bg-gold-pale/40 p-4">
+      <div className="mb-3 rounded-lg border border-clay-border bg-gold-pale/40 p-4">
         <p className="font-[family-name:var(--font-lora)] text-sm italic leading-relaxed text-ink">
           {story.summary}
         </p>
       </div>
+
+      <PrinciplesInlineProse
+        principles={principlesForStory}
+        prefix="Principles in this story include"
+      />
 
       {stepNarration && (
         <NarrationControls
@@ -96,25 +106,8 @@ export default async function JourneyStepPage({
       )}
 
       <article className="story-body prose prose-story prose-lg mb-8 max-w-none">
-        <ReactMarkdown>{story.fullText}</ReactMarkdown>
+        <StoryMarkdown content={linkedFullText} />
       </article>
-
-      {principlesForStory.length > 0 && (
-        <div className="mb-6 rounded-xl border border-[var(--color-border)] bg-warm-white p-5">
-          <h2 className="type-meta mb-3 text-ink">Principles in this story</h2>
-          <div className="flex flex-wrap gap-2">
-            {principlesForStory.map((p) => (
-              <Link
-                key={p.slug}
-                href={`/principles/${p.slug}`}
-                className="type-ui rounded-full border border-[var(--color-border)] bg-warm-white-2 px-3 py-1.5 text-sm text-ink-muted transition-colors hover:border-clay-border hover:text-clay"
-              >
-                {p.shortTitle}
-              </Link>
-            ))}
-          </div>
-        </div>
-      )}
 
       <JourneyReflection prompt={reflection} />
 

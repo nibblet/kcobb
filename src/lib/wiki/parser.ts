@@ -1062,6 +1062,22 @@ export function getCanonicalPrinciplesForStory(
     }));
 }
 
+export function getCanonicalPrinciplesForStoryIds(
+  storyIds: string[],
+): { slug: string; title: string; shortTitle: string }[] {
+  const seen = new Set<string>();
+  const out: { slug: string; title: string; shortTitle: string }[] = [];
+  for (const id of storyIds) {
+    for (const p of getCanonicalPrinciplesForStory(id)) {
+      if (!seen.has(p.slug)) {
+        seen.add(p.slug);
+        out.push(p);
+      }
+    }
+  }
+  return out;
+}
+
 // --- People ---
 
 export type PersonTier = "A" | "B" | "C" | "D";

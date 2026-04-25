@@ -1,7 +1,9 @@
 import {
   getStoryById,
+  getPeopleByStoryId,
   getCanonicalPrinciplesForStory,
 } from "@/lib/wiki/parser";
+import { addPeopleLinks } from "@/lib/wiki/link-people";
 import { getCanonicalStoryById } from "@/lib/wiki/corpus";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -20,6 +22,7 @@ import { createClient } from "@/lib/supabase/server";
 import { PageContextBoundary } from "@/components/layout/PageContextBoundary";
 import { WhatsNext } from "@/components/nav/WhatsNext";
 import { getStoryWhatsNext } from "@/lib/navigation/whats-next";
+import { PrinciplesInlineProse } from "@/components/principles/PrinciplesInlineProse";
 
 export default async function StoryDetailPage({
   params,
@@ -30,6 +33,9 @@ export default async function StoryDetailPage({
   const story = await getCanonicalStoryById(storyId);
 
   if (!story) notFound();
+
+  const peopleInStory = getPeopleByStoryId(storyId);
+  const linkedFullText = addPeopleLinks(story.fullText, peopleInStory);
 
   const era = lifeStageToEraAccent(story.lifeStage);
   const principlesForStory = getCanonicalPrinciplesForStory(storyId);
@@ -117,34 +123,10 @@ export default async function StoryDetailPage({
               {story.summary}
             </p>
 
-            {principlesForStory.length > 0 && (
-              <p className="mb-5 font-[family-name:var(--font-lora)] text-base leading-relaxed text-ink-muted">
-                Principles in this story include{" "}
-                {principlesForStory.map((p, i) => {
-                  const isLast = i === principlesForStory.length - 1;
-                  const isSecondToLast = i === principlesForStory.length - 2;
-                  const separator = isLast
-                    ? ""
-                    : isSecondToLast && principlesForStory.length === 2
-                      ? " and "
-                      : isSecondToLast
-                        ? ", and "
-                        : ", ";
-                  return (
-                    <span key={p.slug}>
-                      <Link
-                        href={`/principles/${p.slug}`}
-                        className="font-medium text-clay underline underline-offset-2 hover:text-clay-mid"
-                      >
-                        {p.shortTitle}
-                      </Link>
-                      {separator}
-                    </span>
-                  );
-                })}
-                .
-              </p>
-            )}
+            <PrinciplesInlineProse
+              principles={principlesForStory}
+              prefix="Principles in this story include"
+            />
 
             {supportsListenMode && (
               <StoryAudioControls
@@ -166,11 +148,11 @@ export default async function StoryDetailPage({
                 <StoryBodyWithHighlighting
                   storyId={storyId}
                   storyTitle={story.title}
-                  fullText={story.fullText}
+                  fullText={linkedFullText}
                 />
               ) : (
                 <article className="story-body prose prose-story prose-lg max-w-none pb-8">
-                  <StoryMarkdown content={story.fullText} />
+                  <StoryMarkdown content={linkedFullText} />
                 </article>
               )}
             </div>
