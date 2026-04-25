@@ -20,7 +20,7 @@ interface ButtonPillProps extends CommonProps {
 type WhatsNextPillProps = LinkPillProps | ButtonPillProps;
 
 const PILL_CLASS =
-  "type-ui inline-flex items-center rounded-full border border-[var(--color-border)] bg-warm-white px-3 py-1.5 text-sm text-ink-muted transition-colors hover:border-clay-border hover:text-clay";
+  "type-ui inline-flex items-center rounded-full border border-clay-border bg-warm-white-2 px-4 py-2 text-sm font-medium text-ink transition-colors hover:border-clay hover:bg-clay hover:text-warm-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-clay focus-visible:ring-offset-2 focus-visible:ring-offset-warm-white";
 
 export function WhatsNextPill(props: WhatsNextPillProps) {
   if ("href" in props && props.href) {

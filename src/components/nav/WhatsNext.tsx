@@ -42,12 +42,12 @@ export function WhatsNext({
       const percent = max <= 0 ? 0 : Math.min(100, (scrollY / max) * 100);
       const viewport = window.innerHeight;
       const docH = doc.scrollHeight;
-      const nearEnd =
-        percent > 60 || scrollY + viewport > docH - 400;
-      // Floating bar can appear/disappear; in-flow bar latches once shown.
+      const floatingThreshold =
+        percent > 88 || scrollY + viewport > docH - 160;
+      const inflowThreshold = percent > 60 || scrollY + viewport > docH - 400;
       if (floating) {
-        setShouldShow(nearEnd);
-      } else if (nearEnd) {
+        setShouldShow(floatingThreshold);
+      } else if (inflowThreshold) {
         setShouldShow(true);
       }
     };
@@ -124,7 +124,13 @@ export function WhatsNext({
         aria-label="What's next"
         className={`fixed inset-x-0 bottom-[72px] z-40 flex justify-center px-3 md:bottom-6 ${transitionClasses}`}
       >
-        <div className="flex max-w-full flex-wrap items-center justify-center gap-2 rounded-full border border-[var(--color-border)] bg-warm-white/95 px-3 py-2 shadow-[0_8px_24px_rgba(44,28,16,0.12)] backdrop-blur supports-[backdrop-filter]:bg-warm-white/85">
+        <div className="flex max-w-full flex-wrap items-center justify-center gap-1.5 rounded-full border border-clay-border bg-warm-white px-2 py-2 shadow-[0_18px_40px_-12px_rgba(181,69,27,0.35),0_4px_12px_rgba(44,28,16,0.08)] sm:gap-2 sm:px-3">
+          <span
+            aria-hidden="true"
+            className="type-meta hidden shrink-0 px-2 text-clay sm:inline"
+          >
+            What&rsquo;s next
+          </span>
           {pills}
         </div>
       </div>
