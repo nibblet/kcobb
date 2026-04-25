@@ -22,7 +22,7 @@ function placeholderFor(
     case "story":
       return `Ask about "${name}" — a passage, a theme…`;
     case "journey":
-      return `Ask about the "${name}" journey or any story in it…`;
+      return `Ask about the "${name}" journey, the people, or the principles in it…`;
     case "principle":
       return `Ask about "${name}" — where it shows up in Keith's life…`;
     case "person":

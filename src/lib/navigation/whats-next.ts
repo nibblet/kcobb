@@ -66,7 +66,7 @@ export function getStoryWhatsNext({
       label: firstPrincipleTitle
         ? `See principle: ${firstPrincipleTitle}`
         : "See a related principle",
-      href: `/principles/${encodeURIComponent(firstPrincipleSlug)}`,
+      href: `/principles#${encodeURIComponent(firstPrincipleSlug)}`,
     });
   }
 
@@ -74,77 +74,6 @@ export function getStoryWhatsNext({
     primary,
     pills,
     askContext: { type: "story", slug: storyId, title },
-  };
-}
-
-interface BuildPrincipleArgs {
-  slug: string;
-  title: string;
-  backingStories: StoryLike[];
-}
-
-export function getPrincipleWhatsNext({
-  slug,
-  title,
-  backingStories,
-}: BuildPrincipleArgs): WhatsNextData {
-  const first = backingStories[0];
-  const primary: WhatsNextPrimary = first
-    ? {
-        href: `/stories/${first.storyId}`,
-        label: "Story that shows this",
-        title: first.title,
-        blurb: first.summary ?? undefined,
-      }
-    : {
-        href: "/principles",
-        label: "Browse",
-        title: "More principles",
-        blurb: "See the full set.",
-      };
-  return {
-    primary,
-    pills: [
-      { label: "Share a memory", action: "tell" },
-      { label: "Ask about this principle", action: "ask" },
-      { label: "More principles", href: "/principles" },
-    ],
-    askContext: { type: "principle", slug, title },
-  };
-}
-
-interface BuildPersonArgs {
-  slug: string;
-  title: string;
-  featuredStory: StoryLike | null;
-}
-
-export function getPersonWhatsNext({
-  slug,
-  title,
-  featuredStory,
-}: BuildPersonArgs): WhatsNextData {
-  const primary: WhatsNextPrimary = featuredStory
-    ? {
-        href: `/stories/${featuredStory.storyId}`,
-        label: `A story featuring ${title}`,
-        title: featuredStory.title,
-        blurb: featuredStory.summary ?? undefined,
-      }
-    : {
-        href: "/people",
-        label: "Browse",
-        title: "More people",
-        blurb: "Return to the people index.",
-      };
-  return {
-    primary,
-    pills: [
-      { label: `Share a memory of ${title}`, action: "tell" },
-      { label: `Ask about ${title}`, action: "ask" },
-      { label: "Browse people", href: "/people" },
-    ],
-    askContext: { type: "person", slug, title },
   };
 }
 

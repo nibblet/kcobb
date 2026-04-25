@@ -1,5 +1,7 @@
-import { getStoryById, getPeopleByStoryId } from "@/lib/wiki/parser";
-import { addPeopleLinks } from "@/lib/wiki/link-people";
+import {
+  getStoryById,
+  getCanonicalPrinciplesForStory,
+} from "@/lib/wiki/parser";
 import { getCanonicalStoryById } from "@/lib/wiki/corpus";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -29,10 +31,8 @@ export default async function StoryDetailPage({
 
   if (!story) notFound();
 
-  const peopleInStory = getPeopleByStoryId(storyId);
-  const linkedFullText = addPeopleLinks(story.fullText, peopleInStory);
-
   const era = lifeStageToEraAccent(story.lifeStage);
+  const principlesForStory = getCanonicalPrinciplesForStory(storyId);
   const supportsListenMode =
     story.source === "memoir" || story.source === "interview";
 
@@ -63,14 +63,10 @@ export default async function StoryDetailPage({
   }
 
   const tocSections: StoryTOCSection[] = [{ id: "story-body", label: "Story" }];
-  if (story.principles.length > 0)
-    tocSections.push({ id: "shows", label: "What This Story Shows" });
-  if (story.heuristics.length > 0)
-    tocSections.push({ id: "thinking-about", label: "If You're Thinking About" });
+  if (principlesForStory.length > 0)
+    tocSections.push({ id: "principles", label: "Principles" });
   if (story.quotes.length > 0)
     tocSections.push({ id: "quotes", label: "Key Quotes" });
-  if (story.relatedStoryIds.length > 0)
-    tocSections.push({ id: "related", label: "Related Stories" });
   const relatedStories = await Promise.all(
     story.relatedStoryIds.map(async (relId) => ({
       relId,
@@ -95,7 +91,12 @@ export default async function StoryDetailPage({
 
             <div className={`mb-3 border-l-4 pl-4 ${era.accentBorder}`}>
               <h1 className="type-story-title text-balance">{story.title}</h1>
-              <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1">
+              <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1">
+                <span
+                  className={`type-meta inline-flex items-center rounded-full px-2.5 py-0.5 ${era.badgeClass}`}
+                >
+                  {story.lifeStage}
+                </span>
                 {story.sourceDetail && (
                   <p className="type-meta text-ink-ghost">
                     {story.sourceDetail}
@@ -138,61 +139,39 @@ export default async function StoryDetailPage({
                 <StoryBodyWithHighlighting
                   storyId={storyId}
                   storyTitle={story.title}
-                  fullText={linkedFullText}
+                  fullText={story.fullText}
                 />
               ) : (
                 <article className="story-body prose prose-story prose-lg max-w-none pb-8">
-                  <StoryMarkdown content={linkedFullText} />
+                  <StoryMarkdown content={story.fullText} />
                 </article>
               )}
             </div>
 
-            {story.principles.length > 0 && (
+            {principlesForStory.length > 0 && (
               <div
-                id="shows"
-                className="mb-4 scroll-mt-20 rounded-xl border border-[var(--color-border)] bg-warm-white p-5"
+                id="principles"
+                className="mb-6 scroll-mt-32 rounded-xl border border-[var(--color-border)] bg-warm-white p-5"
               >
                 <h2 className="type-meta mb-3 text-ink">
-                  What This Story Shows
+                  Principles in this story
                 </h2>
-                <ul className="space-y-2">
-                  {story.principles.map((p, i) => (
-                    <li
-                      key={i}
-                      className="flex gap-2 font-[family-name:var(--font-lora)] text-sm text-ink-muted"
+                <div className="flex flex-wrap gap-2">
+                  {principlesForStory.map((p) => (
+                    <Link
+                      key={p.slug}
+                      href={`/principles#${p.slug}`}
+                      className="type-ui rounded-full border border-[var(--color-border)] bg-warm-white-2 px-3 py-1.5 text-sm text-ink-muted transition-colors hover:border-clay-border hover:text-clay"
                     >
-                      <span className="mt-0.5 text-clay">&#9679;</span>
-                      {p}
-                    </li>
+                      {p.shortTitle}
+                    </Link>
                   ))}
-                </ul>
-              </div>
-            )}
-
-            {story.heuristics.length > 0 && (
-              <div
-                id="thinking-about"
-                className="mb-4 scroll-mt-20 rounded-xl border border-[var(--color-border)] bg-warm-white p-5"
-              >
-                <h2 className="type-meta mb-3 text-ink">
-                  If You&apos;re Thinking About...
-                </h2>
-                <ul className="space-y-2">
-                  {story.heuristics.map((h, i) => (
-                    <li
-                      key={i}
-                      className="flex gap-2 font-[family-name:var(--font-lora)] text-sm text-ink-muted"
-                    >
-                      <span className="mt-0.5 text-clay">&#9679;</span>
-                      {h}
-                    </li>
-                  ))}
-                </ul>
+                </div>
               </div>
             )}
 
             {story.quotes.length > 0 && (
-              <div id="quotes" className="mb-6 scroll-mt-20">
+              <div id="quotes" className="mb-6 scroll-mt-32">
                 <h2 className="type-meta mb-3 text-ink">Key Quotes</h2>
                 <div className="space-y-3">
                   {story.quotes.map((q, i) => (
@@ -203,31 +182,6 @@ export default async function StoryDetailPage({
                       {q}
                     </blockquote>
                   ))}
-                </div>
-              </div>
-            )}
-
-            {story.relatedStoryIds.length > 0 && (
-              <div id="related" className="mb-6 scroll-mt-20">
-                <h2 className="type-meta mb-3 text-ink">Related Stories</h2>
-                <div className="space-y-2">
-                  {relatedStories.map(({ relId, story: rel }) => {
-                    if (!rel) return null;
-                    return (
-                      <Link
-                        key={relId}
-                        href={`/stories/${relId}`}
-                        className="block rounded-lg border border-[var(--color-border)] bg-warm-white p-3 transition-colors hover:border-clay-border"
-                      >
-                        <span className="type-ui block text-ink">
-                          {rel.title}
-                        </span>
-                        <span className="mt-0.5 line-clamp-1 font-[family-name:var(--font-lora)] text-xs text-ink-muted">
-                          {rel.summary}
-                        </span>
-                      </Link>
-                    );
-                  })}
                 </div>
               </div>
             )}
@@ -245,10 +199,9 @@ export default async function StoryDetailPage({
                     title: r.story!.title,
                     summary: r.story!.summary,
                   })),
-                firstPrincipleSlug: story.principles[0] ?? null,
-                firstPrincipleTitle: story.principles[0]
-                  ? story.principles[0].replace(/-/g, " ")
-                  : null,
+                firstPrincipleSlug: principlesForStory[0]?.slug ?? null,
+                firstPrincipleTitle:
+                  principlesForStory[0]?.shortTitle ?? null,
               })}
             />
           </div>

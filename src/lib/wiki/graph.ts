@@ -615,7 +615,7 @@ export function buildStorySankey(limit = 10, minLinkValue = 2): StorySankey {
     label: era.label,
     color: era.hex,
     layer: 0,
-    href: "/stories/timeline",
+    href: "/stories",
     storyIds: [],
     value: 0,
   }));

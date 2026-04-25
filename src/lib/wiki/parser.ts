@@ -1048,6 +1048,20 @@ export function getCanonicalPrincipleBySlug(slug: string): CanonicalPrinciple | 
   );
 }
 
+export function getCanonicalPrinciplesForStory(
+  storyId: string,
+): { slug: string; title: string; shortTitle: string }[] {
+  return getAllCanonicalPrinciples()
+    .filter((p) =>
+      p.supportingStatements.some((s) => s.storyIds.includes(storyId)),
+    )
+    .map((p) => ({
+      slug: p.slug,
+      title: p.title,
+      shortTitle: p.shortTitle,
+    }));
+}
+
 // --- People ---
 
 export type PersonTier = "A" | "B" | "C" | "D";

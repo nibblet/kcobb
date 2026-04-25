@@ -18,9 +18,8 @@ function isNavActive(pathname: string, href: string): boolean {
   if (href === "/journeys") {
     return (
       pathname.startsWith("/journeys") ||
-      pathname.startsWith("/themes") ||
       pathname.startsWith("/principles") ||
-      pathname.startsWith("/people")
+      pathname.startsWith("/themes")
     );
   }
   return false;

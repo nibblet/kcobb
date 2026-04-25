@@ -2,7 +2,10 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import ReactMarkdown from "react-markdown";
 import { getJourneyBySlug } from "@/lib/wiki/journeys";
-import { getStoryById } from "@/lib/wiki/parser";
+import {
+  getStoryById,
+  getCanonicalPrinciplesForStory,
+} from "@/lib/wiki/parser";
 import { lifeStageToEraAccent } from "@/lib/design/era";
 import { JourneyProgressBar } from "@/components/journeys/JourneyProgressBar";
 import { JourneyConnector } from "@/components/journeys/JourneyConnector";
@@ -32,6 +35,8 @@ export default async function JourneyStepPage({
   const storyId = journey.storyIds[step - 1];
   const story = getStoryById(storyId);
   if (!story) notFound();
+
+  const principlesForStory = getCanonicalPrinciplesForStory(storyId);
 
   const reflection =
     journey.reflections[storyId] ||
@@ -94,20 +99,20 @@ export default async function JourneyStepPage({
         <ReactMarkdown>{story.fullText}</ReactMarkdown>
       </article>
 
-      {story.principles.length > 0 && (
+      {principlesForStory.length > 0 && (
         <div className="mb-6 rounded-xl border border-[var(--color-border)] bg-warm-white p-5">
-          <h2 className="type-meta mb-3 text-ink">What This Story Shows</h2>
-          <ul className="space-y-2">
-            {story.principles.map((p, i) => (
-              <li
-                key={i}
-                className="flex gap-2 font-[family-name:var(--font-lora)] text-sm text-ink-muted"
+          <h2 className="type-meta mb-3 text-ink">Principles in this story</h2>
+          <div className="flex flex-wrap gap-2">
+            {principlesForStory.map((p) => (
+              <Link
+                key={p.slug}
+                href={`/principles#${p.slug}`}
+                className="type-ui rounded-full border border-[var(--color-border)] bg-warm-white-2 px-3 py-1.5 text-sm text-ink-muted transition-colors hover:border-clay-border hover:text-clay"
               >
-                <span className="mt-0.5 text-clay">&#9679;</span>
-                {p}
-              </li>
+                {p.shortTitle}
+              </Link>
             ))}
-          </ul>
+          </div>
         </div>
       )}
 
