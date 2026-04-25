@@ -98,34 +98,26 @@ export default async function StoryDetailPage({
 
             <div className={`mb-3 border-l-4 pl-4 ${era.accentBorder}`}>
               <h1 className="type-story-title text-balance">{story.title}</h1>
-              <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1">
-                <span
-                  className={`type-meta inline-flex items-center rounded-full px-2.5 py-0.5 ${era.badgeClass}`}
-                >
-                  {story.lifeStage}
-                </span>
-                {story.sourceDetail && (
-                  <p className="type-meta text-ink-ghost">
-                    {story.sourceDetail}
-                  </p>
-                )}
-                {user && (
-                  <div className="flex flex-wrap items-center gap-2">
-                    {initialRead && <ReadBadgeAgeAware />}
-                    <FavoriteButton
-                      storyId={storyId}
-                      storyTitle={story.title}
-                      initialFavorited={initialFavorited}
-                    />
-                  </div>
-                )}
-              </div>
+              {(story.sourceDetail || user) && (
+                <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1">
+                  {story.sourceDetail && (
+                    <p className="type-meta text-ink-ghost">
+                      {story.sourceDetail}
+                    </p>
+                  )}
+                  {user && (
+                    <div className="flex flex-wrap items-center gap-2">
+                      {initialRead && <ReadBadgeAgeAware />}
+                      <FavoriteButton
+                        storyId={storyId}
+                        storyTitle={story.title}
+                        initialFavorited={initialFavorited}
+                      />
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
-
-            <StoryTimelineStrip
-              currentStoryId={storyId}
-              points={timelinePoints}
-            />
 
             <p className="mb-3 font-[family-name:var(--font-lora)] text-base italic leading-relaxed text-ink-muted">
               {story.summary}
@@ -134,6 +126,11 @@ export default async function StoryDetailPage({
             <PrinciplesInlineProse
               principles={principlesForStory}
               prefix="Principles in this story include"
+            />
+
+            <StoryTimelineStrip
+              currentStoryId={storyId}
+              points={timelinePoints}
             />
 
             {supportsListenMode && (
