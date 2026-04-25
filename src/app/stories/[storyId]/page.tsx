@@ -15,7 +15,6 @@ import { ReadBadgeAgeAware } from "@/components/story/ReadBadgeAgeAware";
 import { StoryAudioControls } from "@/components/story/StoryAudioControls";
 import { StoryMarkdown } from "@/components/story/StoryMarkdown";
 import { StoryBodyWithHighlighting } from "@/components/story/StoryBodyWithHighlighting";
-import { StoryDetailsDisclosure } from "@/components/story/StoryDetailsDisclosure";
 import { StoryTOC, type StoryTOCSection } from "@/components/story/StoryTOC";
 import { AnsweredQuestionsList } from "@/components/stories/AnsweredQuestionsList";
 import { lifeStageToEraAccent } from "@/lib/design/era";
@@ -25,6 +24,7 @@ import { WhatsNext } from "@/components/nav/WhatsNext";
 import { getStoryWhatsNext } from "@/lib/navigation/whats-next";
 import { PrinciplesInlineProse } from "@/components/principles/PrinciplesInlineProse";
 import { StoryTimelineStrip } from "@/components/story/StoryTimelineStrip";
+import { ThemePillLink } from "@/components/themes/ThemePillLink";
 
 export default async function StoryDetailPage({
   params,
@@ -142,12 +142,6 @@ export default async function StoryDetailPage({
               />
             )}
 
-            <StoryDetailsDisclosure
-              source={story.source}
-              lifeStage={story.lifeStage}
-              themes={story.themes}
-            />
-
             <div id="story-body">
               {user ? (
                 <StoryBodyWithHighlighting
@@ -175,6 +169,20 @@ export default async function StoryDetailPage({
                     </blockquote>
                   ))}
                 </div>
+              </div>
+            )}
+
+            {story.themes.length > 0 && (
+              <div className="mb-6 flex flex-wrap items-center gap-2">
+                <p className="type-meta text-ink-ghost">Themes:</p>
+                {story.themes.map((theme) => (
+                  <ThemePillLink
+                    key={theme}
+                    href={`/themes/${theme.toLowerCase().replace(/\s+/g, "-")}`}
+                  >
+                    {theme}
+                  </ThemePillLink>
+                ))}
               </div>
             )}
 

@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useAskOverlay } from "@/components/ask/AskOverlayProvider";
 import { useTellOverlay } from "@/components/tell/TellOverlayProvider";
@@ -122,16 +123,25 @@ export function WhatsNext({
     return (
       <div
         aria-label="What's next"
-        className={`fixed inset-x-0 bottom-[72px] z-40 flex justify-center px-3 md:bottom-6 ${transitionClasses}`}
+        className={`fixed inset-x-0 bottom-[72px] z-40 md:bottom-0 ${transitionClasses}`}
       >
-        <div className="flex max-w-full flex-wrap items-center justify-center gap-1.5 rounded-full border border-clay-border bg-warm-white px-2 py-2 shadow-[0_18px_40px_-12px_rgba(181,69,27,0.35),0_4px_12px_rgba(44,28,16,0.08)] sm:gap-2 sm:px-3">
-          <span
-            aria-hidden="true"
-            className="type-meta hidden shrink-0 px-2 text-clay sm:inline"
-          >
-            What&rsquo;s next
-          </span>
-          {pills}
+        <div className="w-full border-t border-[var(--color-border)] bg-warm-white/95 backdrop-blur-md">
+          <div className="mx-auto grid max-w-content gap-2 px-[var(--page-padding-x)] py-2 md:grid-cols-[minmax(0,1fr)_auto] md:items-center md:gap-4 md:py-3">
+            {data.primary ? (
+              <Link
+                href={data.primary.href}
+                className="group block min-w-0 rounded-md px-1 py-0.5"
+              >
+                <p className="type-meta truncate text-ink-ghost">{data.primary.label}</p>
+                <p className="truncate font-[family-name:var(--font-playfair)] text-base text-ink transition-colors group-hover:text-clay">
+                  {data.primary.title}
+                </p>
+              </Link>
+            ) : (
+              <div />
+            )}
+            <div className="flex flex-wrap gap-2 md:justify-end">{pills}</div>
+          </div>
         </div>
       </div>
     );
