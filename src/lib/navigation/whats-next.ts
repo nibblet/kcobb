@@ -74,6 +74,8 @@ export function getStoryWhatsNext({
 interface BuildJourneyCompleteArgs {
   slug: string;
   title: string;
+  firstPrincipleSlug?: string | null;
+  firstPrincipleTitle?: string | null;
 }
 
 interface BuildPersonArgs {
@@ -150,19 +152,26 @@ export function getPrincipleWhatsNext({
 export function getJourneyCompleteWhatsNext({
   slug,
   title,
+  firstPrincipleSlug,
+  firstPrincipleTitle,
 }: BuildJourneyCompleteArgs): WhatsNextData {
+  const pills: WhatsNextPillData[] = [
+    { label: "Share a memory", action: "tell" },
+  ];
+
+  if (firstPrincipleSlug) {
+    pills.push({
+      label: firstPrincipleTitle
+        ? `Read about: ${firstPrincipleTitle}`
+        : "Read about a principle",
+      href: `/principles/${encodeURIComponent(firstPrincipleSlug)}`,
+    });
+  }
+
+  pills.push({ label: "Explore another journey", href: "/journeys" });
+
   return {
-    primary: {
-      href: "/journeys",
-      label: "Explore another journey",
-      title: "All journeys",
-      blurb: "Pick the next path through Keith's stories.",
-    },
-    pills: [
-      { label: "Share a memory", action: "tell" },
-      { label: "Ask about these themes", action: "ask" },
-      { label: "Browse all stories", href: "/stories" },
-    ],
+    pills,
     askContext: { type: "journey", slug, title },
   };
 }

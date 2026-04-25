@@ -11,6 +11,9 @@ import { JourneyNarratedSources } from "@/components/journeys/JourneyNarratedSou
 import { NarrationControls } from "@/components/audio/NarrationControls";
 import { StoryMarkdown } from "@/components/story/StoryMarkdown";
 import { PrinciplesInlineProse } from "@/components/principles/PrinciplesInlineProse";
+import { PageContextBoundary } from "@/components/layout/PageContextBoundary";
+import { WhatsNext } from "@/components/nav/WhatsNext";
+import { getJourneyCompleteWhatsNext } from "@/lib/navigation/whats-next";
 import {
   narrationAudioEndpoint,
   resolveJourneyNarratedNarration,
@@ -26,10 +29,6 @@ export default async function NarratedJourneyPage({
 
   if (!journey || journey.narratedSections.length === 0) notFound();
 
-  const relatedSourceIds = Array.from(
-    new Set(journey.narratedSections.flatMap((section) => section.sourceStoryIds))
-  );
-
   const narratedListen = resolveJourneyNarratedNarration(slug);
 
   const principlesForJourney = getCanonicalPrinciplesForStoryIds(
@@ -38,11 +37,16 @@ export default async function NarratedJourneyPage({
 
   return (
     <div className="mx-auto max-w-story px-[var(--page-padding-x)] py-6 md:py-10">
+      <PageContextBoundary
+        type="journey"
+        slug={journey.slug}
+        title={journey.title}
+      />
       <Link
-        href={`/journeys/${journey.slug}`}
+        href="/journeys"
         className="type-ui mb-4 inline-block text-ink-ghost no-underline transition-colors hover:text-ocean"
       >
-        &larr; {journey.title}
+        &larr; All Journeys
       </Link>
 
       <div className="mb-3 flex flex-wrap gap-2">
@@ -93,26 +97,15 @@ export default async function NarratedJourneyPage({
         })}
       </div>
 
-      <div className="mt-10 rounded-xl border border-[var(--color-border)] bg-warm-white p-5">
-        <h2 className="type-meta mb-3 text-ink">Keep Exploring</h2>
-        <p className="font-[family-name:var(--font-lora)] text-sm leading-relaxed text-ink-muted">
-          This narrated journey draws from {relatedSourceIds.length} memoir and interview sources. You can open the original materials or walk the guided sequence story by story.
-        </p>
-        <div className="mt-4 flex flex-col gap-3 sm:flex-row">
-          <Link
-            href={`/journeys/${journey.slug}/1`}
-            className="type-ui rounded-lg bg-clay px-4 py-2.5 text-center font-medium text-warm-white transition-colors hover:bg-clay-mid"
-          >
-            Start Guided Journey
-          </Link>
-          <Link
-            href={`/ask?journey=${encodeURIComponent(journey.slug)}`}
-            className="type-ui rounded-lg border border-[var(--color-border)] bg-warm-white-2 px-4 py-2.5 text-center font-medium text-ink transition-colors hover:border-clay-border"
-          >
-            Ask about this journey
-          </Link>
-        </div>
-      </div>
+      <WhatsNext
+        floating
+        data={getJourneyCompleteWhatsNext({
+          slug: journey.slug,
+          title: journey.title,
+          firstPrincipleSlug: principlesForJourney[0]?.slug ?? null,
+          firstPrincipleTitle: principlesForJourney[0]?.shortTitle ?? null,
+        })}
+      />
     </div>
   );
 }

@@ -80,6 +80,8 @@ export default async function JourneyCompletePage({
         data={getJourneyCompleteWhatsNext({
           slug: journey.slug,
           title: journey.title,
+          firstPrincipleSlug: canonicalPrinciples[0]?.slug ?? null,
+          firstPrincipleTitle: canonicalPrinciples[0]?.shortTitle ?? null,
         })}
       />
     </div>
