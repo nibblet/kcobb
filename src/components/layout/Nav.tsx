@@ -19,7 +19,8 @@ function isNavActive(pathname: string, href: string): boolean {
     return (
       pathname.startsWith("/journeys") ||
       pathname.startsWith("/principles") ||
-      pathname.startsWith("/themes")
+      pathname.startsWith("/themes") ||
+      pathname.startsWith("/people")
     );
   }
   return false;

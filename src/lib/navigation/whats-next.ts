@@ -11,7 +11,7 @@ export interface WhatsNextPillData {
   label: string;
   /** Either a link or a client-side action. */
   href?: string;
-  action?: "ask" | "tell" | "none";
+  action?: "tell" | "none";
 }
 
 export interface WhatsNextData {
@@ -44,6 +44,7 @@ export function getStoryWhatsNext({
   const next = relatedStories[0];
 
   const pills: WhatsNextPillData[] = [
+    { label: "Ask Keith a question", href: "/beyond?mode=qa" },
     { label: "Share a memory", action: "tell" },
   ];
 
@@ -105,8 +106,8 @@ export function getPersonWhatsNext({
   return {
     primary,
     pills: [
+      { label: "Ask Keith a question", href: "/beyond?mode=qa" },
       { label: `Share a memory of ${title}`, action: "tell" },
-      { label: `Ask about ${title}`, action: "ask" },
       { label: "Browse people", href: "/people" },
     ],
     askContext: { type: "person", slug, title },
@@ -141,8 +142,8 @@ export function getPrincipleWhatsNext({
   return {
     primary,
     pills: [
+      { label: "Ask Keith a question", href: "/beyond?mode=qa" },
       { label: "Share a memory", action: "tell" },
-      { label: "Ask about this principle", action: "ask" },
       { label: "More principles", href: "/principles" },
     ],
     askContext: { type: "principle", slug, title },
@@ -156,6 +157,7 @@ export function getJourneyCompleteWhatsNext({
   firstPrincipleTitle,
 }: BuildJourneyCompleteArgs): WhatsNextData {
   const pills: WhatsNextPillData[] = [
+    { label: "Ask Keith a question", href: "/beyond?mode=qa" },
     { label: "Share a memory", action: "tell" },
   ];
 

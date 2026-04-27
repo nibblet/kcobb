@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { useAskOverlay } from "@/components/ask/AskOverlayProvider";
 import { useTellOverlay } from "@/components/tell/TellOverlayProvider";
 import { WhatsNextPill } from "./WhatsNextPill";
 import { WhatsNextTile } from "./WhatsNextTile";
@@ -24,7 +23,6 @@ export function WhatsNext({
   const [reduceMotion, setReduceMotion] = useState<boolean>(() =>
     readReduceMotion(),
   );
-  const { open } = useAskOverlay();
   const { open: openTell } = useTellOverlay();
 
   useEffect(() => {
@@ -71,24 +69,6 @@ export function WhatsNext({
   const pills = (
     <>
       {data.pills.map((pill, i) => {
-        if (pill.action === "ask") {
-          return (
-            <WhatsNextPill
-              key={`${pill.label}-${i}`}
-              onClick={() =>
-                open({
-                  context: {
-                    type: data.askContext.type,
-                    slug: data.askContext.slug,
-                    title: data.askContext.title,
-                  },
-                })
-              }
-            >
-              {pill.label}
-            </WhatsNextPill>
-          );
-        }
         if (pill.action === "tell") {
           return (
             <WhatsNextPill
