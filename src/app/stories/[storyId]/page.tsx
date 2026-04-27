@@ -16,6 +16,7 @@ import { StoryAudioControls } from "@/components/story/StoryAudioControls";
 import { StoryMarkdown } from "@/components/story/StoryMarkdown";
 import { StoryBodyWithHighlighting } from "@/components/story/StoryBodyWithHighlighting";
 import { StoryTOC, type StoryTOCSection } from "@/components/story/StoryTOC";
+import { AskAboutStory } from "@/components/stories/AskAboutStory";
 import { AnsweredQuestionsList } from "@/components/stories/AnsweredQuestionsList";
 import { lifeStageToEraAccent } from "@/lib/design/era";
 import { createClient } from "@/lib/supabase/server";
@@ -185,6 +186,10 @@ export default async function StoryDetailPage({
                 ))}
               </div>
             )}
+
+            <div id="ask-keith" className="scroll-mt-32">
+              <AskAboutStory storyId={storyId} />
+            </div>
 
             <AnsweredQuestionsList storyId={storyId} />
 

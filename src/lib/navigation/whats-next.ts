@@ -44,7 +44,7 @@ export function getStoryWhatsNext({
   const next = relatedStories[0];
 
   const pills: WhatsNextPillData[] = [
-    { label: "Ask Keith a question", href: "/beyond?mode=qa" },
+    { label: "Ask Keith a question", href: "#ask-keith" },
     { label: "Share a memory", action: "tell" },
   ];
 
