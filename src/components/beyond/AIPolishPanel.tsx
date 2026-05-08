@@ -120,7 +120,9 @@ export function AIPolishPanel({
 
       {fields.length === 0 ? (
         <p className="type-ui text-xs text-ink-ghost">
-          All suggestions applied — nice work.
+          {suggestion.rationale
+            ? "No direct field changes to apply."
+            : "All suggestions applied — nice work."}
         </p>
       ) : (
         <ul className="space-y-2">

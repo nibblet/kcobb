@@ -2,10 +2,14 @@ import Anthropic from "@anthropic-ai/sdk";
 import { requireKeith } from "@/lib/auth/require-keith";
 import { checkRateLimit } from "@/lib/rate-limit";
 import {
+  alignSuggestionToTaxonomy,
   buildUserPrompt,
-  extractJSON,
+  enforceTaxonomyConfidence,
+  extractJSONFromTextBlocks,
   type PolishRequestBody,
+  type PolishSuggestion,
 } from "@/lib/ai/polish-helpers";
+import { getAllCanonicalPrinciples, getAllThemes } from "@/lib/wiki/parser";
 
 const anthropic = new Anthropic({
   apiKey: process.env.ANTHROPIC_API_KEY || "",
@@ -20,8 +24,8 @@ const SYSTEM_PROMPT = `You are a gentle editor helping Keith Cobb polish a memoi
 3. Populate missing metadata (life_stage, year_start, year_end, themes, principles, quotes) ONLY if the body clearly supports it. Leave fields alone if unsure.
    - life_stage: one of "childhood", "youth", "early career", "family years", "later career", "elder years" — pick the closest match or leave blank.
    - year_start / year_end: only if the body mentions specific years.
-   - themes: 1–4 short lowercase phrases (e.g. "resilience", "family", "first job")
-   - principles: 1–3 short value statements Keith is living out in the story
+   - themes: prefer existing archive themes from the allowed list in the user prompt; only invent if nothing fits.
+   - principles: prefer existing archive canonical principles from the allowed list in the user prompt; only invent if nothing fits.
    - quotes: up to 3 short verbatim lines from the body worth pulling out
 4. Include a brief one-sentence "rationale" explaining what you changed.
 
@@ -83,30 +87,108 @@ export async function POST(request: Request) {
   }
 
   try {
+    const allowedThemes = getAllThemes().map((t) => t.name);
+    const allowedPrinciples = getAllCanonicalPrinciples().map((p) => p.title);
+
     const message = await anthropic.messages.create({
       model: MODEL,
       max_tokens: 4096,
       system: SYSTEM_PROMPT,
-      messages: [{ role: "user", content: buildUserPrompt(body) }],
+      messages: [
+        {
+          role: "user",
+          content: buildUserPrompt(body, {
+            themes: allowedThemes,
+            principles: allowedPrinciples,
+          }),
+        },
+      ],
+      tools: [
+        {
+          name: "submit_polish",
+          description:
+            "Return polish suggestions as structured fields for the Beyond editor.",
+          input_schema: {
+            type: "object",
+            properties: {
+              title: { type: "string" },
+              body: { type: "string" },
+              life_stage: { type: ["string", "null"] },
+              year_start: { type: ["number", "null"] },
+              year_end: { type: ["number", "null"] },
+              themes: {
+                type: "array",
+                items: { type: "string" },
+              },
+              principles: {
+                type: "array",
+                items: { type: "string" },
+              },
+              quotes: {
+                type: "array",
+                items: { type: "string" },
+              },
+              rationale: { type: "string" },
+            },
+            additionalProperties: false,
+          },
+        },
+      ],
+      tool_choice: { type: "tool", name: "submit_polish" },
     });
 
-    const textBlock = message.content.find((c) => c.type === "text");
-    if (!textBlock || textBlock.type !== "text") {
+    const toolUse = message.content.find(
+      (
+        c
+      ): c is {
+        type: "tool_use";
+        name: string;
+        input: Record<string, unknown>;
+      } => c.type === "tool_use" && c.name === "submit_polish"
+    );
+
+    if (toolUse?.input && typeof toolUse.input === "object") {
+      const original = toolUse.input as PolishSuggestion;
+      const aligned = alignSuggestionToTaxonomy(
+        original,
+        allowedThemes,
+        allowedPrinciples
+      );
+      return Response.json({
+        suggestion: enforceTaxonomyConfidence(aligned, original),
+      });
+    }
+
+    // Fallback parser for unexpected model responses when tool output is absent.
+    const textBlocks = message.content
+      .filter((c): c is { type: "text"; text: string } => c.type === "text")
+      .map((c) => c.text);
+
+    if (textBlocks.length === 0) {
       return Response.json(
         { error: "Empty response from polish model." },
         { status: 502 }
       );
     }
 
-    const suggestion = extractJSON(textBlock.text);
+    const suggestion = extractJSONFromTextBlocks(textBlocks);
     if (!suggestion) {
+      const raw = textBlocks.join("\n\n").slice(0, 2000);
+      console.error("Polish parse failure (raw excerpt):", raw);
       return Response.json(
-        { error: "Could not parse polish response.", raw: textBlock.text },
+        { error: "Could not parse polish response.", raw },
         { status: 502 }
       );
     }
 
-    return Response.json({ suggestion });
+    const aligned = alignSuggestionToTaxonomy(
+      suggestion,
+      allowedThemes,
+      allowedPrinciples
+    );
+    return Response.json({
+      suggestion: enforceTaxonomyConfidence(aligned, suggestion),
+    });
   } catch (err) {
     console.error("Polish route failed:", err);
     return Response.json(

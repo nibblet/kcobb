@@ -16,11 +16,13 @@ interface WikiDocumentRow {
   generated_at: string;
 }
 
-// 30-second TTL. In Vercel serverless each Lambda instance has its own cache.
+// 30-second TTL in production. In development, disable cache so newly published
+// Beyond stories appear in the library immediately during authoring/debugging.
+//
+// Note: in Vercel serverless each Lambda instance has its own cache.
 // invalidateWikiCorpusCache() only affects the calling instance — other
 // concurrent instances will serve stale data until their TTL expires.
-// This is acceptable: Beyond publishes are rare and 30s staleness is invisible.
-const CACHE_TTL_MS = 30_000;
+const CACHE_TTL_MS = process.env.NODE_ENV === "development" ? 0 : 30_000;
 
 let cachedDbStories:
   | { expiresAt: number; stories: WikiStory[]; markdownByStoryId: Map<string, string> }
@@ -43,6 +45,24 @@ async function getActiveDbStories(): Promise<{
   stories: WikiStory[];
   markdownByStoryId: Map<string, string>;
 }> {
+  if (CACHE_TTL_MS <= 0) {
+    const docs = await getActiveDbStoryDocuments();
+    const stories: WikiStory[] = [];
+    const markdownByStoryId = new Map<string, string>();
+
+    for (const doc of docs) {
+      const story = parseWikiStoryMarkdown(
+        doc.markdown,
+        `${doc.doc_key}-${slugifyWikiTitle(doc.title)}.md`
+      );
+      if (!story) continue;
+      stories.push(story);
+      markdownByStoryId.set(story.storyId, doc.markdown);
+    }
+
+    return { stories, markdownByStoryId };
+  }
+
   const now = Date.now();
   if (cachedDbStories && cachedDbStories.expiresAt > now) {
     return cachedDbStories;
