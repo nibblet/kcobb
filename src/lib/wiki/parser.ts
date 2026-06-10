@@ -547,7 +547,13 @@ export function parseWikiStoryMarkdown(
   const titleMatch = content.match(/^# (.+)/m);
   const summaryMatch = content.match(/^> (.+)/m);
 
-  const fullTextMatch = content.match(/## Full Text\n\n([\s\S]*?)(?=\n## )/);
+  // Body runs until the next `## ` heading, the `---` footer rule, or EOF.
+  // Without the `\n---|$` alternatives, a published story with no following
+  // sections (no themes/principles/quotes/year/related) parses with an empty
+  // body and the detail page renders only the title.
+  const fullTextMatch = content.match(
+    /## Full Text\n\n([\s\S]*?)(?=\n## |\n---|$)/
+  );
 
   const fallbackSlug = titleMatch?.[1]
     ? slugifyLabel(titleMatch[1])
