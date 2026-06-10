@@ -137,14 +137,13 @@ export async function POST(request: Request) {
       tool_choice: { type: "tool", name: "submit_polish" },
     });
 
+    type ContentBlock = (typeof message.content)[number];
+    type ToolUseBlock = Extract<ContentBlock, { type: "tool_use" }>;
+    type TextBlock = Extract<ContentBlock, { type: "text" }>;
+
     const toolUse = message.content.find(
-      (
-        c
-      ): c is {
-        type: "tool_use";
-        name: string;
-        input: Record<string, unknown>;
-      } => c.type === "tool_use" && c.name === "submit_polish"
+      (c): c is ToolUseBlock =>
+        c.type === "tool_use" && c.name === "submit_polish"
     );
 
     if (toolUse?.input && typeof toolUse.input === "object") {
@@ -161,7 +160,7 @@ export async function POST(request: Request) {
 
     // Fallback parser for unexpected model responses when tool output is absent.
     const textBlocks = message.content
-      .filter((c): c is { type: "text"; text: string } => c.type === "text")
+      .filter((c): c is TextBlock => c.type === "text")
       .map((c) => c.text);
 
     if (textBlocks.length === 0) {
