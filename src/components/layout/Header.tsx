@@ -10,7 +10,8 @@ export function Header() {
   const pathname = usePathname();
   const profileBadge = useProfileNotificationBadge();
 
-  if (pathname === "/signup" || pathname === "/login") return null;
+  if (pathname === "/signup" || pathname === "/login" || pathname === "/pending")
+    return null;
 
   return (
     <header className="md:hidden flex items-center justify-between gap-2 border-b border-[var(--color-border)] bg-warm-white px-4 py-3">

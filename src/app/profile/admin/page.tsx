@@ -99,6 +99,13 @@ export default async function AdminCorrectionsPage() {
         </span>
       </div>
 
+      <Link
+        href="/profile/admin/members"
+        className="type-ui mb-8 inline-block text-sm text-ocean underline-offset-2 hover:underline"
+      >
+        Pending accounts &rarr;
+      </Link>
+
       {/* ── Open ── */}
       {open.length === 0 ? (
         <div className="mb-10 rounded-xl border border-[var(--color-border)] bg-warm-white p-6 text-center">

@@ -8,6 +8,7 @@ import { KeithProfileHero } from "@/components/profile/KeithProfileHero";
 import { getKeithDashboardData } from "@/lib/analytics/keith-dashboard";
 import { getAuthenticatedProfileContext } from "@/lib/auth/profile-context";
 import { createClient } from "@/lib/supabase/server";
+import { canApproveMembers } from "@/lib/auth/approval";
 
 export const metadata: Metadata = {
   title: "Profile",
@@ -55,6 +56,7 @@ export default async function ProfilePage() {
         displayName={displayName}
         email={user.email ?? ""}
         pendingQuestionCount={pendingQuestionCount ?? 0}
+        canApproveMembers={canApproveMembers(profile?.role)}
         dashboard={dashboard}
       />
     );

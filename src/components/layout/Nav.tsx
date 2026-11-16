@@ -109,7 +109,8 @@ export function Nav() {
     return () => window.removeEventListener("scroll", onScroll);
   }, [isHome]);
 
-  if (pathname === "/login" || pathname === "/signup") return null;
+  if (pathname === "/login" || pathname === "/signup" || pathname === "/pending")
+    return null;
 
   const desktopNavSurface = navSolid
     ? "border-[var(--color-border)] bg-warm-white/92 backdrop-blur-md shadow-sm"

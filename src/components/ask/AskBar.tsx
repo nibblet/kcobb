@@ -8,6 +8,7 @@ import type { PageContextType } from "@/components/layout/PageContextProvider";
 const HIDE_ON_PATHS = new Set([
   "/login",
   "/signup",
+  "/pending",
   "/welcome",
   "/ask",
 ]);

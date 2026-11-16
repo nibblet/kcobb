@@ -1,11 +1,26 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
+import type { SupabaseClient, User } from "@supabase/supabase-js";
 
-export async function updateSession(request: NextRequest) {
+export interface SessionResult {
+  /** Response carrying any refreshed auth cookies, or an auth redirect. */
+  response: NextResponse;
+  /** Request-scoped client, for follow-up queries as the signed-in user. */
+  supabase: SupabaseClient | null;
+  user: User | null;
+}
+
+export async function updateSession(
+  request: NextRequest
+): Promise<SessionResult> {
   const pkceUrl = request.nextUrl.clone();
   if (pkceUrl.pathname === "/" && pkceUrl.searchParams.has("code")) {
     pkceUrl.pathname = "/auth/callback";
-    return NextResponse.redirect(pkceUrl);
+    return {
+      response: NextResponse.redirect(pkceUrl),
+      supabase: null,
+      user: null,
+    };
   }
 
   let supabaseResponse = NextResponse.next({
@@ -49,7 +64,7 @@ export async function updateSession(request: NextRequest) {
   if (!user && !isAuthRoute) {
     const url = request.nextUrl.clone();
     url.pathname = "/login";
-    return NextResponse.redirect(url);
+    return { response: NextResponse.redirect(url), supabase, user };
   }
 
   // Redirect logged-in users away from login / signup / forgot-password
@@ -61,8 +76,8 @@ export async function updateSession(request: NextRequest) {
   ) {
     const url = request.nextUrl.clone();
     url.pathname = "/";
-    return NextResponse.redirect(url);
+    return { response: NextResponse.redirect(url), supabase, user };
   }
 
-  return supabaseResponse;
+  return { response: supabaseResponse, supabase, user };
 }
