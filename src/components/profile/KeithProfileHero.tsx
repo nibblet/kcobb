@@ -10,6 +10,8 @@ type KeithProfileHeroProps = {
   displayName: string;
   email: string;
   pendingQuestionCount?: number;
+  /** Show the link to the pending-accounts approval screen. */
+  canApproveMembers?: boolean;
   dashboard: KeithDashboardData;
 };
 
@@ -17,6 +19,7 @@ export function KeithProfileHero({
   displayName,
   email,
   pendingQuestionCount = 0,
+  canApproveMembers = false,
   dashboard,
 }: KeithProfileHeroProps) {
   const badge =
@@ -96,6 +99,14 @@ export function KeithProfileHero({
               >
                 Sign out
               </button>
+              {canApproveMembers && (
+                <Link
+                  href="/profile/admin/members"
+                  className="type-ui block text-sm !text-[rgba(247,243,237,0.8)] underline-offset-4 hover:underline"
+                >
+                  Pending accounts
+                </Link>
+              )}
               <ThemeModeSelector className="max-w-fit" helperText="minimal" />
             </div>
           </div>
